@@ -68,4 +68,24 @@ class UserProfileController extends Controller
 
         return redirect()->route('myprofile.index', compact('item'));
     }
+
+    public function updateImage(Request $request){
+
+        $user_id = Auth::id();
+        $dir = 'profile';
+
+        $file_name = $request->file('image')->getClientOriginalName();
+
+        // 取得したファイル名で保存
+        $img_url = $request->file('image')->storeAs('public/' . $dir, $file_name);
+
+        //DBに保存
+        $param = [
+            'img_url' => 'storage/' . $dir . '/' . $file_name
+        ];
+        $item = UserProfile::where('user_id', $user_id)->first();
+        $item->update($param);
+
+        return redirect()->route('myprofile.index', compact('item'));
+    }
 }
