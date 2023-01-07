@@ -18,7 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('nickname')->comment('サービス内表記名');
-            $table->integer('gender')->comment('性別');
+            $table->unsignedBigInteger('gender')->comment('性別');
+            $table->foreign('gender')->references('id')->on('genders');
             $table->date('birthday')->comment('誕生日');
             $table->unsignedBigInteger('living_area')->comment('住まいの都道府県');
             $table->foreign('living_area')->references('id')->on('areas');
