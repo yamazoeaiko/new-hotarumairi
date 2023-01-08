@@ -60,6 +60,7 @@ Route::controller(HotaruRequestController::class)->group(
         Route::get('/request/omamori', 'getOmamori')->name('request.omamori');
         Route::get('/request/sanpai', 'getSanpai')->name('request.sanpai');
         Route::get('/request/others', 'getOthers')->name('request.others');
+        Route::post('/search/apply', 'searchApply')->name('search.apply');
 
     });
 

@@ -8,6 +8,7 @@ use App\Models\Area;
 use App\Models\Plan;
 use App\Models\HotaruRequest;
 use App\Models\UserProfile;
+use App\Models\Apply;
 
 class HotaruRequestController extends Controller
 {
@@ -157,7 +158,7 @@ class HotaruRequestController extends Controller
             if($search_contents->price == null){
                 $search_prices = HotaruRequest::get();
             }else{
-                $search_prices = HotaruRequest::get()->whereIn('price', $search_contents->price);
+                $search_prices = HotaruRequest::get()->where('price','>=', $search_contents->price);
             };
             //検索結果
             $items = $search_areas->intersect($search_plans)->intersect($search_prices);
@@ -172,6 +173,7 @@ class HotaruRequestController extends Controller
 
             $user = UserProfile::where('user_id', $item->request_user_id)->first();
             $item->profile_img = $user->img_url;
+            $item->user_name = $user->nickname;
         }
 
         $areas = Area::get();
@@ -181,7 +183,36 @@ class HotaruRequestController extends Controller
     }
 
     public function moreSearch($request_id){
+        $item = HotaruRequest::where('id', $request_id)->first();
+        $request_user = UserProfile::where('user_id', $item->request_user_id)->first();
+        $item->user_name = $request_user->nickname;
 
+        if($item->goshuin == 0){
+            $item->goshuin_content = '御朱印不要';
+        }elseif($item->goshuin == 1){
+            $item->goshuin_content = '御朱印の画像添付を希望';
+        }elseif($item->goshuin == 2){
+            $item->goshuin_content = '御朱印の郵送を希望';
+        }else{
+            true;
+        }
+
+        $area = Area::where('id', $item->area_id)->first();
+        $item->area_name = $area->name;
+        $user_id = Auth::id();
+
+        return view('search.detail',compact('item', 'user_id'));
+    }
+
+    public function searchApply(Request $request){
+        $apply = new Apply();
+
+        $apply->create([
+            'request_id' => $request->request_id,
+            'apply_user_id' => Auth::id(),
+        ]);
+
+        return redirect()->route('search.index');
     }
 
     public function postSearch(Request $request){

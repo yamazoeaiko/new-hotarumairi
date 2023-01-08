@@ -44,6 +44,5 @@
         </td>
     </table>
     <a href="{{route('myprofile.edit')}}" class="btn btn-outline-primary">編集する</a>
-    <button type="button" onClick="history.back();" class="btn">戻る</button>
   </div>
 </body>

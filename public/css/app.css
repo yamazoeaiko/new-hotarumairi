@@ -5221,7 +5221,7 @@ fieldset:disabled .btn {
 .card {
   position: relative;
   display: flex;
-  width: 500px;
+  width: 80%;
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;

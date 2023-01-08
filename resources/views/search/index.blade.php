@@ -39,6 +39,17 @@
             </div>
           </td>
         </tr>
+        <tr>
+          <th>報酬金額</th>
+          <td>
+            <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapsePrice">報酬金額で絞る</button>
+            <div class="collapse" id="collapsePrice">
+              <label for="price" class="mr-1">
+                <input type="number" name="price" value="{{old('price')}}" class="mt-1"> 円以上で絞る
+              </label>
+            </div>
+          </td>
+        </tr>
       </table>
       <button type="submit" class="btn btn-primary shadow-lg">検索</button>
     </form>
@@ -51,10 +62,11 @@
       @else
       <button onClick="location.href='{{route('search.more',['request_id'=>$item->id])}}'" class="card m-4 p-4 shadow card-point">
         <div class="row no-gutters">
-          <div class="col-lg-3">
+          <div class="col-4">
             <img src="{{ asset($item->profile_img) }}" alt="Profile image" class="card-img">
+            {{$item->user_name}}
           </div>
-          <div class="col-lg-9">
+          <div class="col-8">
             <p>ジャンル：{{$item->plan_name}}</p>
             <p>実施希望期日：{{$item->date_end}}</p>
             <p>エリア：{{$item->area_name}}</p>

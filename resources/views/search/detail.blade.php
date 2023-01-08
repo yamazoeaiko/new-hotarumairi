@@ -1,0 +1,224 @@
+@component('components.app')
+@endcomponent
+@component('components.header_wide')
+@endcomponent
+
+<body>
+  <div class="container">
+    @if($item->plan_id == 1)
+    <table class="table">
+      <tr>
+        <th>プラン</th>
+        <td>御墓参り代行</td>
+      </tr>
+      <tr>
+        <th>依頼ユーザー名</th>
+        <td>{{$item->user_name}}</td>
+      </tr>
+      <tr>
+        <th>日程</th>
+        <td>
+          {{$item->date_begin}}〜{{$item->date_end}}
+        </td>
+      </tr>
+      <tr>
+        <th>エリア</th>
+        <td>
+          {{$item->area_name}}
+        </td>
+      </tr>
+      <tr>
+        <th>お墓住所</th>
+        <td>
+          {{$item->address}}
+        </td>
+      </tr>
+      <tr>
+        <th>お供え物などのご要望</th>
+        <td>
+          {{$item->offering}}
+        </td>
+      </tr>
+      <tr>
+        <th>お墓のお掃除に関してご要望</th>
+        <td>
+          {{$item->cleaning}}
+        </td>
+      </tr>
+      <tr>
+        <th>その他</th>
+        <td>
+          {{$item->free}}
+        </td>
+      </tr>
+      <tr>
+        <th>お支払い金額</th>
+        <td>
+          {{$item->price}}
+        </td>
+      </tr>
+    </table>
+    @elseif($item->plan_id == 2)
+    <table class="table">
+      <tr>
+        <th>プラン</th>
+        <td>御守り購入代行</td>
+      </tr>
+      <tr>
+        <th>依頼ユーザー名</th>
+        <td>
+          {{$item->user_name}}
+        </td>
+      </tr>
+      <tr>
+        <th>日程</th>
+        <td>
+          {{$item->date_begin}}〜{{$item->date_end}}
+        </td>
+      </tr>
+      <tr>
+        <th>エリア</th>
+        <td>
+          {{$item->area_name}}
+        </td>
+      </tr>
+      <tr>
+        <th>神社住所</th>
+        <td>
+          {{$item->address}}
+        </td>
+      </tr>
+      <tr>
+        <th>何の御守りか（御守りの名称など）</th>
+        <td>
+          {{$item->amulet}}
+        </td>
+      </tr>
+      <tr>
+        <th>その他</th>
+        <td>
+          {{$item->free}}
+        </td>
+      </tr>
+      <tr>
+        <th>お支払い金額</th>
+        <td>
+          {{$item->price}}
+        </td>
+      </tr>
+    </table>
+    @elseif($item->plan_id == 3)
+    <table class="table">
+      <tr>
+        <th>プラン</th>
+        <td>参拝代行</td>
+      </tr>
+      <tr>
+        <th>依頼ユーザー名</th>
+        <td>{{$item->user_name}}</td>
+      </tr>
+      <tr>
+        <th>日程</th>
+        <td>
+          {{$item->date_begin}}〜{{$item->date_end}}
+        </td>
+      </tr>
+      <tr>
+        <th>エリア</th>
+        <td>
+          {{$item->area_name}}
+        </td>
+      </tr>
+      <tr>
+        <th>参拝先の住所</th>
+        <td>
+          {{$item->address}}
+        </td>
+      </tr>
+      <tr>
+        <th>参拝内容(祈願内容)</th>
+        <td>
+          {{$item->praying}}
+        </td>
+      </tr>
+      <tr>
+        <th>御朱印の有無</th>
+        <td>
+          {{$item->goshuin_content}}
+        </td>
+      </tr>
+      <tr>
+        <th>その他</th>
+        <td>
+          {{$item->free}}
+        </td>
+      <tr>
+        <th>お支払い金額</th>
+        <td>
+          {{$item->price}}
+        </td>
+      </tr>
+    </table>
+    @elseif($item->plan_id == 4)
+    <table class="table">
+      <tr>
+        <th>プラン</th>
+        <td>その他代行</td>
+      </tr>
+      <tr>
+        <th>依頼ユーザー名</th>
+        <td>
+          {{$item->user_name}}
+        </td>
+      </tr>
+      <tr>
+        <th>依頼内容</th>
+        <td>
+          {{$item->free}}
+        </td>
+      </tr>
+      <tr>
+        <th>日程</th>
+        <td>
+          {{$item->date_begin}}〜{{$item->date_end}}
+        </td>
+      </tr>
+      <tr>
+        <th>エリア</th>
+        <td>
+          {{$item->area_name}}
+        </td>
+      </tr>
+      <tr>
+        <th>住所の指定（任意）</th>
+        <td>
+          {{$item->address}}
+        </td>
+      </tr>
+      <tr>
+        <th>施設の名称など（任意）</th>
+        <td>
+          {{$item->spot}}
+        </td>
+      </tr>
+      <tr>
+        <th>お支払い金額</th>
+        <td>
+          {{$item->price}}
+        </td>
+      </tr>
+    </table>
+    @endif
+
+    @if($item->request_user_id == $user_id)
+    <button class="btn btn-second">依頼内容を編集する</button>
+    @else
+    <form action="{{route('search.apply')}}" method="post">
+      @csrf
+      <input type="hidden" name="request_id" value="{{$item->id}}">
+      <button type="submit" class="btn btn-primary">応募する</button>
+    </form>
+    @endif
+    <button onclick="history.back()" type="button" name="back" class="btn btn-outline-primary">仕事一覧に戻る</button>
+  </div>
+</body>
