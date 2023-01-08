@@ -47,6 +47,8 @@ Route::controller(HotaruRequestController::class)->group(
 
 
         Route::get('/search','getSearch')->name('search.index');
+        Route::get('/search/{request_id}','moreSearch')->name('search.more');
+        Route::post('/search/post', 'postSearch')->name('search.post');
 
        
 

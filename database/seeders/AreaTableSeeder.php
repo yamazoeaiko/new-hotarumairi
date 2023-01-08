@@ -15,6 +15,7 @@ class AreaTableSeeder extends Seeder
      */
     public function run()
     {
+
         $param = [
             'name' => '北海道'
         ];

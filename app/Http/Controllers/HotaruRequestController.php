@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Area;
+use App\Models\Plan;
 use App\Models\HotaruRequest;
+use App\Models\UserProfile;
 
 class HotaruRequestController extends Controller
 {
@@ -134,7 +136,69 @@ class HotaruRequestController extends Controller
     ////ここから仕事を探す関連//////////////////
     ////////////////////////////////////////
     public function getSearch(){
-        //
+        $search_contents = session()->get('search_contents');
+        if($search_contents == null){
+            $items = HotaruRequest::get();
+        }else{
+            $search_contents = (object)$search_contents;
+            //エリア検索ランについて
+            if($search_contents->area_id == null){
+                $search_areas = HotaruRequest::get();
+            }else{
+                $search_areas = HotaruRequest::get()->whereIn('area_id', $search_contents->area_id);
+            };
+            //プランについて
+            if($search_contents->plan_id == null){
+                $search_plans = HotaruRequest::get();
+            }else{
+                $search_plans = HotaruRequest::get()->whereIn('plan_id', $search_contents->plan_id);
+            };
+            //報酬金額について
+            if($search_contents->price == null){
+                $search_prices = HotaruRequest::get();
+            }else{
+                $search_prices = HotaruRequest::get()->whereIn('price', $search_contents->price);
+            };
+            //検索結果
+            $items = $search_areas->intersect($search_plans)->intersect($search_prices);
+        }
+
+        foreach($items as $item){
+            $plan = Plan::where('id', $item->plan_id)->first();
+            $item->plan_name = $plan->name;
+
+            $area = Area::where('id', $item->area_id)->first();
+            $item->area_name = $area->name;
+
+            $user = UserProfile::where('user_id', $item->request_user_id)->first();
+            $item->profile_img = $user->img_url;
+        }
+
+        $areas = Area::get();
+        $plans = Plan::get();
+
+        return view('search.index',compact('items', 'areas', 'plans'));
+    }
+
+    public function moreSearch($request_id){
+
+    }
+
+    public function postSearch(Request $request){
+        //ポストする検索条件の設定
+        $area_id = $request->area_id;
+        $plan_id = $request->plan_id;
+        $price = $request->price;
+        $request->session()->put(
+            'search_contents',
+            [
+                'area_id' => $area_id,
+                'plan_id' => $plan_id,
+                'price' => $price
+            ]
+        );
+
+        return redirect()->route('search.index')->withInput();
     }
 
 
