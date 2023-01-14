@@ -10,6 +10,7 @@ use App\Models\HotaruRequest;
 use App\Models\UserProfile;
 use App\Models\Apply;
 use App\Models\OhakamairiSummary;
+use App\Models\SanpaiSummary;
 
 class HotaruRequestController extends Controller
 {
@@ -38,8 +39,9 @@ class HotaruRequestController extends Controller
     {
         $user_id = Auth::id();
         $areas = Area::get();
+        $summaries = SanpaiSummary::get();
 
-        return view('request.sanpai', compact('user_id', 'areas'));
+        return view('request.sanpai', compact('user_id', 'areas', 'summaries'));
     }
 
     public function getOthers()
@@ -106,7 +108,15 @@ class HotaruRequestController extends Controller
         $area = Area::where('id', $params->area_id)->first();
         $params->area_name = $area->name;
 
-        return view('request.confirm_sanpai', compact('params'));
+        $items = SanpaiSummary::whereIn('id', $params->sanpai_sum_id)->get();
+
+        $sum = 10000000;
+        foreach ($items as $item) {
+            $item->sanpai_sum_name = $item->name;
+            $sum += $item->number;
+        }
+
+        return view('request.confirm_sanpai', compact('params','items', 'sum'));
     }
 
     public function othersConfirm()
@@ -130,30 +140,54 @@ class HotaruRequestController extends Controller
 
             // 取得したファイル名で保存
             $img_url = $request->file('img_url')->storeAs('omamori/' . $dir, $file_name);
+
+            $hotaru_request = new HotaruRequest();
+
+            $hotaru_request->create([
+                'request_user_id' => $request->user_id,
+                'plan_id' => $request->plan_id,
+                'date_begin' => $request->date_begin,
+                'date_end' => $request->date_end,
+                'price' => $request->price,
+                'area_id' => $request->area_id,
+                'address' => $request->address,
+                'ohakamairi_sum' => $request->ohakamairi_sum,
+                'sanpai_sum' => $request->sanpai_sum,
+                'spot' => $request->spot,
+                'offering' => $request->offering,
+                'cleaning' => $request->cleaning,
+                'amulet' => $request->amulet,
+                'img_url' => $img_url,
+                'praying' => $request->praying,
+                'goshuin' => $request->goshuin,
+                'goshuin_content' => $request->goshuin_content,
+                'free' => $request->free,
+                'status_id' => '1',
+            ]);
+        }else{
+            $hotaru_request = new HotaruRequest();
+
+            $hotaru_request->create([
+                'request_user_id' => $request->user_id,
+                'plan_id' => $request->plan_id,
+                'date_begin' => $request->date_begin,
+                'date_end' => $request->date_end,
+                'price' => $request->price,
+                'area_id' => $request->area_id,
+                'address' => $request->address,
+                'ohakamairi_sum' => $request->ohakamairi_sum,
+                'sanpai_sum' => $request->sanpai_sum,
+                'spot' => $request->spot,
+                'offering' => $request->offering,
+                'cleaning' => $request->cleaning,
+                'amulet' => $request->amulet,
+                'praying' => $request->praying,
+                'goshuin' => $request->goshuin,
+                'goshuin_content' => $request->goshuin_content,
+                'free' => $request->free,
+                'status_id' => '1',
+            ]);
         }
-
-        $hotaru_request = new HotaruRequest();
-
-        $hotaru_request->create([
-            'request_user_id' => $request->user_id,
-            'plan_id' => $request->plan_id,
-            'date_begin' => $request->date_begin,
-            'date_end' => $request->date_end,
-            'price' => $request->price,
-            'area_id' => $request->area_id,
-            'address' => $request->address,
-            'ohakamairi_sum' => $request->ohakamairi_sum,
-            'spot' => $request->spot,
-            'offering' => $request->offering,
-            'cleaning' => $request->cleaning,
-            'amulet' => $request->amulet,
-            'img_url' => $img_url,
-            'praying' => $request->praying,
-            'goshuin' => $request->goshuin,
-            'free' => $request->free,
-            'status_id' => '1',
-        ]);
-
 
         return redirect()->route('request.index');
     }

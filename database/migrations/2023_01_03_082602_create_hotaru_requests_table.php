@@ -27,12 +27,14 @@ return new class extends Migration
             $table->string('address')->comment('対象施設の住所')->nullable();
             $table->string('spot')->comment('神社・お墓などの名称')->nullable();
             $table->integer('ohakamairi_sum')->comment('お墓参りプランの依頼概要ID')->nullable();
+            $table->integer('sanpai_sum')->comment('参拝プランの依頼概要ID')->nullable();
             $table->text('offering')->nullable()->comment('お供え物');
             $table->text('cleaning')->nullable()->comment('清掃内容');
             $table->text('amulet')->nullable()->comment('お守り');
             $table->string('img_url')->comment('画像パス')->nullable();
             $table->text('praying')->nullable()->comment('祈願内容');
             $table->integer('goshuin')->nullable()->comment('御朱印');
+            $table->text('goshuin_content')->nullable()->comment('御朱印要望ありの場合の詳細記入欄');
             $table->text('free')->nullable()->comment('その他要望');
             $table->unsignedBigInteger('status_id');
             $table->foreign('status_id')->references('id')->on('statuses');

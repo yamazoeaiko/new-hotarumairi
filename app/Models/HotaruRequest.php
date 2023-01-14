@@ -18,6 +18,8 @@ class HotaruRequest extends Model
         'area_id',
         'address',
         'ohakamairi_sum',
+        'sanpai_sum',
+        'goshuin_content',
         'spot',
         'offering',
         'cleaning',

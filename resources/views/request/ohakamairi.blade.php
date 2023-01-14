@@ -41,7 +41,7 @@
           <th>ご依頼概要(複数選択可能)</th>
           <td>
             @foreach($summaries as $summary)
-            <input type="checkbox" name="ohakamairi_sum_id[]" value="{{$summary->id}}" multiple>{{$summary->name}}
+            <input type="checkbox" name="ohakamairi_sum_id[]" value="{{$summary->id}}" multiple>{{$summary->name}}<br>
             @endforeach
           </td>
         </tr>
