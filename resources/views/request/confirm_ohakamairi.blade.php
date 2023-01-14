@@ -22,20 +22,29 @@
           </td>
         </tr>
         <tr>
-          <th>都道府県</th>
+          <th>該当のお墓の都道府県</th>
           <td>
             <input type="number" name="area_id" id="" value="{{$params->area_id}}" hidden>{{$params->area_name}}
           </td>
         </tr>
         <tr>
-          <th>お墓住所</th>
+          <th>お墓の市町村(可能ならば番地まで)</th>
           <td>
             <input type="text" name="address" class="input-group-text" value="{{$params->address}}" hidden>
             {{$params->address}}
           </td>
         </tr>
         <tr>
-          <th>お供え物など要望があれば</th>
+          <th>ご依頼概要(複数選択可能)</th>
+          <td>
+            <input type="hidden" name="ohakamairi_sum" value="{{ $sum }}">
+            @foreach($items as $item)
+            ・{{$item->ohakamairi_sum_name}}<br>
+            @endforeach
+          </td>
+        </tr>
+        <tr>
+          <th>お供え物・墓花・お線香マナーなどのご要望があれば</th>
           <td>
             <textarea name="offering" cols="30" rows="3" class="input-group-text">{{$params->offering}}</textarea>
           </td>
@@ -52,7 +61,10 @@
             <textarea name="free" id="" cols="30" rows="3" class="input-group-text">{{$params->free}}</textarea>
           </td>
         <tr>
-          <th>お支払い金額</th>
+          <th>
+            費用
+            <span>費用：現地までの交通費、駐車料金、墓花、御供、グッズ等の全ての購入代金や経費を含む金額</span>
+          </th>
           <td>
             <input type="number" name="price" class="input-group-text" value="{{$params->price}}" hidden>
             {{$params->price}}

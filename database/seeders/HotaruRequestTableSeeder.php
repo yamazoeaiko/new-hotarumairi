@@ -39,6 +39,7 @@ class HotaruRequestTableSeeder extends Seeder
             'date_end' => '2023-4-15',
             'price' => '6000',
             'area_id' => '20',
+            'ohakamairi_sum' => '2',
             'address' => 'B県B区1-1-1',
             'spot' => 'B寺',
             'offering' => '花を２束',

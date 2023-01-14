@@ -12,6 +12,11 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 /*自分で作成CSS*/
+span {
+  font-size: 0.7em;
+  color: red;
+}
+
 .card-point:hover {
   cursor: pointer;
   background-color: #dfc2c4;

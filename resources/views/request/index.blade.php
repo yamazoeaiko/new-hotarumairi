@@ -7,16 +7,16 @@
   <div class="container">
     <div class="d-grid gap-4">
       <button onclick="location.href='{{route('request.ohakamairi')}}'" class="btn-lg btn-primary">
-        御墓参り代行を依頼
+        お墓のお掃除・お参り代行を依頼
       </button>
       <button onclick="location.href='{{route('request.omamori')}}'" class="btn-lg">
-        御守り購入代行を依頼
+        お守・お札・御朱印購入代行を依頼
       </button>
       <button onclick="location.href='{{route('request.sanpai')}}'" class="btn-lg">
-        参拝代行を依頼
+        神社仏閣参拝・祈祷代行を依頼
       </button>
       <button onclick="location.href='{{route('request.others')}}'" class="btn-lg">
-        その他代行を依頼
+        その他お参り代行をカスタマイズ依頼
       </button>
     </div>
   </div>
