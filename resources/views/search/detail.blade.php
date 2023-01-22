@@ -9,7 +9,7 @@
     <table class="table">
       <tr>
         <th>プラン</th>
-        <td>御墓参り代行</td>
+        <td>お墓のお掃除・お参り代行</td>
       </tr>
       <tr>
         <th>依頼ユーザー名</th>
@@ -22,25 +22,54 @@
         </td>
       </tr>
       <tr>
-        <th>エリア</th>
+        <th>該当のお墓の都道府県</th>
         <td>
           {{$item->area_name}}
         </td>
       </tr>
       <tr>
-        <th>お墓住所</th>
+        <th>お墓の市町村</th>
         <td>
           {{$item->address}}
         </td>
       </tr>
       <tr>
-        <th>お供え物などのご要望</th>
+        <th>ご依頼概要</th>
+        <td>
+          @if(isset($d1))
+          ・{{$d1}}
+          <br>
+          @endif
+          @if(isset($d2))
+          ・{{$d2}}
+          <br>
+          @endif
+          @if(isset($d3))
+          ・{{$d3}}
+          <br>
+          @endif
+          @if(isset($d4))
+          ・{{$d4}}
+          <br>
+          @endif
+          @if(isset($d5))
+          ・{{$d5}}
+          <br>
+          @endif
+          @if(isset($d6))
+          ・{{$d6}}
+          <br>
+          @endif
+        </td>
+      </tr>
+      <tr>
+        <th>お供え物・墓花・お線香マナーなどの要望</th>
         <td>
           {{$item->offering}}
         </td>
       </tr>
       <tr>
-        <th>お墓のお掃除に関してご要望</th>
+        <th>お墓のお掃除に関しての要望</th>
         <td>
           {{$item->cleaning}}
         </td>
@@ -52,9 +81,11 @@
         </td>
       </tr>
       <tr>
-        <th>お支払い金額</th>
+        <th>受け取り金額
+          <br><span>現地までの交通費、駐車料金、墓花、御供、グッズ等の全ての購入代金や経費を含む金額</span>
+        </th>
         <td>
-          {{$item->price}}
+          {{$item->price}}円(税込)
         </td>
       </tr>
     </table>
@@ -62,7 +93,7 @@
     <table class="table">
       <tr>
         <th>プラン</th>
-        <td>御守り購入代行</td>
+        <td>お守、お札、御朱印購入代行</td>
       </tr>
       <tr>
         <th>依頼ユーザー名</th>
@@ -77,22 +108,25 @@
         </td>
       </tr>
       <tr>
-        <th>エリア</th>
+        <th>該当の神社仏閣の都道府県</th>
         <td>
           {{$item->area_name}}
         </td>
       </tr>
       <tr>
-        <th>神社住所</th>
+        <th>神社仏閣市町村</th>
         <td>
           {{$item->address}}
         </td>
       </tr>
       <tr>
-        <th>何の御守りか（御守りの名称など）</th>
+        <th>購入物の要望(正式名称、金額、参考URL、画像)</th>
         <td>
           {{$item->amulet}}
         </td>
+        @if(isset($item->img_url))
+        <td>{{$item->img_url}}</td>
+        @endif
       </tr>
       <tr>
         <th>その他</th>
@@ -101,9 +135,11 @@
         </td>
       </tr>
       <tr>
-        <th>お支払い金額</th>
+        <th>受け取り金額
+          <br><span>現地までの交通費、駐車料金、墓花、御供、グッズ等の全ての購入代金や経費を含む金額</span>
+        </th>
         <td>
-          {{$item->price}}
+          {{$item->price}}円(税込)
         </td>
       </tr>
     </table>
@@ -111,7 +147,7 @@
     <table class="table">
       <tr>
         <th>プラン</th>
-        <td>参拝代行</td>
+        <td>神社仏閣参拝、祈祷代行</td>
       </tr>
       <tr>
         <th>依頼ユーザー名</th>
@@ -124,38 +160,69 @@
         </td>
       </tr>
       <tr>
-        <th>エリア</th>
+        <th>該当の神社仏閣の都道府県</th>
         <td>
           {{$item->area_name}}
         </td>
       </tr>
       <tr>
-        <th>参拝先の住所</th>
+        <th>神社仏閣市町村</th>
         <td>
           {{$item->address}}
         </td>
       </tr>
       <tr>
-        <th>参拝内容(祈願内容)</th>
+        <th>参拝、祈祷内容</th>
         <td>
           {{$item->praying}}
         </td>
       </tr>
       <tr>
+        <th>ご依頼概要</th>
+        <td>
+          @if(isset($s1))
+          ・{{$s1}}
+          <br>
+          @endif
+          @if(isset($s2))
+          ・{{$s2}}
+          <br>
+          @endif
+          @if(isset($s3))
+          ・{{$s3}}
+          <br>
+          @endif
+          @if(isset($s4))
+          ・{{$s4}}
+          <br>
+          @endif
+        </td>
+      </tr>
+      <tr>
         <th>御朱印の有無</th>
+        <td>
+          {{$item->goshuin}}
+        </td>
+      </tr>
+      @if(isset($item->goshuin_content))
+      <tr>
+        <th>御朱印に関する詳細内容</th>
         <td>
           {{$item->goshuin_content}}
         </td>
       </tr>
+      @endif
       <tr>
         <th>その他</th>
         <td>
           {{$item->free}}
         </td>
       <tr>
-        <th>お支払い金額</th>
+        <th>受け取り金額
+          <br><span>現地までの交通費、駐車料金、墓花、御供、グッズ等の全ての購入代金や経費を含む金額</span>
+        </th>
         <td>
-          {{$item->price}}
+          {{$item->price}}円(税込)
         </td>
       </tr>
     </table>
@@ -163,7 +230,7 @@
     <table class="table">
       <tr>
         <th>プラン</th>
-        <td>その他代行</td>
+        <td>その他お参り代行</td>
       </tr>
       <tr>
         <th>依頼ユーザー名</th>
@@ -172,7 +239,7 @@
         </td>
       </tr>
       <tr>
-        <th>依頼内容</th>
+        <th>ご依頼内容</th>
         <td>
           {{$item->free}}
         </td>
@@ -184,27 +251,29 @@
         </td>
       </tr>
       <tr>
-        <th>エリア</th>
+        <th>依頼に該当する都道府県</th>
         <td>
           {{$item->area_name}}
         </td>
       </tr>
       <tr>
-        <th>住所の指定（任意）</th>
+        <th>依頼に該当する住所</th>
         <td>
           {{$item->address}}
         </td>
       </tr>
       <tr>
-        <th>施設の名称など（任意）</th>
+        <th>依頼に該当する施設名称</th>
         <td>
           {{$item->spot}}
         </td>
       </tr>
       <tr>
-        <th>お支払い金額</th>
+        <th>受け取り金額
+          <br><span>現地までの交通費、駐車料金、墓花、御供、グッズ等の全ての購入代金や経費を含む金額</span>
+        </th>
         <td>
-          {{$item->price}}
+          {{$item->price}}円(税込)
         </td>
       </tr>
     </table>

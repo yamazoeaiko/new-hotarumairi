@@ -246,20 +246,84 @@ class HotaruRequestController extends Controller
         $item->user_name = $request_user->nickname;
 
         if($item->goshuin == 0){
-            $item->goshuin_content = '御朱印不要';
+            $item->goshuin = '御朱印不要';
         }elseif($item->goshuin == 1){
-            $item->goshuin_content = '御朱印の画像添付を希望';
-        }elseif($item->goshuin == 2){
-            $item->goshuin_content = '御朱印の郵送を希望';
+            $item->goshuin = '御朱印希望';
+        }
+
+        //$item->ohakamairi_sum
+        $data = (string)$item->ohakamairi_sum;
+        $d_1 = substr($data, 7, 1);//１項目
+        $d_2 = substr($data, 6, 1);//2項目
+        $d_3 = substr($data, 5, 1);//３項目
+        $d_4 = substr($data, 4, 1);//４項目
+        $d_5 = substr($data, 3, 1);//５項目
+        $d_6 = substr($data, 2, 1);//６項目
+
+        if($d_1 == 1){
+            $d1 = OhakamairiSummary::where('id', 1)->value('name');
         }else{
-            true;
+            $d1 = null;
+        }
+        if ($d_2 == 1) {
+            $d2 = OhakamairiSummary::where('id', 2)->value('name');
+        } else {
+            $d2 = null;
+        }
+        if ($d_3 == 1) {
+            $d3 = OhakamairiSummary::where('id', 3)->value('name');
+        } else {
+            $d3 = null;
+        }
+        if ($d_4 == 1) {
+            $d4 = OhakamairiSummary::where('id', 4)->value('name');
+        } else {
+            $d4 = null;
+        }
+        if ($d_5 == 1) {
+            $d5 = OhakamairiSummary::where('id', 5)->value('name');
+        } else {
+            $d5 = null;
+        }
+        if ($d_6 == 1) {
+            $d6 = OhakamairiSummary::where('id', 6)->value('name');
+        } else {
+            $d6 = null;
+        }
+
+        //$sanpai_sum
+        $sanpai_data = (string)$item->sanpai_sum;
+        $s_1 = substr($sanpai_data, 7, 1); //１項目
+        $s_2 = substr($sanpai_data, 6, 1); //2項目
+        $s_3 = substr($sanpai_data, 5, 1); //３項目
+        $s_4 = substr($sanpai_data, 4, 1); //４項目
+
+        if ($s_1 == 1) {
+            $s1 = SanpaiSummary::where('id', 1)->value('name');
+        } else {
+            $s1 = null;
+        }
+        if ($s_2 == 1) {
+            $s2 = SanpaiSummary::where('id', 2)->value('name');
+        } else {
+            $s2 = null;
+        }
+        if ($s_3 == 1) {
+            $s3 = SanpaiSummary::where('id', 3)->value('name');
+        } else {
+            $s3 = null;
+        }
+        if ($s_4 == 1) {
+            $s4 = SanpaiSummary::where('id', 4)->value('name');
+        } else {
+            $s4 = null;
         }
 
         $area = Area::where('id', $item->area_id)->first();
         $item->area_name = $area->name;
         $user_id = Auth::id();
 
-        return view('search.detail',compact('item', 'user_id'));
+        return view('search.detail',compact('item', 'user_id','d1','d2','d3','d4','d5','d6','s1','s2','s3','s4'));
     }
 
     public function searchApply(Request $request){

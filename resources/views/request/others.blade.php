@@ -12,10 +12,13 @@
         <tr>
           <th>プラン</th>
           <input type="hidden" name="plan_id" value="4">
-          <td>その他代行</td>
+          <td>その他お参り代行</td>
         </tr>
         <tr>
-          <th>依頼内容(詳細に記入)</th>
+          <th>依頼内容(詳細に記入)
+            <span><br>※お参りと称したユニークな代行依頼をカスタマイズ可能です。
+            </span>
+          </th>
           <td>
             <textarea name="free" id="" cols="30" rows="3" class="input-group-text"></textarea>
           </td>
@@ -45,7 +48,7 @@
         <tr>
           <th>施設の名称など（任意）</th>
           <td>
-            <input type="text" name="spot"  class="input-group-text">
+            <input type="text" name="spot" class="input-group-text">
           </td>
         </tr>
         <tr>
