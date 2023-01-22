@@ -22,7 +22,7 @@
       <tr>
         <th>年齢</th>
         <td>
-          {{$item->age}}
+          {{$item->age}}歳
         </td>
       </tr>
       <tr>

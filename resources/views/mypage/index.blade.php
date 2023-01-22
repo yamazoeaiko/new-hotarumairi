@@ -9,10 +9,10 @@
       <button onclick="location.href='{{route('myprofile.index')}}'" class="btn-lg btn-primary">
         プロフィール
       </button>
-      <button onclick="location.href='{{route('mypage.request')}}'" class="btn-lg btn-primary">
+      <button onclick="location.href='{{route('mypage.myrequest.index')}}'" class="btn-lg btn-primary">
         依頼している案件の確認
       </button>
-      <button onclick="location.href='{{route('mypage.apply')}}'" class="btn-lg btn-primary">
+      <button onclick="location.href='{{route('mypage.myapply.index')}}'" class="btn-lg btn-primary">
         代行を引き受ける案件の確認
       </button>
     </div>

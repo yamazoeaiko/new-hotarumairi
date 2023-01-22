@@ -72,8 +72,14 @@ Route::controller(UserProfileController::class)->group(
         Route::post('/mypage/myprofile/update', 'updateMyProfile')->name('myprofile.update');
         Route::post('/mypage/myprofile/image_update', 'updateImage')->name('myprofile.image.update');
 
-        Route::get('/mypage/request', 'getMyRequest')->name('mypage.request');
-        Route::get('/mypage/apply', 'getMyApply')->name('mypage.apply');
+        Route::get('/mypage/request', 'getMyRequest')->name('mypage.myrequest.index');
+        Route::get('/mypage/myrequest/detail/{request_id}', 'getMyRequestDetail')->name('mypage.myrequest.detail');
+        Route::get('/mypage/myrequest/edit/{request_id}', 'editMyRequest')->name('mypage.myrequest.edit');
+        Route::get('/mypage/myrequest/destroy/{request_id}', 'destroyMyRequest')->name('mypage.myrequest.destroy');
+
+
+        Route::get('/mypage/myapply', 'getMyApply')->name('mypage.myapply.index');
+        Route::get('/mypage/myapply/detail/{request_id}', 'getMyApplyDetail')->name('mypage.myapply.detail');
 
     });
 

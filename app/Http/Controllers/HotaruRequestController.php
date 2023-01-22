@@ -11,6 +11,7 @@ use App\Models\UserProfile;
 use App\Models\Apply;
 use App\Models\OhakamairiSummary;
 use App\Models\SanpaiSummary;
+use Illuminate\Support\Arr;
 
 class HotaruRequestController extends Controller
 {
@@ -323,7 +324,15 @@ class HotaruRequestController extends Controller
         $item->area_name = $area->name;
         $user_id = Auth::id();
 
-        return view('search.detail',compact('item', 'user_id','d1','d2','d3','d4','d5','d6','s1','s2','s3','s4'));
+        //応募済みかの判定
+        $applied = Apply::where('id', $request_id)
+        ->where('apply_user_id', $user_id)
+        ->exists();
+
+        $apply_flag = $applied ? 0 : 1;
+        //$apply = Arr::has($apply_user_ids, $user_id);
+
+        return view('search.detail',compact('item', 'user_id','d1','d2','d3','d4','d5','d6','s1','s2','s3','s4', 'apply_flag'));
     }
 
     public function searchApply(Request $request){

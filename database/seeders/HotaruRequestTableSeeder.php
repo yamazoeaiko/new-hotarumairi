@@ -59,7 +59,7 @@ class HotaruRequestTableSeeder extends Seeder
             'address' => 'C県C区1-1-1',
             'spot' => 'C神社',
             'praying' => '健康をお祈りください',
-            'goshuin' => '3',
+            'goshuin' => '0',
             'free' => '宜しくお願いいたします',
             'status_id' => '1'
         ];
