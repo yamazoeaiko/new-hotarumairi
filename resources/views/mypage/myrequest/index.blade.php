@@ -5,7 +5,7 @@
 
 <body>
   <div class="container row">
-    <div class="col-10 col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-10">
+    <div class="col-10">
       <h5>あなたが依頼している代行一覧</h5>
       @if($items->isEmpty())
       <span>現在あなたが依頼している代行はございません</span>
@@ -17,7 +17,9 @@
             <div class="col-8 fw-bolder fs-5">{{$item->plan_name}}</div>
             <div class="col-8">日程：{{$item->date_begin}}〜{{$item->date_end}}</div>
             <div class="col-4">費用：{{$item->price}}円</div>
+            <div class="col-8">{{$item->apply_count}}名からの応募があります</div>
           </div>
+
         </button>
         @endforeach
       </div>

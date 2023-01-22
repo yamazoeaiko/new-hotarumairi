@@ -92,7 +92,10 @@ class UserProfileController extends Controller
         foreach($items as $item){
             $plan = Plan::where('id', $item->plan_id)->first();
             $item->plan_name = $plan->name;
+            $apply = Apply::where('request_id', $item->id)->get();
+            $item->apply_count = $apply->count();
         }
+        
         return view('mypage.myrequest.index',
         compact('items'));
     }

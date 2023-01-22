@@ -6,7 +6,7 @@
 <body>
   <div class="container row">
     <div class="col-10 col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-10">
-      <h5>あなたが依頼している代行一覧</h5>
+      <h5>あなたが応募している代行一覧</h5>
       @if($items->isEmpty())
       <span>現在あなたが応募している案件はございません</span>
       @endif

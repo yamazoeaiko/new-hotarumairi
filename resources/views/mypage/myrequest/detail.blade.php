@@ -280,7 +280,8 @@
       </table>
       @endif
       <div class="row">
-        <button type="button" class="col-3 btn btn-outline-primary" onclick="location.href='{{route('mypage.myrequest.edit',['request_id' => $item->id])}}'">内容修正</button>
+        <button type="button" class="col-3 btn btn-outline-secondary" onClick="history.back();">戻る</button>
+        <button type="button" class="col-3 btn btn-outline-primary offset-1" onclick="location.href='{{route('mypage.myrequest.edit',['request_id' => $item->id])}}'">内容修正</button>
 
         <button type="button" class="btn btn-danger col-3 offset-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
           依頼削除

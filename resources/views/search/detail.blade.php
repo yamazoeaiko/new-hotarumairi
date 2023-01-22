@@ -280,7 +280,7 @@
     @endif
 
     @if($item->request_user_id == $user_id)
-    <button class="btn btn-second" onclick="location.href='{{route('mypage.myrequest.edit',['request_id'=> $item->id])}}'">内容編集</button>
+    <button class="btn btn-outline-secondary" onclick="location.href='{{route('mypage.myrequest.edit',['request_id'=> $item->id])}}'">内容編集</button>
     @elseif($apply_flag == 1)
     <form action="{{route('search.apply')}}" method="post">
       @csrf
