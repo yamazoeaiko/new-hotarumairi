@@ -17,7 +17,7 @@
             <div class="col-8 fw-bolder fs-5">{{$item->plan_name}}</div>
             <div class="col-8">日程：{{$item->date_begin}}〜{{$item->date_end}}</div>
             <div class="col-4">費用：{{$item->price}}円</div>
-            <div class="col-8">{{$item->apply_count}}名からの応募があります</div>
+            <span class="col-8 fs-6">{{$item->apply_count}}名からの応募があります</span>
           </div>
 
         </button>

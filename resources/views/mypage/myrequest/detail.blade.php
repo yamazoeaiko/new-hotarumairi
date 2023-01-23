@@ -279,6 +279,9 @@
         </tr>
       </table>
       @endif
+      <div class="row my-1">
+        <button class="col-6 fs-6 btn btn-primary" onclick=location.href="{{route('mypage.myrequest.member_list',['request_id'=>$item->id])}}">{{$item->apply_count}}名からの応募があります</button>
+      </div>
       <div class="row">
         <button type="button" class="col-3 btn btn-outline-secondary" onClick="history.back();">戻る</button>
         <button type="button" class="col-3 btn btn-outline-primary offset-1" onclick="location.href='{{route('mypage.myrequest.edit',['request_id' => $item->id])}}'">内容修正</button>
@@ -298,7 +301,7 @@
                 依頼を削除して宜しいですか？削除した場合は復元できません。
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >戻る</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">戻る</button>
 
                 <button type="button" class="btn btn-danger" onclick="location.href='{{route('mypage.myrequest.destroy',['request_id' => $item->id])}}'">削除する</button>
               </div>

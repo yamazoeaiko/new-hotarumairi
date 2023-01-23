@@ -182,6 +182,8 @@ class UserProfileController extends Controller
 
         $area = Area::where('id', $item->area_id)->first();
         $item->area_name = $area->name;
+        $apply = Apply::where('request_id', $item->id)->get();
+        $item->apply_count = $apply->count();
 
 
         return view('mypage.myrequest.detail', compact('item', 'user_id', 'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 's1', 's2', 's3', 's4'));
@@ -305,5 +307,33 @@ class UserProfileController extends Controller
         }
         return view('mypage.myapply.index',
         compact('items'));
+    }
+
+    public function getApplyMemberList($request_id){
+        $items = Apply::where('request_id', $request_id)->get();
+        foreach($items as $item){
+            $apply_user = UserProfile::where('user_id', $item->apply_user_id)->first();
+            $item->nickname = $apply_user->nickname;
+            $item->profile_img = $apply_user->img_url;
+        }
+
+        return view('mypage.myrequest.member_list',compact('items'));
+    }
+
+    public function getApplyMemberDetail($user_id){
+        $item = UserProfile::where('user_id', $user_id)->first();
+        $gender = Gender::find($item->gender);
+        if ($gender) {
+            $item->gender = $gender->name;
+        };
+        
+        $item->age = Carbon::parse($item->birthday)->age;
+
+        $area = Area::find($item->living_area);
+        if ($area) {
+            $item->living_area = $area->name;
+        }
+
+        return view('mypage.myrequest.member_detail', compact('item'));
     }
 }
