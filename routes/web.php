@@ -91,10 +91,10 @@ Route::controller(UserProfileController::class)->group(
 Route::controller(ChatController::class)->group(
     function (){
         Route::get('/chat/list','getChatList')->name('chat.list');
-        Route::get('/chat/room/{apply_id}', 'getChatRoom')->name('chat.room');
+        Route::get('/chat/room/{apply_id}/{your_id}', 'getChatRoom')->name('chat.room');
         Route::post('/chat/send', 'sendChat')->name('send.chat');
 
-    });     
+    });
 
 
 require __DIR__.'/auth.php';

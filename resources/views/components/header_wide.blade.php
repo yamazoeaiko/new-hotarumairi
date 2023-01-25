@@ -10,7 +10,7 @@
           <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
             <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('request.index')}}">代行を依頼する</a></li>
             <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('search.index')}}">お仕事を探す</a></li>
-            <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('chat.index')}}">チャット</a></li>
+            <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('chat.list')}}">チャット</a></li>
             <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('mypage.index')}}">マイページ</a></li>
             @guest
             <li class="nav-item"><a class="nav-link me-lg-3" href="/login">ログイン</a></li>

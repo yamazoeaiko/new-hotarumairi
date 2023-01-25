@@ -46,7 +46,8 @@
 
     @if($exist == true)
     <button disable class="btn btn-outline-secondary">承認済み</button>
-    <button onclick="location.href='{{route('chat.room')}}'">チャット</button>
+    <button class="btn btn-primary" onclick="location.href='{{route('chat.room',['apply_id'=>$apply_id, 'your_id'=>$item->user_id])}}'">チャットする</button>
+    @else
     <button class="btn btn-primary" onClick="location.href='{{route('myrequest.member.approval',[
               'apply_id'=>$apply_id,
               'request_id' => $request_id,
@@ -54,7 +55,8 @@
     <button class="btn btn-danger" onClick="location.href='{{route('myrequest.member.reject', [
                 'apply_id'=>$apply_id,
                 'request_id' => $request_id,
-              'user_id'=>$item->user_id])}}'">お断りする</button>
-    </form>
+              'user_id'=>$item->user_id])}}'">お断りする
+    </button>
+    @endif
   </div>
 </body>

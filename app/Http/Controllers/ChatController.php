@@ -24,26 +24,49 @@ class ChatController extends Controller
             $request = HotaruRequest::where('id', $item->request_id)->first();
             
             $host = UserProfile::where('user_id', $request->request_user_id)->first();
-            $item->host_name = $host->nickname;
 
             $apply = UserProfile::where('user_id', $item->apply_user_id)->first();
-            $item->apply_name = $apply->nickname;
 
             if($item->apply_user_id == $user_id){
-                $you = $host;
+                $item->your_name = $host->nickname;
+                $item->profile_img = $host->img_url;
+                $item->your_id = $host->user_id;
             }else{
-                $you = $apply;
+                $item->your_name = $apply->nickname;
+                $item->profile_img = $apply->img_url;
+                $item->your_id = $apply->user_id;
             };
+
 
             $plan = Plan::where('id',$request->plan_id)->first();
             $item->plan_name = $plan->name;
-
-            $item->profile_img = $you->img_url;
         }
-        return view('chat.list', compact('items','you'));
+        return view('chat.list', compact('items'));
     }
 
-    public function getChatRoom($apply_id){
-        return view('chat.room');
+    public function getChatRoom($apply_id, $your_id){
+        $user_id = Auth::id();
+
+        $you = UserProfile::where('user_id', $your_id)->first();
+
+        //チャット内容の表示
+        $chats = Chat::where('apply_id', $apply_id)->get();
+        foreach ($chats as $chat) {
+            $from_user = UserProfile::where('user_id', $chat->from_user)->first();
+            $chat->nickname = $from_user->nickname;
+            $chat->img_url = $from_user->img_url;
+        }
+        return view('chat.room', compact('chats','you','apply_id', 'user_id'));
+    }
+
+    public function sendChat(Request $request){
+        $create_chat = new Chat();
+        $create_chat->create([
+            'apply_id'=> $request->apply_id,
+            'from_user'=>$request->user_id,
+            'message'=> $request->message
+        ]);
+
+        return redirect()->route('chat.room', ['apply_id' => $request->apply_id, 'your_id'=> $request->your_id]);
     }
 }
