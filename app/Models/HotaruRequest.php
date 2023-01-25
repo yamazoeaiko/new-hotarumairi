@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Apply;
+
 
 class HotaruRequest extends Model
 {
@@ -30,4 +32,9 @@ class HotaruRequest extends Model
         'free',
         'status_id',
     ];
+
+    public function applies()
+    {
+        return $this->hasMany(Apply::class, 'request_id');
+    }
 }

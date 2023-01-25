@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HotaruRequestController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -77,13 +78,23 @@ Route::controller(UserProfileController::class)->group(
         Route::get('/mypage/myrequest/edit/{request_id}', 'editMyRequest')->name('mypage.myrequest.edit');
         Route::get('/mypage/myrequest/destroy/{request_id}', 'destroyMyRequest')->name('mypage.myrequest.destroy');
         Route::get('/mypage/myrequest/member_list/{request_id}', 'getApplyMemberList')->name('mypage.myrequest.member_list');
-        Route::get('/mypage/myrequest/member_detail/{user_id}', 'getApplyMemberDetail')->name('mypage.myrequest.member_detail');
+        Route::get('/mypage/myrequest/member_detail/{request_id}/{user_id}/{apply_id}', 'getApplyMemberDetail')->name('mypage.myrequest.member_detail');
+        Route::get('/mypage/myrequest/member_detail/approval/{apply_id}/{request_id}/{user_id}', 'getApplyApproval')->name('myrequest.member.approval');
+        Route::get('/mypage/myrequest/member_detail/reject/{apply_id}/{request_id}/{user_id}', 'getApplyReject')->name('myrequest.member.reject');
 
 
         Route::get('/mypage/myapply', 'getMyApply')->name('mypage.myapply.index');
         Route::get('/mypage/myapply/detail/{request_id}', 'getMyApplyDetail')->name('mypage.myapply.detail');
 
     });
+
+Route::controller(ChatController::class)->group(
+    function (){
+        Route::get('/chat/list','getChatList')->name('chat.list');
+        Route::get('/chat/room/{apply_id}', 'getChatRoom')->name('chat.room');
+        Route::post('/chat/send', 'sendChat')->name('send.chat');
+
+    });     
 
 
 require __DIR__.'/auth.php';

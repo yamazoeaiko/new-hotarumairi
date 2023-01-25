@@ -325,7 +325,7 @@ class HotaruRequestController extends Controller
         $user_id = Auth::id();
 
         //応募済みかの判定
-        $applied = Apply::where('id', $request_id)
+        $applied = Apply::where('request_id', $request_id)
         ->where('apply_user_id', $user_id)
         ->exists();
 

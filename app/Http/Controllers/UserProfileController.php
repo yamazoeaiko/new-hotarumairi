@@ -12,6 +12,7 @@ use App\Models\OhakamairiSummary;
 use App\Models\SanpaiSummary;
 use App\Models\HotaruRequest;
 use App\Models\Apply;
+use App\Models\Confirm;
 use Illuminate\Support\Carbon;
 
 class UserProfileController extends Controller
@@ -320,7 +321,7 @@ class UserProfileController extends Controller
         return view('mypage.myrequest.member_list',compact('items'));
     }
 
-    public function getApplyMemberDetail($user_id){
+    public function getApplyMemberDetail($request_id, $user_id, $apply_id){
         $item = UserProfile::where('user_id', $user_id)->first();
         $gender = Gender::find($item->gender);
         if ($gender) {
@@ -333,7 +334,30 @@ class UserProfileController extends Controller
         if ($area) {
             $item->living_area = $area->name;
         }
+        $exist = Confirm::where('apply_id', $apply_id)->exists();
 
-        return view('mypage.myrequest.member_detail', compact('item'));
+        return view('mypage.myrequest.member_detail', compact('item', 'request_id', 'apply_id','exist'));
+    }
+
+    public function getApplyApproval($apply_id, $request_id, $user_id){
+        $confirm = new Confirm();
+        $confirm->create([
+            'apply_id'=> $apply_id,
+        ]);
+    
+        $request = HotaruRequest::where('id', $request_id)->first();
+        $param=[
+            'status_id'=>'3',
+        ];
+        $request->update($param);
+
+        return redirect()->route('mypage.myrequest.index');
+    }
+
+    public function getApplyReject($apply_id, $request_id, $user_id){
+        $delete_apply = Apply::where('id', $apply_id)->first();
+        $delete_apply->delete();
+
+        return redirect()->route('mypage.myrequest.index');
     }
 }

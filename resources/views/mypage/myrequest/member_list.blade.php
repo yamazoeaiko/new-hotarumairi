@@ -12,7 +12,9 @@
       @endif
       <div class="list-group">
         @foreach($items as $item)
-        <button onClick="location.href='{{route('mypage.myrequest.member_detail', ['user_id' => $item->apply_user_id])}}'" class="list-group-item list-group-item-action">
+        <button onClick="location.href='{{route('mypage.myrequest.member_detail', ['request_id'=>$item->request_id, 
+         'user_id' => $item->apply_user_id,
+         'apply_id' => $item->id])}}'" class="list-group-item list-group-item-action">
           <div class="row">
             <div class="col-4"><img src="{{ asset($item->profile_img) }}" alt="Profile Image" class="card-img">
             </div>

@@ -280,17 +280,17 @@
     @endif
 
     @if($item->request_user_id == $user_id)
-    <button class="btn btn-outline-secondary" onclick="location.href='{{route('mypage.myrequest.edit',['request_id'=> $item->id])}}'">内容編集</button>
+      <button class="btn btn-outline-secondary col-3" onclick="location.href='{{route('mypage.myrequest.edit',['request_id'=> $item->id])}}'">内容編集</button>
     @elseif($apply_flag == 1)
-    <form action="{{route('search.apply')}}" method="post">
-      @csrf
-      <input type="hidden" name="request_id" value="{{$item->id}}">
-      <button type="submit" class="btn btn-primary">応募する</button>
-    </form>
+      <form action="{{route('search.apply')}}" method="post">
+        @csrf
+        <input type="hidden" name="request_id" value="{{$item->id}}">
+        <button type="submit" class="btn btn-primary col-3">応募する</button>
+      </form>
     @else
-    <button disabled class="btn btn-outline-primary">応募済みです</button>
+      <button disabled class="btn btn-outline-primary col-3">応募済みです</button>
     @endif
 
-    <button onclick="history.back()" type="button" name="back" class="btn btn-outline-primary">戻る</button>
+      <button onclick="history.back()" type="button" name="back" class="btn btn-outline-primary col-3">戻る</button>
   </div>
 </body>
