@@ -24,7 +24,7 @@
 
             <!-- Password -->
             <div class="mt-4">
-                <label for="password">パスワード（8文字以上））</label>
+                <label for="password">パスワード（8文字以上）</label>
                 <input id="password" class="block mt-1 w-full input-group-text" type="password" name="password" required autocomplete="new-password" />
             </div>
 
@@ -37,12 +37,12 @@
 
             <div class="flex items-center justify-end mt-4">
                 <button class="offset-1 btn btn-primary">
-                    {{ __('新規登録') }}
+                    新規登録
                 </button>
             </div>
         </form>
         <a class="text-sm text-gray-600 hover:text-white-900 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-indigo-500" href="{{ route('login') }}">
-            {{ __('新規登録がお済みの方はログイン画面へ') }}
+            新規登録がお済みの方はログイン画面へ
         </a>
     </div>
 </body>

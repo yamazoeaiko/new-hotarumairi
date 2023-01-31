@@ -30,19 +30,19 @@
                 <div class="block mt-4">
                     <label for="remember_me" class="inline-flex items-center">
                         <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                        <span class="ml-2 text-sm text-gray-600">{{ __('ログイン情報を保存する') }}</span>
+                        <span class="ml-2 text-sm text-gray-600">ログイン情報を保存する</span>
                     </label>
                 </div>
 
                 <div class="flex  mt-4">
                     @if (Route::has('password.request'))
                     <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('パスワードが分からない方はこちら') }}
+                        パスワードが分からない方はこちら
                     </a>
                     @endif
 
                     <button class="offset-4 btn btn-primary">
-                        {{ __('ログイン') }}
+                        ログイン
                     </button>
                 </div>
             </form>
