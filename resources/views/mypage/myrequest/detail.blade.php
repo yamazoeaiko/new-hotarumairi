@@ -37,30 +37,11 @@
         <tr>
           <th>ご依頼概要</th>
           <td>
-            @if(isset($d1))
-            ・{{$d1}}
-            <br>
-            @endif
-            @if(isset($d2))
-            ・{{$d2}}
-            <br>
-            @endif
-            @if(isset($d3))
-            ・{{$d3}}
-            <br>
-            @endif
-            @if(isset($d4))
-            ・{{$d4}}
-            <br>
-            @endif
-            @if(isset($d5))
-            ・{{$d5}}
-            <br>
-            @endif
-            @if(isset($d6))
-            ・{{$d6}}
-            <br>
-            @endif
+            @foreach($d as $value)
+             @if($value)
+             ・{{$value}}<br>
+             @endif
+            @endforeach
           </td>
         </tr>
         <tr>
@@ -181,22 +162,11 @@
         <tr>
           <th>ご依頼概要</th>
           <td>
-            @if(isset($s1))
-            ・{{$s1}}
-            <br>
+            @foreach($s as $value)
+            @if($value)
+            ・{{$value}}<br>
             @endif
-            @if(isset($s2))
-            ・{{$s2}}
-            <br>
-            @endif
-            @if(isset($s3))
-            ・{{$s3}}
-            <br>
-            @endif
-            @if(isset($s4))
-            ・{{$s4}}
-            <br>
-            @endif
+            @endforeach
           </td>
         </tr>
         <tr>

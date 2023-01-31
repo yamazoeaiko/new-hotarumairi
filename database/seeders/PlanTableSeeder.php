@@ -16,22 +16,22 @@ class PlanTableSeeder extends Seeder
     public function run()
     {
         $param = [
-            'name' => 'お墓参り代行'
+            'name' => 'お墓のお掃除・お参り代行'
         ];
         DB::table('plans')->insert($param);
 
         $param = [
-            'name' => 'お守り購入代行'
+            'name' => 'お守、お札、御朱印購入代行'
         ];
         DB::table('plans')->insert($param);
 
         $param = [
-            'name' => '御朱印代行'
+            'name' => '神社仏閣参拝、祈祷代行'
         ];
         DB::table('plans')->insert($param);
 
         $param = [
-            'name' => 'その他代行'
+            'name' => 'その他お参り代行'
         ];
         DB::table('plans')->insert($param);
     }

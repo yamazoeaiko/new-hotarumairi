@@ -107,78 +107,26 @@ class UserProfileController extends Controller
 
         $item->user_name = UserProfile::where('user_id', $user_id)->first()->value('nickname');
 
-        if ($item->goshuin == 0) {
-            $item->goshuin = '御朱印不要';
-        } elseif ($item->goshuin == 1) {
-            $item->goshuin = '御朱印希望';
+        $item->goshuin = $item->goshuin == 0 ? '御朱印不要' : '御朱印希望';
+
+        $ohakamairiSum = str_pad((string)$item->ohakamairi_sum, 8, '0', STR_PAD_LEFT);
+        $d = [];
+        for ($i = 1; $i <= 6; $i++) {
+            if (substr($ohakamairiSum, 7 - $i, 1) == 1) {
+                $d[$i] = OhakamairiSummary::where('id', $i)->value('name');
+            } else {
+                $d[$i] = null;
+            }
         }
 
-        //$item->ohakamairi_sum
-        $data = (string)$item->ohakamairi_sum;
-        $d_1 = substr($data, 7, 1); //１項目
-        $d_2 = substr($data, 6, 1); //2項目
-        $d_3 = substr($data, 5, 1); //３項目
-        $d_4 = substr($data, 4, 1); //４項目
-        $d_5 = substr($data, 3, 1); //５項目
-        $d_6 = substr($data, 2, 1); //６項目
-
-        if ($d_1 == 1) {
-            $d1 = OhakamairiSummary::where('id', 1)->value('name');
-        } else {
-            $d1 = null;
-        }
-        if ($d_2 == 1) {
-            $d2 = OhakamairiSummary::where('id', 2)->value('name');
-        } else {
-            $d2 = null;
-        }
-        if ($d_3 == 1) {
-            $d3 = OhakamairiSummary::where('id', 3)->value('name');
-        } else {
-            $d3 = null;
-        }
-        if ($d_4 == 1) {
-            $d4 = OhakamairiSummary::where('id', 4)->value('name');
-        } else {
-            $d4 = null;
-        }
-        if ($d_5 == 1) {
-            $d5 = OhakamairiSummary::where('id', 5)->value('name');
-        } else {
-            $d5 = null;
-        }
-        if ($d_6 == 1) {
-            $d6 = OhakamairiSummary::where('id', 6)->value('name');
-        } else {
-            $d6 = null;
-        }
-
-        //$sanpai_sum
-        $sanpai_data = (string)$item->sanpai_sum;
-        $s_1 = substr($sanpai_data, 7, 1); //１項目
-        $s_2 = substr($sanpai_data, 6, 1); //2項目
-        $s_3 = substr($sanpai_data, 5, 1); //３項目
-        $s_4 = substr($sanpai_data, 4, 1); //４項目
-
-        if ($s_1 == 1) {
-            $s1 = SanpaiSummary::where('id', 1)->value('name');
-        } else {
-            $s1 = null;
-        }
-        if ($s_2 == 1) {
-            $s2 = SanpaiSummary::where('id', 2)->value('name');
-        } else {
-            $s2 = null;
-        }
-        if ($s_3 == 1) {
-            $s3 = SanpaiSummary::where('id', 3)->value('name');
-        } else {
-            $s3 = null;
-        }
-        if ($s_4 == 1) {
-            $s4 = SanpaiSummary::where('id', 4)->value('name');
-        } else {
-            $s4 = null;
+        $sanpaiSum = str_pad((string)$item->sanpai_sum, 8, '0', STR_PAD_LEFT);
+        $s = [];
+        for ($i = 1; $i <= 4; $i++) {
+            if (substr($sanpaiSum, 7 - $i, 1) == 1) {
+                $s[$i] = SanpaiSummary::where('id', $i)->value('name');
+            } else {
+                $s[$i] = null;
+            }
         }
 
         $area = Area::where('id', $item->area_id)->first();
@@ -187,7 +135,7 @@ class UserProfileController extends Controller
         $item->apply_count = $apply->count();
 
 
-        return view('mypage.myrequest.detail', compact('item', 'user_id', 'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 's1', 's2', 's3', 's4'));
+        return view('mypage.myrequest.detail', compact('item', 'user_id', 'd','s'));
     }
 
     public function editMyRequest($request_id){
@@ -196,78 +144,26 @@ class UserProfileController extends Controller
 
         $item->user_name = UserProfile::where('user_id', $user_id)->first()->value('nickname');
 
-        if ($item->goshuin == 0) {
-            $item->goshuin = '御朱印不要';
-        } elseif ($item->goshuin == 1) {
-            $item->goshuin = '御朱印希望';
+        $item->goshuin = $item->goshuin == 0 ? '御朱印不要' : '御朱印希望';
+
+        $ohakamairiSum = str_pad((string)$item->ohakamairi_sum, 8, '0', STR_PAD_LEFT);
+        $d = [];
+        for ($i = 1; $i <= 6; $i++) {
+            if (substr($ohakamairiSum, 7 - $i, 1) == 1) {
+                $d[$i] = OhakamairiSummary::where('id', $i)->value('name');
+            } else {
+                $d[$i] = null;
+            }
         }
 
-        //$item->ohakamairi_sum
-        $data = (string)$item->ohakamairi_sum;
-        $d_1 = substr($data, 7, 1); //１項目
-        $d_2 = substr($data, 6, 1); //2項目
-        $d_3 = substr($data, 5, 1); //３項目
-        $d_4 = substr($data, 4, 1); //４項目
-        $d_5 = substr($data, 3, 1); //５項目
-        $d_6 = substr($data, 2, 1); //６項目
-
-        if ($d_1 == 1) {
-            $d1 = OhakamairiSummary::where('id', 1)->value('name');
-        } else {
-            $d1 = null;
-        }
-        if ($d_2 == 1) {
-            $d2 = OhakamairiSummary::where('id', 2)->value('name');
-        } else {
-            $d2 = null;
-        }
-        if ($d_3 == 1) {
-            $d3 = OhakamairiSummary::where('id', 3)->value('name');
-        } else {
-            $d3 = null;
-        }
-        if ($d_4 == 1) {
-            $d4 = OhakamairiSummary::where('id', 4)->value('name');
-        } else {
-            $d4 = null;
-        }
-        if ($d_5 == 1) {
-            $d5 = OhakamairiSummary::where('id', 5)->value('name');
-        } else {
-            $d5 = null;
-        }
-        if ($d_6 == 1) {
-            $d6 = OhakamairiSummary::where('id', 6)->value('name');
-        } else {
-            $d6 = null;
-        }
-
-        //$sanpai_sum
-        $sanpai_data = (string)$item->sanpai_sum;
-        $s_1 = substr($sanpai_data, 7, 1); //１項目
-        $s_2 = substr($sanpai_data, 6, 1); //2項目
-        $s_3 = substr($sanpai_data, 5, 1); //３項目
-        $s_4 = substr($sanpai_data, 4, 1); //４項目
-
-        if ($s_1 == 1) {
-            $s1 = SanpaiSummary::where('id', 1)->value('name');
-        } else {
-            $s1 = null;
-        }
-        if ($s_2 == 1) {
-            $s2 = SanpaiSummary::where('id', 2)->value('name');
-        } else {
-            $s2 = null;
-        }
-        if ($s_3 == 1) {
-            $s3 = SanpaiSummary::where('id', 3)->value('name');
-        } else {
-            $s3 = null;
-        }
-        if ($s_4 == 1) {
-            $s4 = SanpaiSummary::where('id', 4)->value('name');
-        } else {
-            $s4 = null;
+        $sanpaiSum = str_pad((string)$item->sanpai_sum, 8, '0', STR_PAD_LEFT);
+        $s = [];
+        for ($i = 1; $i <= 4; $i++) {
+            if (substr($sanpaiSum, 7 - $i, 1) == 1) {
+                $s[$i] = SanpaiSummary::where('id', $i)->value('name');
+            } else {
+                $s[$i] = null;
+            }
         }
 
         $area = Area::where('id', $item->area_id)->first();
@@ -275,7 +171,7 @@ class UserProfileController extends Controller
 
         $areas = Area::get();
 
-        return view('mypage.myrequest.edit', compact('item', 'user_id', 'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 's1', 's2', 's3', 's4', 'areas'));
+        return view('mypage.myrequest.edit', compact('item', 'user_id', 'd','s', 'areas'));
     }
 
     //依頼の削除
