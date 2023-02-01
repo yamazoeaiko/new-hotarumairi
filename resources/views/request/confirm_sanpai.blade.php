@@ -1,6 +1,6 @@
 @component('components.app')
 @endcomponent
-@component('components.header_wide')
+@component('components.header')
 @endcomponent
 
 <body>
@@ -63,8 +63,8 @@
         <tr>
           <th>御朱印アリの場合詳細を記入<br><span>郵送を希望の際、住所など個人情報は記載しないでください<br>（個別チャットでやり取り）</span></th>
           <td>
-          <input type="hidden" name="goshuin_content" value="{{$params->goshuin_content}}">
-          {{$params->goshuin_content}}
+            <input type="hidden" name="goshuin_content" value="{{$params->goshuin_content}}">
+            {{$params->goshuin_content}}
           </td>
         </tr>
         <tr>
@@ -73,7 +73,7 @@
             <input type="hidden" name="free" value="{{$params->free}}">
             {{$params->free}}
           </td>
-        </tr>  
+        </tr>
         <tr>
           <th>費用<br>
             <span>費用：現地までの交通費、駐車料金、墓花、御供、グッズ等の全ての購入代金や経費を含む金額</span>

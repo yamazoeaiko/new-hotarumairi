@@ -57,15 +57,31 @@ class HotaruRequestController extends Controller
     public function sessionSave(Request $request)
     {
         $plan_id = $request->plan_id;
-        $request->session()->put('params', $request->all());
 
         if($plan_id == 1){
+            $request->session()->put('params', $request->all());
+
             return redirect()->route('ohakamairi.confirm');
         }elseif($plan_id == 2){
+            if ($request->hasFile('img_url')) {
+                $dir = 'before_post';
+                $file_name = $request->file('img_url');
+                // 画像の保存
+                $request->file('img_url')->storeAs('public/'.$dir,$file_name);
+                // 画像のパスをセッションに保存
+                $request->session()->put('img_url', 'storage/'.$dir. '/'. $file_name);
+
+                $except = $request->except('img_url');
+                $request->session()->put('params', $except);
+            }
             return redirect()->route('omamori.confirm');
         }elseif($plan_id == 3){
+            $request->session()->put('params', $request->all());
+
             return redirect()->route('sanpai.confirm');
         }elseif($plan_id == 4){
+            $request->session()->put('params', $request->all());
+
             return redirect()->route('others.confirm');
         }
     }
@@ -97,8 +113,10 @@ class HotaruRequestController extends Controller
         $params = (object)$data;
         $area = Area::where('id', $params->area_id)->first();
         $params->area_name = $area->name;
+        $path = session('img_url');
+        $fileName = basename($path);
 
-        return view('request.confirm_omamori', compact('params'));
+        return view('request.confirm_omamori', compact('params', 'path', 'fileName'));
     }
 
     public function sanpaiConfirm()

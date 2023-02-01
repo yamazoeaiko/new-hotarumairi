@@ -1,6 +1,6 @@
 @component('components.app')
 @endcomponent
-@component('components.header_wide')
+@component('components.header')
 @endcomponent
 
 <body>
@@ -12,7 +12,7 @@
         <tr>
           <th>プラン</th>
           <input type="hidden" name="plan_id" value="1">
-          <td>御墓参り代行</td>
+          <td>お墓のお掃除・お参り代行</td>
         </tr>
         <tr>
           <th>日程</th>
@@ -62,12 +62,12 @@
           </td>
         <tr>
           <th>
-            費用
+            費用<br>
             <span>費用：現地までの交通費、駐車料金、墓花、御供、グッズ等の全ての購入代金や経費を含む金額</span>
           </th>
           <td>
             <input type="number" name="price" class="input-group-text" value="{{$params->price}}" hidden>
-            {{$params->price}}
+            {{$params->price}}円
           </td>
         </tr>
       </table>

@@ -1,7 +1,8 @@
 @component('components.app')
 @endcomponent
-@component('components.header_wide')
+@component('components.header')
 @endcomponent
+
 <body>
     <div class="flex-center position-ref full-height">
         @if (Route::has('login'))

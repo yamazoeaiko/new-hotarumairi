@@ -1,6 +1,6 @@
 @component('components.app')
 @endcomponent
-@component('components.header_wide')
+@component('components.header')
 @endcomponent
 
 <body>
@@ -43,7 +43,7 @@
         <tr>
           <th>購入依頼物の画像(任意)</th>
           <td>
-            <input type="file" name="img_url" accept="image/png, image/jpeg">
+            <a href="{{ asset($path) }}">{{ $fileName }}</a>
           </td>
         </tr>
         <tr>

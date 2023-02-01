@@ -1,10 +1,12 @@
 @component('components.app')
 @endcomponent
-@component('components.header_wide')
+@component('components.header')
 @endcomponent
 
 <body>
   <div class="container">
+    @component('components.back-button')
+    @endcomponent
     <form action="{{route('request.session.save')}}" method="post" class="form-control">
       @csrf
       <input type="hidden" name="user_id" id="" value="{{$user_id}}">
@@ -64,11 +66,11 @@
           </td>
         </tr>
         <tr>
-          <th>費用
+          <th>費用<br>
             <span>費用：現地までの交通費、駐車料金、墓花、御供、グッズ等の全ての購入代金や経費を含む金額</span>
           </th>
           <td>
-            <input type="number" name="price" class="input-group-text">
+            <input type="number" name="price" class="input-group-text">円
           </td>
         </tr>
       </table>

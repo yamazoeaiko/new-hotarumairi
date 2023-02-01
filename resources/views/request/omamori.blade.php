@@ -1,10 +1,12 @@
 @component('components.app')
 @endcomponent
-@component('components.header_wide')
+@component('components.header')
 @endcomponent
 
 <body>
   <div class="container">
+    @component('components.back-button')
+    @endcomponent
     <form action="{{route('request.session.save')}}" method="post" class="form-control" enctype="multipart/form-data">
       @csrf
       <input type="hidden" name="user_id" id="" value="{{$user_id}}">
@@ -39,8 +41,8 @@
         <tr>
           <th>購入したいもの(正式名称、金額、参考URL、画像)</th>
           <td>
-            <span>次の確認ページで画像を添付することができます。</span>
-            <textarea name="amulet" cols="30" rows="3" class="input-group-text"></textarea>
+            <textarea name="amulet" cols="30" rows="3" class="input-group-text"></textarea><br>
+            <input type="file" name="img_url" accept="image/png, image/jpeg">
           </td>
         </tr>
         <tr>
@@ -54,7 +56,7 @@
             <span>費用：現地までの交通費、駐車料金、墓花、御供、グッズ等の全ての購入代金や経費を含む金額</span>
           </th>
           <td>
-            <input type="number" name="price" class="input-group-text">
+            <input type="number" name="price" class="input-group-text">円
           </td>
         </tr>
       </table>

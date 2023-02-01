@@ -1,6 +1,6 @@
 @component('components.app')
 @endcomponent
-@component('components.header_wide')
+@component('components.header')
 @endcomponent
 
 <body>
@@ -38,9 +38,9 @@
           <th>ご依頼概要</th>
           <td>
             @foreach($d as $value)
-             @if($value)
-             ・{{$value}}<br>
-             @endif
+            @if($value)
+            ・{{$value}}<br>
+            @endif
             @endforeach
           </td>
         </tr>
