@@ -42,7 +42,7 @@
         </tr>
         <tr>
           <th>購入依頼物の画像(任意)</th>
-          <td>
+          <td><input type="hidden" name="img_url" value="{{$path}}">
             <a href="{{ asset($path) }}">{{ $fileName }}</a>
           </td>
         </tr>

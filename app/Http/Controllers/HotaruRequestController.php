@@ -64,12 +64,12 @@ class HotaruRequestController extends Controller
             return redirect()->route('ohakamairi.confirm');
         }elseif($plan_id == 2){
             if ($request->hasFile('img_url')) {
-                $dir = 'before_post';
-                $file_name = $request->file('img_url');
+                $dir = 'omamori';
+                $file_name = $request->file('img_url')->getClientOriginalName();
                 // 画像の保存
                 $request->file('img_url')->storeAs('public/'.$dir,$file_name);
                 // 画像のパスをセッションに保存
-                $request->session()->put('img_url', 'storage/'.$dir. '/'. $file_name);
+                $request->session()->put('path', 'storage/'.$dir. '/'. $file_name);
 
                 $except = $request->except('img_url');
                 $request->session()->put('params', $except);
@@ -113,7 +113,7 @@ class HotaruRequestController extends Controller
         $params = (object)$data;
         $area = Area::where('id', $params->area_id)->first();
         $params->area_name = $area->name;
-        $path = session('img_url');
+        $path = session('path');
         $fileName = basename($path);
 
         return view('request.confirm_omamori', compact('params', 'path', 'fileName'));
@@ -151,62 +151,28 @@ class HotaruRequestController extends Controller
 
     public function done(Request $request)
     {
-        if($request->file('img_url') !== null){
-            //画像処理
-            $dir = 'omamori';
+    $hotaru_request = new HotaruRequest();
 
-            $file_name = $request->file('img_url')->getClientOriginalName();
-
-            // 取得したファイル名で保存
-            $img_url = $request->file('img_url')->storeAs('omamori/' . $dir, $file_name);
-
-            $hotaru_request = new HotaruRequest();
-
-            $hotaru_request->create([
-                'request_user_id' => $request->user_id,
-                'plan_id' => $request->plan_id,
-                'date_begin' => $request->date_begin,
-                'date_end' => $request->date_end,
-                'price' => $request->price,
-                'area_id' => $request->area_id,
-                'address' => $request->address,
-                'ohakamairi_sum' => $request->ohakamairi_sum,
-                'sanpai_sum' => $request->sanpai_sum,
-                'spot' => $request->spot,
-                'offering' => $request->offering,
-                'cleaning' => $request->cleaning,
-                'amulet' => $request->amulet,
-                'img_url' => $img_url,
-                'praying' => $request->praying,
-                'goshuin' => $request->goshuin,
-                'goshuin_content' => $request->goshuin_content,
-                'free' => $request->free,
-                'status_id' => '1',
+    $hotaru_request->create([
+        'request_user_id' => $request->user_id,                'plan_id' => $request->plan_id,
+        'date_begin' => $request->date_begin,
+        'date_end' => $request->date_end,
+        'price' => $request->price,
+        'area_id' => $request->area_id,
+        'address' => $request->address,
+        'ohakamairi_sum' => $request->ohakamairi_sum,
+        'sanpai_sum' => $request->sanpai_sum,
+        'spot' => $request->spot,
+        'offering' => $request->offering,
+        'cleaning' => $request->cleaning,
+        'amulet' => $request->amulet,
+        'img_url' => $request->img_url,
+        'praying' => $request->praying,
+        'goshuin' => $request->goshuin,
+        'goshuin_content' => $request->goshuin_content,
+        'free' => $request->free,
+        'status_id' => '1',
             ]);
-        }else{
-            $hotaru_request = new HotaruRequest();
-
-            $hotaru_request->create([
-                'request_user_id' => $request->user_id,
-                'plan_id' => $request->plan_id,
-                'date_begin' => $request->date_begin,
-                'date_end' => $request->date_end,
-                'price' => $request->price,
-                'area_id' => $request->area_id,
-                'address' => $request->address,
-                'ohakamairi_sum' => $request->ohakamairi_sum,
-                'sanpai_sum' => $request->sanpai_sum,
-                'spot' => $request->spot,
-                'offering' => $request->offering,
-                'cleaning' => $request->cleaning,
-                'amulet' => $request->amulet,
-                'praying' => $request->praying,
-                'goshuin' => $request->goshuin,
-                'goshuin_content' => $request->goshuin_content,
-                'free' => $request->free,
-                'status_id' => '1',
-            ]);
-        }
 
         return redirect()->route('request.index');
     }

@@ -104,10 +104,11 @@
         <th>購入物の要望(正式名称、金額、参考URL、画像)</th>
         <td>
           {{$item->amulet}}
-        </td>
         @if(isset($item->img_url))
-        <td>{{$item->img_url}}</td>
+        <br>
+          <a href="{{ asset($item->img_url) }}">画像があります</a>
         @endif
+        </td>
       </tr>
       <tr>
         <th>その他</th>
