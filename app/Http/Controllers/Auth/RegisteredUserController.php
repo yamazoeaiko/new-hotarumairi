@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use App\Models\UserProfile;
 
 class RegisteredUserController extends Controller
 {
@@ -43,6 +44,15 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+        ]);
+
+        UserProfile::create([
+            'user_id'=> $user->id,
+            'nickname'=> $request->name,
+            'birthday'=> '1990-1-1',
+            'sex'=>'1',
+            'living_area'=> '1',
+            'img_url'=> 'storage/profile/no_image.jpg'
         ]);
 
         event(new Registered($user));

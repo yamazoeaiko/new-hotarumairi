@@ -70,7 +70,7 @@
             <p>ジャンル：{{$item->plan_name}}</p>
             <p>実施希望期日：{{$item->date_end}}</p>
             <p>エリア：{{$item->area_name}}</p>
-            <p>金額：{{$item->price}}</p>
+            <p>金額：{{$item->price}}円</p>
           </div>
         </div>
       </button>
