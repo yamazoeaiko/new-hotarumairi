@@ -198,11 +198,20 @@ class HotaruRequestController extends Controller
                 $search_plans = HotaruRequest::get()->whereIn('plan_id', $search_contents->plan_id);
             };
             //報酬金額について
-            if($search_contents->price == null){
-                $search_prices = HotaruRequest::get();
+            if($search_contents->price_min  == null){
+                if($search_contents->price_max == null){
+                    $search_prices = HotaruRequest::get();
+                }else{
+                    $search_prices = HotaruRequest::where('price', '<=', $search_contents->price_max)->get();
+                }
             }else{
-                $search_prices = HotaruRequest::get()->where('price','>=', $search_contents->price);
-            };
+                if($search_contents->price_max == null){
+                    $search_prices = HotaruRequest::where('price', '>=', $search_contents->price_min)->get();
+                }else{
+                    $search_prices = HotaruRequest::whereBetween('price', [$search_contents->price_min, $search_contents->price_max])->get();
+                }
+
+            }
             //検索結果
             $items = $search_areas->intersect($search_plans)->intersect($search_prices);
         }
@@ -283,18 +292,21 @@ class HotaruRequestController extends Controller
         //ポストする検索条件の設定
         $area_id = $request->area_id;
         $plan_id = $request->plan_id;
-        $price = $request->price;
+        $price_max = $request->price_max;
+        $price_min = $request->price_min;
         $request->session()->put(
             'search_contents',
             [
                 'area_id' => $area_id,
                 'plan_id' => $plan_id,
-                'price' => $price
+                'price_max' => $price_max,
+                'price_min' => $price_min,
             ]
         );
 
         return redirect()->route('search.index')->withInput();
     }
+
 
 
     /////ここからチャット関連////////////////////////

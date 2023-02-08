@@ -48,9 +48,8 @@ Route::controller(HotaruRequestController::class)->group(
 
 
         Route::get('/search','getSearch')->name('search.index');
-        Route::get('/search/{request_id}','moreSearch')->name('search.more');
+        Route::get('/search/{request_id}','moreSearch')->name('search.more')->middleware('auth');
         Route::post('/search/post', 'postSearch')->name('search.post');
-
        
 
         Route::get('/chat', 'getChat')->name('chat.index')->middleware('auth');

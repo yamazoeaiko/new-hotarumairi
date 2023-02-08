@@ -13,13 +13,9 @@
         <img src="{{ asset($item->img_url) }}" alt="" class="profile-img">
         @endif
       </div>
-      <form method="post" action="{{route('myprofile.image.update')}}" enctype="multipart/form-data">
+      <form method="post" action="{{route('myprofile.update')}}" enctype="multipart/form-data">
         @csrf
         <input type="file" name="image">
-        <button>画像変更</button>
-      </form>
-      <form action="{{route('myprofile.update')}}" method="post">
-        @csrf
         <table class="table">
           <tr>
             <th>ニックネーム</th>

@@ -44,9 +44,10 @@ class UserProfileController extends Controller
         return view('mypage.myprofile.edit', compact('item', 'areas'));
     }
 
-    public function updateMyProfile(Request $request){
+    public function updateMyProfile(Request $request)
+    {
         $user_id = Auth::id();
-
+        $item = UserProfile::where('user_id', $user_id)->first();
         $param = [
             'nickname' => $request->nickname,
             'birthday' => $request->birthday,
@@ -55,32 +56,19 @@ class UserProfileController extends Controller
             'message' => $request->message
         ];
 
-        $item = UserProfile::where('user_id', $user_id)->first();
-        $item->update($param);
+        if ($request->hasFile('image')) {
+            $dir = 'profile';
+            $file_name = $request->file('image')->getClientOriginalName();
+            $param['img_url'] = 'storage/' . $dir . '/' . $file_name;
 
+            $request->file('image')->storeAs('public/' . $dir, $file_name);
+
+        }
+
+        $item->update($param);
         $item->age = Carbon::parse($item->birthday)->age;
         $item->gender = Gender::where('id', $item->gender)->value('name');
         $item->living_area = Area::where('id', $item->living_area)->value('name');
-
-        return redirect()->route('myprofile.index', compact('item'));
-    }
-
-    public function updateImage(Request $request){
-
-        $user_id = Auth::id();
-        $dir = 'profile';
-
-        $file_name = $request->file('image')->getClientOriginalName();
-
-        // 取得したファイル名で保存
-        $img_url = $request->file('image')->storeAs('public/' . $dir, $file_name);
-
-        //DBに保存
-        $param = [
-            'img_url' => 'storage/' . $dir . '/' . $file_name
-        ];
-        $item = UserProfile::where('user_id', $user_id)->first();
-        $item->update($param);
 
         return redirect()->route('myprofile.index', compact('item'));
     }
