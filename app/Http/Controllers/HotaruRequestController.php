@@ -213,8 +213,9 @@ class HotaruRequestController extends Controller
 
             }
             //検索結果
-            $items = $search_areas->intersect($search_plans)->intersect($search_prices);
+            $items = $search_areas->intersect($search_plans)->intersect($search_prices)->sortBy('date_end');
         }
+ 
 
         foreach($items as $item){
             $plan = Plan::where('id', $item->plan_id)->first();
@@ -226,6 +227,11 @@ class HotaruRequestController extends Controller
             $user = UserProfile::where('user_id', $item->request_user_id)->first();
             $item->profile_img = $user->img_url;
             $item->user_name = $user->nickname;
+
+            if(Auth::check()){
+                $user_id = Auth::id();
+                $item->applied = Apply::where('request_id', $item->id)->where('apply_user_id', $user_id)->first();
+            }
         }
 
         $areas = Area::get();

@@ -183,6 +183,24 @@
       @if($items == null)
       <p>検索結果に該当するラウンドはありませんでした。</p>
       @else
+      @if($item->applied !==null)
+      <button onClick="location.href='{{route('search.more',['request_id'=>$item->id])}}'" class="card m-4 p-4 shadow card-point bg-success">
+        <div class="row no-gutters">
+          <div class="col-4">
+            <img src="{{ asset($item->profile_img) }}" alt="Profile image" class="card-img">
+            {{$item->user_name}}
+          </div>
+          <div class="col-8">
+            <p class="fw-bolder">応募済み</p>
+            <p>ジャンル：{{$item->plan_name}}</p>
+            <p>実施希望期日：{{$item->date_end}}</p>
+            <p>エリア：{{$item->area_name}}</p>
+            <p>金額：{{$item->price}}円</p>
+          </div>
+        </div>
+      </button>
+      @endif
+
       <button onClick="location.href='{{route('search.more',['request_id'=>$item->id])}}'" class="card m-4 p-4 shadow card-point">
         <div class="row no-gutters">
           <div class="col-4">
