@@ -159,6 +159,7 @@ class HotaruRequestController extends Controller
         'date_begin' => $request->date_begin,
         'date_end' => $request->date_end,
         'price' => $request->price,
+        'price_net' => $request->price*0.85,
         'area_id' => $request->area_id,
         'address' => $request->address,
         'ohakamairi_sum' => $request->ohakamairi_sum,
