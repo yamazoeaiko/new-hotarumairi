@@ -16,17 +16,17 @@ class StatusTableSeeder extends Seeder
     public function run()
     {
         $param = [
-            'name' => '応募受付中'
+            'name' => '応募者を募集しています'
         ];
         DB::table('statuses')->insert($param);
 
         $param = [
-            'name' => '応募者の承認待ち'
+            'name' => '応募者が確定しました。現在募集を受け付けておりません。'
         ];
         DB::table('statuses')->insert($param);
 
         $param = [
-            'name' => '応募者への承認確定（支払い完了）'
+            'name' => 'お支払い待ち'
         ];
         DB::table('statuses')->insert($param);
 
@@ -51,6 +51,8 @@ class StatusTableSeeder extends Seeder
         DB::table('statuses')->insert($param);
 
         $param = [
+
+            
             'name' => '依頼内容完了の報告待ち'
         ];
         DB::table('statuses')->insert($param);
