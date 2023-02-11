@@ -52,12 +52,12 @@
             <textarea name="free" id="" cols="30" rows="3" class="input-group-text">{{$params->free}}</textarea>
           </td>
         <tr>
-          <th>費用
-            <span>費用：現地までの交通費、駐車料金、墓花、御供、グッズ等の全ての購入代金や経費を含む金額</span>
+          <th>費用（お支払い額）<br>
+            <span>費用：現地までの交通費、駐車料金、墓花、御供、グッズ、事務局手数料等の全ての購入代金や経費を含む金額</span>
           </th>
           <td>
             <input type="number" name="price" class="input-group-text" value="{{$params->price}}" hidden>
-            {{$params->price}}
+            {{$params->price}}円(税別)
           </td>
         </tr>
       </table>

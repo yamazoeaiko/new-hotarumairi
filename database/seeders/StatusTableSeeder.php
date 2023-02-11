@@ -26,7 +26,7 @@ class StatusTableSeeder extends Seeder
         DB::table('statuses')->insert($param);
 
         $param = [
-            'name' => 'お支払い待ち'
+            'name' => 'お支払い手続き完了'
         ];
         DB::table('statuses')->insert($param);
 
@@ -52,7 +52,7 @@ class StatusTableSeeder extends Seeder
 
         $param = [
 
-            
+
             'name' => '依頼内容完了の報告待ち'
         ];
         DB::table('statuses')->insert($param);

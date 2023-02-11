@@ -199,17 +199,18 @@ class HotaruRequestController extends Controller
                 $search_plans = HotaruRequest::get()->whereIn('plan_id', $search_contents->plan_id);
             };
             //報酬金額について
+            //price_net＝マージン15％を仮設定
             if($search_contents->price_min  == null){
                 if($search_contents->price_max == null){
                     $search_prices = HotaruRequest::get();
                 }else{
-                    $search_prices = HotaruRequest::where('price', '<=', $search_contents->price_max)->get();
+                    $search_prices = HotaruRequest::where('price_net', '<=', $search_contents->price_max)->get();
                 }
             }else{
                 if($search_contents->price_max == null){
-                    $search_prices = HotaruRequest::where('price', '>=', $search_contents->price_min)->get();
+                    $search_prices = HotaruRequest::where('price_net', '>=', $search_contents->price_min)->get();
                 }else{
-                    $search_prices = HotaruRequest::whereBetween('price', [$search_contents->price_min, $search_contents->price_max])->get();
+                    $search_prices = HotaruRequest::whereBetween('price_net', [$search_contents->price_min, $search_contents->price_max])->get();
                 }
 
             }

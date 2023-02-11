@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('date_begin')->comment('実施希望日（始まり）');
             $table->date('date_end')->comment('実施希望日（終わり）');
             $table->integer('price')->comment('報酬額(税抜き)');
+            $table->integer('price_net')->comment('事務局手数料を差し引いた金額※現状15%');
             $table->unsignedBigInteger('area_id');
             $table->foreign('area_id')->references('id')->on('areas');
             $table->string('address')->comment('対象施設の住所')->nullable();

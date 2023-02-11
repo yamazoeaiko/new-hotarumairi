@@ -178,6 +178,7 @@ class UserProfileController extends Controller
             $request = HotaruRequest::where('id', $item->request_id)->first();
 
             $item->id = $request->id;
+            $item->price_net = $request->price_net;
 
             $plan = Plan::where('id',$request->plan_id)->first();
             $item->plan_name = $plan->name;
@@ -200,6 +201,8 @@ class UserProfileController extends Controller
             $apply_user = UserProfile::where('user_id', $item->apply_user_id)->first();
             $item->nickname = $apply_user->nickname;
             $item->profile_img = $apply_user->img_url;
+
+            $item->status_id = HotaruRequest::where('id', $request_id)->pluck('status_id')->first();
         }
 
         return view('mypage.myrequest.member_list',compact('items'));
@@ -229,11 +232,8 @@ class UserProfileController extends Controller
             'apply_id'=> $apply_id,
         ]);
     
-        $request = HotaruRequest::where('id', $request_id)->first();
-        $param=[
-            'status_id'=>'3',
-        ];
-        $request->update($param);
+        $hotaru_request = HotaruRequest::where('id', $request_id)->first();
+        $hotaru_request->status_id = 2;
 
         return redirect()->route('mypage.myrequest.index');
     }

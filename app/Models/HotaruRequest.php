@@ -17,6 +17,7 @@ class HotaruRequest extends Model
         'date_begin',
         'date_end',
         'price',
+        'price_net',
         'area_id',
         'address',
         'ohakamairi_sum',
