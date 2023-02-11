@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(OhakamairiSummaryTableSeeder::class);
         $this->call(SanpaiSummaryTableSeeder::class);
         $this->call(HotaruRequestTableSeeder::class);
+        $this->call(AnnouncementsTableSeeder::class);
     }
 }

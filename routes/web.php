@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HotaruRequestController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\AnnouncementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -95,6 +96,11 @@ Route::controller(ChatController::class)->group(
 
     });
 
+Route::controller(AnnouncementController::class)->group(function(){
+    Route::get('/announcement','index')->name('announcement.index');
+    Route::get('/announcement/list', 'list')->name('announcement.list');
+    Route::get('/announcement/show', 'show')->name('announcement.show');
+});
 
 require __DIR__.'/auth.php';
 

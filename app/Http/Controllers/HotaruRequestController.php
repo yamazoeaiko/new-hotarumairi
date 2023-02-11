@@ -9,6 +9,7 @@ use App\Models\Plan;
 use App\Models\HotaruRequest;
 use App\Models\UserProfile;
 use App\Models\Apply;
+use App\Models\Chat;
 use App\Models\OhakamairiSummary;
 use App\Models\SanpaiSummary;
 use Illuminate\Support\Arr;
@@ -285,11 +286,24 @@ class HotaruRequestController extends Controller
 
     public function searchApply(Request $request){
         $apply = new Apply();
+        $apply_user_id = Auth::id();
 
         $apply->create([
             'request_id' => $request->request_id,
-            'apply_user_id' => Auth::id(),
+            'apply_user_id' => $apply_user_id,
+            'first_chat' =>$request->first_chat
         ]);
+
+        // Applyモデルからid取得
+        $apply_id = Apply::where('request_id', $request->request_id)->pluck('id')->first();
+
+        //Chatモデルへ反映させる
+        Chat::create([
+            'apply_id' => $apply_id,
+            'message' => $request->first_chat,
+            'from_user' => $apply_user_id
+        ]);
+
 
         return redirect()->route('search.index');
     }

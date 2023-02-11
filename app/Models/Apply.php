@@ -13,6 +13,7 @@ class Apply extends Model
     protected $fillable = [
         'request_id',
         'apply_user_id',
+        'first_chat'
         
     ];
     public function hotaru_request()

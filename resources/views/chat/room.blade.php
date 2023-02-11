@@ -24,8 +24,8 @@
                   <div>
                     <img src="{{ asset($chat->img_url) }}" alt="" class="message-icon rounded-circle text-white fs-3">
                   </div>
-                  <p class="message-text p-2 ms-2 mb-0 bg-warning">
-                    {{$chat->message}}
+                  <p class="message-text p-2 ms-2 mb-0 bg-warning text-start">
+                    {!! nl2br(e($chat->message)) !!}
                   </p>
                 </div>
                 @endforeach
@@ -34,11 +34,12 @@
             </div><!-- .chat -->
             <form action="{{route('send.chat')}}" method="post">
               @csrf
-              <div class="d-flex justify-content-center mt-3 row">
+              <div class="d-flex justify-content-center mt-3 row fixed-bottom mb-3 bg-white">
                 <input type="hidden" name="apply_id" value="{{$apply_id}}">
                 <input type="hidden" name="your_id" value="{{$you->user_id}}">
                 <input type="hidden" name="user_id" value="{{$user_id}}">
-                <input type="text" name="message" class="input-group-text is-valid col-8">
+                <textarea name="message" class="text-start input-group-text is-valid col-6 ">
+                </textarea>
 
                 <button class="btn btn-outline-primary col-2 offset-1" type="submit">送信</button>
               </div>

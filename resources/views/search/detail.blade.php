@@ -104,10 +104,10 @@
         <th>購入物の要望(正式名称、金額、参考URL、画像)</th>
         <td>
           {{$item->amulet}}
-        @if(isset($item->img_url))
-        <br>
+          @if(isset($item->img_url))
+          <br>
           <a href="{{ asset($item->img_url) }}">画像があります</a>
-        @endif
+          @endif
         </td>
       </tr>
       <tr>
@@ -253,11 +253,20 @@
     @if($item->request_user_id == $user_id)
     <button class="btn btn-outline-secondary col-3" onclick="location.href='{{route('mypage.myrequest.edit',['request_id'=> $item->id])}}'">内容編集</button>
     @elseif($apply_flag == 1)
-    <form action="{{route('search.apply')}}" method="post">
-      @csrf
-      <input type="hidden" name="request_id" value="{{$item->id}}">
-      <button type="submit" class="btn btn-primary col-3">応募する</button>
-    </form>
+
+    <button type="button" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapseApply">依頼者に応募のメッセージを送る</button>
+
+    <div class="collapse" id="collapseApply">
+      <form action="{{route('search.apply')}}" method="post">
+        @csrf
+        <input type="hidden" name="request_id" value="{{$item->id}}">
+        <textarea name="first_chat" id="first_chat" cols="80" rows="10" class="text-start m-3">※必ず記載してください。
+特に依頼者への質問がない場合は、「記載のご依頼通りに対応します」
+と記載し下の応募するボタンを押してください。
+</textarea>
+        <button type="submit" class="btn btn-primary col-3">応募する</button>
+      </form>
+    </div>
     @else
     <button disabled class="btn btn-outline-primary col-3">応募済みです</button>
     @endif

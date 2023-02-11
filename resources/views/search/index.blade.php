@@ -182,7 +182,7 @@
       @foreach($items as $item)
       @if($items == null)
       <p>検索結果に該当するラウンドはありませんでした。</p>
-      @else
+      @endif
       @if($item->applied !==null)
       <button onClick="location.href='{{route('search.more',['request_id'=>$item->id])}}'" class="card m-4 p-4 shadow card-point bg-success">
         <div class="row no-gutters">
@@ -199,7 +199,7 @@
           </div>
         </div>
       </button>
-      @endif
+      @else
 
       <button onClick="location.href='{{route('search.more',['request_id'=>$item->id])}}'" class="card m-4 p-4 shadow card-point">
         <div class="row no-gutters">

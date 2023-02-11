@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('applies', function (Blueprint $table) {
+        Schema::create('event_messages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('request_id');
-            $table->foreign('request_id')->references('id')->on('hotaru_requests');
-            $table->unsignedBigInteger('apply_user_id');
-            $table->foreign('apply_user_id')->references('id')->on('users');
-            $table->text('first_chat')->comment('応募する最初のメッセージ');
+            $table->text('event_message')->comment('メッセージの内容');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('applies');
+        Schema::dropIfExists('event_messages');
     }
 };
