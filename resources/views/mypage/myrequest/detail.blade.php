@@ -250,7 +250,7 @@
       </table>
       @endif
       <div class="row my-1">
-        <button class="col-6 fs-6 btn btn-primary" onclick=location.href="{{route('mypage.myrequest.member_list',['request_id'=>$item->id])}}">{{$item->apply_count}}名からの応募があります</button>
+        <button class="col-6 fs-6 btn btn-primary" onclick=location.href="{{route('mypage.myrequest.member_list',['request_id'=>$item->id])}}">{{$item->apply_count}}名からの応募があります<br><span>@if($item->confirm_count==true)承認済みです。@elseまだ承認した方はいません@endif</span></button>
       </div>
       <div class="row">
         <button type="button" class="col-3 btn btn-outline-secondary" onClick="history.back();">戻る</button>

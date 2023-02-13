@@ -254,7 +254,7 @@
     <button class="btn btn-outline-secondary col-3" onclick="location.href='{{route('mypage.myrequest.edit',['request_id'=> $item->id])}}'">内容編集</button>
     @elseif($apply_flag == 1)
 
-    <button type="button" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapseApply">依頼者に応募のメッセージを送る</button>
+    <button type="button" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapseApply">応募者に質問や応募のメッセージを送る。</button>
 
     <div class="collapse" id="collapseApply">
       <form action="{{route('search.apply')}}" method="post">

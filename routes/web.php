@@ -51,7 +51,7 @@ Route::controller(HotaruRequestController::class)->group(
         Route::get('/search','getSearch')->name('search.index');
         Route::get('/search/{request_id}','moreSearch')->name('search.more')->middleware('auth');
         Route::post('/search/post', 'postSearch')->name('search.post');
-       
+
 
         Route::get('/chat', 'getChat')->name('chat.index')->middleware('auth');
 
@@ -86,6 +86,9 @@ Route::controller(UserProfileController::class)->group(
         Route::get('/mypage/myapply', 'getMyApply')->name('mypage.myapply.index')->middleware('auth');
         Route::get('/mypage/myapply/detail/{request_id}', 'getMyApplyDetail')->name('mypage.myapply.detail')->middleware('auth');
 
+        //支払い関連
+        Route::get('/mypage/myrequest/paid/{request_id}/{user_id}/{apply_id}', 'paid')->name('mypage.myrequest.paid');
+
     });
 
 Route::controller(ChatController::class)->group(
@@ -101,7 +104,4 @@ Route::controller(AnnouncementController::class)->group(function(){
     Route::get('/announcement/list', 'list')->name('announcement.list');
     Route::get('/announcement/show', 'show')->name('announcement.show');
 });
-
 require __DIR__.'/auth.php';
-
-

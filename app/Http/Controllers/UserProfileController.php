@@ -13,7 +13,10 @@ use App\Models\SanpaiSummary;
 use App\Models\HotaruRequest;
 use App\Models\Apply;
 use App\Models\Confirm;
+use App\Models\Payment;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Stripe\Stripe;
 
 class UserProfileController extends Controller
 {
@@ -119,8 +122,15 @@ class UserProfileController extends Controller
 
         $area = Area::where('id', $item->area_id)->first();
         $item->area_name = $area->name;
-        $apply = Apply::where('request_id', $item->id)->get();
-        $item->apply_count = $apply->count();
+        $applies = Apply::where('request_id', $item->id)->get();
+        $item->apply_count = $applies->count();
+        
+        if($applies !==null){
+            foreach($applies as $apply){
+                $item->confirm_count = Confirm::where('apply_id',$apply->id)->exists();
+            }
+        }
+        //ここにも支払いボタン持って来たい
 
 
         return view('mypage.myrequest.detail', compact('item', 'user_id', 'd','s'));
@@ -203,6 +213,8 @@ class UserProfileController extends Controller
             $item->profile_img = $apply_user->img_url;
 
             $item->status_id = HotaruRequest::where('id', $request_id)->pluck('status_id')->first();
+
+            $item->approved_sign = Confirm::where('apply_id', $item->id)->exists();
         }
 
         return view('mypage.myrequest.member_list',compact('items'));
@@ -223,7 +235,75 @@ class UserProfileController extends Controller
         }
         $exist = Confirm::where('apply_id', $apply_id)->exists();
 
-        return view('mypage.myrequest.member_detail', compact('item', 'request_id', 'apply_id','exist'));
+        //stripe処理
+        $hotaru_request = HotaruRequest::where('id', $request_id)->first();
+        $plan = Plan::where('id', $hotaru_request->plan_id)->first();
+        $plan_name = $plan->name;
+        $publicKey = config('payment.stripe_public_key');
+        // 1. Stripeライブラリの初期化（サーバサイド）
+        \Stripe\Stripe::setApiKey(\Config::get('payment.stripe_secret_key'));
+
+        $secretKey = new \Stripe\StripeClient(\Config::get('payment.stripe_secret_key'));
+        //支払い情報取得のために必要なPaymentIntentの取得
+        //$payment_info = $secretKey->paymentIntents->create(
+        //  ['amount' => $hotaru_request->total, 'currency' => 'jpy', 'payment_method_types' => ['card']]
+        //);
+
+        //支払いフォームを構築するリクエストをStripe APIに送信する
+        $session = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
+            'line_items'           => [[
+                'price_data' => [
+                    'currency' => 'jpy',
+                    'unit_amount' => $hotaru_request->price,
+                    'product_data' => [
+                        'name' => $plan_name,
+                    ],
+                ],
+                'quantity' => '1',
+            ]],
+            'mode' => 'payment',
+
+            'success_url'          =>  route('mypage.myrequest.paid', ['request_id' => $hotaru_request->id, 'user_id' => $user_id, 'apply_id' => $apply_id]),
+            'cancel_url'           => route('mypage.myrequest.member_list', ['request_id' => $hotaru_request->id])
+        ]);
+        $hotaru_request->update([
+            'session_id' => $session->id,
+        ]);
+
+                //支払い済みかのサイン
+        if($hotaru_request->payment_intent == null){
+            $paid_sign = false;
+        }else{
+            $paid_sign = true;
+        }
+
+        return view('mypage.myrequest.member_detail', compact('item', 'request_id', 'apply_id','exist', 'session', 'publicKey', 'hotaru_request', 'paid_sign'));
+    }
+
+    //支払い完了
+    public function paid($request_id, $apply_id, $user_id){
+        $hotaru_request = HotaruRequest::where('id', $request_id)->first();
+        //StripeのPaymentIntentをクライアント側のDBに追加
+        //require 'vendor/autoload.php';
+        $stripe = new \Stripe\StripeClient(\Config::get('payment.stripe_secret_key'));
+
+        $id = $hotaru_request->session_id;
+        $session = $stripe->checkout->sessions->retrieve($id);
+
+        $hotaru_request->update([
+        'payment_intent' => $session->payment_intent,
+        'status_id' => '3'
+        ]);
+
+        $confirm = Confirm::where('id', $apply_id)->first();
+
+        $payment = new Payment();
+        $payment->create([
+            'confirm_id' => $confirm->id
+        ]);
+
+        return redirect()->route('mypage.myrequest.member_detail', compact('request_id', 'apply_id', 'user_id'));
     }
 
     public function getApplyApproval($apply_id, $request_id, $user_id){
@@ -231,11 +311,14 @@ class UserProfileController extends Controller
         $confirm->create([
             'apply_id'=> $apply_id,
         ]);
-    
-        $hotaru_request = HotaruRequest::where('id', $request_id)->first();
-        $hotaru_request->status_id = 2;
 
-        return redirect()->route('mypage.myrequest.index');
+        // Eloquentを使用せず、SELECTクエリを実行
+        $hotaru_request = DB::table('hotaru_requests')
+        ->where('id', $request_id)
+        ->update(['status_id' => '2']);
+
+
+        return redirect()->route('mypage.myrequest.member_detail', compact('request_id', 'apply_id', 'user_id'));
     }
 
     public function getApplyReject($apply_id, $request_id, $user_id){

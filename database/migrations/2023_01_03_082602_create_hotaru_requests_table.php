@@ -41,6 +41,8 @@ return new class extends Migration
             $table->foreign('status_id')->references('id')->on('statuses');
             $table->text('free_title')->comment('プランがフリーの場合の依頼内容')->nullable();
             $table->text('free_detail')->comment('フリーの依頼内容の詳細')->nullable();
+            $table->string('session_id')->nullable();
+            $table->string('payment_intent')->nullable();
             $table->timestamps();
         });
     }

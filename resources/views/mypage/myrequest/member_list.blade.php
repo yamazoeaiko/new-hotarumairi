@@ -12,7 +12,7 @@
       @endif
       <div class="list-group">
         @foreach($items as $item)
-        @if($item->status_id !== 1)
+        @if($item->approved_sign == true)
         <button onClick="location.href='{{route('mypage.myrequest.member_detail', ['request_id'=>$item->request_id, 
          'user_id' => $item->apply_user_id,
          'apply_id' => $item->id])}}'" class="list-group-item list-group-item-action bg-success">

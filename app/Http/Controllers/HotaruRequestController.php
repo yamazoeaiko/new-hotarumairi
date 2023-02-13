@@ -74,6 +74,8 @@ class HotaruRequestController extends Controller
 
                 $except = $request->except('img_url');
                 $request->session()->put('params', $except);
+            }else{
+                $request->session()->put('params', $request->all());
             }
             return redirect()->route('omamori.confirm');
         }elseif($plan_id == 3){

@@ -32,6 +32,8 @@ class HotaruRequest extends Model
         'goshuin',
         'free',
         'status_id',
+        'session_id',
+        'payment_intent'
     ];
 
     public function applies()
