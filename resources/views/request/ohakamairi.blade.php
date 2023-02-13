@@ -7,7 +7,7 @@
   <div class="container">
     @component('components.back-button')
     @endcomponent
-    <form action="{{route('request.session.save')}}" method="post" class="form-control">
+    <form action="{{route('request.session.save')}}" method="post" class="form-control" enctype="multipart/form-data">
       @csrf
       <input type="hidden" name="user_id" id="" value="{{$user_id}}">
       <table class="table">
@@ -50,7 +50,8 @@
         <tr>
           <th>お供え物・墓花・お線香マナーなどのご要望があれば</th>
           <td>
-            <textarea name="offering" cols="30" rows="3" class="input-group-text"></textarea>
+            <textarea name="offering" cols="30" rows="3" class="input-group-text"></textarea><br>
+            <input type="file" name="img_url" accept="image/png, image/jpeg">
           </td>
         </tr>
         <tr>

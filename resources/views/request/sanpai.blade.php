@@ -5,7 +5,7 @@
 
 <body>
   <div class="container">
-    <form action="{{route('request.session.save')}}" method="post" class="form-control">
+    <form action="{{route('request.session.save')}}" method="post" class="form-control" enctype="multipart/form-data">
       @csrf
       <input type="hidden" name="user_id" id="" value="{{$user_id}}">
       <table class="table">
@@ -65,6 +65,12 @@
               <span>御朱印の詳細を記入<br>御朱印の名称、郵送希望・画像送付希望など<br>住所など個人情報は記載しないでください（個別チャットでやり取り</span>
               <textarea name="goshuin_content" id="" cols="30" rows="4"></textarea>
             </div>
+          </td>
+        </tr>
+        <tr>
+          <th>画像添付(任意)</th>
+          <td>
+            <input type="file" name="img_url" accept="image/png, image/jpeg">
           </td>
         </tr>
         <tr>

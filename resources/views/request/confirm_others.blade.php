@@ -47,6 +47,12 @@
           </td>
         </tr>
         <tr>
+          <th>画像添付(任意)</th>
+          <td><input type="hidden" name="img_url" value="{{$path}}">
+            <a href="{{ asset($path) }}">{{ $fileName }}</a>
+          </td>
+        </tr>
+        <tr>
           <th>費用（お支払い額）<br>
             <span>費用：現地までの交通費、駐車料金、墓花、御供、グッズ、事務局手数料等の全ての購入代金や経費を含む金額</span>
           </th>

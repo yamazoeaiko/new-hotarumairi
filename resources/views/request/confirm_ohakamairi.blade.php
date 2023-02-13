@@ -56,6 +56,12 @@
           </td>
         </tr>
         <tr>
+          <th>画像添付(任意)</th>
+          <td><input type="hidden" name="img_url" value="{{$path}}">
+            <a href="{{ asset($path) }}">{{ $fileName }}</a>
+          </td>
+        </tr>
+        <tr>
           <th>その他</th>
           <td>
             <textarea name="free" id="" cols="30" rows="3" class="input-group-text">{{$params->free}}</textarea>

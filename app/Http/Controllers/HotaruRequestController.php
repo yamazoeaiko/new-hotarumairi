@@ -60,7 +60,19 @@ class HotaruRequestController extends Controller
         $plan_id = $request->plan_id;
 
         if($plan_id == 1){
+            if ($request->hasFile('img_url')) {
+                $dir = 'ohakamairi';
+                $file_name = $request->file('img_url')->getClientOriginalName();
+                // 画像の保存
+                $request->file('img_url')->storeAs('public/' . $dir, $file_name);
+                // 画像のパスをセッションに保存
+                $request->session()->put('path', 'storage/' . $dir . '/' . $file_name);
+
+                $except = $request->except('img_url');
+                $request->session()->put('params', $except);
+            } else {
             $request->session()->put('params', $request->all());
+            }
 
             return redirect()->route('ohakamairi.confirm');
         }elseif($plan_id == 2){
@@ -79,11 +91,37 @@ class HotaruRequestController extends Controller
             }
             return redirect()->route('omamori.confirm');
         }elseif($plan_id == 3){
+            
+            if ($request->hasFile('img_url')) {
+                $dir = 'sanpai';
+                $file_name = $request->file('img_url')->getClientOriginalName();
+                // 画像の保存
+                $request->file('img_url')->storeAs('public/' . $dir, $file_name);
+                // 画像のパスをセッションに保存
+                $request->session()->put('path', 'storage/' . $dir . '/' . $file_name);
+
+                $except = $request->except('img_url');
+                $request->session()->put('params', $except);
+            } else {
             $request->session()->put('params', $request->all());
+            }
 
             return redirect()->route('sanpai.confirm');
+
         }elseif($plan_id == 4){
+            if ($request->hasFile('img_url')) {
+                $dir = 'others';
+                $file_name = $request->file('img_url')->getClientOriginalName();
+                // 画像の保存
+                $request->file('img_url')->storeAs('public/' . $dir, $file_name);
+                // 画像のパスをセッションに保存
+                $request->session()->put('path', 'storage/' . $dir . '/' . $file_name);
+
+                $except = $request->except('img_url');
+                $request->session()->put('params', $except);
+            } else {
             $request->session()->put('params', $request->all());
+            }
 
             return redirect()->route('others.confirm');
         }
@@ -97,6 +135,8 @@ class HotaruRequestController extends Controller
         $params = (object)$data;
         $area = Area::where('id', $params->area_id)->first();
         $params->area_name = $area->name;
+        $path = session('path');
+        $fileName = basename($path);
 
         $items = OhakamairiSummary::whereIn('id', $params->ohakamairi_sum_id)->get();
 
@@ -106,7 +146,7 @@ class HotaruRequestController extends Controller
             $sum += $item->number;
         }
 
-        return view('request.confirm_ohakamairi', compact('params','items','sum'));
+        return view('request.confirm_ohakamairi', compact('params','items','sum','path', 'fileName'));
     }
 
     public function omamoriConfirm()
@@ -131,6 +171,8 @@ class HotaruRequestController extends Controller
         $params->area_name = $area->name;
 
         $items = SanpaiSummary::whereIn('id', $params->sanpai_sum_id)->get();
+        $path = session('path');
+        $fileName = basename($path);
 
         $sum = 10000000;
         foreach ($items as $item) {
@@ -138,7 +180,7 @@ class HotaruRequestController extends Controller
             $sum += $item->number;
         }
 
-        return view('request.confirm_sanpai', compact('params','items', 'sum'));
+        return view('request.confirm_sanpai', compact('params','items', 'sum','path', 'fileName'));
     }
 
     public function othersConfirm()
@@ -148,8 +190,10 @@ class HotaruRequestController extends Controller
         $params = (object)$data;
         $area = Area::where('id', $params->area_id)->first();
         $params->area_name = $area->name;
+        $path = session('path');
+        $fileName = basename($path);
 
-        return view('request.confirm_others', compact('params'));
+        return view('request.confirm_others', compact('params', 'path', 'fileName'));
     }
 
     public function done(Request $request)
