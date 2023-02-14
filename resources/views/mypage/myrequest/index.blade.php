@@ -4,8 +4,8 @@
 @endcomponent
 
 <body>
-  <div class="container row">
-    <div class="col-10">
+  <div class="container">
+    <div>
       <h5>あなたが依頼している代行一覧</h5>
       @if($items->isEmpty())
       <span>現在あなたが依頼している代行はございません</span>

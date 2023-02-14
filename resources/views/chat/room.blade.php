@@ -24,7 +24,7 @@
                   <div>
                     <img src="{{ asset($chat->img_url) }}" alt="" class="message-icon rounded-circle text-white fs-3">
                   </div>
-                  <p class="message-text p-2 ms-2 mb-0 bg-warning text-start">
+                  <p class="message-text p-2 m-2 mb-0 text-start @if($chat->from_user == $user_id) from-user-bg @else to-user-bg @endif">
                     {!! nl2br(e($chat->message)) !!}
                   </p>
                 </div>

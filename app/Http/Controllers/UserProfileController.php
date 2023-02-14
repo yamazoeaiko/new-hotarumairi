@@ -126,9 +126,15 @@ class UserProfileController extends Controller
         $item->apply_count = $applies->count();
         
         if($applies !==null){
-            foreach($applies as $apply){
-                $item->confirm_count = Confirm::where('apply_id',$apply->id)->exists();
+            $confirm_count = false;
+            foreach ($applies as $apply) {
+                if (Confirm::where('apply_id', $apply->id)->exists()) {
+                    $confirm_count = true;
+                    break;
+                }
             }
+            $item->confirm_count = $confirm_count;
+
         }
         //ここにも支払いボタン持って来たい
 
@@ -198,6 +204,9 @@ class UserProfileController extends Controller
 
             $item->date_end = $request->date_end;
             $item->date_begin = $request->date_begin;
+
+            $item->profile_img = $host->img_url;
+            $item->user_name = $host->nickname;
 
             $item->price = $request->price;
         }

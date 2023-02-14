@@ -174,7 +174,9 @@
           </td>
         </tr>
       </table>
-      <button type="submit" class="btn btn-primary shadow-lg">検索</button>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary shadow-lg px-5">検索</button>
+      </div>
     </form>
 
     <!--検索結果表示-->
@@ -184,34 +186,40 @@
       <p>検索結果に該当するラウンドはありませんでした。</p>
       @endif
       @if($item->applied !==null)
-      <button onClick="location.href='{{route('search.more',['request_id'=>$item->id])}}'" class="card m-4 p-4 shadow card-point bg-success">
+      <button onClick="location.href='{{ route('search.more',['request_id'=>$item->id]) }}'" class="card m-4 shadow card-point bg-success" style="max-width: 500px;">
         <div class="row no-gutters">
-          <div class="col-4">
+          <div class="col-md-4">
             <img src="{{ asset($item->profile_img) }}" alt="Profile image" class="card-img">
-            {{$item->user_name}}
+            <p class="card-text mb-0">{{$item->user_name}}</p>
           </div>
-          <div class="col-8">
-            <p class="fw-bolder">応募済み</p>
-            <p>ジャンル：{{$item->plan_name}}</p>
-            <p>実施希望期日：{{$item->date_end}}</p>
-            <p>エリア：{{$item->area_name}}</p>
-            <p>金額：{{$item->price_net}}円</p>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{$item->plan_name}}</h5>
+              <p class="card-text mb-0"><small class="text-muted">代行期日：</small>{{$item->date_end}}</p>
+              <p class="card-text mb-0"><small class="text-muted">エリア：</small>{{$item->area_name}}</p>
+              <p class="card-text mb-0"><small class="text-muted">見積り：</small>{{$item->price_net}}円</p>
+              <a href="{{ route('search.more',['request_id'=>$item->id]) }}" class="btn btn-secondary stretched-link">詳細を見る</a>
+              <span class="ml-auto mb-2 fs-6 fw-bolder"><i class="bi bi-check-circle"></i> 応募済み</span>
+            </div>
           </div>
         </div>
       </button>
       @else
 
-      <button onClick="location.href='{{route('search.more',['request_id'=>$item->id])}}'" class="card m-4 p-4 shadow card-point">
+      <button onClick="location.href='{{ route('search.more',['request_id'=>$item->id]) }}'" class="card m-4 shadow card-point" style="max-width: 500px;">
         <div class="row no-gutters">
-          <div class="col-4">
+          <div class="col-md-4">
             <img src="{{ asset($item->profile_img) }}" alt="Profile image" class="card-img">
-            {{$item->user_name}}
+            <p class="card-text mb-0">{{$item->user_name}}</p>
           </div>
-          <div class="col-8">
-            <p>ジャンル：{{$item->plan_name}}</p>
-            <p>実施希望期日：{{$item->date_end}}</p>
-            <p>エリア：{{$item->area_name}}</p>
-            <p>金額：{{$item->price_net}}円</p>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{$item->plan_name}}</h5>
+              <p class="card-text mb-0"><small class="text-muted">代行期日：</small>{{$item->date_end}}</p>
+              <p class="card-text mb-0"><small class="text-muted">エリア：</small>{{$item->area_name}}</p>
+              <p class="card-text mb-0"><small class="text-muted">見積り：</small>{{$item->price_net}}円</p>
+              <a href="{{ route('search.more',['request_id'=>$item->id]) }}" class="btn btn-primary stretched-link">詳細を見る</a>
+            </div>
           </div>
         </div>
       </button>
