@@ -7,77 +7,82 @@
   <div class="container">
     <form action="{{route('request.done')}}" method="post" class="form-control">
       @csrf
-      <input type="hidden" name="user_id" id="" value="{{$params->user_id}}">
-      <table class="table">
-        <tr>
-          <th>プラン</th>
-          <input type="hidden" name="plan_id" value="1">
-          <td>お墓のお掃除・お参り代行</td>
-        </tr>
-        <tr>
-          <th>日程</th>
-          <td>
-            <input type="date" name="date_begin" id="" class="input-group-text" value="{{$params->date_begin}}" hidden><input type="date" name="date_end" class="input-group-text" value="{{$params->date_end}}" hidden>
-            {{$params->date_begin}}〜{{$params->date_end}}
-          </td>
-        </tr>
-        <tr>
-          <th>該当のお墓の都道府県</th>
-          <td>
-            <input type="number" name="area_id" id="" value="{{$params->area_id}}" hidden>{{$params->area_name}}
-          </td>
-        </tr>
-        <tr>
-          <th>お墓の市町村(可能ならば番地まで)</th>
-          <td>
-            <input type="text" name="address" class="input-group-text" value="{{$params->address}}" hidden>
-            {{$params->address}}
-          </td>
-        </tr>
-        <tr>
-          <th>ご依頼概要(複数選択可能)</th>
-          <td>
-            <input type="hidden" name="ohakamairi_sum" value="{{ $sum }}">
-            @foreach($items as $item)
-            ・{{$item->ohakamairi_sum_name}}<br>
-            @endforeach
-          </td>
-        </tr>
-        <tr>
-          <th>お供え物・墓花・お線香マナーなどのご要望があれば</th>
-          <td>
-            <textarea name="offering" cols="30" rows="3" class="input-group-text">{{$params->offering}}</textarea>
-          </td>
-        </tr>
-        <tr>
-          <th>お墓のお掃除に関して要望があれば</th>
-          <td>
-            <textarea name="cleaning" cols="30" rows="3" class="input-group-text">{{$params->cleaning}}</textarea>
-          </td>
-        </tr>
-        <tr>
-          <th>画像添付(任意)</th>
-          <td><input type="hidden" name="img_url" value="{{$path}}">
-            <a href="{{ asset($path) }}">{{ $fileName }}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>その他</th>
-          <td>
-            <textarea name="free" id="" cols="30" rows="3" class="input-group-text">{{$params->free}}</textarea>
-          </td>
-        <tr>
-          <th>費用（お支払い額）<br>
+      <input type="hidden" name="user_id" value="{{ $params->user_id }}">
+      <div class="mb-3">
+        <label for="plan_id" class="fw-bolder">プラン</label>
+        <select name="plan_id" id="plan_id" class="form-control fw-bolder" readonly>
+          <option value="1">お墓のお掃除・お参り代行</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="date_range" class="fw-bolder">日程</label>
+        <div class="input-group">
+          <input type="date" name="date_begin" id="date_begin" class="form-control" value="{{ $params->date_begin }}" readonly>
+          <span class="input-group-text">〜</span>
+          <input type="date" name="date_end" id="date_end" class="form-control" value="{{ $params->date_end }}" readonly>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="area_id" class="fw-bolder">該当のお墓の都道府県</label>
+        <input name="area_id" id="area_id" value="{{ $params->area_id }}" hidden>
+        <input type="text" class="form-control" readonly value="{{ $params->area_name }}">
+      </div>
+
+      <div class="mb-3">
+        <label for="address" class="fw-bolder">お墓の市町村(可能ならば番地まで)</label>
+        <input type="text" name="address" id="address" class="form-control" value="{{ $params->address }}" readonly>
+      </div>
+
+      <div class="mb-3">
+        <label class="fw-bolder d-block mb-2">ご依頼概要(複数選択可能)</label>
+        <input type="hidden" name="ohakamairi_sum" value="{{ $sum }}">
+        @foreach($items as $item)
+        <p>・{{$item->ohakamairi_sum_name}}</p>
+        @endforeach
+      </div>
+
+      <div class="mb-3">
+        <label class="fw-bolder d-block mb-2">お供え物・墓花・お線香マナーなどのご要望があれば</label>
+        <textarea name="offering" cols="30" rows="3" class="form-control" readonly>{{$params->offering}}</textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="fw-bolder d-block mb-2">お墓のお掃除に関して要望があれば</label>
+
+        <textarea name="cleaning" cols="30" rows="3" class="form-control" readonly>{{$params->cleaning}}</textarea>
+      </div>
+      <div class="mb-3">
+        <label class="fw-bolder mb-2">画像添付(任意)</label>
+        <input type="hidden" name="img_url" value="{{$path}}">
+
+        <p><a href="{{ asset($path) }}">{{ $fileName }}</a></p>
+      </div>
+
+      <div class="mb-3">
+        <label for="fress" class="fw-bolder">その他
+        </label>
+        <div class="input-group">
+          <textarea name="free" id="" cols="30" rows="3" class="form-control" readonly>{{$params->free}}
+          </textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="fw-bolder d-block mb-2">費用（お支払い額）<br>
             <span>費用：現地までの交通費、駐車料金、墓花、御供、グッズ、事務局手数料等の全ての購入代金や経費を含む金額</span>
-          </th>
-          <td>
-            <input type="number" name="price" class="input-group-text" value="{{$params->price}}" hidden>
-            {{$params->price}}円（税別）
-          </td>
-        </tr>
-      </table>
-      <button name="submit" class="btn btn-primary">この内容で募集開始する</button>
-      <button type="button" onClick="history.back();" class="btn">修正する</button>
+          </label>
+          <div class="input-group">
+            <input type="number" name="price" class="form-control" value="{{$params->price}}" readonly>
+            <div class="input-group-append">
+              <span class="input-group-text">円（税別）</span>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-3">
+          <button name="submit" class="btn btn-primary">この内容で募集開始する</button>
+          <button type="button" onClick="history.back();" class="btn btn-outline-secondary">修正する</button>
+        </div>
     </form>
   </div>
 </body>

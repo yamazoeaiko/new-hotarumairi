@@ -2388,6 +2388,7 @@ progress {
 
 .form-control[type=file]:not(:disabled):not([readonly]) {
   cursor: pointer;
+  background-color: #fff;
 }
 
 .form-control:focus {
@@ -2419,7 +2420,6 @@ progress {
 
 .form-control:disabled,
 .form-control[readonly] {
-  background-color: #e9ecef;
   opacity: 1;
 }
 
