@@ -6,6 +6,7 @@ use App\Http\Controllers\HotaruRequestController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -126,5 +127,18 @@ Route::controller(AnnouncementController::class)->group(function(){
     Route::get('/announcement','index')->name('announcement.index');
     Route::get('/announcement/list', 'list')->name('announcement.list');
     Route::get('/announcement/show', 'show')->name('announcement.show');
+});
+
+Route::controller(ServiceController::class)->group(function(){
+    Route::get('/service/search','search')->name('service.search');
+    Route::get('/service/user/{user_id}','showUser')->name('service.show.user');
+    Route::get('/service/detail/{service_id}', 'showDetail')->name('service.detail');
+    Route::get('/service/create','create')->name('service.create');
+    Route::post('/service/create/done','done')->name('service.create.done');
+    Route::get('/service/{service_id}/edit','edit')->name('service.edit');
+    Route::post('/service/update','update')->name('service.update');
+    Route::post('/service/destroy', 'destroy')->name('service.destroy');
+
+    //ここからは、見積もり相談したりなどユーザー同士の連携について
 });
 require __DIR__.'/auth.php';

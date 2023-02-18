@@ -24,5 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SanpaiSummaryTableSeeder::class);
         $this->call(HotaruRequestTableSeeder::class);
         $this->call(AnnouncementsTableSeeder::class);
+        $this->call(ServiceCategoryTableSeeder::class);
+        $this->call(ServiceTableSeeder::class);
     }
 }
