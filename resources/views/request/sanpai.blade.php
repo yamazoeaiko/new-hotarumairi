@@ -46,7 +46,7 @@
       </div>
 
       <div class="my-3">
-        <div class="fw-bolder">ご依頼概要(複数選択可能)</div>
+        <div class="fw-bolder d-block mb-2">ご依頼概要(複数選択可能)</div>
         @foreach($summaries as $summary)
         <div class="form-check">
           <input type="checkbox" name="sanpai_sum_id[]" value="{{$summary->id}}" class="form-check-input">

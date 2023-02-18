@@ -46,11 +46,17 @@
 
         <div class="mb-3">
           <label for="sanpai_sum" class="fw-bolder">ご依頼概要(複数選択可能)</label>
-          <div class="input-group">
-            <input type="hidden" name="sanpai_sum" value="{{ $sum }}">
-            @foreach($items as $item)
-            ・{{$item->sanpai_sum_name}}<br>
+          <div class="fw-bolder d-block mb-2">
+            @foreach($summaries as $summary)
+            @if(in_array($summary->id, $sanpai_sum_ids))
+            <div class="form-check">
+              <input type="checkbox" name="sanpai_sum_id[]" value="{{ $summary->id }}" class="form-check-input" checked disabled>
+              <label class="form-check-label">{{ $summary->name }}
+              </label>
+            </div>
+            @endif
             @endforeach
+            <input type="hidden" name="sanpai_sum" value="{{ $sanpai_sum }}">
           </div>
         </div>
 

@@ -75,7 +75,30 @@ Route::controller(UserProfileController::class)->group(
 
         Route::get('/mypage/request', 'getMyRequest')->name('mypage.myrequest.index')->middleware('auth');
         Route::get('/mypage/myrequest/detail/{request_id}', 'getMyRequestDetail')->name('mypage.myrequest.detail')->middleware('auth');
-        Route::get('/mypage/myrequest/edit/{request_id}', 'editMyRequest')->name('mypage.myrequest.edit')->middleware('auth');
+
+        //myrequestの修正
+        //ohakamairi
+        Route::get('/mypage/myrequest/edit/ohakamairi/{request_id}', 'editOhakamairi')->name('mypage.myrequest.edit.ohakamairi')->middleware('auth');
+        //omamori
+        Route::get('/mypage/myrequest/edit/omamori/{request_id}', 'editOmamori')->name('mypage.myrequest.edit.omamori')->middleware('auth');
+
+        //sanpai
+        Route::get('/mypage/myrequest/edit/sanpai/{request_id}', 'editSanpai')->name('mypage.myrequest.edit.sanpai')->middleware('auth');
+
+        //others
+        Route::get('/mypage/myrequest/edit/others/{request_id}', 'editOthers')->name('mypage.myrequest.edit.others')->middleware('auth');
+
+        //修正の更新
+        Route::post('/mypage/myrequest/update/ohakamairi/{request_id}', 'updateOhakamairi')->name('myrequest.update.ohakamairi');
+
+        Route::post('/mypage/myrequest/update/omamori/{request_id}', 'updateOmamori')->name('myrequest.update.omamori');
+
+        Route::post('/mypage/myrequest/update/sanpaii/{request_id}', 'updateSanpai')->name('myrequest.update.sanpai');
+
+        Route::post('/mypage/myrequest/update/others/{request_id}', 'updateOthers')->name('myrequest.update.others');
+
+
+
         Route::get('/mypage/myrequest/destroy/{request_id}', 'destroyMyRequest')->name('mypage.myrequest.destroy')->middleware('auth');
         Route::get('/mypage/myrequest/member_list/{request_id}', 'getApplyMemberList')->name('mypage.myrequest.member_list')->middleware('auth');
         Route::get('/mypage/myrequest/member_detail/{request_id}/{user_id}/{apply_id}', 'getApplyMemberDetail')->name('mypage.myrequest.member_detail')->middleware('auth');

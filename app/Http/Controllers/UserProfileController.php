@@ -100,24 +100,14 @@ class UserProfileController extends Controller
 
         $item->goshuin = $item->goshuin == 0 ? '御朱印不要' : '御朱印希望';
 
-        $ohakamairiSum = str_pad((string)$item->ohakamairi_sum, 8, '0', STR_PAD_LEFT);
-        $d = [];
-        for ($i = 1; $i <= 6; $i++) {
-            if (substr($ohakamairiSum, 7 - $i, 1) == 1) {
-                $d[$i] = OhakamairiSummary::where('id', $i)->value('name');
-            } else {
-                $d[$i] = null;
-            }
+        $ohakamairi_summaries = null;
+        if ($item->ohakamairi_sum) {
+            $ohakamairi_summaries = OhakamairiSummary::whereIn('id', $item->ohakamairi_sum)->get();
         }
 
-        $sanpaiSum = str_pad((string)$item->sanpai_sum, 8, '0', STR_PAD_LEFT);
-        $s = [];
-        for ($i = 1; $i <= 4; $i++) {
-            if (substr($sanpaiSum, 7 - $i, 1) == 1) {
-                $s[$i] = SanpaiSummary::where('id', $i)->value('name');
-            } else {
-                $s[$i] = null;
-            }
+        $sanpai_summaries = null;
+        if($item->sanpai_sum){
+            $sanpai_summaries = SanpaiSummary::whereIn('id', $item->sanpai_sum)->get();
         }
 
         $area = Area::where('id', $item->area_id)->first();
@@ -139,10 +129,59 @@ class UserProfileController extends Controller
         //ここにも支払いボタン持って来たい
 
 
-        return view('mypage.myrequest.detail', compact('item', 'user_id', 'd','s'));
+        return view('mypage.myrequest.detail', compact('item', 'user_id', 'ohakamairi_summaries','sanpai_summaries'));
     }
 
-    public function editMyRequest($request_id){
+    public function editOhakamairi($request_id){
+        $user_id = Auth::id();
+        $item = HotaruRequest::where('id', $request_id)->first();
+
+        $item->user_name = UserProfile::where('user_id', $user_id)->first()->value('nickname');
+
+        $area = Area::where('id', $item->area_id)->first();
+        $item->area_name = $area->name;
+
+        $areas = Area::get();
+        $summaries = OhakamairiSummary::get();
+
+        return view('mypage.myrequest.edit.edit_ohakamairi', compact('item', 'user_id', 'areas','summaries'));
+    }
+
+    public function editOmamori($request_id)
+    {
+        $user_id = Auth::id();
+        $item = HotaruRequest::where('id', $request_id)->first();
+
+        $item->user_name = UserProfile::where('user_id', $user_id)->first()->value('nickname');
+
+
+        $area = Area::where('id', $item->area_id)->first();
+        $item->area_name = $area->name;
+
+        $areas = Area::get();
+        $summaries = OhakamairiSummary::get();
+
+        return view('mypage.myrequest.edit.edit_omamori', compact('item', 'user_id', 'areas'));
+    }
+
+    public function editSanpai($request_id)
+    {
+        $user_id = Auth::id();
+        $item = HotaruRequest::where('id', $request_id)->first();
+
+        $item->user_name = UserProfile::where('user_id', $user_id)->first()->value('nickname');
+
+        $area = Area::where('id', $item->area_id)->first();
+        $item->area_name = $area->name;
+
+        $areas = Area::get();
+        $summaries = SanpaiSummary::get();
+
+        return view('mypage.myrequest.edit.edit_sanpai', compact('item', 'user_id', 'areas', 'summaries'));
+    }
+
+    public function editOthers($request_id)
+    {
         $user_id = Auth::id();
         $item = HotaruRequest::where('id', $request_id)->first();
 
@@ -174,8 +213,9 @@ class UserProfileController extends Controller
         $item->area_name = $area->name;
 
         $areas = Area::get();
+        $summaries = OhakamairiSummary::get();
 
-        return view('mypage.myrequest.edit', compact('item', 'user_id', 'd','s', 'areas'));
+        return view('mypage.myrequest.edit.edit_others', compact('item', 'user_id', 'd', 's', 'areas', 'summaries'));
     }
 
     //依頼の削除
@@ -335,5 +375,136 @@ class UserProfileController extends Controller
         $delete_apply->delete();
 
         return redirect()->route('mypage.myrequest.index');
+    }
+
+    //myrequestの修正内容更新POST
+    public function updateOhakamairi($request_id, Request $request){
+        
+        $hotaru_request = HotaruRequest::where('id', $request_id)->first();
+
+
+        $param = [
+            'date_begin' => $request->date_begin,
+            'date_end' => $request->date_end,
+            'price' => $request->price,
+            'price_net' => $request->price * 0.85,
+            'area_id' => $request->area_id,
+            'address' => $request->address,
+            'ohakamairi_sum' => $request->ohakamairi_sum_id,
+            'offering' => $request->offering,
+            'cleaning' => $request->cleaning,
+            'img_url' => $request->img_url,
+            'free' => $request->free,
+        ];
+
+        if ($request->hasFile('img_url')) {
+            $dir = 'ohakamairi';
+            $file_name = $request->file('img_url')->getClientOriginalName();
+            $param['img_url'] = 'storage/' . $dir . '/' . $file_name;
+
+            $request->file('img_url')->storeAs('public/' . $dir, $file_name);
+        } else {
+            $param['img_url'] = $hotaru_request->img_url;
+        }
+
+        $hotaru_request->update($param);
+
+        return redirect()->route('mypage.myrequest.detail',['request_id'=>$request_id]);
+
+    }
+
+    public function updateOmamori($request_id, Request $request){
+        $hotaru_request = HotaruRequest::where('id', $request_id)->first();
+
+        $param =[
+            'date_begin' => $request->date_begin,
+            'date_end' => $request->date_end,
+            'price' => $request->price,
+            'price_net' => $request->price * 0.85,
+            'area_id' => $request->area_id,
+            'address' => $request->address,
+            'amulet' => $request->amulet,
+            'img_url' => $request->img_url,
+            'free' => $request->free,
+        ];
+
+        if ($request->hasFile('img_url')) {
+            $dir = 'omamori';
+            $file_name = $request->file('img_url')->getClientOriginalName();
+            $param['img_url'] = 'storage/' . $dir . '/' . $file_name;
+
+            $request->file('img_url')->storeAs('public/' . $dir, $file_name);
+        } else {
+            $param['img_url'] = $hotaru_request->img_url;
+        }
+
+        $hotaru_request->update($param);
+
+        return redirect()->route('mypage.myrequest.detail', ['request_id' => $request_id]);
+    }
+
+    public function updateSanpai($request_id, Request $request){
+        $hotaru_request = HotaruRequest::where('id', $request_id)->first();
+
+        $param = [
+            'date_begin' => $request->date_begin,
+            'date_end' => $request->date_end,
+            'price' => $request->price,
+            'price_net' => $request->price * 0.85,
+            'area_id' => $request->area_id,
+            'address' => $request->address,
+            'sanpai_sum' => $request->sanpai_sum_id,
+            'praying' => $request->praying,
+            'amulet' => $request->amulet,
+            'goshuin' => $request->goshuin,
+            'goshuin_content' => $request->goshuin_content,
+            'img_url' => $request->img_url,
+            'free' => $request->free,
+        ];
+
+        if ($request->hasFile('img_url')) {
+            $dir = 'sanpai';
+            $file_name = $request->file('img_url')->getClientOriginalName();
+            $param['img_url'] = 'storage/' . $dir . '/' . $file_name;
+
+            $request->file('img_url')->storeAs('public/' . $dir, $file_name);
+        } else {
+            $param['img_url'] = $hotaru_request->img_url;
+        }
+
+        $hotaru_request->update($param);
+
+        return redirect()->route('mypage.myrequest.detail', ['request_id' => $request_id]);
+
+    }
+
+    public function updateOthers($request_id, Request $request){
+        $hotaru_request = HotaruRequest::where('id', $request_id)->first();
+
+        $param = [
+            'free' => $request->free,
+            'date_begin' => $request->date_begin,
+            'date_end' => $request->date_end,
+            'price' => $request->price,
+            'price_net' => $request->price * 0.85,
+            'area_id' => $request->area_id,
+            'address' => $request->address,
+            'spot' => $request->spot,
+            'img_url' => $request->img_url,
+        ];
+
+        if ($request->hasFile('img_url')) {
+            $dir = 'others';
+            $file_name = $request->file('img_url')->getClientOriginalName();
+            $param['img_url'] = 'storage/' . $dir . '/' . $file_name;
+
+            $request->file('img_url')->storeAs('public/' . $dir, $file_name);
+        } else {
+            $param['img_url'] = $hotaru_request->img_url;
+        }
+
+        $hotaru_request->update($param);
+
+        return redirect()->route('mypage.myrequest.detail', ['request_id' => $request_id]);
     }
 }

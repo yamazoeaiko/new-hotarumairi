@@ -138,15 +138,11 @@ class HotaruRequestController extends Controller
         $path = session('path');
         $fileName = basename($path);
 
-        $items = OhakamairiSummary::whereIn('id', $params->ohakamairi_sum_id)->get();
+        $ohakamairi_sum_ids = $params->ohakamairi_sum_id;
+        $ohakamairi_sum = json_encode($ohakamairi_sum_ids, JSON_UNESCAPED_UNICODE);
+        $summaries = OhakamairiSummary::whereIn('id', $ohakamairi_sum_ids)->get();
 
-        $sum = 10000000;
-        foreach($items as $item){
-            $item->ohakamairi_sum_name = $item->name;
-            $sum += $item->number;
-        }
-
-        return view('request.confirm_ohakamairi', compact('params','items','sum','path', 'fileName'));
+        return view('request.confirm_ohakamairi', compact('params','summaries','path', 'fileName','ohakamairi_sum_ids', 'ohakamairi_sum'));
     }
 
     public function omamoriConfirm()
@@ -170,17 +166,14 @@ class HotaruRequestController extends Controller
         $area = Area::where('id', $params->area_id)->first();
         $params->area_name = $area->name;
 
-        $items = SanpaiSummary::whereIn('id', $params->sanpai_sum_id)->get();
         $path = session('path');
         $fileName = basename($path);
 
-        $sum = 10000000;
-        foreach ($items as $item) {
-            $item->sanpai_sum_name = $item->name;
-            $sum += $item->number;
-        }
+        $sanpai_sum_ids = $params->sanpai_sum_id;
+        $sanpai_sum = json_encode($sanpai_sum_ids, JSON_UNESCAPED_UNICODE);
+        $summaries = SanpaiSummary::whereIn('id', $sanpai_sum_ids)->get();
 
-        return view('request.confirm_sanpai', compact('params','items', 'sum','path', 'fileName'));
+        return view('request.confirm_sanpai', compact('params', 'summaries','path', 'fileName', 'sanpai_sum_ids', 'sanpai_sum'));
     }
 
     public function othersConfirm()
@@ -200,6 +193,7 @@ class HotaruRequestController extends Controller
     {
     $hotaru_request = new HotaruRequest();
 
+    
     $hotaru_request->create([
         'request_user_id' => $request->user_id,                'plan_id' => $request->plan_id,
         'date_begin' => $request->date_begin,
@@ -208,8 +202,8 @@ class HotaruRequestController extends Controller
         'price_net' => $request->price*0.85,
         'area_id' => $request->area_id,
         'address' => $request->address,
-        'ohakamairi_sum' => $request->ohakamairi_sum,
-        'sanpai_sum' => $request->sanpai_sum,
+        'ohakamairi_sum' => json_decode($request->ohakamairi_sum),
+        'sanpai_sum' => json_decode($request->sanpai_sum),
         'spot' => $request->spot,
         'offering' => $request->offering,
         'cleaning' => $request->cleaning,

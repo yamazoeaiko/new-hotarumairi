@@ -37,10 +37,16 @@
 
       <div class="mb-3">
         <label class="fw-bolder d-block mb-2">ご依頼概要(複数選択可能)</label>
-        <input type="hidden" name="ohakamairi_sum" value="{{ $sum }}">
-        @foreach($items as $item)
-        <p>・{{$item->ohakamairi_sum_name}}</p>
+        @foreach($summaries as $summary)
+        @if(in_array($summary->id, $ohakamairi_sum_ids))
+        <div class="form-check">
+          <input type="checkbox" name="ohakamairi_sum_id[]" value="{{ $summary->id }}" class="form-check-input" checked disabled>
+          <label class="form-check-label">{{ $summary->name }}</label>
+        </div>
+        @endif
         @endforeach
+        <input type="hidden" name="ohakamairi_sum" value="{{ $ohakamairi_sum }}">
+
       </div>
 
       <div class="mb-3">

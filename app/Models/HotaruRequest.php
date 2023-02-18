@@ -36,6 +36,13 @@ class HotaruRequest extends Model
         'payment_intent'
     ];
 
+    protected $casts = [
+        'ohakamairi_sum' => 'json',
+        'sanpai_sum' => 'json',
+    ];
+
+    
+
     public function applies()
     {
         return $this->hasMany(Apply::class, 'request_id');

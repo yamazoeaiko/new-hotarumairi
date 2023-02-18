@@ -27,8 +27,8 @@ return new class extends Migration
             $table->foreign('area_id')->references('id')->on('areas');
             $table->string('address')->comment('対象施設の住所')->nullable();
             $table->string('spot')->comment('神社・お墓などの名称')->nullable();
-            $table->integer('ohakamairi_sum')->comment('お墓参りプランの依頼概要ID')->nullable();
-            $table->integer('sanpai_sum')->comment('参拝プランの依頼概要ID')->nullable();
+            $table->json('ohakamairi_sum')->comment('お墓参りプランの依頼概要ID')->nullable();
+            $table->json('sanpai_sum')->comment('参拝プランの依頼概要ID')->nullable();
             $table->text('offering')->nullable()->comment('お供え物');
             $table->text('cleaning')->nullable()->comment('清掃内容');
             $table->text('amulet')->nullable()->comment('お守り');
