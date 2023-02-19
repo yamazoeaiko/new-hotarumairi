@@ -120,7 +120,7 @@ Route::controller(ChatController::class)->group(
         Route::get('/chat/list','getChatList')->name('chat.list')->middleware('auth');
         Route::get('/chat/room/{apply_id}/{your_id}', 'getChatRoom')->name('chat.room')->middleware('auth');
         Route::post('/chat/send', 'sendChat')->name('send.chat')->middleware('auth');
-
+        Route::get('/chat/service/room', 'serviceRoom')->name('chat.service.room');
     });
 
 Route::controller(AnnouncementController::class)->group(function(){
@@ -140,5 +140,6 @@ Route::controller(ServiceController::class)->group(function(){
     Route::post('/service/destroy', 'destroy')->name('service.destroy');
 
     //ここからは、見積もり相談したりなどユーザー同士の連携について
+    Route::post('/service/consult/send','sendConsult')->name('service.consult.send');
 });
 require __DIR__.'/auth.php';

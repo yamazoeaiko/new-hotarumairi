@@ -290,26 +290,15 @@ class HotaruRequestController extends Controller
 
         $item->goshuin = $item->goshuin == 0 ? '御朱印不要' : '御朱印希望';
 
-        $ohakamairiSum = str_pad((string)$item->ohakamairi_sum, 8, '0', STR_PAD_LEFT);
-        $d = [];
-        for ($i = 1; $i <= 6; $i++) {
-            if (substr($ohakamairiSum, 7 - $i, 1) == 1) {
-                $d[$i] = OhakamairiSummary::where('id', $i)->value('name');
-            } else {
-                $d[$i] = null;
-            }
+        $ohakamairi_summaries = null;
+        if ($item->ohakamairi_sum) {
+            $ohakamairi_summaries = OhakamairiSummary::whereIn('id', $item->ohakamairi_sum)->get();
         }
 
-        $sanpaiSum = str_pad((string)$item->sanpai_sum, 8, '0', STR_PAD_LEFT);
-        $s = [];
-        for ($i = 1; $i <= 4; $i++) {
-            if (substr($sanpaiSum, 7 - $i, 1) == 1) {
-                $s[$i] = SanpaiSummary::where('id', $i)->value('name');
-            } else {
-                $s[$i] = null;
-            }
+        $sanpai_summaries = null;
+        if ($item->sanpai_sum) {
+            $sanpai_summaries = SanpaiSummary::whereIn('id', $item->sanpai_sum)->get();
         }
-
 
         $area = Area::where('id', $item->area_id)->first();
         $item->area_name = $area->name;
@@ -323,7 +312,7 @@ class HotaruRequestController extends Controller
         $apply_flag = $applied ? 0 : 1;
         //$apply = Arr::has($apply_user_ids, $user_id);
 
-        return view('search.detail',compact('item', 'user_id','d','s', 'apply_flag'));
+        return view('search.detail',compact('item', 'user_id', 'ohakamairi_summaries', 'sanpai_summaries', 'apply_flag'));
     }
 
     public function searchApply(Request $request){
@@ -332,6 +321,7 @@ class HotaruRequestController extends Controller
 
         $apply->create([
             'request_id' => $request->request_id,
+            'host_user' => $request->host_user,
             'apply_user_id' => $apply_user_id,
             'first_chat' =>$request->first_chat
         ]);

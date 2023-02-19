@@ -47,6 +47,18 @@
           </div>
         </div>
       </div>
+      <div class="text-center">
+        <button type="button" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapseConsult">お見積りやサービス内容の相談をする</button>
+
+        <div class="collapse" id="collapseConsult">
+          <form action="{{route('service.consult.send')}}" method="post">
+            @csrf
+            <input type="hidden" name="consulting_user" value="{{$user_id}}">
+            <input type="hidden" name="service_id" value="{{ $item->id }}">
+            <textarea name="first_chat" id="first_chat" cols="80" rows="10" class="text-start m-3">※必ず記載してください。
+            </textarea>
+            <button type="submit" class="btn btn-primary col-3">送信する</button>
+          </form>
+        </div>
     </div>
-  </div>
 </body>

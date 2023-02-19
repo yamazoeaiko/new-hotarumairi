@@ -12,6 +12,7 @@ class Apply extends Model
 
     protected $fillable = [
         'request_id',
+        'host_user',
         'apply_user_id',
         'first_chat'
         

@@ -69,4 +69,10 @@ class ChatController extends Controller
 
         return redirect()->route('chat.room', ['apply_id' => $request->apply_id, 'your_id'=> $request->your_id]);
     }
+
+    /////////////////////////////////////////
+    //サービスに関するチャット
+    public function serviceRoom($service_id){
+        
+    }
 }

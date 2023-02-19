@@ -16,6 +16,7 @@ use App\Models\Confirm;
 use App\Models\Payment;
 use App\Models\Service;
 use App\Models\ServiceCategory;
+use App\Models\ServiceConsult;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
@@ -72,8 +73,10 @@ class ServiceController extends Controller
             $value->category_name = $data->name;
         }
 
+        $user_id = Auth::id();
+
         return view('service.detail',
-        compact('item'));
+        compact('item', 'user_id'));
     }
 
     public function create(){
@@ -94,5 +97,19 @@ class ServiceController extends Controller
 
     public function destroy(Request $request){
         //
+    }
+
+    public function sendConsult(Request $request){
+        $service_consult = new ServiceConsult();
+
+        $param = [
+            'service_id' => $request->service_id,
+            'consulting_user' => $request->consulting_user,
+            'first_chat' => $request->first_chat
+        ];
+
+        $service_consult->update($param);
+
+        return redirect()->route('chat.service.room');
     }
 }

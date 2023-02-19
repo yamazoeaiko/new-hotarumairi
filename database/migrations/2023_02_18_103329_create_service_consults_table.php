@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('applies', function (Blueprint $table) {
+        Schema::create('service_consults', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('request_id');
-            $table->foreign('request_id')->references('id')->on('hotaru_requests');
+            $table->unsignedBigInteger('service_id');
+            $table->foreign('service_id')->references('id')->on('services');
             $table->unsignedBigInteger('host_user');
             $table->foreign('host_user')->references('id')->on('users');
-            $table->unsignedBigInteger('apply_user_id');
-            $table->foreign('apply_user_id')->references('id')->on('users');
-            $table->text('first_chat')->comment('応募する最初のメッセージ');
+            $table->unsignedBigInteger('consulting_user');
+            $table->foreign('consulting_user')->references('id')->on('users');
+            $table->text('first_chat');
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('applies');
+        Schema::dropIfExists('service_consults');
     }
 };
