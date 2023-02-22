@@ -17,6 +17,8 @@ use App\Models\Payment;
 use App\Models\Service;
 use App\Models\ServiceCategory;
 use App\Models\ServiceConsult;
+use App\Models\Chat;
+use App\Models\Chatroom;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
@@ -100,16 +102,43 @@ class ServiceController extends Controller
     }
 
     public function sendConsult(Request $request){
-        $service_consult = new ServiceConsult();
+        $consult = new ServiceConsult();
+        $consulting_user_id = Auth::id();
+        $theother_id = $request->host_user;
 
-        $param = [
+        $consult->create( [
+            'host_user' => $theother_id,
             'service_id' => $request->service_id,
-            'consulting_user' => $request->consulting_user,
+            'consulting_user' => $consulting_user_id,
             'first_chat' => $request->first_chat
-        ];
+        ]);
 
-        $service_consult->update($param);
+        $consult_id = ServiceConsult::where('service_id', $request->service_id)->where('consulting_user', $consulting_user_id)->pluck('id')->first();
 
-        return redirect()->route('chat.service.room');
+        $chat_room =
+        $consulting_user_id < $theother_id ? "$consulting_user_id$theother_id" : "$theother_id$consulting_user_id";
+        $chat_room_id = (int)$chat_room;
+
+        if ($chat_exist = ChatRoom::where('room_id', $chat_room_id)->first()) {
+            $room_id = $chat_exist->id;
+            $chat_exist->update(['consult_id'=>$consult_id]);
+        } else {
+            $room = new ChatRoom();
+            $room->create([
+                'room_id' => $chat_room_id,
+                'consult_id' => $consult_id,
+                'user_id_one' => $consulting_user_id,
+                'user_id_another' => $theother_id
+            ]);
+            $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
+        }
+        //Chatモデルへ反映させる
+        Chat::create([
+            'room_id' => $room_id,
+            'message' => $request->first_chat,
+            'from_user' => $consulting_user_id
+        ]);
+
+        return redirect()->route('chat.list');
     }
 }

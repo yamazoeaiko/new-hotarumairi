@@ -118,7 +118,7 @@ Route::controller(UserProfileController::class)->group(
 Route::controller(ChatController::class)->group(
     function (){
         Route::get('/chat/list','getChatList')->name('chat.list')->middleware('auth');
-        Route::get('/chat/room/{apply_id}/{your_id}', 'getChatRoom')->name('chat.room')->middleware('auth');
+        Route::get('/chat/room/{room_id}/{theother_id}', 'getChatRoom')->name('chat.room')->middleware('auth');
         Route::post('/chat/send', 'sendChat')->name('send.chat')->middleware('auth');
         Route::get('/chat/service/room', 'serviceRoom')->name('chat.service.room');
     });

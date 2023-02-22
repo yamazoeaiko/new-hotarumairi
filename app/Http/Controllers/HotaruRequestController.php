@@ -12,6 +12,7 @@ use App\Models\Apply;
 use App\Models\Chat;
 use App\Models\OhakamairiSummary;
 use App\Models\SanpaiSummary;
+use App\Models\ChatRoom;
 use Illuminate\Support\Arr;
 
 class HotaruRequestController extends Controller
@@ -318,6 +319,7 @@ class HotaruRequestController extends Controller
     public function searchApply(Request $request){
         $apply = new Apply();
         $apply_user_id = Auth::id();
+        $theother_id = $request->host_user;
 
         $apply->create([
             'request_id' => $request->request_id,
@@ -327,11 +329,29 @@ class HotaruRequestController extends Controller
         ]);
 
         // Applyモデルからid取得
-        $apply_id = Apply::where('request_id', $request->request_id)->pluck('id')->first();
+        $apply_id = Apply::where('request_id', $request->request_id)->where('apply_user_id', $apply_user_id)->pluck('id')->first();
+
+        $chat_room =
+        $apply_user_id < $theother_id ? "$apply_user_id$theother_id" : "$theother_id$apply_user_id";
+        $chat_room_id = (int)$chat_room;
+        
+        if($chat_exist = ChatRoom::where('room_id', $chat_room_id)->first()){
+            $room_id = $chat_exist->id;
+            $chat_exist->update(['apply_id'=>$apply_id]);
+        }else{
+            $room = new ChatRoom();
+            $room->create([
+                'room_id'=>$chat_room_id,
+                'apply_id' => $apply_id,
+                'user_id_one'=> $apply_user_id,
+                'user_id_another' => $theother_id
+            ]);
+            $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
+        }
 
         //Chatモデルへ反映させる
         Chat::create([
-            'apply_id' => $apply_id,
+            'room_id' =>$room_id,
             'message' => $request->first_chat,
             'from_user' => $apply_user_id
         ]);

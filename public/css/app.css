@@ -17,7 +17,9 @@
 サブカラー: #E74C3C (明るい赤) 
 注意を引くカラー: #F39C12 (明るいオレンジ) 
 フォントカラー: #FFFFFF (白)*/
-
+.fc-blue{
+  color: blue;
+}
 
 span {
   font-size: 0.7em;

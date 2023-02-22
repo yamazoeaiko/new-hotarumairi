@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('apply_id');
-            $table->foreign('apply_id')->references('id')->on('applies');
+            $table->unsignedBigInteger('room_id');
+            $table->foreign('room_id')->references('id')->on('chat_rooms');
             $table->unsignedBigInteger('from_user');
             $table->foreign('from_user')->references('id')->on('users');
-            $table->text('message');
+            $table->text('message')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

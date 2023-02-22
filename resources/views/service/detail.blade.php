@@ -54,6 +54,7 @@
           <form action="{{route('service.consult.send')}}" method="post">
             @csrf
             <input type="hidden" name="consulting_user" value="{{$user_id}}">
+            <input type="hidden" name="host_user" value="{{ $item->user_id }}">
             <input type="hidden" name="service_id" value="{{ $item->id }}">
             <textarea name="first_chat" id="first_chat" cols="80" rows="10" class="text-start m-3">※必ず記載してください。
             </textarea>

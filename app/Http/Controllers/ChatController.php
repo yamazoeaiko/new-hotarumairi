@@ -10,69 +10,94 @@ use App\Models\Apply;
 use App\Models\UserProfile;
 use App\Models\Plan;
 use App\Models\Chat;
+use App\Models\ChatRoom;
+use App\Models\Service;
+use App\Models\ServiceConsult;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ChatController extends Controller
 {
     public function getChatList(){
         $user_id = Auth::id();
+        $items = ChatRoom::select('chat_rooms.*', DB::raw('MAX(chats.created_at) as latest_chat_date'))
+        ->leftJoin('chats', 'chat_rooms.id', '=', 'chats.room_id')
+        ->where('user_id_one', $user_id)
+            ->orWhere('user_id_another', $user_id)
+            ->groupBy('chat_rooms.id')
+            ->orderBy('latest_chat_date', 'desc')
+            ->get();
 
-        $items = Apply::whereHas('hotaru_request', function ($query) use ($user_id) {
-            $query->where('request_user_id', $user_id);
-        })->orWhere('apply_user_id', $user_id)->get();
-        
         foreach($items as $item){
-            $request = HotaruRequest::where('id', $item->request_id)->first();
-            
-            $host = UserProfile::where('user_id', $request->request_user_id)->first();
-
-            $apply = UserProfile::where('user_id', $item->apply_user_id)->first();
-
-            if($item->apply_user_id == $user_id){
-                $item->your_name = $host->nickname;
-                $item->profile_img = $host->img_url;
-                $item->your_id = $host->user_id;
+            if($item->user_id_one == $user_id){
+                $theother =UserProfile::where('id', $item->user_id_another)->first();
+                $item->theother_name = $theother->nickname;
+                $item->theother_profile = $theother->img_url;
+                $item->theother_id = $theother->user_id;
             }else{
-                $item->your_name = $apply->nickname;
-                $item->profile_img = $apply->img_url;
-                $item->your_id = $apply->user_id;
-            };
+                $theother = UserProfile::where('id',$item->user_id_one)->first();
+                $item->theother_name = $theother->nickname;
+                $item->theother_profile = $theother->img_url;
+                $item->theother_id = $theother->user_id;
+            }
+            $item->create = Chat::where('room_id',$item->id)->orderBy('created_at', 'desc')->pluck('created_at')->first()->format('Y年m月d日 H時i分');
 
-
-            $plan = Plan::where('id',$request->plan_id)->first();
-            $item->plan_name = $plan->name;
+            $latest_message = DB::table('chats')
+                ->where('room_id', $item->id)
+                ->orderBy('created_at', 'desc')
+                ->value('message');
+            $item->latest_message = Str::limit($latest_message, 60);
+            if ($latest_message == null) {
+                $item->latest_message = 'ファイルを送付しました。';
+            }
         }
+
+
         return view('chat.list', compact('items'));
     }
 
-    public function getChatRoom($apply_id, $your_id){
+    public function getChatRoom($room_id, $theother_id){
         $user_id = Auth::id();
 
-        $you = UserProfile::where('user_id', $your_id)->first();
+        $theother = UserProfile::where('user_id', $theother_id)->first();
 
         //チャット内容の表示
-        $chats = Chat::where('apply_id', $apply_id)->get();
+        $chats = Chat::where('room_id', $room_id)->get();
         foreach ($chats as $chat) {
             $from_user = UserProfile::where('user_id', $chat->from_user)->first();
             $chat->nickname = $from_user->nickname;
             $chat->img_url = $from_user->img_url;
         }
-        return view('chat.room', compact('chats','you','apply_id', 'user_id'));
+        return view('chat.room', compact('chats','theother','room_id', 'user_id'));
     }
 
     public function sendChat(Request $request){
-        $create_chat = new Chat();
-        $create_chat->create([
-            'apply_id'=> $request->apply_id,
-            'from_user'=>$request->user_id,
-            'message'=> $request->message
-        ]);
+        if (is_null($request->input('message')) && !$request->hasFile('image')) {
+            return redirect()->back()->with('error', 'メッセージまたは画像を選択してください。');
+        }
 
-        return redirect()->route('chat.room', ['apply_id' => $request->apply_id, 'your_id'=> $request->your_id]);
+        $chat = new Chat;
+        $chat->room_id = $request->room_id;
+        $chat->from_user = Auth::id();
+        $chat->message = $request->input('message');
+
+        // 画像ファイルを保存する処理
+        if ($request->hasFile('image')) {
+            $dir = 'in_chat';
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/' . $dir, $filename);
+            $chat->image = 'storage/in_chat/' . $filename;
+        }
+
+        $chat->save();
+        return redirect()->back();
+
     }
 
     /////////////////////////////////////////
     //サービスに関するチャット
     public function serviceRoom($service_id){
-        
+
     }
 }
