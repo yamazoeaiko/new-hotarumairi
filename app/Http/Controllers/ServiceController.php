@@ -18,7 +18,7 @@ use App\Models\Service;
 use App\Models\ServiceCategory;
 use App\Models\ServiceConsult;
 use App\Models\Chat;
-use App\Models\Chatroom;
+use App\Models\ChatRoom;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
