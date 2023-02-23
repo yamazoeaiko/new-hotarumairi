@@ -327,7 +327,7 @@ class UserProfileController extends Controller
             $paid_sign = true;
         }
 
-        return view('mypage.myrequest.member_detail', compact('item', 'request_id', 'apply_id','exist', 'session', 'publicKey', 'hotaru_request', 'paid_sign'));
+        return view('mypage.myrequest.member_detail', compact('item', 'request_id', 'apply_id','exist', 'session', 'publicKey', 'hotaru_request', 'paid_sign', 'plan_name'));
     }
 
     //支払い完了

@@ -8,7 +8,14 @@
     <div class="row gx-5 align-items-center">
       <div class="col-12">
         <button class="btn-outline-primary" onClick="location.href='{{route('chat.list')}}'">戻る</button>
-        <p class="col-9 mx-auto mt-4 fs-5">チャットルーム</p>
+        <p class="col-9 mx-auto mt-4 fs-5 fw-bolder">{{ $theother->nickname }}</p>
+        <!--hotaru_requestの修正・承認へ-->
+        <button onClick="location.href='{{route('mypage.myrequest.member_detail', ['request_id'=>$hotaru_request_id, 
+         'user_id' => $theother->id,
+         'apply_id' => $chat_room->apply_id])}}'" class="btn btn-primary mb-2">
+          依頼内容の修正・正式な依頼の承認・否認を行う
+        </button>
+        <!--serviceの修正・承認へ-->
         <!-- Mashead text and app badges-->
         <div class="col-12 mb-5 text-center text-start">
           <!--ここからルーム-->
@@ -61,8 +68,8 @@
                 </div>
               </div>
             </form>
-
-          </div><!-- .container -->
+          </div>
+          <!-- .container -->
           <!--ここまでルーム-->
         </div>
       </div>

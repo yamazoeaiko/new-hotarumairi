@@ -17,6 +17,25 @@
 サブカラー: #E74C3C (明るい赤) 
 注意を引くカラー: #F39C12 (明るいオレンジ) 
 フォントカラー: #FFFFFF (白)*/
+.btn-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn-group button {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.btn-group button:first-child {
+  margin-left: 0;
+}
+
+.btn-group button:last-child {
+  margin-right: 0;
+}
+
 .fc-blue{
   color: blue;
 }
