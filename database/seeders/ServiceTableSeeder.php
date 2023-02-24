@@ -22,8 +22,8 @@ class ServiceTableSeeder extends Seeder
             'content' => '詳細内容を記載します。',
             'attention' => 'ご購入いただく前にお見積もり相談からご相談ください！',
             'public_sign' => true,
-            'price_net' => '8500',
-            'price' => '10000'
+            'price' => '10000',
+            'area_id' => '[5,6,7]'
         ];
         DB::table('services')->insert($param);
 
@@ -34,8 +34,8 @@ class ServiceTableSeeder extends Seeder
             'content' => 'ご指定の神社仏閣に参拝に行きます！',
             'attention' => '何か購入代行の希望がある場合は、事前にその商品が売られているかご確認くださ',
             'public_sign' => true,
-            'price_net' => '17000',
-            'price' => '20000'
+            'price' => '20000',
+            'area_id' => '[23,24]',
         ];
         DB::table('services')->insert($param);
 
@@ -46,8 +46,8 @@ class ServiceTableSeeder extends Seeder
             'content' => 'SNSで大好評の占いを実施します',
             'attention' => 'オンラインで占いかオフライン希望か教えてください！',
             'public_sign' => true,
-            'price_net' => '4250',
-            'price' => '5000'
+            'price' => '5000',
+            'area_id' => '[30,31,32]'
         ];
         DB::table('services')->insert($param);
     }

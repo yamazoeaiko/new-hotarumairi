@@ -62,7 +62,6 @@
 
     @if($exist == true)
     <button disable class="btn btn-outline-secondary">承認済み</button>
-    <button class="btn btn-primary" onclick="location.href='{{route('chat.room',['apply_id'=>$apply_id, 'your_id'=>$item->user_id])}}'">チャットする</button>
     @if($paid_sign == false)
     <button class="btn btn-danger" onClick="onClick();">
       仮払いを実行する
@@ -73,7 +72,7 @@
     </button>
     @endif
     @else
-    <div class="btn-group me-5">
+    <div class="btn-group me-3">
       <button class="btn btn-primary col-3 px-4" onClick="location.href='{{route('myrequest.member.approval',[
                   'apply_id'=>$apply_id,
                   'request_id' => $request_id,
@@ -91,9 +90,10 @@
       @elseif($hotaru_request->plan_id == 3)
       <button type="button" class="col-3 btn btn-outline-primary" onclick="location.href='{{route('mypage.myrequest.edit.sanpai',['request_id' => $hotaru_request->id])}}'">修正</button>
       @elseif($hotaru_request->plan_id == 4)
-      <button type="button" class="col-3 btn btn-outline-primary" onclick="location.href='{{route('mypage.myrequest.edit.others',['request_id' => $hotaru_Request->id])}}'">修正</button>
+      <button type="button" class="btn btn-outline-primary" onclick="location.href='{{route('mypage.myrequest.edit.others',['request_id' => $hotaru_Request->id])}}'">修正</button>
       @endif
-      <button type="button" class="col-3 btn btn-outline-secondary" onClick="history.back();">戻る</button>
+      <button type="button" class=" btn btn-outline-secondary" onClick="history.back();">戻る</button>
+      <button class="btn btn-info" onClick="location.href='{{route('chat.room',['room_id'=>$room->id, 'theother_id'=>$user_id])}}'">チャット</button>
     </div>
     @endif
   </div>

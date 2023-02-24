@@ -14,6 +14,8 @@ use App\Models\HotaruRequest;
 use App\Models\Apply;
 use App\Models\Confirm;
 use App\Models\Payment;
+use App\Models\Chat;
+use App\Models\ChatRoom;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
@@ -284,6 +286,13 @@ class UserProfileController extends Controller
         }
         $exist = Confirm::where('apply_id', $apply_id)->exists();
 
+        $my_id = Auth::id();
+        $chat_room =
+        $my_id < $user_id ? "$my_id$user_id" : "$user_id$my_id";
+        $chat_room_id = (int)$chat_room;
+        
+        $room = ChatRoom::where('room_id', $chat_room_id)->first();
+        
         //stripe処理
         $hotaru_request = HotaruRequest::where('id', $request_id)->first();
         $plan = Plan::where('id', $hotaru_request->plan_id)->first();
@@ -327,7 +336,7 @@ class UserProfileController extends Controller
             $paid_sign = true;
         }
 
-        return view('mypage.myrequest.member_detail', compact('item', 'request_id', 'apply_id','exist', 'session', 'publicKey', 'hotaru_request', 'paid_sign', 'plan_name'));
+        return view('mypage.myrequest.member_detail', compact('item', 'request_id', 'apply_id','exist', 'session', 'publicKey', 'hotaru_request', 'paid_sign', 'plan_name','user_id', 'room'));
     }
 
     //支払い完了

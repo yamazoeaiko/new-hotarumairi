@@ -113,7 +113,7 @@
                 @endforeach
               </div>
 
-              <button type="button" class="btn btn-outline-success" data-bs-toggle="collapse" data-bs-target="#collapseKyushu">関東エリア</button>
+              <button type="button" class="btn btn-outline-success" data-bs-toggle="collapse" data-bs-target="#collapseKyushu">九州エリア</button>
               <div class="collapse" id="collapseKyushu">
                 @foreach($areas as $area)
                 @if($area->category == '九州エリア')

@@ -138,6 +138,9 @@ Route::controller(ServiceController::class)->group(function(){
     Route::get('/service/{service_id}/edit','edit')->name('service.edit');
     Route::post('/service/update','update')->name('service.update');
     Route::post('/service/destroy', 'destroy')->name('service.destroy');
+    Route::get('/mypage/service/list','getMyServiceList')->name('mypage.service.list');
+    Route::get('/mypage/service/edit/{service_id}', 'getMyServiceEdit')->name('mypage.service.edit');
+    Route::post('/mypage/service/update', 'updateMyService')->name('mypage.service.update');
 
     //ここからは、見積もり相談したりなどユーザー同士の連携について
     Route::post('/service/consult/send','sendConsult')->name('service.consult.send');

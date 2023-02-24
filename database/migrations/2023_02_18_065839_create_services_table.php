@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->json('category_ids');
-            $table->text('main_title')->comment('出品サービスのタイトル');
-            $table->text('content')->comment('サービスの詳細内容');
+            $table->json('category_ids')->nullable();
+            $table->text('main_title')->comment('出品サービスのタイトル')->nullable();
+            $table->text('content')->comment('サービスの詳細内容')->nullable();
             $table->text('attention')->comment('注意事項')->nullable();
             $table->boolean('public_sign')->comment('trueなら公開する');
+            $table->json('area_id')->nullable();
             $table->decimal('price',8,0)->comment('税抜きの金額総額');
-            $table->decimal('price_net',8,0)->comment('報酬受け取る側が受け取る金額（ネット）');
             $table->timestamps();
         });
     }

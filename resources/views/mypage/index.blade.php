@@ -15,6 +15,9 @@
       <button onclick="location.href='{{route('mypage.myapply.index')}}'" class="btn btn-primary p-3">
         代行を引き受ける案件の確認
       </button>
+      <button onclick="location.href='{{route('mypage.service.list')}}'" class="btn btn-primary p-3">
+        出品サービスの管理
+      </button>
     </div>
   </div>
 </body>

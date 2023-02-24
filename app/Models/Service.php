@@ -18,9 +18,11 @@ class Service extends Model
         'public_sign',
         'price',
         'price_net',
+        'area_id'
     ];
 
     protected $casts = [
-        'category_ids' => 'json'
+        'category_ids' => 'json',
+        'area_id' => 'json'
     ];
 }
