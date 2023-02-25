@@ -5,7 +5,7 @@
 
 <body>
   <div class="container">
-    <div>
+    <div class="my-5">
       <h5>出品サービス管理画面</h5>
       @if($items->isEmpty())
       <span>現在あなたが出品しているサービスはございません</span>
@@ -23,6 +23,39 @@
         </button>
         @endforeach
       </div>
+    </div>
+    <div class="my-3">
+      <h5>見積もり・内容相談など</h5>
+      @if(count($consults)== 0)
+      <span>出品サービスへの相談はありません。</span>
+      @else
+      @foreach($consults as $consult)
+      <button onClick="location.href='{{route('service.fixed', ['fix_id' => $consult->fix_id])}}'" class="list-group-item list-group-item-action">
+        <div class="no-gutters">
+          <div class="row">
+            <div class="col-2">
+              <div class="rounded-circle overflow-hidden d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                <img src="{{ asset($consult->profile_img) }}" alt="" class="w-100 h-100">
+              </div>
+            </div>
+            <div class="col-6">
+              <h5 class="font-weight-bold mb-0">{{ $consult->consulting_user_name }}</h5>
+            </div>
+            <div class="col-4 text-right">
+              <p class="text-muted small">{{ date('Y年m月d日h時m分', strtotime($consult->created_at)) }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2"></div>
+            <div class="col-9">
+              <p class="text-muted small text-left ml-auto" style="text-align: left !important;">{{ $consult->first_chat }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </button>
+      @endforeach
+      @endif
     </div>
   </div>
 </body>

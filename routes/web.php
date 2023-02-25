@@ -144,5 +144,8 @@ Route::controller(ServiceController::class)->group(function(){
 
     //ここからは、見積もり相談したりなどユーザー同士の連携について
     Route::post('/service/consult/send','sendConsult')->name('service.consult.send');
+    Route::get('/service/fixed/{fix_id}', 'getFixed')->name('service.fixed');
+    Route::get('/service/fixed/edit/{fix_id}', 'getFixedEdit')->name('service.fixed.edit');
+    Route::post('/service/fixed/update','updateFixed')->name('service.fixed.update');
 });
 require __DIR__.'/auth.php';

@@ -19,6 +19,7 @@ use App\Models\ServiceCategory;
 use App\Models\ServiceConsult;
 use App\Models\Chat;
 use App\Models\ChatRoom;
+use App\Models\FixedService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
@@ -170,6 +171,18 @@ class ServiceController extends Controller
             'from_user' => $consulting_user_id
         ]);
 
+        $data = Service::where('id',$request->service_id)->first();
+
+        $fix = new FixedService();
+        $fix->service_id = $request->service_id;
+        $fix->consult_id = $consult_id;
+        $fix->host_user = $theother_id;
+        $fix->buy_user = $consulting_user_id;
+        $fix->main_title = $data->main_title;
+        $fix->price = $data->price;
+        $fix->content = $data->content;
+        $fix->save();
+
         return redirect()->route('chat.list');
     }
 
@@ -182,7 +195,25 @@ class ServiceController extends Controller
             Str::limit($item->content, 60);
         }
 
-        return view('service.list',compact('items'));
+        if($consults = ServiceConsult::where('host_user', $user_id)->get()){
+            foreach($consults as $consult){
+                $consulted_service = Service::where('id',$consult->service_id)->first();
+                $consult->service_name = $consulted_service->main_title;
+
+                $consulting_user = UserProfile::where('id', $consult->consulting_user)->first();
+                $consult->consulting_user_name = $consulting_user->nickname;
+                $consult->profile_img = $consulting_user->img_url;
+                $consult->consulting_user_id = $consulting_user->id;
+
+                $consult->first_chat = Str::limit($consult->first_chat, 60);
+
+
+                $fix = FixedService::where('consult_id', $consult->id)->where('buy_user', $consulting_user->id)->first();
+                $consult->fix_id = $fix->id;
+            }
+        }
+
+        return view('service.list',compact('items', 'consults'));
     }
 
     public function getMyServiceEdit($service_id){
@@ -235,5 +266,43 @@ class ServiceController extends Controller
         $service->update($param);
 
         return redirect()->route('service.detail',['service_id'=>$request->service_id]);
+    }
+
+    public function getFixed($fix_id){
+        $user_id = Auth::id();
+        $item = FixedService::where('id', $fix_id)->first();
+
+        $user = UserProfile::where('id', $user_id)->first();
+        $item->user_name = $user->nickname;
+        $item->img_url = $user->img_url;
+        $living = Area::where('id', $user->living_area)->first();
+        $item->living_area = $living->name;
+        $item->age =
+        Carbon::parse($user->birthday)->age;
+
+        $theother = UserProfile::where('id', $item->buy_user)->first();
+
+        $chat_room =
+                $user_id < $theother->id ? "$user_id$theother->id" : "$theother->id$user_id";
+                $chat_room_id = (int)$chat_room;
+                $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
+
+
+        return view('service.fixed',compact('item','room_id', 'theother'));
+    }
+
+    public function getFixedEdit($fix_id){
+        $user_id = Auth::id();
+        $item = FixedService::where('id', $fix_id)->first();
+
+        $user = UserProfile::where('id', $user_id)->first();
+        $item->user_name = $user->nickname;
+        $item->img_url = $user->img_url;
+        $living = Area::where('id', $user->living_area)->first();
+        $item->living_area = $living->name;
+        $item->age =
+        Carbon::parse($user->birthday)->age;
+
+        return view('service.edit_fixed',compact('item'));
     }
 }

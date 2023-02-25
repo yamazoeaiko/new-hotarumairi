@@ -62,8 +62,20 @@ class ChatController extends Controller
         $theother = UserProfile::where('user_id', $theother_id)->first();
 
         $chat_room =ChatRoom::where('id', $room_id)->first();
+
+        if($chat_room->apply_id){
         $apply = Apply::where('id', $chat_room->apply_id)->first();
         $hotaru_request_id = $apply->request_id;
+        }else{
+            $hotaru_request_id = null;
+        }
+
+        if($chat_room->consult_id){
+            $consult = ServiceConsult::where('id', $chat_room->consult_id)->first();
+            $service_id = $consult->servie_id;
+        }else{
+            $service_id = null;
+        }
 
         //チャット内容の表示
         $chats = Chat::where('room_id', $room_id)->get();
@@ -72,7 +84,7 @@ class ChatController extends Controller
             $chat->nickname = $from_user->nickname;
             $chat->img_url = $from_user->img_url;
         }
-        return view('chat.room', compact('chats','theother','room_id', 'user_id', 'chat_room', 'hotaru_request_id'));
+        return view('chat.room', compact('chats','theother','room_id', 'user_id', 'chat_room', 'hotaru_request_id', 'service_id'));
     }
 
     public function sendChat(Request $request){
