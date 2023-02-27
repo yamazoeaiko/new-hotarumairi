@@ -29,6 +29,7 @@ return new class extends Migration
             $table->date('date_end')->nullable();
             $table->boolean('estimate')->comment('trueなら正式な見積もり送付済み')->nullable()->default(false);
             $table->boolean('contract')->comment('trueなら契約成立')->nullable()->default(false);
+            $table->boolean('payment')->comment('ttueなら支払い対応済み')->nullable()->default(false);
             $table->timestamps();
         });
     }

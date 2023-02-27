@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('confirm_id');
+            $table->unsignedBigInteger('confirm_id')->nullable();
             $table->foreign('confirm_id')->references('id')->on('confirms');
             $table->timestamps();
+            $table->unsignedBigInteger('fix_id')->nullable();
+            $table->foreign('fix_id')->references('id')->on('fixed_services');
         });
     }
 

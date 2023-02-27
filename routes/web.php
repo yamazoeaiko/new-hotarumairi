@@ -149,5 +149,6 @@ Route::controller(ServiceController::class)->group(function(){
     Route::post('/service/fixed/update','updateFixed')->name('service.fixed.update');
     Route::post('/service/estimate/post', 'postEstimate')->name('service.estimate.post');
     Route::post('/service/estimate/approve', 'approveEstimate')->name('service.estimate.approve');
+    Route::get('/service/paid/success/{fix_id}', 'paidSuccess')->name('service.paid.success');
 });
 require __DIR__.'/auth.php';

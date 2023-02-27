@@ -210,6 +210,8 @@ class ServiceController extends Controller
 
                 $fix = FixedService::where('consult_id', $consult->id)->where('buy_user', $consulting_user->id)->first();
                 $consult->fix_id = $fix->id;
+                $consult->estimate = $fix->estimate;
+                $consult->contract = $fix->contract;
             }
         }
 
@@ -290,8 +292,41 @@ class ServiceController extends Controller
                 $chat_room_id = (int)$chat_room;
                 $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
 
+        //ここからStripe処理
+        $publicKey = config('payment.stripe_public_key');
+        \Stripe\Stripe::setApiKey(\Config::get('payment.stripe_secret_key'));
 
-        return view('service.fixed',compact('item','room_id', 'theother', 'user_id'));
+        $secretKey = new \Stripe\StripeClient(\Config::get('payment.stripe_secret_key'));
+
+
+        $session = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
+            'line_items'           => [[
+                'price_data' => [
+                    'currency' => 'jpy',
+                    'unit_amount' => $item->price,
+                    'product_data' => [
+                        'name' => $item->main_title,
+                    ],
+                ],
+                'quantity' => '1',
+            ]],
+            'mode' => 'payment',
+
+
+            'success_url'          =>  route('service.paid.success', ['fix_id' => $item->id]),
+            'cancel_url'           => route('service.fixed', ['fix_id' => $item->id])
+        ]);
+
+        return view('service.fixed',compact('item','room_id', 'theother', 'user_id','session', 'publicKey', 'secretKey'));
+    }
+
+    public function paidSuccess($fix_id){
+        $fix = FixedService::where('id', $fix_id)->first();
+        $fix->payment = true;
+        $fix->save();
+
+        return redirect()->route('service.fixed',['fix_id'=>$fix_id]);
     }
 
     public function getFixedEdit($fix_id){

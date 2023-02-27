@@ -83,9 +83,31 @@
           <button class="btn btn-outline-primary">正式な見積もりを承認する</button>
         </form>
         @endif
-        @if($item->contract == true)
-        <button>お支払い</button>
+        @if($item->contract == true && $item->payment == false)
+        <button class="btn btn-danger" onClick="onClick();">
+          仮払いを実行する
+        </button>
+        @endif
+        @if($item->payment == true)
+        <button class="btn btn-outline-danger" disabled>
+          仮払い完了
+        </button>
         @endif
         @endif
       </div>
 </body>
+
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  const publicKey = '<?= $publicKey ?>';
+  var stripe = Stripe(publicKey);
+  // 4. 決済ボタンが押下されたら決済画面にリダイレクトする
+  function onClick() {
+    stripe.redirectToCheckout({
+      sessionId: '<?= $session->id ?>'
+    }).then(function(result) {
+      //
+    });
+  }
+</script>

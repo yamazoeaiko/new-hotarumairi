@@ -47,9 +47,27 @@
           </div>
           <div class="row">
             <div class="col-2"></div>
-            <div class="col-9">
+            <div class="col-6">
               <p class="text-muted small text-left ml-auto" style="text-align: left !important;">{{ $consult->first_chat }}
               </p>
+            </div>
+            <div class="col-3 text-right">
+              @if($consult->estimate == true && $consult->contract == false)
+              <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">見積もり提案中
+              </small>
+              @endif
+              @if($consult->contract == true && $consult->payment == false)
+              <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">契約成立中
+              </small>
+              <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">支払い待ち
+              </small>
+              @endif
+              @if($consult->payment == true)
+              <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">支払い完了
+              </small>
+              <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">作業完了報告待ち
+              </small>
+              @endif
             </div>
           </div>
         </div>
