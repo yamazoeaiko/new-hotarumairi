@@ -281,6 +281,9 @@ class ServiceController extends Controller
         Carbon::parse($user->birthday)->age;
 
         $theother = UserProfile::where('id', $item->buy_user)->first();
+        if($theother->id == $user_id){
+            $theother = UserProfile::where('id', $item->host_user)->first();
+        }
 
         $chat_room =
                 $user_id < $theother->id ? "$user_id$theother->id" : "$theother->id$user_id";
@@ -288,7 +291,7 @@ class ServiceController extends Controller
                 $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
 
 
-        return view('service.fixed',compact('item','room_id', 'theother'));
+        return view('service.fixed',compact('item','room_id', 'theother', 'user_id'));
     }
 
     public function getFixedEdit($fix_id){
@@ -304,5 +307,61 @@ class ServiceController extends Controller
         Carbon::parse($user->birthday)->age;
 
         return view('service.edit_fixed',compact('item'));
+    }
+
+    public function updateFixed(Request $request){
+        $fix = FixedService::where('id',$request->fix_id)->first();
+        $fix->price = $request->price;
+        $fix->date_end = $request->date_end;
+        $fix->content = $request->content;
+        $fix->save();
+
+        return redirect()->route('service.fixed',['fix_id'=>$request->fix_id]);
+    }
+
+    public function postEstimate(Request $request){
+        $fix = FixedService::where('id', $request->fix_id)->first();
+        $fix->estimate = true;
+        $fix->save();
+
+        $user_id = Auth::id();
+        $theother_id = $fix->buy_user;
+
+        $chat_room =
+        $user_id < $theother_id ? "$user_id$theother_id" : "$theother_id$user_id";
+        $chat_room_id = (int)$chat_room;
+
+        $room_id = ChatRoom::where('room_id',$chat_room_id)->pluck('id')->first();
+
+        $chat = new Chat();
+        $chat->room_id = $room_id;
+        $chat->from_user = $user_id;
+        $chat->message = '正式な見積もりを提案しました';
+        $chat->save();
+
+        return redirect()->route('chat.room',['room_id'=>$room_id, 'theother_id'=>$theother_id]);
+    }
+
+    public function approveEstimate(Request $request){
+        $fix = FixedService::where('id', $request->fix_id)->first();
+        $fix->contract = true;
+        $fix->save();
+
+        $user_id = Auth::id();
+        $theother_id = $fix->host_user;
+
+        $chat_room =
+        $user_id < $theother_id ? "$user_id$theother_id" : "$theother_id$user_id";
+        $chat_room_id = (int)$chat_room;
+
+        $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
+
+        $chat = new Chat();
+        $chat->room_id = $room_id;
+        $chat->from_user = $user_id;
+        $chat->message = '正式な見積もりを承認しました';
+        $chat->save();
+
+        return redirect()->route('chat.room', ['room_id' => $room_id, 'theother_id' => $theother_id]);
     }
 }

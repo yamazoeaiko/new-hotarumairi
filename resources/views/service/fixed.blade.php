@@ -52,8 +52,29 @@
       </div>
 
       <div class="text-center">
-        <button type="button" class="btn btn-success"  onClick="location.href='{{route('chat.room', ['room_id' => $room_id, 'theother_id'=> $theother->id])}}'">チャット画面へ</button>
+        <button type="button" class="btn btn-success" onClick="location.href='{{route('chat.room', ['room_id' => $room_id, 'theother_id'=> $theother->id])}}'">チャット画面へ</button>
 
+        @if($user_id == $item->host_user)
         <button class="col btn btn-primary" onclick=location.href="{{route('service.fixed.edit',['fix_id'=>$item->id])}}">内容を編集する</button>
+
+        <form action="{{ route('service.estimate.post') }}" method="post">
+          @csrf
+          <input type="hidden" name="fix_id" value="{{ $item->id }}">
+          <button class="btn btn-outline-primary">
+            正式な見積もりとして送信する
+          </button>
+        </form>
+        @else
+        @if($item->estimate == true && $item->contract == false)
+        <form action="{{ route('service.estimate.approve') }}" method="post">
+          @csrf
+          <input type="hidden" name="fix_id" value="{{ $item->id }}">
+          <button class="btn btn-outline-primary">正式な見積もりを承認する</button>
+        </form>
+        @endif
+        @if($item->contract == true)
+        <button>お支払い</button>
+        @endif
+        @endif
       </div>
 </body>

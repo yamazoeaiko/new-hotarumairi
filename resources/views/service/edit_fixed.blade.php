@@ -13,7 +13,7 @@
           </div>
           <div class="col-md-8">
             <div class="mb-3">
-              <input type="text" class="fw-bolder fs-3" value="{{ $item->main_title }}">
+              <input type="text" class="fs-3" value="{{ $item->main_title }}">
             </div>
 
             <div class="mb-3">
@@ -51,6 +51,7 @@
             </div>
           </div>
         </div>
+        <input type="hidden" name="fix_id" value="{{ $item->id }}">
         <div class="text-center">
           <button class="col btn btn-primary">更新</button>
         </div>

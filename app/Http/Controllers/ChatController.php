@@ -70,9 +70,9 @@ class ChatController extends Controller
             $hotaru_request_id = null;
         }
 
-        if($chat_room->consult_id){
+        if($chat_room->consult_id !== null){
             $consult = ServiceConsult::where('id', $chat_room->consult_id)->first();
-            $service_id = $consult->servie_id;
+            $service_id = $consult->service_id;
         }else{
             $service_id = null;
         }

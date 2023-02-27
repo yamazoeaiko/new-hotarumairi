@@ -27,6 +27,8 @@ return new class extends Migration
             $table->integer('price');
             $table->text('content')->nullable();
             $table->date('date_end')->nullable();
+            $table->boolean('estimate')->comment('trueなら正式な見積もり送付済み')->nullable()->default(false);
+            $table->boolean('contract')->comment('trueなら契約成立')->nullable()->default(false);
             $table->timestamps();
         });
     }

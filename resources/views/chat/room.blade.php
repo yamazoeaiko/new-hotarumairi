@@ -14,12 +14,16 @@
         <button onClick="location.href='{{route('mypage.myrequest.member_detail', ['request_id'=>$hotaru_request_id, 
          'user_id' => $theother->id,
          'apply_id' => $chat_room->apply_id])}}'" class="btn btn-primary mb-2">
+         【代行依頼】に関して<br>
           依頼内容の修正・正式な依頼の承認・否認を行う
         </button>
         @endif
         <!--serviceの修正・承認へ-->
         @if($service_id !== null)
-        <button></button>
+        <button onClick="location.href='{{route('service.fixed', ['fix_id'=>$service_id])}}'" class="btn btn-primary mb-2">
+          【出品サービス】に関して<br>
+          依頼内容の修正・正式な依頼の承認・否認を行う
+        </button>
         @endif
         <!-- Mashead text and app badges-->
         <div class="col-12 mb-5 text-center text-start">
