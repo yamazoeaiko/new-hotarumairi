@@ -19,8 +19,8 @@
         </button>
         @endif
         <!--serviceの修正・承認へ-->
-        @if($service_id !== null)
-        <button onClick="location.href='{{route('service.fixed', ['fix_id'=>$service_id])}}'" class="btn btn-primary mb-2">
+        @if($fix_id !== null)
+        <button onClick="location.href='{{route('service.fixed', ['fix_id'=>$fix_id])}}'" class="btn btn-primary mb-2">
           【出品サービス】に関して<br>
           依頼内容の修正・正式な依頼の承認・否認を行う
         </button>

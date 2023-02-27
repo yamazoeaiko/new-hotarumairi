@@ -11,6 +11,7 @@ use App\Models\UserProfile;
 use App\Models\Plan;
 use App\Models\Chat;
 use App\Models\ChatRoom;
+use App\Models\FixedService;
 use App\Models\Service;
 use App\Models\ServiceConsult;
 use Illuminate\Support\Facades\DB;
@@ -72,7 +73,7 @@ class ChatController extends Controller
 
         if($chat_room->consult_id !== null){
             $consult = ServiceConsult::where('id', $chat_room->consult_id)->first();
-            $service_id = $consult->service_id;
+            $fix_id = FixedService::where('consult_id',$consult->id)->pluck('id')->first();
         }else{
             $service_id = null;
         }
@@ -84,7 +85,7 @@ class ChatController extends Controller
             $chat->nickname = $from_user->nickname;
             $chat->img_url = $from_user->img_url;
         }
-        return view('chat.room', compact('chats','theother','room_id', 'user_id', 'chat_room', 'hotaru_request_id', 'service_id'));
+        return view('chat.room', compact('chats','theother','room_id', 'user_id', 'chat_room', 'hotaru_request_id', 'fix_id'));
     }
 
     public function sendChat(Request $request){

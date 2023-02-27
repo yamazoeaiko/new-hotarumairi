@@ -57,6 +57,7 @@
         @if($user_id == $item->host_user)
         <button class="col btn btn-primary" onclick=location.href="{{route('service.fixed.edit',['fix_id'=>$item->id])}}">内容を編集する</button>
 
+        @if($item->estimate == false)
         <form action="{{ route('service.estimate.post') }}" method="post">
           @csrf
           <input type="hidden" name="fix_id" value="{{ $item->id }}">
@@ -64,6 +65,16 @@
             正式な見積もりとして送信する
           </button>
         </form>
+        @else
+        <form action="{{ route('service.estimate.post') }}" method="post">
+          @csrf
+          <input type="hidden" name="fix_id" value="{{ $item->id }}">
+          <button class="btn btn-outline-primary">
+            見積もり送信済み。<br><span>内容修正がある場合、再度送信できます。</span>
+          </button>
+        </form>
+        @endif
+
         @else
         @if($item->estimate == true && $item->contract == false)
         <form action="{{ route('service.estimate.approve') }}" method="post">
