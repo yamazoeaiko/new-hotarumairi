@@ -71,17 +71,21 @@ class ServiceController extends Controller
             $item->public = "非公開中";
         }
 
-        $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
+        if($item->categories){
+            $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
 
-        foreach ($item->categories as $value) {
-            $data = ServiceCategory::where('id', $value->id)->first();
-            $value->category_name = $data->name;
+            foreach ($item->categories as $value) {
+                $data = ServiceCategory::where('id', $value->id)->first();
+                $value->category_name = $data->name;
+            }
         }
 
-        $item->area_ids = Area::whereIn('id', $item->area_id)->get();
-        foreach($item->area_ids as $area_id){
-            $area = Area::where('id', $area_id->id)->first();
-            $area_id->name = $area->name;
+        if($item->area_ids){
+            $item->area_ids = Area::whereIn('id', $item->area_id)->get();
+            foreach($item->area_ids as $area_id){
+                $area = Area::where('id', $area_id->id)->first();
+                $area_id->name = $area->name;
+            }
         }
 
         $user_id = Auth::id();
@@ -118,7 +122,7 @@ class ServiceController extends Controller
         $service->public_sign = $public;
         $service->save();
 
-        return redirect()->route('mypage.index');
+        return redirect()->route('mypage.service.list');
     }
 
     public function edit($service_id){
@@ -227,17 +231,21 @@ class ServiceController extends Controller
             $item->public = "非公開中";
         }
 
+        if($item->categories){
         $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
 
-        foreach ($item->categories as $value) {
-            $data = ServiceCategory::where('id', $value->id)->first();
-            $value->category_name = $data->name;
-        }
+            foreach ($item->categories as $value) {
+                $data = ServiceCategory::where('id', $value->id)->first();
+                $value->category_name = $data->name;
+            }
+        }    
 
+        if($item->area_ids){
         $item->area_ids = Area::whereIn('id', $item->area_id)->get();
-        foreach ($item->area_ids as $area_id) {
-            $area = Area::where('id', $area_id->id)->first();
-            $area_id->name = $area->name;
+            foreach ($item->area_ids as $area_id) {
+                $area = Area::where('id', $area_id->id)->first();
+                $area_id->name = $area->name;
+            }
         }
 
         $categories = ServiceCategory::get();

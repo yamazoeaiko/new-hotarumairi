@@ -14,11 +14,13 @@
           <div class="mb-3">
             <p class="fw-bolder fs-3">{{ $item->main_title }}</p>
           </div>
+          @if($item->categories)
           <div>
             @foreach($item->categories as $value)
             <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
             @endforeach
           </div>
+          @endif
           <div class="mb-3">
             <p class="card-text mb-0">
               <small class="text-muted">ユーザー名：</small>
@@ -45,12 +47,14 @@
             <textarea name="content" id="" cols="30" rows="10" class="form-control" readonly>{{ $item->content }}</textarea>
           </div>
 
+          @if($item->area_ids)
           <div class="mb-3">
             <label for="area_id" class="fw-bolder">対応可能エリア</label>
             @foreach($item->area_ids as $area_id)
             <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1 bg-success">{{ $area_id->name}}</small>
             @endforeach
           </div>
+          @endif
 
           <div class="mb-3">
             <label for="attention" class="fw-bolder">購入時の注意事項</label>

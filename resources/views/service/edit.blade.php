@@ -24,16 +24,20 @@
 
       <div class="mb-3">
         <label for="category_id" class="fw-bolder">出品カテゴリー(複数選択可能)</label>
+        @if($item->categories)
         @foreach($categories as $category)
         <div class="form-check">
           <input type="checkbox" name="category_id[]" value="{{ $category->id }}" class="form-check-input" @if(in_array($category->id, $item->category_ids)) checked @endif>
           <label class="form-check-label">{{ $category->name }}</label>
         </div>
         @endforeach
+        @endif
       </div>
+
 
       <div class="mb-3">
         <label for="area_id" class="fw-bolder">対応エリア(複数選択可能)</label>
+        @if($item->area_ids)
         <div>
           <button type="button" class="btn btn-outline-success" data-bs-toggle="collapse" data-bs-target="#collapseHokkaido">北海道エリア</button>
           <div class="collapse" id="collapseHokkaido">
@@ -147,6 +151,7 @@
             @endforeach
           </div>
         </div>
+      @endif
       </div>
 
       <div class="mb-3">

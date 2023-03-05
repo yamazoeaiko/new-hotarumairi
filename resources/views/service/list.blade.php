@@ -7,8 +7,11 @@
   <div class="container">
     <div class="my-5">
       <h5>出品サービス管理画面</h5>
+      <button class="btn btn-primary" onClick="location.href='{{ route('service.create') }}'">サービスを出品する</button>
       @if($items->isEmpty())
-      <span>現在あなたが出品しているサービスはございません</span>
+      <div>
+        <span>現在あなたが出品しているサービスはございません</span>
+      </div>
       @endif
       <div class="list-group">
         @foreach($items as $item)
