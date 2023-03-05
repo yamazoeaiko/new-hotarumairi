@@ -274,13 +274,13 @@ class ServiceController extends Controller
         $user_id = Auth::id();
         $item = FixedService::where('id', $fix_id)->first();
 
-        $user = UserProfile::where('id', $user_id)->first();
-        $item->user_name = $user->nickname;
-        $item->img_url = $user->img_url;
-        $living = Area::where('id', $user->living_area)->first();
+        $host_user = UserProfile::where('id', $item->host_user)->first();
+        $item->user_name = $host_user->nickname;
+        $item->img_url = $host_user->img_url;
+        $living = Area::where('id', $host_user->living_area)->first();
         $item->living_area = $living->name;
         $item->age =
-        Carbon::parse($user->birthday)->age;
+        Carbon::parse($host_user->birthday)->age;
 
         $theother = UserProfile::where('id', $item->buy_user)->first();
         if($theother->id == $user_id){
