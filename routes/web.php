@@ -152,6 +152,7 @@ Route::controller(ServiceController::class)->group(function(){
     Route::post('/service/estimate/post', 'postEstimate')->name('service.estimate.post');
     Route::post('/service/estimate/approve', 'approveEstimate')->name('service.estimate.approve');
     Route::get('/service/paid/success/{fix_id}', 'paidSuccess')->name('service.paid.success');
+    Route::post('/searvice/search/post', 'searchPost')->name('service.search.post');
 });
 
 Route::controller(FavoriteController::class)->group(function () {

@@ -30,9 +30,42 @@ use Illuminate\Support\Str;
 class ServiceController extends Controller
 {
     public function search(){
-        $items = Service::get()->filter(function ($item) {
-            return $item->public_sign != false;
-        });
+        $user_id = Auth::id();
+        $search_contents_service = session()->get('search_contents_service');
+        if ($search_contents_service == null) {
+            $items = Service::get();
+        } else {
+            $search_contents_service = (object)$search_contents_service;
+            //プランについて
+            $search_categories = Service::query();
+
+            if ($search_contents_service->category_ids != null) {
+                $category_ids = explode(',', $search_contents_service->category_ids);
+                foreach ($category_ids as $category_id) {
+                    $search_categories = $search_categories->orWhere('category_ids', 'like', '%' . $category_id . '%');
+                }
+            }
+
+            $search_categories = $search_categories->get();
+           
+
+            //報酬金額について
+            if ($search_contents_service->price_min  == null) {
+                if ($search_contents_service->price_max == null) {
+                    $search_prices = Service::get();
+                } else {
+                    $search_prices = Service::where('price', '<=', $search_contents_service->price_max)->get();
+                }
+            } else {
+                if ($search_contents_service->price_max == null) {
+                    $search_prices = Service::where('price', '>=', $search_contents_service->price_min)->get();
+                } else {
+                    $search_prices = Service::whereBetween('price', [$search_contents_service->price_min, $search_contents_service->price_max])->get();
+                }
+            }
+            //検索結果
+            $items = $search_categories->intersect($search_prices)->sortBy('date_end');
+        }
 
         foreach($items as $item){
             $item->categories = ServiceCategory::whereIn('id',$item->category_ids)->get();
@@ -46,10 +79,15 @@ class ServiceController extends Controller
             $item->user_name = $user->nickname;
             $item->img_url = $user->img_url;
 
+            $item->favorite = Favorite::where('favorite_id', $item->id)->where('user_id', $user_id)->exists();
+
+            $item->follow = Follow::where('follow_id', $item->user_id)->where('user_id', $user_id)->exists();
         }
+        $categories = ServiceCategory::get();
+
 
         return view('service.index',
-        compact('items'));
+        compact('items','categories'));
     }
 
     public function showUser($user_id){
@@ -418,4 +456,29 @@ class ServiceController extends Controller
 
         return redirect()->route('chat.room', ['room_id' => $room_id, 'theother_id' => $theother_id]);
     }
+
+    public function searchPost(Request $request)
+    {
+        // ポストする検索条件の設定
+        $category_ids = $request->category_ids;
+        $price_max = $request->price_max;
+        $price_min = $request->price_min;
+
+        // $category_ids が配列の場合、カンマ区切りの文字列に変換する
+        if (is_array($category_ids)) {
+            $category_ids = implode(',', $category_ids);
+        }
+
+        $request->session()->put(
+            'search_contents_service',
+            [
+                'category_ids' => $category_ids,
+                'price_max' => $price_max,
+                'price_min' => $price_min,
+            ]
+        );
+
+        return redirect()->route('service.search')->withInput();
+    }
+
 }

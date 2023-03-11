@@ -224,16 +224,16 @@ class HotaruRequestController extends Controller
     ////////////////////////////////////////
     public function getSearch(){
         $search_contents = session()->get('search_contents');
-        if($search_contents == null){
+        if ($search_contents == null) {
             $items = HotaruRequest::get();
-        }else{
+        } else {
             $search_contents = (object)$search_contents;
             //エリア検索ランについて
-            if($search_contents->area_id == null){
+            if (isset($search_contents->area_id) && is_array($search_contents->area_id) && count($search_contents->area_id) > 0) {
+                $search_areas = HotaruRequest::whereIn('area_id', $search_contents->area_id)->get();
+            } else {
                 $search_areas = HotaruRequest::get();
-            }else{
-                $search_areas = HotaruRequest::get()->whereIn('area_id', $search_contents->area_id);
-            };
+            }
             //プランについて
             if($search_contents->plan_id == null){
                 $search_plans = HotaruRequest::get();

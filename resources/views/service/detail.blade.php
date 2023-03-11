@@ -12,14 +12,14 @@
           @if($item->favorite == false)
           <form method="POST" action="{{ route('favorite', ['service_id'=> $item->id]) }}">
             @csrf
-            <button type="submit" class="btn btn-primary ">
+            <button type="submit" class="btn btn-primary my-1">
               <small>サービスをお気に入り登録</small>
             </button>
           </form>
           @else
           <form action="{{route('unfavorite',['service_id'=> $item->id])}}" method="post">
             @csrf
-            <button type="submit" class="btn btn-outline-primary ">
+            <button type="submit" class="btn btn-outline-primary my-1">
               <small>サービスをお気に入り解除</small>
             </button>
           </form>
@@ -28,14 +28,14 @@
           @if($item->follow == false)
           <form method="POST" action="{{ route('follow',['follower_id'=> $item->user_id]) }}">
             @csrf
-            <button type="submit" class="btn btn-success">
+            <button type="submit" class="btn btn-success my-1">
               <small>{{$item->user_name}}をフォローする</small>
             </button>
           </form>
           @else
           <form action="{{route('unfollow',['follower_id'=>$item->user_id])}}" method="post">
             @csrf
-            <button class="btn btn-outline-success">
+            <button class="btn btn-outline-success my-1">
               <small>{{$item->user_name}}のフォローを解除する</small>
             </button>
           </form>
