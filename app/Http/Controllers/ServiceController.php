@@ -20,6 +20,8 @@ use App\Models\ServiceConsult;
 use App\Models\Chat;
 use App\Models\ChatRoom;
 use App\Models\FixedService;
+use App\Models\Favorite;
+use App\Models\Follow;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
@@ -89,6 +91,10 @@ class ServiceController extends Controller
         }
 
         $user_id = Auth::id();
+
+        $item->favorite = Favorite::where('favorite_id', $item->id)->where('user_id', $user_id)->exists();
+
+        $item->follow = Follow::where('follow_id', $item->user_id)->where('user_id', $user_id)->exists();
 
         return view('service.detail',
         compact('item', 'user_id'));
@@ -398,6 +404,11 @@ class ServiceController extends Controller
         $chat_room_id = (int)$chat_room;
 
         $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
+
+        $consult_id = ChatRoom::where('id', $room_id)->pluck('consult_id')->first();
+        $consult = ServiceConsult::where('id', $consult_id)->first();
+        $consult->status = 'accepted';
+        $consult->save();
 
         $chat = new Chat();
         $chat->room_id = $room_id;

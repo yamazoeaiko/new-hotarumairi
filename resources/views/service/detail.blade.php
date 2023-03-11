@@ -9,6 +9,37 @@
       <div class="mb-3 row">
         <div class="col-md-4">
           <img src="{{ asset($item->img_url) }}" alt="Profile image" class="card-img" style="max-width: 100%; height: auto;">
+          @if($item->favorite == false)
+          <form method="POST" action="{{ route('favorite', ['service_id'=> $item->id]) }}">
+            @csrf
+            <button type="submit" class="btn btn-primary ">
+              <small>サービスをお気に入り登録</small>
+            </button>
+          </form>
+          @else
+          <form action="{{route('unfavorite',['service_id'=> $item->id])}}" method="post">
+            @csrf
+            <button type="submit" class="btn btn-outline-primary ">
+              <small>サービスをお気に入り解除</small>
+            </button>
+          </form>
+          @endif
+
+          @if($item->follow == false)
+          <form method="POST" action="{{ route('follow',['follower_id'=> $item->user_id]) }}">
+            @csrf
+            <button type="submit" class="btn btn-success">
+              <small>{{$item->user_name}}をフォローする</small>
+            </button>
+          </form>
+          @else
+          <form action="{{route('unfollow',['follower_id'=>$item->user_id])}}" method="post">
+            @csrf
+            <button class="btn btn-outline-success">
+              <small>{{$item->user_name}}のフォローを解除する</small>
+            </button>
+          </form>
+          @endif
         </div>
         <div class="col-md-8">
           <div class="mb-3">

@@ -24,10 +24,17 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-2"></div>
-            <div class="col-9">
+            <div class="col-1"></div>
+            <div class="col-7">
               <p class="text-muted small text-left ml-auto" style="text-align: left !important;">{{ $item->latest_message }}
               </p>
+            </div>
+            <div class="col-2">
+              @if($item->status_name == '取引中')
+              <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1 bg-success fw-bolder">{{ $item->status_name }}</small>
+              @else
+              <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $item->status_name }}</small>
+              @endif
             </div>
           </div>
         </div>

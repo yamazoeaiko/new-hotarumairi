@@ -14,8 +14,8 @@ class Apply extends Model
         'request_id',
         'host_user',
         'apply_user_id',
-        'first_chat'
-        
+        'first_chat',
+        'status'
     ];
     public function hotaru_request()
     {

@@ -7,6 +7,8 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\FavoriteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -150,5 +152,15 @@ Route::controller(ServiceController::class)->group(function(){
     Route::post('/service/estimate/post', 'postEstimate')->name('service.estimate.post');
     Route::post('/service/estimate/approve', 'approveEstimate')->name('service.estimate.approve');
     Route::get('/service/paid/success/{fix_id}', 'paidSuccess')->name('service.paid.success');
+});
+
+Route::controller(FavoriteController::class)->group(function () {
+    Route::post('/service/{service_id}/favorite', 'favorite')->name('favorite');
+    Route::post('/service/{service_id}/unfavorite', 'unfavorite')->name('unfavorite');
+});
+
+Route::controller(FollowController::class)->group(function () {
+    Route::post('/service/{follower_id}/follow', 'follow')->name('follow');
+    Route::post('/service/{follower_id}/unfollow', 'unfollow')->name('unfollow');
 });
 require __DIR__.'/auth.php';

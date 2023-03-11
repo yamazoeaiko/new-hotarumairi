@@ -327,6 +327,7 @@ class UserProfileController extends Controller
         ]);
         $hotaru_request->update([
             'session_id' => $session->id,
+            'status_id' => 3,
         ]);
 
                 //支払い済みかのサイン
@@ -369,6 +370,9 @@ class UserProfileController extends Controller
         $confirm->create([
             'apply_id'=> $apply_id,
         ]);
+        $apply = Apply::find($apply_id);
+        $apply->status = 'accepted';
+        $apply->save();
 
         // Eloquentを使用せず、SELECTクエリを実行
         $hotaru_request = DB::table('hotaru_requests')

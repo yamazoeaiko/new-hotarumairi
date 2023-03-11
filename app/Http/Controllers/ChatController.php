@@ -51,6 +51,27 @@ class ChatController extends Controller
             if ($latest_message == null) {
                 $item->latest_message = 'ファイルを送付しました。';
             }
+
+            //apply_id or consult_id がconfirmしていたらチャットリストに、取引確定中のアイコンが表示されるようにする。
+            if($item->apply_id!= null){
+            $apply_id = $item->apply_id;
+            $apply = Apply::find($apply_id);
+                if($apply->status =='accepted'){
+                    $item->status_name ='取引中';
+                }else{
+                    $item->status_name ='相談中';
+                }
+            }
+
+            if($item->consult_id!= null){
+                $consult_id = $item->consult_id;
+                $consult = ServiceConsult::find($consult_id);
+                if($consult->status =='accepted'){
+                    $item->status_name ='取引中';
+                }else{
+                    $item->status_name ='相談中';
+                }
+            }
         }
 
 
@@ -71,11 +92,12 @@ class ChatController extends Controller
             $hotaru_request_id = null;
         }
 
-        if($chat_room->consult_id !== null){
+        if($chat_room->consult_id){
             $consult = ServiceConsult::where('id', $chat_room->consult_id)->first();
             $fix_id = FixedService::where('consult_id',$consult->id)->pluck('id')->first();
         }else{
             $service_id = null;
+            $fix_id = null;
         }
 
         //チャット内容の表示

@@ -5,15 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ServiceConsult extends Model
+class Follow extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'service_id',
-        'host_user',
-        'consulting_user',
-        'first_chat',
-        'status'
+        'user_id',
+        'follow_id',
     ];
+
+    public function followable()
+    {
+        return $this->morphTo('follow');
+    }
 }

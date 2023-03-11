@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('apply_user_id');
             $table->foreign('apply_user_id')->references('id')->on('users');
             $table->text('first_chat')->comment('応募する最初のメッセージ');
+            $table->enum('status', ['pending', 'accepted', 'rejected', 'cancelled']);
             $table->timestamps();
         });
     }

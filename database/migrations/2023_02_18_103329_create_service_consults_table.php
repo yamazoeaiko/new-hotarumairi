@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('consulting_user');
             $table->foreign('consulting_user')->references('id')->on('users');
             $table->text('first_chat');
+            $table->enum('status', ['pending', 'accepted', 'rejected', 'cancelled']);
             $table->timestamps();
         });
     }
