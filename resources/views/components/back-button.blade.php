@@ -1,3 +1,3 @@
 <button class="btn btn-outline-success mb-1" onclick="window.history.back();">
-  <i class="fas fa-arrow-left"></i>前のページに戻る
+  <i class="fas fa-arrow-left"></i>戻る
 </button>

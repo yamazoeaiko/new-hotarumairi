@@ -1,7 +1,5 @@
-@component('components.app')
-@endcomponent
-@component('components.header')
-@endcomponent
+@extends('layouts.app')
+@section('content')
 <div class="container">
   <h5>出品サービス一覧</h5>
   <!--検索する-->
@@ -73,3 +71,4 @@
   </button>
   @endforeach
 </div>
+@endsection

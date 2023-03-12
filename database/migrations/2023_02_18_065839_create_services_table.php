@@ -20,6 +20,14 @@ return new class extends Migration
             $table->json('category_ids')->nullable();
             $table->text('main_title')->comment('出品サービスのタイトル')->nullable();
             $table->text('content')->comment('サービスの詳細内容')->nullable();
+            $table->string('photo_1')->nullable();
+            $table->string('photo_2')->nullable();
+            $table->string('photo_3')->nullable();
+            $table->string('photo_4')->nullable();
+            $table->string('photo_5')->nullable();
+            $table->string('photo_6')->nullable();
+            $table->string('photo_7')->nullable();
+            $table->string('photo_8')->nullable();
             $table->text('attention')->comment('注意事項')->nullable();
             $table->boolean('public_sign')->comment('trueなら公開する');
             $table->json('area_id')->nullable();

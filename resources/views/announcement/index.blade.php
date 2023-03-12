@@ -3,6 +3,6 @@
 
 @component('components.header')
 @endcomponent
-<body>
-  
-</body>
+@section('content')
+
+@endsection

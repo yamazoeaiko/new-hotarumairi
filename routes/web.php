@@ -22,9 +22,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -40,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
 Route::controller(HotaruRequestController::class)->group(
     function () {
+        Route::get('/','toppage')->name('toppage');
         Route::get('/request','getRequest')->name('request.index');
         Route::post('/request/session', 'sessionSave')->name('request.session.save')->middleware('auth');
         Route::get('/request/ohakamairi/confirm', 'ohakamairiConfirm')->name('ohakamairi.confirm')->middleware('auth');

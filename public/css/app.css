@@ -11,12 +11,6 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-/*自分で作成CSS*/
-/*基本カラー*/
-/*メインカラー: #2C3E50 (深い青灰色) 
-サブカラー: #E74C3C (明るい赤) 
-注意を引くカラー: #F39C12 (明るいオレンジ) 
-フォントカラー: #FFFFFF (白)*/
 .btn-group {
   display: flex;
   justify-content: center;
