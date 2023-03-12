@@ -62,6 +62,18 @@
           </p>
         </div>
         <div class="mb-3">
+          <div class="owl-carousel owl-theme">
+            @foreach (range(1, 8) as $i)
+            @php
+            $photo = "photo_" . $i;
+            @endphp
+            @if ($item->$photo !== null)
+            <img src="{{asset($item->$photo)}}" style=" width: 300px; height: 200px;">
+            @endif
+            @endforeach
+          </div>
+        </div>
+        <div class="mb-3">
           <label for="price" class="fw-bolder">サービス価格</label>
           <div class="input-group">
             <input type="number" name="price" class="form-control" value="{{$item->price}}" readonly>
@@ -116,4 +128,53 @@
       <button class="col btn btn-primary" onclick=location.href="{{route('mypage.service.edit',['service_id'=>$item->id])}}">編集する</button>
     </div>
     @endif
+
+
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <style>
+      /* Custom styles for the header carousel */
+      .header-section {
+        position: relative;
+        height: 400px;
+      }
+
+      .header-item {
+        height: 400px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .owl-nav button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .owl-prev {
+        left: 0;
+      }
+
+      .owl-next {
+        right: 0;
+      }
+    </style>
+
+    <!-- Owl Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+      $(function() {
+        // Initialize the header carousel
+        $('.owl-carousel').owlCarousel({
+          items: 1,
+          loop: true,
+          autoplay: true,
+          autoplayTimeout: 5000,
+          autoplayHoverPause: true,
+          nav: true,
+          navText: ['<i class="bi-chevron-left"></i>', '<i class="bi-chevron-right"></i>']
+        });
+      });
+    </script>
     @endsection

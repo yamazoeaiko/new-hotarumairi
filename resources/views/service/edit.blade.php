@@ -10,6 +10,71 @@
       <input type="text" name="main_title" class="form-control fw-bolder" value="{{ $item->main_title }}">
     </div>
 
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="photo_1">Photo 1</label>
+      @if($item->photo_1)
+      <a href="{{asset($item->photo_1)}}">画像①</a>
+      @endif
+      <input type="file" class="form-control" name="photo_1" value="{{$item->photo_1}}">
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="photo_2">Photo 2</label>
+      @if($item->photo_2)
+      <a href="{{asset($item->photo_2)}}">画像②</a>
+      @endif
+      <input type="file" class="form-control" name="photo_2" value="{{$item->photo_2}}">
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="photo_3">Photo 3</label>
+      @if($item->photo_3)
+      <a href="{{asset($item->photo_3)}}">画像③</a>
+      @endif
+      <input type="file" class="form-control" name="photo_3" value="{{$item->photo_3}}">
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="photo_4">Photo 4</label>
+      @if($item->photo_4)
+      <a href="{{asset($item->photo_4)}}">画像④</a>
+      @endif
+      <input type="file" class="form-control" name="photo_4" value="{{$item->photo_4}}">
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="photo_5">Photo 5</label>
+      @if($item->photo_5)
+      <a href="{{asset($item->photo_5)}}">画像⑤</a>
+      @endif
+      <input type="file" class="form-control" name="photo_5" value="{{$item->photo_5}}">
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="photo_6">Photo 6</label>
+      @if($item->photo_6)
+      <a href="{{asset($item->photo_6)}}">画像⑥</a>
+      @endif
+      <input type="file" class="form-control" name="photo_6" value="{{$item->photo_6}}">
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="photo_7">Photo 7</label>
+      @if($item->photo_7)
+      <a href="{{asset($item->photo_7)}}">画像⑦</a>
+      @endif
+      <input type="file" class="form-control" name="photo_7" value="{{$item->photo_7}}">
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="photo_8">Photo 8</label>
+      @if($item->photo_8)
+      <a href="{{asset($item->photo_8)}}">画像⑧</a>
+      @endif
+      <input type="file" class="form-control" name="photo_8" value="{{$item->photo_8}}">
+    </div>
+
+
     <div class="mb-3">
       <label for="content" class="fw-bolder">サービス内容</label>
       <div class="input-group">

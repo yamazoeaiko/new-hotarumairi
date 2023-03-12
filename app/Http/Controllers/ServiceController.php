@@ -29,7 +29,8 @@ use Illuminate\Support\Str;
 
 class ServiceController extends Controller
 {
-    public function search(){
+    public function search()
+    {
         $user_id = Auth::id();
         $search_contents_service = session()->get('search_contents_service');
         if ($search_contents_service == null) {
@@ -47,7 +48,7 @@ class ServiceController extends Controller
             }
 
             $search_categories = $search_categories->get();
-           
+
 
             //報酬金額について
             if ($search_contents_service->price_min  == null) {
@@ -67,11 +68,11 @@ class ServiceController extends Controller
             $items = $search_categories->intersect($search_prices)->sortBy('date_end');
         }
 
-        foreach($items as $item){
-            $item->categories = ServiceCategory::whereIn('id',$item->category_ids)->get();
-            
-            foreach($item->categories as $value){
-                $data = ServiceCategory::where('id',$value->id)->first();
+        foreach ($items as $item) {
+            $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
+
+            foreach ($item->categories as $value) {
+                $data = ServiceCategory::where('id', $value->id)->first();
                 $value->category_name = $data->name;
             }
 
@@ -86,15 +87,18 @@ class ServiceController extends Controller
         $categories = ServiceCategory::get();
 
 
-        return view('service.index',
-        compact('items','categories'));
+        return view(
+            'service.index',
+            compact('items', 'categories')
+        );
     }
 
-    public function showUser($user_id){
-
+    public function showUser($user_id)
+    {
     }
 
-    public function showDetail($service_id){
+    public function showDetail($service_id)
+    {
         $item = Service::where('id', $service_id)->first();
 
         $user = UserProfile::where('id', $item->user_id)->first();
@@ -103,15 +107,15 @@ class ServiceController extends Controller
         $living = Area::where('id', $user->living_area)->first();
         $item->living_area = $living->name;
         $item->age =
-        Carbon::parse($user->birthday)->age;
+            Carbon::parse($user->birthday)->age;
 
-        if($item->public_sign ==true){
+        if ($item->public_sign == true) {
             $item->public = "公開中";
-        }else{
+        } else {
             $item->public = "非公開中";
         }
 
-        if($item->categories){
+        if ($item->categories) {
             $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
 
             foreach ($item->categories as $value) {
@@ -120,9 +124,9 @@ class ServiceController extends Controller
             }
         }
 
-        if($item->area_ids){
+        if ($item->area_ids) {
             $item->area_ids = Area::whereIn('id', $item->area_id)->get();
-            foreach($item->area_ids as $area_id){
+            foreach ($item->area_ids as $area_id) {
                 $area = Area::where('id', $area_id->id)->first();
                 $area_id->name = $area->name;
             }
@@ -134,27 +138,90 @@ class ServiceController extends Controller
 
         $item->follow = Follow::where('follow_id', $item->user_id)->where('user_id', $user_id)->exists();
 
-        return view('service.detail',
-        compact('item', 'user_id'));
+        return view(
+            'service.detail',
+            compact('item', 'user_id')
+        );
     }
 
-    public function create(){
+    public function create()
+    {
         $user_id = Auth::id();
         $areas = Area::get();
         $categories = ServiceCategory::get();
 
-        return view('service.create',
-    compact('user_id', 'areas', 'categories'));
+        return view(
+            'service.create',
+            compact('user_id', 'areas', 'categories')
+        );
     }
 
-    public function done(Request $request){
-        if($request->public_sign == 1){
+    public function done(Request $request)
+    {
+        if ($request->public_sign == 1) {
             $public = true;
-        }else{
+        } else {
             $public = false;
         }
-        
+
         $service = new Service();
+
+        if ($request->hasFile('photo_1')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_1')->getClientOriginalName();
+            $path_1 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_1')->storeAs('public/' . $dir, $file_name);
+            $service->photo_1 = $path_1;
+        }
+        if ($request->hasFile('photo_2')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_2')->getClientOriginalName();
+            $path_2 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_2')->storeAs('public/' . $dir, $file_name);
+            $service->photo_2 = $path_2;
+        }
+        if ($request->hasFile('photo_3')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_3')->getClientOriginalName();
+            $path_3 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_3')->storeAs('public/' . $dir, $file_name);
+            $service->photo_3 = $path_3;
+        }
+        if ($request->hasFile('photo_4')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_4')->getClientOriginalName();
+            $path_4 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_4')->storeAs('public/' . $dir, $file_name);
+            $service->photo_4 = $path_4;
+        }
+        if ($request->hasFile('photo_5')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_5')->getClientOriginalName();
+            $path_5 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_5')->storeAs('public/' . $dir, $file_name);
+            $service->photo_5 = $path_5;
+        }
+        if ($request->hasFile('photo_6')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_6')->getClientOriginalName();
+            $path_6 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_6')->storeAs('public/' . $dir, $file_name);
+            $service->photo_6 = $path_6;
+        }
+        if ($request->hasFile('photo_7')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_7')->getClientOriginalName();
+            $path_7 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_7')->storeAs('public/' . $dir, $file_name);
+            $service->photo_7 = $path_7;
+        }
+        if ($request->hasFile('photo_8')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_8')->getClientOriginalName();
+            $path_8 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_8')->storeAs('public/' . $dir, $file_name);
+            $service->photo_8 = $path_8;
+        }
 
         $service->user_id = $request->user_id;
         $service->main_title = $request->main_title;
@@ -169,24 +236,28 @@ class ServiceController extends Controller
         return redirect()->route('mypage.service.list');
     }
 
-    public function edit($service_id){
+    public function edit($service_id)
+    {
         //
     }
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
         //
     }
 
-    public function destroy(Request $request){
+    public function destroy(Request $request)
+    {
         //
     }
 
-    public function sendConsult(Request $request){
+    public function sendConsult(Request $request)
+    {
         $consult = new ServiceConsult();
         $consulting_user_id = Auth::id();
         $theother_id = $request->host_user;
 
-        $consult->create( [
+        $consult->create([
             'host_user' => $theother_id,
             'service_id' => $request->service_id,
             'consulting_user' => $consulting_user_id,
@@ -196,12 +267,12 @@ class ServiceController extends Controller
         $consult_id = ServiceConsult::where('service_id', $request->service_id)->where('consulting_user', $consulting_user_id)->pluck('id')->first();
 
         $chat_room =
-        $consulting_user_id < $theother_id ? "$consulting_user_id$theother_id" : "$theother_id$consulting_user_id";
+            $consulting_user_id < $theother_id ? "$consulting_user_id$theother_id" : "$theother_id$consulting_user_id";
         $chat_room_id = (int)$chat_room;
 
         if ($chat_exist = ChatRoom::where('room_id', $chat_room_id)->first()) {
             $room_id = $chat_exist->id;
-            $chat_exist->update(['consult_id'=>$consult_id]);
+            $chat_exist->update(['consult_id' => $consult_id]);
         } else {
             $room = new ChatRoom();
             $room->create([
@@ -219,7 +290,7 @@ class ServiceController extends Controller
             'from_user' => $consulting_user_id
         ]);
 
-        $data = Service::where('id',$request->service_id)->first();
+        $data = Service::where('id', $request->service_id)->first();
 
         $fix = new FixedService();
         $fix->service_id = $request->service_id;
@@ -234,18 +305,19 @@ class ServiceController extends Controller
         return redirect()->route('chat.list');
     }
 
-    public function getMyServiceList(){
+    public function getMyServiceList()
+    {
         $user_id = Auth::id();
         $items = Service::where('user_id', $user_id)->get();
 
-        foreach($items as $item){
+        foreach ($items as $item) {
             $item->content =
-            Str::limit($item->content, 60);
+                Str::limit($item->content, 60);
         }
 
-        if($consults = ServiceConsult::where('host_user', $user_id)->get()){
-            foreach($consults as $consult){
-                $consulted_service = Service::where('id',$consult->service_id)->first();
+        if ($consults = ServiceConsult::where('host_user', $user_id)->get()) {
+            foreach ($consults as $consult) {
+                $consulted_service = Service::where('id', $consult->service_id)->first();
                 $consult->service_name = $consulted_service->main_title;
 
                 $consulting_user = UserProfile::where('id', $consult->consulting_user)->first();
@@ -263,10 +335,11 @@ class ServiceController extends Controller
             }
         }
 
-        return view('service.list',compact('items', 'consults'));
+        return view('service.list', compact('items', 'consults'));
     }
 
-    public function getMyServiceEdit($service_id){
+    public function getMyServiceEdit($service_id)
+    {
         $item = Service::where('id', $service_id)->first();
 
         if ($item->public_sign == true) {
@@ -275,17 +348,17 @@ class ServiceController extends Controller
             $item->public = "非公開中";
         }
 
-        if($item->categories){
-        $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
+        if ($item->categories) {
+            $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
 
             foreach ($item->categories as $value) {
                 $data = ServiceCategory::where('id', $value->id)->first();
                 $value->category_name = $data->name;
             }
-        }    
+        }
 
-        if($item->area_ids){
-        $item->area_ids = Area::whereIn('id', $item->area_id)->get();
+        if ($item->area_ids) {
+            $item->area_ids = Area::whereIn('id', $item->area_id)->get();
             foreach ($item->area_ids as $area_id) {
                 $area = Area::where('id', $area_id->id)->first();
                 $area_id->name = $area->name;
@@ -295,10 +368,11 @@ class ServiceController extends Controller
         $categories = ServiceCategory::get();
         $areas = Area::get();
 
-        return view('service.edit',compact('item', 'categories', 'areas'));
+        return view('service.edit', compact('item', 'categories', 'areas'));
     }
 
-    public function updateMyService(Request $request){
+    public function updateMyService(Request $request)
+    {
         if ($request->public_sign == 1) {
             $public = true;
         } else {
@@ -309,20 +383,85 @@ class ServiceController extends Controller
             'main_title' => $request->main_title,
             'content' => $request->content,
             'category_ids' => $request->category_id,
-            'area_id'=> $request->area_id,
+            'area_id' => $request->area_id,
             'attention' => $request->attention,
-            'public_sign' =>$public,
+            'public_sign' => $public,
             'price' => $request->price
         ];
 
         $service = Service::where('id', $request->service_id)->first();
 
-        $service->update($param);
+        $service->main_title = $request->main_title;
+        $service->content = $request->content;
+        $service->category_ids = $request->category_id;
+        $service->area_id = $request->area_id;
+        $service->attention = $request->attention;
+        $service->public_sign = $public;
+        $service->price = $request->price;
 
-        return redirect()->route('service.detail',['service_id'=>$request->service_id]);
+        if ($request->hasFile('photo_1')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_1')->getClientOriginalName();
+            $path_1 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_1')->storeAs('public/' . $dir, $file_name);
+            $service->photo_1 = $path_1;
+        }
+        if ($request->hasFile('photo_2')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_2')->getClientOriginalName();
+            $path_2 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_2')->storeAs('public/' . $dir, $file_name);
+            $service->photo_2 = $path_2;
+        }
+        if ($request->hasFile('photo_3')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_3')->getClientOriginalName();
+            $path_3 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_3')->storeAs('public/' . $dir, $file_name);
+            $service->photo_3 = $path_3;
+        }
+        if ($request->hasFile('photo_4')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_4')->getClientOriginalName();
+            $path_4 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_4')->storeAs('public/' . $dir, $file_name);
+            $service->photo_4 = $path_4;
+        }
+        if ($request->hasFile('photo_5')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_5')->getClientOriginalName();
+            $path_5 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_5')->storeAs('public/' . $dir, $file_name);
+            $service->photo_5 = $path_5;
+        }
+        if ($request->hasFile('photo_6')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_6')->getClientOriginalName();
+            $path_6 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_6')->storeAs('public/' . $dir, $file_name);
+            $service->photo_6 = $path_6;
+        }
+        if ($request->hasFile('photo_7')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_7')->getClientOriginalName();
+            $path_7 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_7')->storeAs('public/' . $dir, $file_name);
+            $service->photo_7 = $path_7;
+        }
+        if ($request->hasFile('photo_8')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_8')->getClientOriginalName();
+            $path_8 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_8')->storeAs('public/' . $dir, $file_name);
+            $service->photo_8 = $path_8;
+        }
+        $service->save();
+
+        return redirect()->route('service.detail', ['service_id' => $request->service_id]);
     }
 
-    public function getFixed($fix_id){
+    public function getFixed($fix_id)
+    {
         $user_id = Auth::id();
         $item = FixedService::where('id', $fix_id)->first();
 
@@ -332,17 +471,17 @@ class ServiceController extends Controller
         $living = Area::where('id', $host_user->living_area)->first();
         $item->living_area = $living->name;
         $item->age =
-        Carbon::parse($host_user->birthday)->age;
+            Carbon::parse($host_user->birthday)->age;
 
         $theother = UserProfile::where('id', $item->buy_user)->first();
-        if($theother->id == $user_id){
+        if ($theother->id == $user_id) {
             $theother = UserProfile::where('id', $item->host_user)->first();
         }
 
         $chat_room =
-                $user_id < $theother->id ? "$user_id$theother->id" : "$theother->id$user_id";
-                $chat_room_id = (int)$chat_room;
-                $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
+            $user_id < $theother->id ? "$user_id$theother->id" : "$theother->id$user_id";
+        $chat_room_id = (int)$chat_room;
+        $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
 
         //ここからStripe処理
         $publicKey = config('payment.stripe_public_key');
@@ -370,18 +509,20 @@ class ServiceController extends Controller
             'cancel_url'           => route('service.fixed', ['fix_id' => $item->id])
         ]);
 
-        return view('service.fixed',compact('item','room_id', 'theother', 'user_id','session', 'publicKey', 'secretKey'));
+        return view('service.fixed', compact('item', 'room_id', 'theother', 'user_id', 'session', 'publicKey', 'secretKey'));
     }
 
-    public function paidSuccess($fix_id){
+    public function paidSuccess($fix_id)
+    {
         $fix = FixedService::where('id', $fix_id)->first();
         $fix->payment = true;
         $fix->save();
 
-        return redirect()->route('service.fixed',['fix_id'=>$fix_id]);
+        return redirect()->route('service.fixed', ['fix_id' => $fix_id]);
     }
 
-    public function getFixedEdit($fix_id){
+    public function getFixedEdit($fix_id)
+    {
         $user_id = Auth::id();
         $item = FixedService::where('id', $fix_id)->first();
 
@@ -391,22 +532,24 @@ class ServiceController extends Controller
         $living = Area::where('id', $user->living_area)->first();
         $item->living_area = $living->name;
         $item->age =
-        Carbon::parse($user->birthday)->age;
+            Carbon::parse($user->birthday)->age;
 
-        return view('service.edit_fixed',compact('item'));
+        return view('service.edit_fixed', compact('item'));
     }
 
-    public function updateFixed(Request $request){
-        $fix = FixedService::where('id',$request->fix_id)->first();
+    public function updateFixed(Request $request)
+    {
+        $fix = FixedService::where('id', $request->fix_id)->first();
         $fix->price = $request->price;
         $fix->date_end = $request->date_end;
         $fix->content = $request->content;
         $fix->save();
 
-        return redirect()->route('service.fixed',['fix_id'=>$request->fix_id]);
+        return redirect()->route('service.fixed', ['fix_id' => $request->fix_id]);
     }
 
-    public function postEstimate(Request $request){
+    public function postEstimate(Request $request)
+    {
         $fix = FixedService::where('id', $request->fix_id)->first();
         $fix->estimate = true;
         $fix->save();
@@ -415,10 +558,10 @@ class ServiceController extends Controller
         $theother_id = $fix->buy_user;
 
         $chat_room =
-        $user_id < $theother_id ? "$user_id$theother_id" : "$theother_id$user_id";
+            $user_id < $theother_id ? "$user_id$theother_id" : "$theother_id$user_id";
         $chat_room_id = (int)$chat_room;
 
-        $room_id = ChatRoom::where('room_id',$chat_room_id)->pluck('id')->first();
+        $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
 
         $chat = new Chat();
         $chat->room_id = $room_id;
@@ -426,10 +569,11 @@ class ServiceController extends Controller
         $chat->message = '正式な見積もりを提案しました';
         $chat->save();
 
-        return redirect()->route('chat.room',['room_id'=>$room_id, 'theother_id'=>$theother_id]);
+        return redirect()->route('chat.room', ['room_id' => $room_id, 'theother_id' => $theother_id]);
     }
 
-    public function approveEstimate(Request $request){
+    public function approveEstimate(Request $request)
+    {
         $fix = FixedService::where('id', $request->fix_id)->first();
         $fix->contract = true;
         $fix->save();
@@ -438,7 +582,7 @@ class ServiceController extends Controller
         $theother_id = $fix->host_user;
 
         $chat_room =
-        $user_id < $theother_id ? "$user_id$theother_id" : "$theother_id$user_id";
+            $user_id < $theother_id ? "$user_id$theother_id" : "$theother_id$user_id";
         $chat_room_id = (int)$chat_room;
 
         $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
@@ -480,5 +624,4 @@ class ServiceController extends Controller
 
         return redirect()->route('service.search')->withInput();
     }
-
 }
