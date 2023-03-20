@@ -18,16 +18,6 @@ use Illuminate\Support\Arr;
 
 class HotaruRequestController extends Controller
 {
-    public function toppage(){
-        $items = Service::orderBy('created_at', 'desc')->get();
-
-        return view('index',compact('items'));
-    }
-    public function getRequest(){
-        
-        return view('request.index');
-    }
-
     public function getOhakamairi(){
         $user_id= Auth::id();
         $areas = Area::get();

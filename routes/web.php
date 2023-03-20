@@ -37,8 +37,6 @@ Route::middleware('auth')->group(function () {
 
 Route::controller(HotaruRequestController::class)->group(
     function () {
-        Route::get('/','toppage')->name('toppage');
-        Route::get('/request','getRequest')->name('request.index');
         Route::post('/request/session', 'sessionSave')->name('request.session.save')->middleware('auth');
         Route::get('/request/ohakamairi/confirm', 'ohakamairiConfirm')->name('ohakamairi.confirm')->middleware('auth');
         Route::get('/request/omamori/confirm', 'omamoriConfirm')->name('omamori.confirm')->middleware('auth');
@@ -65,6 +63,33 @@ Route::controller(HotaruRequestController::class)->group(
         Route::post('/search/apply', 'searchApply')->name('search.apply')->middleware('auth');
 
     });
+
+Route::controller(ServiceController::class)->group(function () {
+    Route::get('/', 'toppage')->name('toppage');
+    Route::get('/request', 'getRequest')->name('request.index');
+    Route::get('/request/create', 'request')->name('service.request')->middleware('auth');
+    Route::get('/service/search', 'search')->name('service.search');
+    Route::get('/service/user/{user_id}', 'showUser')->name('service.show.user')->middleware('auth');
+    Route::get('/service/detail/{service_id}', 'showDetail')->name('service.detail')->middleware('auth');
+    Route::get('/service/create', 'create')->name('service.create')->middleware('auth');
+    Route::post('/service/create/done', 'done')->name('service.create.done')->middleware('auth');
+    Route::get('/service/{service_id}/edit', 'edit')->name('service.edit')->middleware('auth');
+    Route::post('/service/update', 'update')->name('service.update')->middleware('auth');
+    Route::post('/service/destroy', 'destroy')->name('service.destroy')->middleware('auth');
+    Route::get('/mypage/service/list', 'getMyServiceList')->name('mypage.service.list')->middleware('auth');
+    Route::get('/mypage/service/edit/{service_id}', 'getMyServiceEdit')->name('mypage.service.edit')->middleware('auth');
+    Route::post('/mypage/service/update', 'updateMyService')->name('mypage.service.update')->middleware('auth');
+
+    //ここからは、見積もり相談したりなどユーザー同士の連携について
+    Route::post('/service/consult/send', 'sendConsult')->name('service.consult.send');
+    Route::get('/service/fixed/{fix_id}', 'getFixed')->name('service.fixed');
+    Route::get('/service/fixed/edit/{fix_id}', 'getFixedEdit')->name('service.fixed.edit');
+    Route::post('/service/fixed/update', 'updateFixed')->name('service.fixed.update');
+    Route::post('/service/estimate/post', 'postEstimate')->name('service.estimate.post');
+    Route::post('/service/estimate/approve', 'approveEstimate')->name('service.estimate.approve');
+    Route::get('/service/paid/success/{fix_id}', 'paidSuccess')->name('service.paid.success');
+    Route::post('/searvice/search/post', 'searchPost')->name('service.search.post');
+});
 
 Route::controller(UserProfileController::class)->group(
     function () {
@@ -129,29 +154,6 @@ Route::controller(AnnouncementController::class)->group(function(){
     Route::get('/announcement/show', 'show')->name('announcement.show');
 });
 
-Route::controller(ServiceController::class)->group(function(){
-    Route::get('/service/search','search')->name('service.search');
-    Route::get('/service/user/{user_id}','showUser')->name('service.show.user');
-    Route::get('/service/detail/{service_id}', 'showDetail')->name('service.detail');
-    Route::get('/service/create','create')->name('service.create');
-    Route::post('/service/create/done','done')->name('service.create.done');
-    Route::get('/service/{service_id}/edit','edit')->name('service.edit');
-    Route::post('/service/update','update')->name('service.update');
-    Route::post('/service/destroy', 'destroy')->name('service.destroy');
-    Route::get('/mypage/service/list','getMyServiceList')->name('mypage.service.list');
-    Route::get('/mypage/service/edit/{service_id}', 'getMyServiceEdit')->name('mypage.service.edit');
-    Route::post('/mypage/service/update', 'updateMyService')->name('mypage.service.update');
-
-    //ここからは、見積もり相談したりなどユーザー同士の連携について
-    Route::post('/service/consult/send','sendConsult')->name('service.consult.send');
-    Route::get('/service/fixed/{fix_id}', 'getFixed')->name('service.fixed');
-    Route::get('/service/fixed/edit/{fix_id}', 'getFixedEdit')->name('service.fixed.edit');
-    Route::post('/service/fixed/update','updateFixed')->name('service.fixed.update');
-    Route::post('/service/estimate/post', 'postEstimate')->name('service.estimate.post');
-    Route::post('/service/estimate/approve', 'approveEstimate')->name('service.estimate.approve');
-    Route::get('/service/paid/success/{fix_id}', 'paidSuccess')->name('service.paid.success');
-    Route::post('/searvice/search/post', 'searchPost')->name('service.search.post');
-});
 
 Route::controller(FavoriteController::class)->group(function () {
     Route::post('/service/{service_id}/favorite', 'favorite')->name('favorite');

@@ -38,5 +38,11 @@ class ServiceCategoryTableSeeder extends Seeder
             'name' => '占い'
         ];
         DB::table('service_categories')->insert($param);
+
+        $param = [
+            'big_category' => 'その他',
+            'name' => 'その他'
+        ];
+        DB::table('service_categories')->insert($param);
     }
 }

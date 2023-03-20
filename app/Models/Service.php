@@ -10,7 +10,8 @@ class Service extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'request_user_id',
+        'offer_user_id',
         'category_ids',
         'main_title',
         'content',
@@ -26,7 +27,14 @@ class Service extends Model
         'public_sign',
         'price',
         'price_net',
-        'area_id'
+        'area_id',
+        'application_deadline',
+        'delivery_deadline',
+        'free',
+        'session_id',
+        'payment_id',
+        'status',
+        'public_sign'
     ];
 
     protected $casts = [

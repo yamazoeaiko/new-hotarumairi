@@ -24,6 +24,27 @@
       @endforeach
     </div>
   </div>
+  <div class="my-5">
+    <h5>公開した依頼</h5>
+    @if($requests->isEmpty())
+    <div>
+      <span>現在あなたが公開している依頼はございません</span>
+    </div>
+    @endif
+    <div class="list-group">
+      @foreach($requests as $request)
+      <button onClick="location.href='{{route('service.detail', ['service_id' => $item->id])}}'" class="list-group-item list-group-item-action">
+        <div class="row">
+          <div class="col-8 fw-bolder fs-5">{{$request->main_title}}</div>
+          <div class="col-4">予算：{{$request->price}}円（税別）</div>
+        </div>
+        <div class="row">
+          <p class="text-muted small text-left ml-auto" style="text-align: left !important;">{{ $request->content }}</p>
+        </div>
+      </button>
+      @endforeach
+    </div>
+  </div>
   <div class="my-3">
     <h5>見積もり・内容相談など</h5>
     @if(count($consults)== 0)

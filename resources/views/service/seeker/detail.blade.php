@@ -23,7 +23,7 @@
         @endif
 
         @if($item->follow == false)
-        <form method="POST" action="{{ route('follow',['follower_id'=> $item->user_id]) }}">
+        <form method="POST" action="{{ route('follow',['follower_id'=> $item->offer_user_id]) }}">
           @csrf
           <button type="submit" class="btn btn-success my-1">
             <small>{{$item->user_name}}をフォローする</small>
@@ -107,7 +107,7 @@
         </div>
       </div>
     </div>
-    @if($item->user_id !== $user_id)
+    @if($item->offer_user_id !== $user_id)
     <div class="text-center">
       <button type="button" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapseConsult">お見積りやサービス内容の相談をする</button>
 
@@ -123,7 +123,7 @@
         </form>
       </div>
     </div>
-    @elseif($item->user_id == $user_id)
+    @elseif($item->offer_user_id == $user_id)
     <div class="row my-1">
       <button class="col btn btn-primary" onclick=location.href="{{route('mypage.service.edit',['service_id'=>$item->id])}}">編集する</button>
     </div>

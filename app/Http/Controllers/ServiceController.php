@@ -29,6 +29,21 @@ use Illuminate\Support\Str;
 
 class ServiceController extends Controller
 {
+    public function toppage()
+    {
+        $items = Service::orderBy('created_at', 'desc')
+            ->whereNull('request_user_id')
+            ->get();
+
+
+        return view('index', compact('items'));
+    }
+    public function getRequest()
+    {
+
+        return view('request.index');
+    }
+
     public function search()
     {
         $user_id = Auth::id();
@@ -88,7 +103,7 @@ class ServiceController extends Controller
 
 
         return view(
-            'service.index',
+            'service.seeker.index',
             compact('items', 'categories')
         );
     }
@@ -101,7 +116,7 @@ class ServiceController extends Controller
     {
         $item = Service::where('id', $service_id)->first();
 
-        $user = UserProfile::where('id', $item->user_id)->first();
+        $user = UserProfile::where('id', $item->offer_user_id)->first();
         $item->user_name = $user->nickname;
         $item->img_url = $user->img_url;
         $living = Area::where('id', $user->living_area)->first();
@@ -136,11 +151,22 @@ class ServiceController extends Controller
 
         $item->favorite = Favorite::where('favorite_id', $item->id)->where('user_id', $user_id)->exists();
 
-        $item->follow = Follow::where('follow_id', $item->user_id)->where('user_id', $user_id)->exists();
+        $item->follow = Follow::where('follow_id', $item->offer_user_id)->where('user_id', $user_id)->exists();
 
         return view(
-            'service.detail',
+            'service.seeker.detail',
             compact('item', 'user_id')
+        );
+    }
+
+    public function request(){
+        $user_id = Auth::id();
+        $areas = Area::get();
+        $categories = ServiceCategory::get();
+
+        return view(
+            'service.seeker.request',
+            compact('user_id', 'areas', 'categories')
         );
     }
 
@@ -151,19 +177,13 @@ class ServiceController extends Controller
         $categories = ServiceCategory::get();
 
         return view(
-            'service.create',
+            'service.provider.create',
             compact('user_id', 'areas', 'categories')
         );
     }
 
     public function done(Request $request)
     {
-        if ($request->public_sign == 1) {
-            $public = true;
-        } else {
-            $public = false;
-        }
-
         $service = new Service();
 
         if ($request->hasFile('photo_1')) {
@@ -223,14 +243,23 @@ class ServiceController extends Controller
             $service->photo_8 = $path_8;
         }
 
-        $service->user_id = $request->user_id;
+        if($request->offer_user_id){
+        $service->offer_usr_id = $request->offer_user_id;
+        }
+        if($request->request_user_id){
+        $service->request_user_id = $request->request_user_id;
+        }
         $service->main_title = $request->main_title;
         $service->content = $request->content;
         $service->category_ids = $request->category_id;
         $service->attention = $request->attention;
+        $service->free = $request->free;
         $service->price = $request->price;
+        $service->price_net = ($request->price)*0.85;
+        $service->application_deadline = $request->applying_deadline;
+        $service->delivery_deadline = $request->delivery_deadline;
         $service->area_id = $request->area_id;
-        $service->public_sign = $public;
+        $service->public_sign = $request->public_sign;
         $service->save();
 
         return redirect()->route('mypage.service.list');
@@ -308,11 +337,16 @@ class ServiceController extends Controller
     public function getMyServiceList()
     {
         $user_id = Auth::id();
-        $items = Service::where('user_id', $user_id)->get();
+        $items = Service::where('offer_user_id', $user_id)->get();
 
         foreach ($items as $item) {
             $item->content =
                 Str::limit($item->content, 60);
+        }
+
+        $requests = Service::where('request_user_id', $user_id)->get();
+        foreach ($requests as $request) {
+            $request->content = Str::limit($request->content, 60);
         }
 
         if ($consults = ServiceConsult::where('host_user', $user_id)->get()) {
@@ -335,7 +369,7 @@ class ServiceController extends Controller
             }
         }
 
-        return view('service.list', compact('items', 'consults'));
+        return view('service.provider.list', compact('items', 'requests','consults'));
     }
 
     public function getMyServiceEdit($service_id)
@@ -368,7 +402,7 @@ class ServiceController extends Controller
         $categories = ServiceCategory::get();
         $areas = Area::get();
 
-        return view('service.edit', compact('item', 'categories', 'areas'));
+        return view('service.provider.edit', compact('item', 'categories', 'areas'));
     }
 
     public function updateMyService(Request $request)
@@ -509,7 +543,7 @@ class ServiceController extends Controller
             'cancel_url'           => route('service.fixed', ['fix_id' => $item->id])
         ]);
 
-        return view('service.fixed', compact('item', 'room_id', 'theother', 'user_id', 'session', 'publicKey', 'secretKey'));
+        return view('service.provider.fixed', compact('item', 'room_id', 'theother', 'user_id', 'session', 'publicKey', 'secretKey'));
     }
 
     public function paidSuccess($fix_id)
@@ -534,7 +568,7 @@ class ServiceController extends Controller
         $item->age =
             Carbon::parse($user->birthday)->age;
 
-        return view('service.edit_fixed', compact('item'));
+        return view('service.provider.edit_fixed', compact('item'));
     }
 
     public function updateFixed(Request $request)
