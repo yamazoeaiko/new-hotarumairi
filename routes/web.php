@@ -38,10 +38,6 @@ Route::middleware('auth')->group(function () {
 Route::controller(HotaruRequestController::class)->group(
     function () {
         Route::post('/request/session', 'sessionSave')->name('request.session.save')->middleware('auth');
-        Route::get('/request/ohakamairi/confirm', 'ohakamairiConfirm')->name('ohakamairi.confirm')->middleware('auth');
-        Route::get('/request/omamori/confirm', 'omamoriConfirm')->name('omamori.confirm')->middleware('auth');
-        Route::get('/request/sanpai/confirm', 'sanpaiConfirm')->name('sanpai.confirm')->middleware('auth');
-        Route::get('/request/others/confirm', 'othersConfirm')->name('others.confirm')->middleware('auth');
 
         //依頼完了
         Route::post('/request/done', 'done')->name('request.done');
@@ -53,14 +49,6 @@ Route::controller(HotaruRequestController::class)->group(
 
 
         Route::get('/chat', 'getChat')->name('chat.index')->middleware('auth');
-
-
-        //////////プランごとに依頼を作成する画面/////////////
-        Route::get('/request/ohakamairi', 'getOhakamairi')->name('request.ohakamairi')->middleware('auth');
-        Route::get('/request/omamori', 'getOmamori')->name('request.omamori')->middleware('auth');
-        Route::get('/request/sanpai', 'getSanpai')->name('request.sanpai')->middleware('auth');
-        Route::get('/request/others', 'getOthers')->name('request.others')->middleware('auth');
-        Route::post('/search/apply', 'searchApply')->name('search.apply')->middleware('auth');
 
     });
 
