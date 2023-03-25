@@ -43,11 +43,6 @@ Route::controller(HotaruRequestController::class)->group(
         Route::post('/request/done', 'done')->name('request.done');
 
 
-        Route::get('/search','getSearch')->name('search.index');
-        Route::get('/search/{request_id}','moreSearch')->name('search.more')->middleware('auth');
-        Route::post('/search/post', 'postSearch')->name('search.post');
-
-
         Route::get('/chat', 'getChat')->name('chat.index')->middleware('auth');
 
     });
@@ -67,6 +62,11 @@ Route::controller(ServiceController::class)->group(function () {
     Route::get('/mypage/service/list', 'getMyServiceList')->name('mypage.service.list')->middleware('auth');
     Route::get('/mypage/service/edit/{service_id}', 'getMyServiceEdit')->name('mypage.service.edit')->middleware('auth');
     Route::post('/mypage/service/update', 'updateMyService')->name('mypage.service.update')->middleware('auth');
+    //公開依頼の検索について
+    Route::get('/search', 'getSearch')->name('search.index');
+    Route::get('/search/{request_id}', 'moreSearch')->name('search.more')->middleware('auth');
+    Route::post('/search/post', 'postSearch')->name('search.post');
+    Route::post('/search/offer/post', 'sendOffer')->name('service.offer.send')->middleware('auth');
 
     //ここからは、見積もり相談したりなどユーザー同士の連携について
     Route::post('/service/consult/send', 'sendConsult')->name('service.consult.send');

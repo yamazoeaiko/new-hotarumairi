@@ -49,7 +49,10 @@ class ServiceController extends Controller
         $user_id = Auth::id();
         $search_contents_service = session()->get('search_contents_service');
         if ($search_contents_service == null) {
-            $items = Service::get();
+            $items = Service::whereNotNull('offer_user_id')
+                ->orderBy('application_deadline')
+                ->get();
+
         } else {
             $search_contents_service = (object)$search_contents_service;
             //プランについて
@@ -80,7 +83,10 @@ class ServiceController extends Controller
                 }
             }
             //検索結果
-            $items = $search_categories->intersect($search_prices)->sortBy('date_end');
+            $items = $search_categories
+            ->intersect($search_prices)
+                ->where('offer_user_id', '!=', null)
+                ->sortBy('application_deadline');
         }
 
         foreach ($items as $item) {
@@ -91,7 +97,7 @@ class ServiceController extends Controller
                 $value->category_name = $data->name;
             }
 
-            $user = UserProfile::where('id', $item->user_id)->first();
+            $user = UserProfile::where('id', $item->offer_user_id)->first();
             $item->user_name = $user->nickname;
             $item->img_url = $user->img_url;
 
@@ -657,5 +663,182 @@ class ServiceController extends Controller
         );
 
         return redirect()->route('service.search')->withInput();
+    }
+
+    ///////////////////////////////////////
+    ////////公開依頼の検索について////////////
+    public function getSearch()
+    {
+        $search_contents = session()->get('search_contents');
+        if ($search_contents == null) {
+            $items = Service::whereNotNull('request_user_id')
+                ->orderBy('created_at')
+                ->get();
+
+        } else {
+            $search_contents = (object)$search_contents;
+            //エリア検索ランについて
+            if (isset($search_contents->area_id) && is_array($search_contents->area_id) && count($search_contents->area_id) > 0) {
+                $search_areas = Service::whereIn('area_id', $search_contents->area_id)->get();
+            } else {
+                $search_areas = Service::whereNotNull('offer_user_id')
+                    ->orderBy('created_at')
+                    ->get();
+
+            }
+            //プランについて
+            if ($search_contents->plan_id == null) {
+                $search_plans = Service::get();
+            } else {
+                $search_plans = Service::get()->whereIn('category_ids', $search_contents->plan_id);
+            };
+            //報酬金額について
+            //price_net＝マージン15％を仮設定
+            if ($search_contents->price_min  == null) {
+                if ($search_contents->price_max == null) {
+                    $search_prices = Service::whereNotNull('offer_user_id')
+                        ->orderBy('created_at')
+                        ->get();
+
+                } else {
+                    $search_prices = Service::where('price_net', '<=', $search_contents->price_max)->get();
+                }
+            } else {
+                if ($search_contents->price_max == null) {
+                    $search_prices = Service::where('price_net', '>=', $search_contents->price_min)->get();
+                } else {
+                    $search_prices = Service::whereBetween('price_net', [$search_contents->price_min, $search_contents->price_max])->get();
+                }
+            }
+            //検索結果
+            $items = $search_areas->intersect($search_plans)->intersect($search_prices)->sortBy('created_at');
+        }
+
+
+        foreach ($items as $item) {
+            if($item->category_ids){
+                $plan = ServiceCategory::where('id', $item->category_ids)->first();
+                $item->plan_name = $plan->name;
+            }
+
+            if($item->area_id){
+                $area = Area::where('id', $item->area_id)->first();
+                $item->area_name = $area->name;
+            }
+
+            $user = UserProfile::where('user_id', $item->request_user_id)->first();
+            $item->profile_img = $user->img_url;
+            $item->user_name = $user->nickname;
+
+            if (Auth::check()) {
+                $user_id = Auth::id();
+                $item->applied = Apply::where('request_id', $item->id)->where('apply_user_id', $user_id)->first();
+            }
+        }
+
+        $areas = Area::get();
+        $plans = Plan::get();
+
+        return view('search.index', compact('items', 'areas', 'plans'));
+    }
+
+    public function moreSearch($request_id)
+    {
+        $item = Service::where('id', $request_id)->first();
+        $request_user = UserProfile::where('user_id', $item->request_user_id)->first();
+        $item->user_name = $request_user->nickname;
+        $item->img_url = $request_user->img_url;
+        $living = Area::where('id', $request_user->living_area)->first();
+        $item->living_area = $living->name;
+        $item->age =
+            Carbon::parse($request_user->birthday)->age;
+
+        if ($item->public_sign == true) {
+            $item->public = "公開中";
+        } else {
+            $item->public = "非公開中";
+        }
+
+        if ($item->categories) {
+            $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
+
+            foreach ($item->categories as $value) {
+                $data = ServiceCategory::where('id', $value->id)->first();
+                $value->category_name = $data->name;
+            }
+        }
+
+        if ($item->area_ids) {
+            $item->area_ids = Area::whereIn('id', $item->area_id)->get();
+            foreach ($item->area_ids as $area_id) {
+                $area = Area::where('id', $area_id->id)->first();
+                $area_id->name = $area->name;
+            }
+        }
+        $user_id = Auth::id();
+
+        //応募済みかの判定
+        $applied = Apply::where('request_id', $request_id)
+            ->where('apply_user_id', $user_id)
+            ->exists();
+
+        $apply_flag = $applied ? 0 : 1;
+        //$apply = Arr::has($apply_user_ids, $user_id);
+
+        return view('search.detail', compact('item', 'user_id', 'apply_flag'));
+    }
+
+    public function sendOffer(Request $request)
+    {
+        $consult = new ServiceConsult();
+        $offering_user_id = Auth::id();
+        $theother_id = $request->request_user;
+
+        $consult->create([
+            'host_user' => $offering_user_id,
+            'service_id' => $request->service_id,
+            'consulting_user' => $theother_id,
+            'first_chat' => $request->first_chat
+        ]);
+
+        $consult_id = ServiceConsult::where('service_id', $request->service_id)->where('host_user', $offering_user_id)->pluck('id')->first();
+
+        $chat_room =
+            $offering_user_id < $theother_id ? "$offering_user_id$theother_id" : "$theother_id$offering_user_id";
+        $chat_room_id = (int)$chat_room;
+
+        if ($chat_exist = ChatRoom::where('room_id', $chat_room_id)->first()) {
+            $room_id = $chat_exist->id;
+            $chat_exist->update(['consult_id' => $consult_id]);
+        } else {
+            $room = new ChatRoom();
+            $room->create([
+                'room_id' => $chat_room_id,
+                'consult_id' => $consult_id,
+                'user_id_one' => $offering_user_id,
+                'user_id_another' => $theother_id
+            ]);
+            $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
+        }
+        //Chatモデルへ反映させる
+        Chat::create([
+            'room_id' => $room_id,
+            'message' => $request->first_chat,
+            'from_user' => $offering_user_id
+        ]);
+
+        $data = Service::where('id', $request->service_id)->first();
+
+        $fix = new FixedService();
+        $fix->service_id = $request->service_id;
+        $fix->consult_id = $consult_id;
+        $fix->host_user = $offering_user_id;
+        $fix->buy_user = $theother_id;
+        $fix->main_title = $data->main_title;
+        $fix->price = $data->price;
+        $fix->content = $data->content;
+        $fix->save();
+
+        return redirect()->route('chat.list');
     }
 }
