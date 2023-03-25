@@ -29,6 +29,14 @@ use Illuminate\Support\Str;
 
 class ServiceController extends Controller
 {
+    public function providerIndex(){
+        return view('provider_index');
+    }
+
+    public function seekerIndex(){
+        return view('seeker_index');
+    }
+
     public function toppage()
     {
         $items = Service::orderBy('created_at', 'desc')

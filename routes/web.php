@@ -48,6 +48,8 @@ Route::controller(HotaruRequestController::class)->group(
     });
 
 Route::controller(ServiceController::class)->group(function () {
+    Route::get('/provider','providerIndex')->name('provider.index')->middleware('auth');
+    Route::get('/seeker', 'seekerIndex')->name('seeker.index')->middleware('auth');
     Route::get('/', 'toppage')->name('toppage');
     Route::get('/request', 'getRequest')->name('request.index');
     Route::get('/request/create', 'request')->name('service.request')->middleware('auth');
