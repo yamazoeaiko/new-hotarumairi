@@ -4,22 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\UserProfile;
-use App\Models\Gender;
+use App\Models\User;
 use App\Models\Area;
-use App\Models\Plan;
-use App\Models\OhakamairiSummary;
-use App\Models\SanpaiSummary;
-use App\Models\HotaruRequest;
-use App\Models\Apply;
+use App\Models\Entry;
 use App\Models\Confirm;
 use App\Models\Payment;
 use App\Models\Service;
 use App\Models\ServiceCategory;
-use App\Models\ServiceConsult;
 use App\Models\Chat;
 use App\Models\ChatRoom;
-use App\Models\FixedService;
 use App\Models\Favorite;
 use App\Models\Follow;
 use Illuminate\Support\Carbon;
@@ -29,11 +22,13 @@ use Illuminate\Support\Str;
 
 class ServiceController extends Controller
 {
-    public function providerIndex(){
+    public function providerIndex()
+    {
         return view('provider_index');
     }
 
-    public function seekerIndex(){
+    public function seekerIndex()
+    {
         return view('seeker_index');
     }
 
@@ -60,7 +55,6 @@ class ServiceController extends Controller
             $items = Service::whereNotNull('offer_user_id')
                 ->orderBy('application_deadline')
                 ->get();
-
         } else {
             $search_contents_service = (object)$search_contents_service;
             //プランについて
@@ -92,7 +86,7 @@ class ServiceController extends Controller
             }
             //検索結果
             $items = $search_categories
-            ->intersect($search_prices)
+                ->intersect($search_prices)
                 ->where('offer_user_id', '!=', null)
                 ->sortBy('application_deadline');
         }
@@ -105,7 +99,7 @@ class ServiceController extends Controller
                 $value->category_name = $data->name;
             }
 
-            $user = UserProfile::where('id', $item->offer_user_id)->first();
+            $user = User::where('id', $item->offer_user_id)->first();
             $item->user_name = $user->nickname;
             $item->img_url = $user->img_url;
 
@@ -130,7 +124,7 @@ class ServiceController extends Controller
     {
         $item = Service::where('id', $service_id)->first();
 
-        $user = UserProfile::where('id', $item->offer_user_id)->first();
+        $user = User::where('id', $item->offer_user_id)->first();
         $item->user_name = $user->nickname;
         $item->img_url = $user->img_url;
         $living = Area::where('id', $user->living_area)->first();
@@ -173,7 +167,8 @@ class ServiceController extends Controller
         );
     }
 
-    public function request(){
+    public function request()
+    {
         $user_id = Auth::id();
         $areas = Area::get();
         $categories = ServiceCategory::get();
@@ -257,11 +252,11 @@ class ServiceController extends Controller
             $service->photo_8 = $path_8;
         }
 
-        if($request->offer_user_id){
-        $service->offer_usr_id = $request->offer_user_id;
+        if ($request->offer_user_id) {
+            $service->offer_usr_id = $request->offer_user_id;
         }
-        if($request->request_user_id){
-        $service->request_user_id = $request->request_user_id;
+        if ($request->request_user_id) {
+            $service->request_user_id = $request->request_user_id;
         }
         $service->main_title = $request->main_title;
         $service->content = $request->content;
@@ -269,7 +264,7 @@ class ServiceController extends Controller
         $service->attention = $request->attention;
         $service->free = $request->free;
         $service->price = $request->price;
-        $service->price_net = ($request->price)*0.85;
+        $service->price_net = ($request->price) * 0.85;
         $service->application_deadline = $request->applying_deadline;
         $service->delivery_deadline = $request->delivery_deadline;
         $service->area_id = $request->area_id;
@@ -368,7 +363,7 @@ class ServiceController extends Controller
                 $consulted_service = Service::where('id', $consult->service_id)->first();
                 $consult->service_name = $consulted_service->main_title;
 
-                $consulting_user = UserProfile::where('id', $consult->consulting_user)->first();
+                $consulting_user = User::where('id', $consult->consulting_user)->first();
                 $consult->consulting_user_name = $consulting_user->nickname;
                 $consult->profile_img = $consulting_user->img_url;
                 $consult->consulting_user_id = $consulting_user->id;
@@ -383,7 +378,7 @@ class ServiceController extends Controller
             }
         }
 
-        return view('service.provider.list', compact('items', 'requests','consults'));
+        return view('service.provider.list', compact('items', 'requests', 'consults'));
     }
 
     public function getMyServiceEdit($service_id)
@@ -513,7 +508,7 @@ class ServiceController extends Controller
         $user_id = Auth::id();
         $item = FixedService::where('id', $fix_id)->first();
 
-        $host_user = UserProfile::where('id', $item->host_user)->first();
+        $host_user = User::where('id', $item->host_user)->first();
         $item->user_name = $host_user->nickname;
         $item->img_url = $host_user->img_url;
         $living = Area::where('id', $host_user->living_area)->first();
@@ -521,9 +516,9 @@ class ServiceController extends Controller
         $item->age =
             Carbon::parse($host_user->birthday)->age;
 
-        $theother = UserProfile::where('id', $item->buy_user)->first();
+        $theother = User::where('id', $item->buy_user)->first();
         if ($theother->id == $user_id) {
-            $theother = UserProfile::where('id', $item->host_user)->first();
+            $theother = User::where('id', $item->host_user)->first();
         }
 
         $chat_room =
@@ -574,7 +569,7 @@ class ServiceController extends Controller
         $user_id = Auth::id();
         $item = FixedService::where('id', $fix_id)->first();
 
-        $user = UserProfile::where('id', $user_id)->first();
+        $user = User::where('id', $user_id)->first();
         $item->user_name = $user->nickname;
         $item->img_url = $user->img_url;
         $living = Area::where('id', $user->living_area)->first();
@@ -675,85 +670,114 @@ class ServiceController extends Controller
 
     ///////////////////////////////////////
     ////////公開依頼の検索について////////////
-    public function getSearch()
+    public function getPubReq()
     {
-        $search_contents = session()->get('search_contents');
-        if ($search_contents == null) {
-            $items = Service::whereNotNull('request_user_id')
-                ->orderBy('created_at')
-                ->get();
-
-        } else {
-            $search_contents = (object)$search_contents;
-            //エリア検索ランについて
-            if (isset($search_contents->area_id) && is_array($search_contents->area_id) && count($search_contents->area_id) > 0) {
-                $search_areas = Service::whereIn('area_id', $search_contents->area_id)->get();
-            } else {
-                $search_areas = Service::whereNotNull('offer_user_id')
-                    ->orderBy('created_at')
-                    ->get();
-
-            }
-            //プランについて
-            if ($search_contents->plan_id == null) {
-                $search_plans = Service::get();
-            } else {
-                $search_plans = Service::get()->whereIn('category_ids', $search_contents->plan_id);
-            };
-            //報酬金額について
-            //price_net＝マージン15％を仮設定
-            if ($search_contents->price_min  == null) {
-                if ($search_contents->price_max == null) {
-                    $search_prices = Service::whereNotNull('offer_user_id')
-                        ->orderBy('created_at')
-                        ->get();
-
-                } else {
-                    $search_prices = Service::where('price_net', '<=', $search_contents->price_max)->get();
-                }
-            } else {
-                if ($search_contents->price_max == null) {
-                    $search_prices = Service::where('price_net', '>=', $search_contents->price_min)->get();
-                } else {
-                    $search_prices = Service::whereBetween('price_net', [$search_contents->price_min, $search_contents->price_max])->get();
-                }
-            }
-            //検索結果
-            $items = $search_areas->intersect($search_plans)->intersect($search_prices)->sortBy('created_at');
-        }
+        $items = Service::whereNotNull('request_user_id')
+            ->orderBy('created_at')
+            ->get();
 
 
         foreach ($items as $item) {
-            if($item->category_ids){
-                $plan = ServiceCategory::where('id', $item->category_ids)->first();
-                $item->plan_name = $plan->name;
+            if ($item->category_ids) {
+                $category = ServiceCategory::where('id', $item->category_ids)->first();
+                $item->category_name = $category->name;
             }
 
-            if($item->area_id){
+            if ($item->area_id) {
                 $area = Area::where('id', $item->area_id)->first();
                 $item->area_name = $area->name;
             }
 
-            $user = UserProfile::where('user_id', $item->request_user_id)->first();
+            $user = User::where('id', $item->request_user_id)->first();
             $item->profile_img = $user->img_url;
             $item->user_name = $user->nickname;
 
             if (Auth::check()) {
                 $user_id = Auth::id();
-                $item->applied = Apply::where('request_id', $item->id)->where('apply_user_id', $user_id)->first();
+                $item->entry = Entry::where('service_id', $item->id)->where('sell_user', $user_id)->first();
             }
         }
 
         $areas = Area::get();
-        $plans = Plan::get();
+        $categories = ServiceCategory::get();
 
-        return view('search.index', compact('items', 'areas', 'plans'));
+        return view('public_request.index', compact('items', 'areas', 'categories'));
     }
 
-    public function moreSearch($request_id)
+    public function searchPubReq(Request $request)
     {
-        $item = Service::where('id', $request_id)->first();
-        $request_user = UserProfile::where('user_id', $item->request_user_id)->first();
+        $items = Service::whereNotNull('request_user_id')
+            ->orderBy('created_at')
+            ->get();
+
+        if ($request->category_ids) {
+            $search_category = Service::where(function ($query) use ($request) {
+                foreach ($request->category_ids as $categoryId) {
+                    $query->orWhereJsonContains('category_ids', $categoryId);
+                }
+            })->get();
+        } else {
+            $search_category = Service::get();
+        }
+
+        if ($request->area_id) {
+            $search_prefecture = Service::where(function ($query) use ($request) {
+                foreach ($request->area_id as $areaId) {
+                    $query->orWhereJsonContains('area_id', $areaId);
+                }
+            })->get();
+        } else {
+            $search_prefecture = Service::get();
+        }
+
+        if ($request->price_min  == null) {
+            if ($request->price_max == null) {
+                $search_prices = Service::get();
+            } else {
+                $search_prices = Service::where('price', '<=', $request->price_max)->get();
+            }
+        } else {
+            if ($request->price_max == null) {
+                $search_prices = Service::where('price', '>=', $request->price_min)->get();
+            } else {
+                $search_prices = Service::whereBetween('price', [$request->price_min, $request->price_max])->get();
+            }
+        }
+
+        //全ての検索結果（空欄も含める）に共通する$itemsを絞る
+        $items = $items->intersect($search_category)->intersect($search_prefecture)->intersect($search_prices);
+
+        foreach ($items as $item) {
+            if ($item->category_ids) {
+                $category = ServiceCategory::where('id', $item->category_ids)->first();
+                $item->category_name = $category->name;
+            }
+
+            if ($item->area_id) {
+                $area = Area::where('id', $item->area_id)->first();
+                $item->area_name = $area->name;
+            }
+
+            $user = User::where('id', $item->request_user_id)->first();
+            $item->profile_img = $user->img_url;
+            $item->user_name = $user->nickname;
+
+            if (Auth::check()) {
+                $user_id = Auth::id();
+                $item->entry = Entry::where('service_id', $item->id)->where('sell_user', $user_id)->first();
+            }
+        }
+
+        $areas = Area::get();
+        $categories = ServiceCategory::get();
+
+        return view('public_request.search', compact('items', 'areas', 'categories', 'request'));
+    }
+
+    public function moreSearch($service_id)
+    {
+        $item = Service::where('id', $service_id)->first();
+        $request_user = User::where('id', $item->request_user_id)->first();
         $item->user_name = $request_user->nickname;
         $item->img_url = $request_user->img_url;
         $living = Area::where('id', $request_user->living_area)->first();
@@ -786,67 +810,13 @@ class ServiceController extends Controller
         $user_id = Auth::id();
 
         //応募済みかの判定
-        $applied = Apply::where('request_id', $request_id)
-            ->where('apply_user_id', $user_id)
+        $applied = Entry::where('service_id', $service_id)
+            ->where('sell_user', $user_id)
             ->exists();
 
         $apply_flag = $applied ? 0 : 1;
         //$apply = Arr::has($apply_user_ids, $user_id);
 
-        return view('search.detail', compact('item', 'user_id', 'apply_flag'));
-    }
-
-    public function sendOffer(Request $request)
-    {
-        $consult = new ServiceConsult();
-        $offering_user_id = Auth::id();
-        $theother_id = $request->request_user;
-
-        $consult->create([
-            'host_user' => $offering_user_id,
-            'service_id' => $request->service_id,
-            'consulting_user' => $theother_id,
-            'first_chat' => $request->first_chat
-        ]);
-
-        $consult_id = ServiceConsult::where('service_id', $request->service_id)->where('host_user', $offering_user_id)->pluck('id')->first();
-
-        $chat_room =
-            $offering_user_id < $theother_id ? "$offering_user_id$theother_id" : "$theother_id$offering_user_id";
-        $chat_room_id = (int)$chat_room;
-
-        if ($chat_exist = ChatRoom::where('room_id', $chat_room_id)->first()) {
-            $room_id = $chat_exist->id;
-            $chat_exist->update(['consult_id' => $consult_id]);
-        } else {
-            $room = new ChatRoom();
-            $room->create([
-                'room_id' => $chat_room_id,
-                'consult_id' => $consult_id,
-                'user_id_one' => $offering_user_id,
-                'user_id_another' => $theother_id
-            ]);
-            $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
-        }
-        //Chatモデルへ反映させる
-        Chat::create([
-            'room_id' => $room_id,
-            'message' => $request->first_chat,
-            'from_user' => $offering_user_id
-        ]);
-
-        $data = Service::where('id', $request->service_id)->first();
-
-        $fix = new FixedService();
-        $fix->service_id = $request->service_id;
-        $fix->consult_id = $consult_id;
-        $fix->host_user = $offering_user_id;
-        $fix->buy_user = $theother_id;
-        $fix->main_title = $data->main_title;
-        $fix->price = $data->price;
-        $fix->content = $data->content;
-        $fix->save();
-
-        return redirect()->route('chat.list');
+        return view('public_request.detail', compact('item', 'user_id', 'apply_flag'));
     }
 }

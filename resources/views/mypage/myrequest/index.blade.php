@@ -9,7 +9,7 @@
     @endif
     <div class="list-group">
       @foreach($items as $item)
-      <button onClick="location.href='{{route('mypage.myrequest.detail', ['request_id' => $item->id])}}'" class="list-group-item list-group-item-action">
+      <button onClick="location.href='{{route('mypage.myrequest.detail', ['service_id' => $item->id])}}'" class="list-group-item list-group-item-action">
         <div class="row">
           <div class="col-8 fw-bolder fs-5">{{$item->plan_name}}</div>
           <div class="col-8">日程：{{$item->date_begin}}〜{{$item->date_end}}</div>

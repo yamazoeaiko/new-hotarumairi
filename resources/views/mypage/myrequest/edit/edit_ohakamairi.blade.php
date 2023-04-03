@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <form action="{{route('myrequest.update.ohakamairi', ['request_id' => $item->id])}}" method="post" class="form-control" enctype="multipart/form-data">
+  <form action="{{route('myrequest.update.ohakamairi', ['service_id' => $item->id])}}" method="post" class="form-control" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="user_id" value="{{ $user_id }}">
     <div class="mb-3">

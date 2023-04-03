@@ -281,18 +281,18 @@
       </div>
       @endif
       <div class="row my-1">
-        <button class="col-6 fs-6 btn btn-primary" onclick=location.href="{{route('mypage.myrequest.member_list',['request_id'=>$item->id])}}">{{$item->apply_count}}名からの応募があります<br><span>@if($item->confirm_count==true)承認済みです。@elseまだ承認した方はいません@endif</span></button>
+        <button class="col-6 fs-6 btn btn-primary" onclick=location.href="{{route('mypage.myrequest.member_list',['service_id'=>$item->id])}}">{{$item->apply_count}}名からの応募があります<br><span>@if($item->confirm_count==true)承認済みです。@elseまだ承認した方はいません@endif</span></button>
       </div>
       <div class="row">
         <button type="button" class="col-3 btn btn-outline-secondary" onClick="history.back();">戻る</button>
         @if($item->plan_id == 1)
-        <button type="button" class="col-3 btn btn-outline-primary offset-1" onclick="location.href='{{route('mypage.myrequest.edit.ohakamairi',['request_id' => $item->id])}}'">内容修正</button>
+        <button type="button" class="col-3 btn btn-outline-primary offset-1" onclick="location.href='{{route('mypage.myrequest.edit.ohakamairi',['service_id' => $item->id])}}'">内容修正</button>
         @elseif($item->plan_id == 2)
-        <button type="button" class="col-3 btn btn-outline-primary offset-1" onclick="location.href='{{route('mypage.myrequest.edit.omamori',['request_id' => $item->id])}}'">内容修正</button>
+        <button type="button" class="col-3 btn btn-outline-primary offset-1" onclick="location.href='{{route('mypage.myrequest.edit.omamori',['service_id' => $item->id])}}'">内容修正</button>
         @elseif($item->plan_id == 3)
-        <button type="button" class="col-3 btn btn-outline-primary offset-1" onclick="location.href='{{route('mypage.myrequest.edit.sanpai',['request_id' => $item->id])}}'">内容修正</button>
+        <button type="button" class="col-3 btn btn-outline-primary offset-1" onclick="location.href='{{route('mypage.myrequest.edit.sanpai',['service_id' => $item->id])}}'">内容修正</button>
         @elseif($item->plan_id == 4)
-        <button type="button" class="col-3 btn btn-outline-primary offset-1" onclick="location.href='{{route('mypage.myrequest.edit.others',['request_id' => $item->id])}}'">内容修正</button>
+        <button type="button" class="col-3 btn btn-outline-primary offset-1" onclick="location.href='{{route('mypage.myrequest.edit.others',['service_id' => $item->id])}}'">内容修正</button>
         @endif
 
         <button type="button" class="btn btn-danger col-3 offset-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -312,7 +312,7 @@
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">戻る</button>
 
-                <button type="button" class="btn btn-danger" onclick="location.href='{{route('mypage.myrequest.destroy',['request_id' => $item->id])}}'">削除する</button>
+                <button type="button" class="btn btn-danger" onclick="location.href='{{route('mypage.myrequest.destroy',['service_id' => $item->id])}}'">削除する</button>
               </div>
             </div>
           </div>

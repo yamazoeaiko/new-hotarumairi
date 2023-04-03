@@ -2,10 +2,11 @@
 
 @section('content')
 <div class="container">
-  <h4>チャットグループ一覧</h4>
+  <h4>チャットルーム一覧</h4>
   <div class="list-group">
+    @if($items)
     @foreach($items as $item)
-    <button class="list-group-item list-group-action" onClick="location.href='{{route('chat.room',['room_id'=>$item->id, 'theother_id'=>$item->theother_id])}}'">
+    <button class="list-group-item list-group-action" onClick="location.href='{{route('chat.room',['room_id'=>$item->id])}}'">
       <div class="no-gutters">
         <div class="row">
           <div class="col-2">
@@ -26,17 +27,34 @@
             <p class="text-muted small text-left ml-auto" style="text-align: left !important;">{{ $item->latest_message }}
             </p>
           </div>
-          <div class="col-2">
-            @if($item->status_name == '取引中')
-            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1 bg-success fw-bolder">{{ $item->status_name }}</small>
-            @else
-            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $item->status_name }}</small>
-            @endif
+          <div class="col-3">
+            <div class="row">
+              @if($item->status)
+              <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1 bg-success fw-bolder">{{ $item->status }}</small>
+              @endif
+            </div>
+            <div class="row">
+              <div class="d-flex justify-content-between">
+                @if ($item->user_type == 'sell_user') 
+                  <small class="d-inline-flex align-items-center justify-content-center rounded-pill border border-primary mb-1 p-1 bg-primary text-white fw-bolder">出品者側</small>
+                  <small class="d-inline-flex align-items-center justify-content-center rounded-pill border border-light mb-1 p-1 text-secondary fw-bolder">購入者側</small>
+                @elseif ($item->user_type == 'buy_user')
+                  <small class="d-inline-flex align-items-center justify-content-center rounded-pill border border-light mb-1 p-1 text-secondary fw-bolder">出品者側</small>
+                  <small class="d-inline-flex align-items-center justify-content-center rounded-pill border border-primary mb-1 p-1 bg-primary text-white fw-bolder">購入者側</small>
+                @endif
+              </div>
+
+            </div>
           </div>
         </div>
       </div>
     </button>
     @endforeach
+    @else
+    <div class="text-center">
+      <span>現在チャットルームはございません</span>
+    </div>
   </div>
+  @endif
 </div>
 @endsection

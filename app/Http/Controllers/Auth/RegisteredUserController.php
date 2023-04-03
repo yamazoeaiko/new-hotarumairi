@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use App\Models\UserProfile;
+use App\Models\User;
 
 class RegisteredUserController extends Controller
 {
@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -46,13 +46,13 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        UserProfile::create([
-            'user_id'=> $user->id,
-            'nickname'=> $request->name,
-            'birthday'=> '1990-1-1',
-            'sex'=>'1',
-            'living_area'=> '1',
-            'img_url'=> 'storage/profile/no_image.jpg'
+        User::create([
+            'user_id' => $user->id,
+            'nickname' => $request->name,
+            'birthday' => '1990-1-1',
+            'sex' => '1',
+            'living_area' => '1',
+            'img_url' => 'storage/profile/no_image.jpg'
         ]);
 
         event(new Registered($user));

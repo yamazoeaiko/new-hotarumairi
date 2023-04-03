@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <form action="{{route('myrequest.update.sanpai', ['request_id' => $item->id])}}" method="post" class="form-control" enctype="multipart/form-data">
+  <form action="{{route('myrequest.update.sanpai', ['service_id' => $item->id])}}" method="post" class="form-control" enctype="multipart/form-data">
     @csrf
     <div>
       <div class="fw-bolder">プラン</div>

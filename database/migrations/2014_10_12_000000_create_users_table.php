@@ -20,6 +20,13 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->string('nickname')->comment('サービス内表記名')->nullable();
+            $table->integer('gender')->comment('性別')->nullable();
+            $table->date('birthday')->comment('誕生日')->nullable()->default('1980-01-01');
+            $table->unsignedBigInteger('living_area')->comment('住まいの都道府県')->nullable();
+            $table->foreign('living_area')->references('id')->on('areas');
+            $table->text('message')->comment('一言、自己紹介')->nullable();
+            $table->string('img_url')->comment('プロフィール画像')->default('storage/profile/no_image.jpg')->nullable();
             $table->timestamps();
         });
     }

@@ -10,7 +10,7 @@
     <div class="list-group">
       @foreach($items as $item)
       @if($item->approved_sign == true)
-      <button onClick="location.href='{{route('mypage.myrequest.member_detail', ['request_id'=>$item->request_id, 
+      <button onClick="location.href='{{route('mypage.myrequest.member_detail', ['service_id'=>$item->service_id, 
          'user_id' => $item->apply_user_id,
          'apply_id' => $item->id])}}'" class="list-group-item list-group-item-action bg-success">
         <div class="row">
@@ -23,7 +23,7 @@
         </div>
       </button>
       @else
-      <button onClick="location.href='{{route('mypage.myrequest.member_detail', ['request_id'=>$item->request_id, 
+      <button onClick="location.href='{{route('mypage.myrequest.member_detail', ['service_id'=>$item->service_id, 
          'user_id' => $item->apply_user_id,
          'apply_id' => $item->id])}}'" class="list-group-item list-group-item-action">
         <div class="row">

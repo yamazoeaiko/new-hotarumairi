@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <form action="{{route('myrequest.update.others', ['request_id' => $item->id])}}" method="post" class="form-control" enctype="multipart/form-data">
+  <form action="{{route('myrequest.update.others', ['service_id' => $item->id])}}" method="post" class="form-control" enctype="multipart/form-data">
     @csrf
     <div class="mb-3">
       <label for="plan" class="form-label fw-bolder">プラン</label>

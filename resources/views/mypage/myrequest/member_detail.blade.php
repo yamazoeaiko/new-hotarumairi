@@ -72,22 +72,22 @@
   <div class="btn-group me-3">
     <button class="btn btn-primary col-3 px-4" onClick="location.href='{{route('myrequest.member.approval',[
                   'apply_id'=>$apply_id,
-                  'request_id' => $request_id,
+                  'service_id' => $service_id,
                   'user_id'=>$item->user_id])}}'">承認</button>
     <button class="btn btn-danger col-3 px-4" onClick="location.href='{{route('myrequest.member.reject', [
                     'apply_id'=>$apply_id,
-                    'request_id' => $request_id,
+                    'service_id' => $service_id,
                   'user_id'=>$item->user_id])}}'">否認</button>
   </div>
   <div class="btn-group">
     @if($hotaru_request->plan_id == 1)
-    <button type="button" class="col-3 btn btn-outline-primary" onclick="location.href='{{route('mypage.myrequest.edit.ohakamairi',['request_id' => $hotaru_request->id])}}'">修正</button>
+    <button type="button" class="col-3 btn btn-outline-primary" onclick="location.href='{{route('mypage.myrequest.edit.ohakamairi',['service_id' => $hotaru_request->id])}}'">修正</button>
     @elseif($hotaru_request->plan_id == 2)
-    <button type="button" class="col-3 btn btn-outline-primary" onclick="location.href='{{route('mypage.myrequest.edit.omamori',['request_id' => $hotaru_rewquest->id])}}'">修正</button>
+    <button type="button" class="col-3 btn btn-outline-primary" onclick="location.href='{{route('mypage.myrequest.edit.omamori',['service_id' => $hotaru_rewquest->id])}}'">修正</button>
     @elseif($hotaru_request->plan_id == 3)
-    <button type="button" class="col-3 btn btn-outline-primary" onclick="location.href='{{route('mypage.myrequest.edit.sanpai',['request_id' => $hotaru_request->id])}}'">修正</button>
+    <button type="button" class="col-3 btn btn-outline-primary" onclick="location.href='{{route('mypage.myrequest.edit.sanpai',['service_id' => $hotaru_request->id])}}'">修正</button>
     @elseif($hotaru_request->plan_id == 4)
-    <button type="button" class="btn btn-outline-primary" onclick="location.href='{{route('mypage.myrequest.edit.others',['request_id' => $hotaru_Request->id])}}'">修正</button>
+    <button type="button" class="btn btn-outline-primary" onclick="location.href='{{route('mypage.myrequest.edit.others',['service_id' => $hotaru_Request->id])}}'">修正</button>
     @endif
     <button type="button" class=" btn btn-outline-secondary" onClick="history.back();">戻る</button>
     <button class="btn btn-info" onClick="location.href='{{route('chat.room',['room_id'=>$room->id, 'theother_id'=>$user_id])}}'">チャット</button>

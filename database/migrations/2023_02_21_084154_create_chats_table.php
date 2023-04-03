@@ -17,10 +17,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('room_id');
             $table->foreign('room_id')->references('id')->on('chat_rooms');
-            $table->unsignedBigInteger('from_user');
-            $table->foreign('from_user')->references('id')->on('users');
+            $table->unsignedBigInteger('sender_id');
+            $table->foreign('sender_id')->references('id')->on('users');
+            $table->unsignedBigInteger('receiver_id');
+            $table->foreign('receiver_id')->references('id')->on('users');
             $table->text('message')->nullable();
-            $table->string('image')->nullable();
+            $table->string('file')->nullable();
             $table->timestamps();
         });
     }
