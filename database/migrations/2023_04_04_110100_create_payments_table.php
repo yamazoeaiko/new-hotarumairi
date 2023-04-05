@@ -23,6 +23,9 @@ return new class extends Migration
             $table->foreign('buy_user')->references('id')->on('users');
             $table->unsignedBigInteger('sell_user');
             $table->foreign('sell_user')->references('id')->on('users');
+            $table->decimal('price', 8, 0)->comment('税抜き金額');
+            $table->decimal('include_tax_price', 8, 0)->comment('税込金額');
+            $table->decimal('commission', 8, 0)->comment('手数料');
             $table->string('session_id');
             $table->string('payment_intent');
             $table->decimal('cancel_fee', 8, 0)->comment('運営側が受け取るキャンセル料（残りは返金）')->nullable();

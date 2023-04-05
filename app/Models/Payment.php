@@ -10,6 +10,15 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable =[
-        'confirm_id'
+        'service_id',
+        'entry_id',
+        'buy_user',
+        'sell_user',
+        'price',
+        'include_tax_price',
+        'commission',
+        'session_id',
+        'payment_intent',
+        'cancel_fee'
     ];
 }
