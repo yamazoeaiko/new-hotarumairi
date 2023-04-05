@@ -31,9 +31,9 @@
                   {!! nl2br(e($chat->message)) !!}
                 </p>
                 @endif
-                @if($chat->image !== null)
+                @if($chat->file !== null)
                 <p class="message-text p-2 m-2 mb-0 text-start @if($chat->sender_id == $user_id) from-user-bg @else to-user-bg @endif" style="word-wrap: break-word; max-width: 80%;">
-                  <a href="{{ asset($chat->image)}}" class="fc-blue fw-bolder">添付ファイルがあります</a>
+                  <a href="{{ asset($chat->file)}}" class="fc-blue fw-bolder">添付ファイルがあります</a>
                 </p>
                 @endif
               </div>
@@ -53,7 +53,7 @@
                 <div class="input-group h-100">
                   <textarea name="message" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで送信。Shift+Enterで改行"></textarea>
                   <div class="form-group">
-                    <input type="file" name="image">
+                    <input type="file" name="file_path">
                   </div>
                   <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="submit">送信</button>

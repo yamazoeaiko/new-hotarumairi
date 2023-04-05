@@ -11,8 +11,9 @@ class Chat extends Model
 
     protected $fillable = [
         'room_id',
-        'from_user',
+        'sender_id',
+        'receiver_id',
         'message',
-        'image'
+        'file',
     ];
 }

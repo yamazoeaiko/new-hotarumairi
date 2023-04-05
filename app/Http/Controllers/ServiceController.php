@@ -47,50 +47,13 @@ class ServiceController extends Controller
         return view('request.index');
     }
 
-    public function search()
+    public function service()
     {
         $user_id = Auth::id();
-        $search_contents_service = session()->get('search_contents_service');
-        if ($search_contents_service == null) {
-            $items = Service::whereNotNull('offer_user_id')
+        $items = Service::whereNotNull('offer_user_id')
                 ->orderBy('application_deadline')
                 ->get();
-        } else {
-            $search_contents_service = (object)$search_contents_service;
-            //プランについて
-            $search_categories = Service::query();
-
-            if ($search_contents_service->category_ids != null) {
-                $category_ids = explode(',', $search_contents_service->category_ids);
-                foreach ($category_ids as $category_id) {
-                    $search_categories = $search_categories->orWhere('category_ids', 'like', '%' . $category_id . '%');
-                }
-            }
-
-            $search_categories = $search_categories->get();
-
-
-            //報酬金額について
-            if ($search_contents_service->price_min  == null) {
-                if ($search_contents_service->price_max == null) {
-                    $search_prices = Service::get();
-                } else {
-                    $search_prices = Service::where('price', '<=', $search_contents_service->price_max)->get();
-                }
-            } else {
-                if ($search_contents_service->price_max == null) {
-                    $search_prices = Service::where('price', '>=', $search_contents_service->price_min)->get();
-                } else {
-                    $search_prices = Service::whereBetween('price', [$search_contents_service->price_min, $search_contents_service->price_max])->get();
-                }
-            }
-            //検索結果
-            $items = $search_categories
-                ->intersect($search_prices)
-                ->where('offer_user_id', '!=', null)
-                ->sortBy('application_deadline');
-        }
-
+        
         foreach ($items as $item) {
             $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
 
@@ -108,12 +71,82 @@ class ServiceController extends Controller
             $item->follow = Follow::where('follow_id', $item->user_id)->where('user_id', $user_id)->exists();
         }
         $categories = ServiceCategory::get();
+        $areas = Area::get();
 
 
         return view(
             'service.seeker.index',
-            compact('items', 'categories')
+            compact('items', 'categories', 'areas')
         );
+    }
+
+    public function searchService(Request $request){
+        $items = Service::whereNotNull('offer_user_id')
+            ->orderBy('created_at')
+            ->get();
+
+        if ($request->category_ids) {
+            $search_category = Service::where(function ($query) use ($request) {
+                foreach ($request->category_ids as $categoryId) {
+                    $query->orWhereJsonContains('category_ids', $categoryId);
+                }
+            })->get();
+        } else {
+            $search_category = Service::get();
+        }
+
+        if ($request->area_id) {
+            $search_prefecture = Service::where(function ($query) use ($request) {
+                foreach ($request->area_id as $areaId) {
+                    $query->orWhereJsonContains('area_id', $areaId);
+                }
+            })->get();
+        } else {
+            $search_prefecture = Service::get();
+        }
+
+        if ($request->price_min  == null) {
+            if ($request->price_max == null) {
+                $search_prices = Service::get();
+            } else {
+                $search_prices = Service::where('price', '<=', $request->price_max)->get();
+            }
+        } else {
+            if ($request->price_max == null) {
+                $search_prices = Service::where('price', '>=', $request->price_min)->get();
+            } else {
+                $search_prices = Service::whereBetween('price', [$request->price_min, $request->price_max])->get();
+            }
+        }
+
+        //全ての検索結果（空欄も含める）に共通する$itemsを絞る
+        $items = $items->intersect($search_category)->intersect($search_prefecture)->intersect($search_prices);
+
+        foreach ($items as $item) {
+            if ($item->category_ids) {
+                $category = ServiceCategory::where('id', $item->category_ids)->first();
+                $item->category_name = $category->name;
+            }
+
+            if ($item->area_id) {
+                $area = Area::where('id', $item->area_id)->first();
+                $item->area_name = $area->name;
+            }
+
+            $user = User::where('id', $item->offer_user_id)->first();
+            $item->profile_img = $user->img_url;
+            $item->user_name = $user->nickname;
+
+            if (Auth::check()) {
+                $user_id = Auth::id();
+                $item->entry = Entry::where('service_id', $item->id)->where('sell_user', $user_id)->first();
+            }
+        }
+
+        $areas = Area::get();
+        $categories = ServiceCategory::get();
+
+        return view('service.seeker.search', compact('items', 'areas', 'categories', 'request'));
     }
 
     public function showUser($user_id)

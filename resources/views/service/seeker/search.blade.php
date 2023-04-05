@@ -1,8 +1,8 @@
 @extends('layouts.app')
+
 @section('content')
 <div class="container">
-  <h5>出品サービス一覧</h5>
-  <!--検索する-->
+  <h5 class="fw-bolder">出品サービス</h5>
   <form action="{{route('service.search')}}" method="get" class="form">
     @csrf
     <table class="table">
@@ -17,7 +17,8 @@
               @foreach($areas as $area)
               @if($area->category == '北海道エリア')
               <label for="area_id" class="mr-1">
-                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple>
+                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(is_array($request->area_id) && in_array($area->id, $request->area_id))checked
+                @endif />
 
                 {{$area->name}}
 
@@ -31,7 +32,8 @@
               @foreach($areas as $area)
               @if($area->category == '東北エリア')
               <label for="area_id" class="mr-1">
-                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple>
+                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(is_array($request->area_id) && in_array($area->id, $request->area_id))checked
+                @endif />
 
                 {{$area->name}}
               </label>
@@ -44,7 +46,8 @@
               @foreach($areas as $area)
               @if($area->category == '関東エリア')
               <label for="area_id" class="mr-1">
-                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple >
+                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(is_array($request->area_id) && in_array($area->id, $request->area_id))checked
+                @endif />
 
                 {{$area->name}}
               </label>
@@ -57,7 +60,8 @@
               @foreach($areas as $area)
               @if($area->category == '中部エリア')
               <label for="area_id" class="mr-1">
-                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple >
+                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(is_array($request->area_id) && in_array($area->id, $request->area_id))checked
+                @endif />
 
                 {{$area->name}}
               </label>
@@ -70,7 +74,8 @@
               @foreach($areas as $area)
               @if($area->category == '近畿エリア')
               <label for="area_id" class="mr-1">
-                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple >
+                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(is_array($request->area_id) && in_array($area->id, $request->area_id))checked
+                @endif />
 
                 {{$area->name}}
               </label>
@@ -83,7 +88,8 @@
               @foreach($areas as $area)
               @if($area->category == '中国エリア')
               <label for="area_id" class="mr-1">
-                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple >
+                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(is_array($request->area_id) && in_array($area->id, $request->area_id))checked
+                @endif />
 
                 {{$area->name}}
               </label>
@@ -96,7 +102,8 @@
               @foreach($areas as $area)
               @if($area->category == '四国エリア')
               <label for="area_id" class="mr-1">
-                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple>
+                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(is_array($request->area_id) && in_array($area->id, $request->area_id))checked
+                @endif />
 
                 {{$area->name}}
               </label>
@@ -109,7 +116,8 @@
               @foreach($areas as $area)
               @if($area->category == '九州エリア')
               <label for="area_id" class="mr-1">
-                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple>
+                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(is_array($request->area_id) && in_array($area->id, $request->area_id))checked
+                @endif />
 
                 {{$area->name}}
               </label>
@@ -122,7 +130,8 @@
               @foreach($areas as $area)
               @if($area->category == '沖縄エリア')
               <label for="area_id" class="mr-1">
-                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple>
+                <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(is_array($request->area_id) && in_array($area->id, $request->area_id))checked
+                @endif />
 
                 {{$area->name}}
               </label>
@@ -139,7 +148,8 @@
           <div class="collapse" id="collapseCategory">
             @foreach($categories as $category)
             <label for="plan_id" class="m-1">
-              <input type="checkbox" name="category_ids[]" value="{{$category->id}}" multiple>{{$category->name}}
+              <input type="checkbox" name="category_ids[]" value="{{$category->id}}" multiple @if(is_array($request->category_ids) && in_array($category->id, $request->category_ids))checked
+              @endif />{{$category->name}}
             </label>
             @endforeach
           </div>
@@ -151,11 +161,11 @@
           <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapsePrice">報酬金額で絞る</button>
           <div class="collapse" id="collapsePrice">
             <label for="price_min" class="mr-1">
-              <input type="number" name="price_min" class="mt-1">
+              <input type="number" name="price_min" value="{{ $request->price_min }}" class="mt-1">
             </label>
             円〜
             <label for="price_max" class="mr-1">
-              <input type="number" name="price_max" class="mt-1">
+              <input type="number" name="price_max" value="{{ $request->price_max }}" class="mt-1">
             </label>
             で絞る
           </div>
@@ -167,34 +177,53 @@
       <a href="{{ route('service') }}" class="mx-3">検索条件をリセットする</a>
     </div>
   </form>
-  <!--検索結果-->
-  @foreach($items as $item)
-  <button onClick="location.href='{{ route('service.detail',['service_id'=>$item->id]) }}'" class="card m-4 shadow card-point" style="max-width: 500px;">
-    <div class="row no-gutters">
-      <div class="col-md-4">
-        <img src="{{ asset($item->img_url) }}" alt="Profile image" class="card-img">
-        <p class="card-text mb-0">{{$item->user_name}}</p>
-        @if($item->favorite)
-        <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1 bg-success">お気に入り</small>
-        @endif
-        @if($item->follow)
-        <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1 bg-success">フォロー中</small>
-        @endif
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <div>
-            @foreach($item->categories as $value)
-            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
-            @endforeach
+
+  <!--検索結果表示-->
+  <div class="mb-5 mb-lg-0 text-center text-lg-start">
+    @foreach($items as $item)
+    @if($items == null)
+    <p>検索結果に該当するラウンドはありませんでした。</p>
+    @endif
+    @if($item->applied !==null)
+    <button onClick="location.href='{{ route('search.more',['service_id'=>$item->id]) }}'" class="card m-4 shadow card-point bg-success" style="max-width: 500px;">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <img src="{{ asset($item->profile_img) }}" alt="Profile image" class="card-img">
+          <p class="card-text mb-0">{{$item->user_name}}</p>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{$item->category_name}}</h5>
+            <p class="card-text mb-0"><small class="text-muted">代行期日：</small>{{$item->date_end}}</p>
+            <p class="card-text mb-0"><small class="text-muted">エリア：</small>{{$item->area_name}}</p>
+            <p class="card-text mb-0"><small class="text-muted">見積り：</small>{{ $item->price_net }}円</p>
+            <a href="{{ route('search.more',['service_id'=>$item->id]) }}" class="btn btn-secondary stretched-link">詳細を見る</a>
+            <span class="ml-auto mb-2 fs-6 fw-bolder"><i class="bi bi-check-circle"></i> 応募済み</span>
           </div>
-          <h5 class="card-title">{{$item->main_title}}</h5>
-          <p class="card-text mb-0"><small class="text-muted">{{$item->price}}円</small></p>
-          <a href="{{ route('service.detail',['service_id'=>$item->id]) }}" class="btn btn-primary stretched-link">詳細を見る</a>
         </div>
       </div>
-    </div>
-  </button>
-  @endforeach
+    </button>
+    @else
+
+    <button onClick="location.href='{{ route('search.more',['service_id'=>$item->id]) }}'" class="card m-4 shadow card-point" style="max-width: 500px;">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <img src="{{ asset($item->profile_img) }}" alt="Profile image" class="card-img">
+          <p class="card-text mb-0">{{$item->user_name}}</p>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{$item->category_name}}</h5>
+            <p class="card-text mb-0"><small class="text-muted">代行期日：</small>{{$item->date_end}}</p>
+            <p class="card-text mb-0"><small class="text-muted">エリア：</small>{{$item->area_name}}</p>
+            <p class="card-text mb-0"><small class="text-muted">見積り：</small>{{ $item->price_net }}円</p>
+            <a href="{{ route('search.more',['service_id'=>$item->id]) }}" class="btn btn-primary stretched-link">詳細を見る</a>
+          </div>
+        </div>
+      </div>
+    </button>
+    @endif
+    @endforeach
+  </div>
 </div>
 @endsection

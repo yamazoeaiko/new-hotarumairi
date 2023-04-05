@@ -130,7 +130,7 @@ class ChatController extends Controller
 
     public function sendChat(Request $request)
     {
-        if (is_null($request->input('message')) && !$request->hasFile('image')) {
+        if (is_null($request->input('message')) && !$request->hasFile('file_path')) {
             return redirect()->back()->with('error', 'メッセージまたは画像を選択してください。');
         }
 
@@ -141,12 +141,12 @@ class ChatController extends Controller
         $chat->message = $request->input('message');
 
         // 画像ファイルを保存する処理
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('file_path')) {
             $dir = 'in_chat';
-            $file = $request->file('image');
+            $file = $request->file('file_path');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('public/' . $dir, $filename);
-            $chat->image = 'storage/in_chat/' . $filename;
+            $chat->file = 'storage/in_chat/' . $filename;
         }
 
         $chat->save();
