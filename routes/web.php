@@ -57,16 +57,6 @@ Route::controller(ServiceController::class)->group(function () {
     Route::get('/public_request', 'getPubReq')->name('pubreq.index');
     Route::get('/public_request/search', 'searchPubReq')->name('pubreq.search');
     Route::get('/search/{service_id}', 'moreSearch')->name('search.more')->middleware('auth');
-
-    //ここからは、見積もり相談したりなどユーザー同士の連携について
-    Route::post('/service/consult/send', 'sendConsult')->name('service.consult.send');
-    Route::get('/service/fixed/{fix_id}', 'getFixed')->name('service.fixed');
-    Route::get('/service/fixed/edit/{fix_id}', 'getFixedEdit')->name('service.fixed.edit');
-    Route::post('/service/fixed/update', 'updateFixed')->name('service.fixed.update');
-    Route::post('/service/estimate/post', 'postEstimate')->name('service.estimate.post');
-    Route::post('/service/estimate/approve', 'approveEstimate')->name('service.estimate.approve');
-    Route::get('/service/paid/success/{fix_id}', 'paidSuccess')->name('service.paid.success');
-    Route::post('/searvice/search/post', 'searchPost')->name('service.search.post');
 });
 
 Route::controller(UserController::class)->group(
@@ -80,20 +70,7 @@ Route::controller(UserController::class)->group(
         Route::get('/mypage/request', 'getMyRequest')->name('mypage.myrequest.index')->middleware('auth');
         Route::get('/mypage/myrequest/detail/{service_id}', 'getMyRequestDetail')->name('mypage.myrequest.detail')->middleware('auth');
 
-
-
-        Route::get('/mypage/myrequest/destroy/{service_id}', 'destroyMyRequest')->name('mypage.myrequest.destroy')->middleware('auth');
-        Route::get('/mypage/myrequest/member_list/{service_id}', 'getApplyMemberList')->name('mypage.myrequest.member_list')->middleware('auth');
-        Route::get('/mypage/myrequest/member_detail/{service_id}/{user_id}/{apply_id}', 'getApplyMemberDetail')->name('mypage.myrequest.member_detail')->middleware('auth');
-        Route::get('/mypage/myrequest/member_detail/approval/{apply_id}/{service_id}/{user_id}', 'getApplyApproval')->name('myrequest.member.approval')->middleware('auth');
-        Route::get('/mypage/myrequest/member_detail/reject/{apply_id}/{service_id}/{user_id}', 'getApplyReject')->name('myrequest.member.reject')->middleware('auth');
-
-
-        Route::get('/mypage/myapply', 'getMyApply')->name('mypage.myapply.index')->middleware('auth');
-        Route::get('/mypage/myapply/detail/{service_id}', 'getMyApplyDetail')->name('mypage.myapply.detail')->middleware('auth');
-
-        //支払い関連
-        Route::get('/mypage/myrequest/paid/{service_id}/{user_id}/{apply_id}', 'paid')->name('mypage.myrequest.paid');
+        Route::get('/user/profile/{user_id}', 'getUserProfile')->name('user.profile')->middleware('auth');
     }
 );
 
@@ -124,5 +101,11 @@ Route::controller(FollowController::class)->group(function () {
 
 Route::controller(EntryController::class)->group(function () {
     Route::post('/search/offer/post', 'sendOffer')->name('service.offer.send')->middleware('auth');
+    Route::post('/public_request/estimate','postEstimate')->name('pubreq.estimate')->middleware('auth');
+    Route::get('/public_request/entried_users/{service_id}', 'pubreqEntried')->name('pubreq.entried');
+    Route::post('/public_request/entried_users/approve', 'pubreqApprove')->name('pubreq.approve');
+    Route::post('/public_request/entried_users/unapprove', 'pubreqUnapprove')->name('pubreq.unapprove');
+    Route::get('/payment/{entry_id}', 'payment')->name('payment')->middleware('auth');
+    Route::get('/payment/success/{entry_id}', 'successPayment')->name('payment.success')->middleware('auth');
 });
 require __DIR__ . '/auth.php';

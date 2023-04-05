@@ -391,21 +391,12 @@ class ServiceController extends Controller
             $item->public = "非公開中";
         }
 
-        if ($item->categories) {
+        if ($item->category_ids) {
             $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
-
-            foreach ($item->categories as $value) {
-                $data = ServiceCategory::where('id', $value->id)->first();
-                $value->category_name = $data->name;
-            }
         }
 
-        if ($item->area_ids) {
+        if ($item->area_id) {
             $item->area_ids = Area::whereIn('id', $item->area_id)->get();
-            foreach ($item->area_ids as $area_id) {
-                $area = Area::where('id', $area_id->id)->first();
-                $area_id->name = $area->name;
-            }
         }
 
         $categories = ServiceCategory::get();
@@ -422,25 +413,18 @@ class ServiceController extends Controller
             $public = false;
         }
 
-        $param = [
-            'main_title' => $request->main_title,
-            'content' => $request->content,
-            'category_ids' => $request->category_id,
-            'area_id' => $request->area_id,
-            'attention' => $request->attention,
-            'public_sign' => $public,
-            'price' => $request->price
-        ];
-
         $service = Service::where('id', $request->service_id)->first();
 
         $service->main_title = $request->main_title;
         $service->content = $request->content;
-        $service->category_ids = $request->category_id;
+        $service->category_ids = $request->category_ids;
         $service->area_id = $request->area_id;
         $service->attention = $request->attention;
         $service->public_sign = $public;
         $service->price = $request->price;
+        $service->delivery_deadline = $request->delivery_deadline;
+        $service->application_deadline = $request->application_deadline;
+        $service->free = $request->free;
 
         if ($request->hasFile('photo_1')) {
             $dir = 'service';
@@ -500,172 +484,7 @@ class ServiceController extends Controller
         }
         $service->save();
 
-        return redirect()->route('service.detail', ['service_id' => $request->service_id]);
-    }
-
-    public function getFixed($fix_id)
-    {
-        $user_id = Auth::id();
-        $item = FixedService::where('id', $fix_id)->first();
-
-        $host_user = User::where('id', $item->host_user)->first();
-        $item->user_name = $host_user->nickname;
-        $item->img_url = $host_user->img_url;
-        $living = Area::where('id', $host_user->living_area)->first();
-        $item->living_area = $living->name;
-        $item->age =
-            Carbon::parse($host_user->birthday)->age;
-
-        $theother = User::where('id', $item->buy_user)->first();
-        if ($theother->id == $user_id) {
-            $theother = User::where('id', $item->host_user)->first();
-        }
-
-        $chat_room =
-            $user_id < $theother->id ? "$user_id$theother->id" : "$theother->id$user_id";
-        $chat_room_id = (int)$chat_room;
-        $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
-
-        //ここからStripe処理
-        $publicKey = config('payment.stripe_public_key');
-        \Stripe\Stripe::setApiKey(\Config::get('payment.stripe_secret_key'));
-
-        $secretKey = new \Stripe\StripeClient(\Config::get('payment.stripe_secret_key'));
-
-
-        $session = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card'],
-            'line_items'           => [[
-                'price_data' => [
-                    'currency' => 'jpy',
-                    'unit_amount' => $item->price,
-                    'product_data' => [
-                        'name' => $item->main_title,
-                    ],
-                ],
-                'quantity' => '1',
-            ]],
-            'mode' => 'payment',
-
-
-            'success_url'          =>  route('service.paid.success', ['fix_id' => $item->id]),
-            'cancel_url'           => route('service.fixed', ['fix_id' => $item->id])
-        ]);
-
-        return view('service.provider.fixed', compact('item', 'room_id', 'theother', 'user_id', 'session', 'publicKey', 'secretKey'));
-    }
-
-    public function paidSuccess($fix_id)
-    {
-        $fix = FixedService::where('id', $fix_id)->first();
-        $fix->payment = true;
-        $fix->save();
-
-        return redirect()->route('service.fixed', ['fix_id' => $fix_id]);
-    }
-
-    public function getFixedEdit($fix_id)
-    {
-        $user_id = Auth::id();
-        $item = FixedService::where('id', $fix_id)->first();
-
-        $user = User::where('id', $user_id)->first();
-        $item->user_name = $user->nickname;
-        $item->img_url = $user->img_url;
-        $living = Area::where('id', $user->living_area)->first();
-        $item->living_area = $living->name;
-        $item->age =
-            Carbon::parse($user->birthday)->age;
-
-        return view('service.provider.edit_fixed', compact('item'));
-    }
-
-    public function updateFixed(Request $request)
-    {
-        $fix = FixedService::where('id', $request->fix_id)->first();
-        $fix->price = $request->price;
-        $fix->date_end = $request->date_end;
-        $fix->content = $request->content;
-        $fix->save();
-
-        return redirect()->route('service.fixed', ['fix_id' => $request->fix_id]);
-    }
-
-    public function postEstimate(Request $request)
-    {
-        $fix = FixedService::where('id', $request->fix_id)->first();
-        $fix->estimate = true;
-        $fix->save();
-
-        $user_id = Auth::id();
-        $theother_id = $fix->buy_user;
-
-        $chat_room =
-            $user_id < $theother_id ? "$user_id$theother_id" : "$theother_id$user_id";
-        $chat_room_id = (int)$chat_room;
-
-        $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
-
-        $chat = new Chat();
-        $chat->room_id = $room_id;
-        $chat->from_user = $user_id;
-        $chat->message = '正式な見積もりを提案しました';
-        $chat->save();
-
-        return redirect()->route('chat.room', ['room_id' => $room_id, 'theother_id' => $theother_id]);
-    }
-
-    public function approveEstimate(Request $request)
-    {
-        $fix = FixedService::where('id', $request->fix_id)->first();
-        $fix->contract = true;
-        $fix->save();
-
-        $user_id = Auth::id();
-        $theother_id = $fix->host_user;
-
-        $chat_room =
-            $user_id < $theother_id ? "$user_id$theother_id" : "$theother_id$user_id";
-        $chat_room_id = (int)$chat_room;
-
-        $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
-
-        $consult_id = ChatRoom::where('id', $room_id)->pluck('consult_id')->first();
-        $consult = ServiceConsult::where('id', $consult_id)->first();
-        $consult->status = 'accepted';
-        $consult->save();
-
-        $chat = new Chat();
-        $chat->room_id = $room_id;
-        $chat->from_user = $user_id;
-        $chat->message = '正式な見積もりを承認しました';
-        $chat->save();
-
-        return redirect()->route('chat.room', ['room_id' => $room_id, 'theother_id' => $theother_id]);
-    }
-
-    public function searchPost(Request $request)
-    {
-        // ポストする検索条件の設定
-        $category_ids = $request->category_ids;
-        $price_max = $request->price_max;
-        $price_min = $request->price_min;
-
-        // $category_ids が配列の場合、カンマ区切りの文字列に変換する
-        if (is_array($category_ids)) {
-            $category_ids = implode(',', $category_ids);
-        }
-
-        $request->session()->put(
-            'search_contents_service',
-            [
-                'category_ids' => $category_ids,
-                'price_max' => $price_max,
-                'price_min' => $price_min,
-            ]
-        );
-
-        return redirect()->route('service.search')->withInput();
+        return redirect()->route('search.more', ['service_id' => $request->service_id]);
     }
 
     ///////////////////////////////////////
@@ -776,14 +595,16 @@ class ServiceController extends Controller
 
     public function moreSearch($service_id)
     {
+        $user_id = Auth::id();
         $item = Service::where('id', $service_id)->first();
-        $request_user = User::where('id', $item->request_user_id)->first();
-        $item->user_name = $request_user->nickname;
-        $item->img_url = $request_user->img_url;
-        $living = Area::where('id', $request_user->living_area)->first();
+        $buy_user = User::where('id', $item->request_user_id)->first();
+
+        $item->user_name = $buy_user->nickname;
+        $item->img_url = $buy_user->img_url;
+        $living = Area::where('id', $buy_user->living_area)->first();
         $item->living_area = $living->name;
         $item->age =
-            Carbon::parse($request_user->birthday)->age;
+            Carbon::parse($buy_user->birthday)->age;
 
         if ($item->public_sign == true) {
             $item->public = "公開中";
@@ -791,7 +612,7 @@ class ServiceController extends Controller
             $item->public = "非公開中";
         }
 
-        if ($item->categories) {
+        if ($item->category_ids) {
             $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
 
             foreach ($item->categories as $value) {
@@ -800,23 +621,57 @@ class ServiceController extends Controller
             }
         }
 
-        if ($item->area_ids) {
+        if ($item->area_id) {
             $item->area_ids = Area::whereIn('id', $item->area_id)->get();
             foreach ($item->area_ids as $area_id) {
                 $area = Area::where('id', $area_id->id)->first();
                 $area_id->name = $area->name;
             }
         }
-        $user_id = Auth::id();
 
-        //応募済みかの判定
-        $applied = Entry::where('service_id', $service_id)
-            ->where('sell_user', $user_id)
-            ->exists();
+        $room = ChatRoom::where('service_id', $service_id)->where('sell_user', $user_id)->where('buy_user', $buy_user->id)->first();
+        if($room){
+            $room_id = $room->id;
+        }else {
+            $room_id = null;
+        }
 
-        $apply_flag = $applied ? 0 : 1;
-        //$apply = Arr::has($apply_user_ids, $user_id);
+        $entry = Entry::where('service_id', $service_id)->where('buy_user', $buy_user->id)->where('sell_user', $user_id)->first();
+        if($entry){
+            $entry_id = $entry->id;
+            $item->status = $entry->status;
+        }else {
+            $entry_id = null;
+        }
 
-        return view('public_request.detail', compact('item', 'user_id', 'apply_flag'));
+        $edit_flags = Entry::where('service_id', $service_id)->where('buy_user', $user_id)->get();
+        if($edit_flags) {
+            $item->edit = true;
+            foreach ($edit_flags as $edit_flag) {
+                if ($edit_flag->status == 'approved' || $edit_flag->status == 'paid' || $edit_flag->status == 'estimate') {
+                    $item->edit = false;
+                    break;
+                }
+            }
+        }
+
+        $entrieds = Entry::where('service_id', $service_id)        ->where('buy_user', $user_id)
+                            ->whereNotIn('status', ['pending'])
+                            ->get();
+
+        foreach ($entrieds as $entried){
+            $entried_user = User::where('id', $entried->sell_user)->first();
+            $entried->user_name = $entried_user->nickname;
+            $entried->profile_image = $entried_user->img_url;
+            $entried->message = $entried_user->message;
+            $entried->gender = '男性';
+            if($entried_user->gender =='2'){
+                $entried->gender = '女性';
+            }elseif($entried_user->gender == '3'){
+                $entried->gender = 'その他';
+            }
+        }
+
+        return view('public_request.detail', compact('item', 'user_id', 'room_id', 'entry_id', 'entrieds'));
     }
 }

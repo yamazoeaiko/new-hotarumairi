@@ -216,6 +216,21 @@
       </div>
     </div>
 
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="delicery_deadline">希望納品（実施）日</label>
+      <input type="date" class="form-control" name="delicery_deadline">
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="reservation_deadline">応募締切日</label>
+      <input type="date" class="form-control" name="application_deadline">
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="free">自由記入欄</label>
+      <textarea class="form-control" name="free">{{$item->free}}</textarea>
+    </div>
+
     <div class="mb-3">
       <label for="public_sign" class="fw-bolder">公開/非公開</label>
       <div class="form-check form-switch">

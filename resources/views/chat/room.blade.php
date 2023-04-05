@@ -5,7 +5,10 @@
   <div class="row gx-5 align-items-center">
     <div class="col-12">
       <button class="btn-outline-primary" onClick="location.href='{{route('chat.list')}}'">戻る</button>
-      <p class="col-9 mx-auto mt-4 fs-5 fw-bolder">{{ $theother->nickname }}</p>
+      <div class="d-flex  align-items-center mb-2">
+        <p class="me-3 fs-5 fw-bolder ">{{ $theother->nickname }}</p>
+        <button class="btn btn-success" onclick="location.href='{{route('search.more',['service_id'=>$service_id])}}'">依頼詳細を確認</button>
+      </div>
       <!--hotaru_requestの修正・承認へ-->
       <!-- Mashead text and app badges-->
       <div class="col-12 mb-5 text-center text-start">

@@ -76,8 +76,11 @@ class ChatController extends Controller
                         $item->latest_message = 'ファイルを送付しました。';
                     }
 
-                    if (Entry::where('service_id', $item->service_id)->where('buy_user', $user_id)->where('sell_user', $theother->id)->exists()) {
-                        $entry = Entry::where('service_id', $item->service_id)->where('buy_user', $user_id)->where('sell_user', $theother->id)->first();
+                    $service = Service::where('id', $item->service_id)->first();
+                    $item->service_name = $service->main_title;
+
+                    if (Entry::where('service_id', $item->service_id)->where('sell_user', $user_id)->where('buy_user', $theother->id)->exists()) {
+                        $entry = Entry::where('service_id', $item->service_id)->where('sell_user', $user_id)->where('buy_user', $theother->id)->first();
 
                         if ($entry->status == 'pending') {
                             $item->status = '相談中';
@@ -104,6 +107,7 @@ class ChatController extends Controller
     {
         $user_id = Auth::id();
         $room = ChatRoom::where('id', $room_id)->first();
+        $service_id = Service::where('id', $room->service_id)->pluck('id')->first();
 
         if($user_id == $room->buy_user) {
             $theother_id = $room->sell_user;
@@ -121,7 +125,7 @@ class ChatController extends Controller
             $chat->img_url = $sender->img_url;
         }
 
-        return view('chat.room', compact('chats', 'theother', 'room_id', 'user_id'));
+        return view('chat.room', compact('chats', 'theother', 'room_id', 'user_id', 'service_id'));
     }
 
     public function sendChat(Request $request)

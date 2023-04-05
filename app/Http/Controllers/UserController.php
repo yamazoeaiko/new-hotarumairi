@@ -46,6 +46,24 @@ class UserController extends Controller
         return view('mypage.myprofile.index', compact('item'));
     }
 
+
+    public function getUserProfile($user_id)
+    {
+        $item = User::where('id', $user_id)->first();
+
+        $item->age = Carbon::parse($item->birthday)->age;
+        if ($item->gender == 1) {
+            $item->gender_name = "男性";
+        } elseif ($item->gender == 2) {
+            $item->gender_name = "女性";
+        } else {
+            $item->gender_name = "その他";
+        }
+        $item->living_area = Area::where('id', $item->living_area)->value('name');
+
+        return view('public_request.entried_detail', compact('item'));
+    }
+
     public function editMyProfile()
     {
         $user_id = Auth::id();

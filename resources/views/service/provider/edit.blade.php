@@ -83,29 +83,28 @@
     </div>
 
     <div class="mb-3">
-      <label for="category_id" class="fw-bolder">出品カテゴリー(複数選択可能)</label>
-      @if($item->categories)
-      @foreach($categories as $category)
+      <label for="category_ids" class="fw-bolder">出品カテゴリー(複数選択可能)</label>
+      @foreach ($categories as $category)
       <div class="form-check">
-        <input type="checkbox" name="category_id[]" value="{{ $category->id }}" class="form-check-input" @if(in_array($category->id, $item->category_ids)) checked @endif>
+        <input type="checkbox" class="form-check-input" name="category_ids[]" value="{{ $category->id }}" @if($item->categories){{ (in_array($category->id, $item->categories->pluck('id')->toArray())) ? 'checked' : '' }}@endif>
         <label class="form-check-label">{{ $category->name }}</label>
       </div>
       @endforeach
-      @endif
     </div>
 
 
     <div class="mb-3">
       <label for="area_id" class="fw-bolder">対応エリア(複数選択可能)</label>
-      @if($item->area_ids)
       <div>
         <button type="button" class="btn btn-outline-success" data-bs-toggle="collapse" data-bs-target="#collapseHokkaido">北海道エリア</button>
         <div class="collapse" id="collapseHokkaido">
           @foreach($areas as $area)
           @if($area->category == '北海道エリア')
-          <label for="area_id" class="mr-1">
-            <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(in_array($area->id, $item->area_id))checked @endif>
+          <label class="fw-bolder" for="area_id" class="mr-1">
+            <input type="checkbox" class="form-check-input" name="area_id[]" value="{{ $area->id }}" @if($item->area_id){{ (in_array($area->id, $item->area_ids->pluck('id')->toArray())) ? 'checked' : '' }}@endif>
+
             {{$area->name}}
+
           </label>
           @endif
           @endforeach
@@ -115,9 +114,11 @@
         <div class="collapse" id="collapseTohoku">
           @foreach($areas as $area)
           @if($area->category == '東北エリア')
-          <label for="area_id" class="mr-1">
-            <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(in_array($area->id, $item->area_id))checked @endif>
+          <label class="fw-bolder" for="area_id" class="mr-1">
+            <input type="checkbox" class="form-check-input" name="area_id[]" value="{{ $area->id }}" @if($item->area_id){{ (in_array($area->id, $item->area_ids->pluck('id')->toArray())) ? 'checked' : '' }}@endif>
+
             {{$area->name}}
+
           </label>
           @endif
           @endforeach
@@ -127,9 +128,11 @@
         <div class="collapse" id="collapseKanto">
           @foreach($areas as $area)
           @if($area->category == '関東エリア')
-          <label for="area_id" class="mr-1">
-            <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(in_array($area->id, $item->area_id))checked @endif>
+          <label class="fw-bolder" for="area_id" class="mr-1">
+            <input type="checkbox" class="form-check-input" name="area_id[]" value="{{ $area->id }}" @if($item->area_id){{ (in_array($area->id, $item->area_ids->pluck('id')->toArray())) ? 'checked' : '' }}@endif>
+
             {{$area->name}}
+
           </label>
           @endif
           @endforeach
@@ -139,9 +142,11 @@
         <div class="collapse" id="collapseChubu">
           @foreach($areas as $area)
           @if($area->category == '中部エリア')
-          <label for="area_id" class="mr-1">
-            <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(in_array($area->id, $item->area_id))checked @endif>
+          <label class="fw-bolder" for="area_id" class="mr-1">
+            <input type="checkbox" class="form-check-input" name="area_id[]" value="{{ $area->id }}" @if($item->area_id){{ (in_array($area->id, $item->area_ids->pluck('id')->toArray())) ? 'checked' : '' }}@endif>
+
             {{$area->name}}
+
           </label>
           @endif
           @endforeach
@@ -151,10 +156,11 @@
         <div class="collapse" id="collapseKinki">
           @foreach($areas as $area)
           @if($area->category == '近畿エリア')
-          <label for="area_id" class="mr-1">
-            <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(in_array($area->id, $item->area_id))checked @endif>
+          <label class="fw-bolder" for="area_id" class="mr-1">
+            <input type="checkbox" class="form-check-input" name="area_id[]" value="{{ $area->id }}" @if($item->area_id){{ (in_array($area->id, $item->area_ids->pluck('id')->toArray())) ? 'checked' : '' }}@endif>
 
             {{$area->name}}
+
           </label>
           @endif
           @endforeach
@@ -164,10 +170,11 @@
         <div class="collapse" id="collapseChugoku">
           @foreach($areas as $area)
           @if($area->category == '中国エリア')
-          <label for="area_id" class="mr-1">
-            <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(in_array($area->id, $item->area_id))checked @endif>
+          <label class="fw-bolder" for="area_id" class="mr-1">
+            <input type="checkbox" class="form-check-input" name="area_id[]" value="{{ $area->id }}" @if($item->area_id){{ (in_array($area->id, $item->area_ids->pluck('id')->toArray())) ? 'checked' : '' }}@endif>
 
             {{$area->name}}
+
           </label>
           @endif
           @endforeach
@@ -177,10 +184,11 @@
         <div class="collapse" id="collapseShikoku">
           @foreach($areas as $area)
           @if($area->category == '四国エリア')
-          <label for="area_id" class="mr-1">
-            <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(in_array($area->id, $item->area_id))checked @endif>
+          <label class="fw-bolder" for="area_id" class="mr-1">
+            <input type="checkbox" class="form-check-input" name="area_id[]" value="{{ $area->id }}" @if($item->area_id){{ (in_array($area->id, $item->area_ids->pluck('id')->toArray())) ? 'checked' : '' }}@endif>
 
             {{$area->name}}
+
           </label>
           @endif
           @endforeach
@@ -190,10 +198,11 @@
         <div class="collapse" id="collapseKyushu">
           @foreach($areas as $area)
           @if($area->category == '九州エリア')
-          <label for="area_id" class="mr-1">
-            <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(in_array($area->id, $item->area_id))checked @endif>
+          <label class="fw-bolder" for="area_id" class="mr-1">
+            <input type="checkbox" class="form-check-input" name="area_id[]" value="{{ $area->id }}" @if($item->area_id){{ (in_array($area->id, $item->area_ids->pluck('id')->toArray())) ? 'checked' : '' }}@endif>
 
             {{$area->name}}
+
           </label>
           @endif
           @endforeach
@@ -203,15 +212,16 @@
         <div class="collapse" id="collapseOkinawa">
           @foreach($areas as $area)
           @if($area->category == '沖縄エリア')
-          <label for="area_id" class="mr-1">
-            <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(in_array($area->id, $item->area_id))checked @endif>
+          <label class="fw-bolder" for="area_id" class="mr-1">
+            <input type="checkbox" class="form-check-input" name="area_id[]" value="{{ $area->id }}" @if($item->area_id){{ (in_array($area->id, $item->area_ids->pluck('id')->toArray())) ? 'checked' : '' }}@endif>
+
             {{$area->name}}
+
           </label>
           @endif
           @endforeach
         </div>
       </div>
-      @endif
     </div>
 
     <div class="mb-3">
@@ -229,6 +239,21 @@
           <span class="input-group-text">円（税別）</span>
         </div>
       </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="delivery_deadline">希望納品（実施）日</label>
+      <input type="date" class="form-control" name="delivery_deadline" value="{{$item->delivery_deadline}}">
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="reservation_deadline">応募締切日</label>
+      <input type="date" class="form-control" name="application_deadline" value="{{$item->application_deadline}}">
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="free">自由記入欄</label>
+      <textarea class="form-control" name="free"></textarea>
     </div>
 
     <div class="mb-3">

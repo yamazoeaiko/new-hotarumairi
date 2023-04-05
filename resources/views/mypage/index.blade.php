@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
   <div class="d-grid gap-4">
-    <button onclick="location.href='{{route('myprofile.index')}}'" class="btn btn-primary p-3">
+    <button onclick="location.href='{{route('myprofile.index'])}}'" class="btn btn-primary p-3">
       プロフィール
     </button>
     <button onclick="location.href='{{route('mypage.myrequest.index')}}'" class="btn btn-primary p-3">
