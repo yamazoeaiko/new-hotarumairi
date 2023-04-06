@@ -185,7 +185,7 @@
     <p>検索結果に該当するラウンドはありませんでした。</p>
     @endif
     @if($item->applied !==null)
-    <button onClick="location.href='{{ route('search.more',['service_id'=>$item->id]) }}'" class="card m-4 shadow card-point bg-success" style="max-width: 500px;">
+    <button onClick="location.href='{{ route('service.detail',['service_id'=>$item->id]) }}'" class="card m-4 shadow card-point bg-success" style="max-width: 500px;">
       <div class="row no-gutters">
         <div class="col-md-4">
           <img src="{{ asset($item->profile_img) }}" alt="Profile image" class="card-img">

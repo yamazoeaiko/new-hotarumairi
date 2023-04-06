@@ -109,13 +109,40 @@
     </div>
     @if($item->offer_user_id !== $user_id)
     <div class="text-center">
+      @if($room_id)
+      <button class="btn btn-success" onclick=location.href="{{route('chat.room',['room_id'=>$room_id])}}">チャット画面</button>
+      @if($entry->status == 'pending')
+      <form action="{{route('service.estimate')}}" method="post">
+        @csrf
+        <input type="hidden" name="entry_id" value="{{$entry->id}}">
+        <input type="hidden" name="service_id" value="{{$item->id}}">
+        <input type="hidden" name="buy_user" value="{{$entry->buy_user}}">
+        <input type="hidden" name="sell_user" value="{{$entry->sell_user}}">
+        <button type="submit" class="btn btn-outline-danger mt-2">現在の内容で正式に応募する</button>
+      </form>
+      @elseif($entry->status == 'estimate')
+      <button disabled="disabled" class="btn btn-outline-danger">正式な応募完了</button>
+      @elseif($entry->status == 'approved')
+      <div class="d-flex align-items-center justify-content-center">
+        <div class="mx-2"><button class="btn btn-danger" onClick="location.href='{{route('payment', ['entry_id' => $entry->id])}}'">お支払い画面</button>
+        </div>
+        <div class="mx-2"><button class="btn btn-outline-danger">キャンセルする</button></div>
+      </div>
+      <span class="fs-4">※依頼が引き受けられました</span>
+      <div>
+
+      </div>
+      @elseif($entry->status == 'unapproved')
+      <button disabled="disabled" class="btn btn-outline-danger">応募は否認されました</button>
+      @endif
+      @else
       <button type="button" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapseConsult">お見積りやサービス内容の相談をする</button>
 
       <div class="collapse" id="collapseConsult">
-        <form action="{{route('service.consult.send')}}" method="post">
+        <form action="{{route('service.consult')}}" method="post">
           @csrf
-          <input type="hidden" name="consulting_user" value="{{$user_id}}">
-          <input type="hidden" name="host_user" value="{{ $item->offer_user_id }}">
+          <input type="hidden" name="buy_user" value="{{$buy_user->id}}">
+          <input type="hidden" name="sell_user" value="{{ $item->offer_user_id }}">
           <input type="hidden" name="service_id" value="{{ $item->id }}">
           <textarea name="first_chat" id="first_chat" cols="80" rows="10" class="text-start m-3">※必ず記載してください。
             </textarea>
@@ -123,10 +150,24 @@
         </form>
       </div>
     </div>
+    @endif
+
     @elseif($item->offer_user_id == $user_id)
-    <div class="row my-1">
-      <button class="col btn btn-primary" onclick=location.href="{{route('mypage.service.edit',['service_id'=>$item->id])}}">編集する</button>
+    @if($item->edit == true)
+    <div class="text-center my-1">
+      <button class=" btn btn-primary" onclick=location.href="{{route('mypage.service.edit',['service_id'=>$item->id])}}">編集する</button>
     </div>
+    @else
+    <div class="text-center my-1">
+      <button class=" btn btn-primary" disabled>編集する</button>
+      <span>進行中の依頼があるためサービスの内容を編集できません</span>
+    </div>
+    @endif
+    @if($entry)
+    <div class="text-center">
+      <a href="{{route('service.entried', ['service_id'=> $item->id])}}" class="fs-4">正式な依頼が届いています</a>
+    </div>
+    @endif
     @endif
 
 

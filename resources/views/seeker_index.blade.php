@@ -6,7 +6,7 @@
     <button onclick="location.href='{{route('service.request')}}'" class="btn btn-primary p-3">
      公開依頼を作成する
     </button>
-    <button onclick="location.href='{{route('service.search')}}'" class="btn btn-primary p-3">
+    <button onclick="location.href='{{route('service')}}'" class="btn btn-primary p-3">
       サービスを探す
     </button>
   </div>

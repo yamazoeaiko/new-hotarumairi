@@ -157,13 +157,13 @@ class ServiceController extends Controller
     {
         $item = Service::where('id', $service_id)->first();
 
-        $user = User::where('id', $item->offer_user_id)->first();
-        $item->user_name = $user->nickname;
-        $item->img_url = $user->img_url;
-        $living = Area::where('id', $user->living_area)->first();
+        $sell_user = User::where('id', $item->offer_user_id)->first();
+        $item->user_name = $sell_user->nickname;
+        $item->img_url = $sell_user->img_url;
+        $living = Area::where('id', $sell_user->living_area)->first();
         $item->living_area = $living->name;
         $item->age =
-            Carbon::parse($user->birthday)->age;
+            Carbon::parse($sell_user->birthday)->age;
 
         if ($item->public_sign == true) {
             $item->public = "公開中";
@@ -189,15 +189,54 @@ class ServiceController extends Controller
         }
 
         $user_id = Auth::id();
+        if($sell_user->id !== $user_id){
+            $room = ChatRoom::where('service_id', $service_id)->where('sell_user', $sell_user->id)->where('buy_user', $user_id)->first();
+            if ($room) {
+                $room_id = $room->id;
+            } else {
+                $room_id = null;
+            }
+
+            $entry = Entry::where('service_id', $service_id)->where('buy_user', $user_id)->where('sell_user', $sell_user->id)->first();
+            if ($entry) {
+                $entry_id = $entry->id;
+                $item->status = $entry->status;
+            } else {
+                $entry_id = null;
+            }
+        }else{
+            $entry = Entry::where('service_id', $service_id)->where('sell_user', $user_id)->get();
+            
+            $room_id = null;
+
+        }
+
 
         $item->favorite = Favorite::where('favorite_id', $item->id)->where('user_id', $user_id)->exists();
 
         $item->follow = Follow::where('follow_id', $item->offer_user_id)->where('user_id', $user_id)->exists();
 
+        
+
+        $edit_flags = Entry::where('service_id', $service_id)->where('sell_user', $sell_user->id)->get();
+        if ($edit_flags) {
+            $item->edit = true;
+            foreach ($edit_flags as $edit_flag) {
+                if ($edit_flag->status == 'approved' || $edit_flag->status == 'paid' || $edit_flag->status == 'estimate') {
+                    $item->edit = false;
+                    break;
+                }
+            }
+        }
+
         return view(
             'service.seeker.detail',
-            compact('item', 'user_id')
+            compact('item', 'entry', 'edit_flags', 'room_id','user_id')
         );
+    }
+
+    public function serviceConsult(Request $request){
+        
     }
 
     public function request()

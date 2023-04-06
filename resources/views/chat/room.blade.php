@@ -7,7 +7,11 @@
       <button class="btn-outline-primary" onClick="location.href='{{route('chat.list')}}'">戻る</button>
       <div class="d-flex  align-items-center mb-2">
         <p class="me-3 fs-5 fw-bolder ">{{ $theother->nickname }}</p>
-        <button class="btn btn-success" onclick="location.href='{{route('search.more',['service_id'=>$service_id])}}'">依頼詳細を確認</button>
+        @if($service->type == 'public_request')
+        <button class="btn btn-success" onclick="location.href='{{route('search.more',['service_id'=>$service->id])}}'">依頼詳細を確認</button>
+        @elseif($service->type == 'service')
+        <button class="btn btn-success" onclick="location.href='{{route('service.detail',['service_id'=>$service->id])}}'">依頼詳細を確認</button>
+        @endif
       </div>
       <!--hotaru_requestの修正・承認へ-->
       <!-- Mashead text and app badges-->

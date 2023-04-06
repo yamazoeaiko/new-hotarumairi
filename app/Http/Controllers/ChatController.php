@@ -107,7 +107,11 @@ class ChatController extends Controller
     {
         $user_id = Auth::id();
         $room = ChatRoom::where('id', $room_id)->first();
-        $service_id = Service::where('id', $room->service_id)->pluck('id')->first();
+        $service = Service::where('id', $room->service_id)->first();
+        $service->type = 'service';
+        if($service->offer_user_id == null){
+            $service->type = 'public_request';
+        }
 
         if($user_id == $room->buy_user) {
             $theother_id = $room->sell_user;
@@ -125,7 +129,7 @@ class ChatController extends Controller
             $chat->img_url = $sender->img_url;
         }
 
-        return view('chat.room', compact('chats', 'theother', 'room_id', 'user_id', 'service_id'));
+        return view('chat.room', compact('chats', 'theother', 'room_id', 'user_id', 'service'));
     }
 
     public function sendChat(Request $request)

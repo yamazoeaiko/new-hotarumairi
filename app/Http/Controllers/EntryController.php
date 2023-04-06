@@ -190,7 +190,118 @@ class EntryController extends Controller
         $payment->payment_intent = $session->payment_intent;
         $payment->save();
 
+        $room = ChatRoom::where('service_id', $service->id)->where('buy_user', $user_id)->where('sell_user', $sell_user->id)->first();
+        $chat = new Chat();
+        $chat->room_id = $room->id;
+        $chat->sender_id = $user_id;
+        $chat->receiver_id = $sell_user->id;
+        $chat->message = '支払い対応が完了しました。';
+        $chat->save();
+
 
         return view('payment.success', compact('entry'));
+    }
+
+    ///////////出品サービスがわ//////////////
+    public function serviceConsult(Request $request){
+        $entry = new Entry();
+        $buy_user = Auth::id();
+        $sell_user = $request->sell_user;
+        $service_id = $request->service_id;
+
+        $entry->service_id = $service_id;
+        $entry->buy_user = $buy_user;
+        $entry->sell_user = $sell_user;
+        $entry->status = 'pending';
+        $entry->save();
+
+        //チャットルームが存在するか確認
+        $room = ChatRoom::where('service_id', $service_id)->where('buy_user', $buy_user)->where('sell_user', $sell_user)->first();
+        if ($room === null) {
+            $room = new ChatRoom();
+            $room->service_id = $service_id;
+            $room->buy_user = $buy_user;
+            $room->sell_user = $sell_user;
+            $room->save();
+        }
+        //Chatモデルへ反映させる
+        $room = ChatRoom::where('service_id', $service_id)->where('buy_user', $buy_user)->where('sell_user', $sell_user)->first();
+        $chat = new Chat();
+        $chat->room_id = $room->id;
+        $chat->sender_id = $sell_user;
+        $chat->receiver_id = $buy_user;
+        $chat->message = $request->first_chat;
+        $chat->save();
+
+        return redirect()->route('chat.list');
+    }
+
+    public function serviceEstimate(Request $request){
+        $entry = Entry::where('id', $request->entry_id)->where('service_id', $request->service_id)->where('buy_user', $request->buy_user)->where('sell_user', $request->sell_user)->first();
+
+        $entry->status = 'estimate';
+        $entry->save();
+
+        $room = ChatRoom::where('service_id', $request->service_id)->where('buy_user', $request->buy_user)->where('sell_user', $request->sell_user)->first();
+        $chat = new Chat();
+        $chat->room_id = $room->id;
+        $chat->sender_id = $request->buy_user;
+        $chat->receiver_id = $request->sell_user;
+        $chat->message = '正式な依頼が完了しました。';
+        $chat->save();
+
+        return redirect()->route('service.detail', ['service_id' => $request->service_id]);
+    }
+
+    public function serviceEntried($service_id){
+        $user_id =Auth::id();
+        $service = Service::where('id', $service_id)->first();
+
+        $entrieds = Entry::where('service_id', $service_id)->where('sell_user', $user_id)->get();
+        foreach ($entrieds as $entried) {
+            $buy_user = User::where('id', $entried->buy_user)->first();
+            $entried->user_name = $buy_user->nickname;
+            $entried->profile_image = $buy_user->img_url;
+            $entried->message = $buy_user->message;
+        }
+
+        return view('service.provider.entried',compact('entrieds','service','user_id'));
+    }
+
+    public function serviceApprove(Request $request)
+    {
+        $entry = Entry::where('id', $request->entry_id)->where('service_id', $request->service_id)->where('buy_user', $request->buy_user)->where('sell_user', $request->sell_user)->first();
+
+        $entry->status = 'approved';
+        $entry->save();
+
+        $room = ChatRoom::where('service_id', $request->service_id)->where('buy_user', $request->buy_user)->where('sell_user', $request->sell_user)->first();
+        $chat = new Chat();
+        $chat->room_id = $room->id;
+        $chat->sender_id = $request->sell_user;
+        $chat->receiver_id = $request->buy_user;
+        $chat->message = '依頼を引き受けいたしました。';
+        $chat->save();
+
+        return redirect()->route('service.entried', ['service_id' => $request->service_id]);
+    }
+
+    public function serviceUnapprove(Request $request)
+    {
+        $entry = Entry::where('id', $request->entry_id)->where('service_id', $request->service_id)->where('buy_user', $request->buy_user)->where('sell_user', $request->sell_user)->first();
+
+        $entry->status = 'unapproved';
+        $entry->save();
+
+        $room = ChatRoom::where('service_id', $request->service_id)->where('buy_user', $request->buy_user)->where('sell_user', $request->sell_user)->first();
+        $chat = new Chat();
+        $chat->room_id = $room->id;
+        $chat->sender_id = $request->sell_user;
+        $chat->receiver_id = $request->buy_user;
+        $chat->message = '申し訳ございません。依頼をお断りいたしました。';
+        $chat->save();
+
+
+        return redirect()->route('service.entried', ['service_id' => $request->service_id]);
     }
 }

@@ -47,6 +47,8 @@ Route::controller(ServiceController::class)->group(function () {
     Route::get('/service/search', 'searchService')->name('service.search');
     Route::get('/service/user/{user_id}', 'showUser')->name('service.show.user')->middleware('auth');
     Route::get('/service/detail/{service_id}', 'showDetail')->name('service.detail')->middleware('auth');
+
+
     Route::get('/service/create', 'create')->name('service.create')->middleware('auth');
     Route::post('/service/create/done', 'done')->name('service.create.done')->middleware('auth');
     Route::get('/service/{service_id}/edit', 'edit')->name('service.edit')->middleware('auth');
@@ -59,7 +61,7 @@ Route::controller(ServiceController::class)->group(function () {
     //公開依頼の検索について
     Route::get('/public_request', 'getPubReq')->name('pubreq.index');
     Route::get('/public_request/search', 'searchPubReq')->name('pubreq.search');
-    Route::get('/search/{service_id}', 'moreSearch')->name('search.more')->middleware('auth');
+    Route::get('/public_request/search/{service_id}', 'moreSearch')->name('search.more')->middleware('auth');
 });
 
 Route::controller(UserController::class)->group(
@@ -110,5 +112,12 @@ Route::controller(EntryController::class)->group(function () {
     Route::post('/public_request/entried_users/unapprove', 'pubreqUnapprove')->name('pubreq.unapprove');
     Route::get('/payment/{entry_id}', 'payment')->name('payment')->middleware('auth');
     Route::get('/payment/success/{entry_id}', 'successPayment')->name('payment.success')->middleware('auth');
+
+    ////出品サービス側//////////
+    Route::post('/service/consult/send', 'serviceConsult')->name('service.consult')->middleware('auth');
+    Route::post('/service/estimate/send', 'serviceEstimate')->name('service.estimate')->middleware('auth');
+    Route::get('/service/entried/users/{service_id}', 'serviceEntried')->name('service.entried')->middleware('auth');
+    Route::post('/service/entried_users/approve', 'serviceApprove')->name('service.approve');
+    Route::post('/service/entried_users/unapprove', 'serviceUnapprove')->name('service.unapprove');
 });
 require __DIR__ . '/auth.php';
