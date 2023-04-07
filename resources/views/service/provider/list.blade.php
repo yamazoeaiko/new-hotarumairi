@@ -47,7 +47,7 @@
   </div>
   <div class="my-3">
     <h5>見積もり・内容相談など</h5>
-    @if(count($consults)== 0)
+    @if($room ==null)
     <span>出品サービスへの相談はありません。</span>
     @else
     @foreach($consults as $consult)
