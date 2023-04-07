@@ -376,6 +376,7 @@ class ServiceController extends Controller
             $request->content = Str::limit($request->content, 60);
         }
 
+        $room = null;
         if ($consults = Entry::where('sell_user', $user_id)->get()) {
             foreach ($consults as $consult) {
                 $consulted_service = Service::where('id', $consult->service_id)->first();
@@ -392,10 +393,6 @@ class ServiceController extends Controller
                 ->where('buy_user', $consulting_user->id)
                 ->where('sell_user', $user_id)
                 ->first();
-
-                if ($room==null) {
-                    $room = null;
-                }
             }
         }
 
