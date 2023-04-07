@@ -361,60 +361,6 @@ class ServiceController extends Controller
         //
     }
 
-    public function sendConsult(Request $request)
-    {
-        $consult = new ServiceConsult();
-        $consulting_user_id = Auth::id();
-        $theother_id = $request->host_user;
-
-        $consult->create([
-            'host_user' => $theother_id,
-            'service_id' => $request->service_id,
-            'consulting_user' => $consulting_user_id,
-            'first_chat' => $request->first_chat
-        ]);
-
-        $consult_id = ServiceConsult::where('service_id', $request->service_id)->where('consulting_user', $consulting_user_id)->pluck('id')->first();
-
-        $chat_room =
-            $consulting_user_id < $theother_id ? "$consulting_user_id$theother_id" : "$theother_id$consulting_user_id";
-        $chat_room_id = (int)$chat_room;
-
-        if ($chat_exist = ChatRoom::where('room_id', $chat_room_id)->first()) {
-            $room_id = $chat_exist->id;
-            $chat_exist->update(['consult_id' => $consult_id]);
-        } else {
-            $room = new ChatRoom();
-            $room->create([
-                'room_id' => $chat_room_id,
-                'consult_id' => $consult_id,
-                'user_id_one' => $consulting_user_id,
-                'user_id_another' => $theother_id
-            ]);
-            $room_id = ChatRoom::where('room_id', $chat_room_id)->pluck('id')->first();
-        }
-        //Chatモデルへ反映させる
-        Chat::create([
-            'room_id' => $room_id,
-            'message' => $request->first_chat,
-            'from_user' => $consulting_user_id
-        ]);
-
-        $data = Service::where('id', $request->service_id)->first();
-
-        $fix = new FixedService();
-        $fix->service_id = $request->service_id;
-        $fix->consult_id = $consult_id;
-        $fix->host_user = $theother_id;
-        $fix->buy_user = $consulting_user_id;
-        $fix->main_title = $data->main_title;
-        $fix->price = $data->price;
-        $fix->content = $data->content;
-        $fix->save();
-
-        return redirect()->route('chat.list');
-    }
-
     public function getMyServiceList()
     {
         $user_id = Auth::id();
@@ -430,27 +376,23 @@ class ServiceController extends Controller
             $request->content = Str::limit($request->content, 60);
         }
 
-        if ($consults = ServiceConsult::where('host_user', $user_id)->get()) {
+        if ($consults = Entry::where('sell_user', $user_id)->get()) {
             foreach ($consults as $consult) {
                 $consulted_service = Service::where('id', $consult->service_id)->first();
                 $consult->service_name = $consulted_service->main_title;
 
-                $consulting_user = User::where('id', $consult->consulting_user)->first();
+                $consulting_user = User::where('id', $consult->buy_user)->first();
                 $consult->consulting_user_name = $consulting_user->nickname;
                 $consult->profile_img = $consulting_user->img_url;
                 $consult->consulting_user_id = $consulting_user->id;
 
                 $consult->first_chat = Str::limit($consult->first_chat, 60);
 
-
-                $fix = FixedService::where('consult_id', $consult->id)->where('buy_user', $consulting_user->id)->first();
-                $consult->fix_id = $fix->id;
-                $consult->estimate = $fix->estimate;
-                $consult->contract = $fix->contract;
+                $room = ChatRoom::where('service_id', $consult->service_id)->where('buy_user', $consulting_user->id)->where('sell_user', $user_id)->first();
             }
         }
 
-        return view('service.provider.list', compact('items', 'requests', 'consults'));
+        return view('service.provider.list', compact('items', 'requests', 'consults', 'room'));
     }
 
     public function getMyServiceEdit($service_id)
@@ -729,20 +671,7 @@ class ServiceController extends Controller
 
         $entrieds = Entry::where('service_id', $service_id)        ->where('buy_user', $user_id)
                             ->whereNotIn('status', ['pending'])
-                            ->get();
-
-        foreach ($entrieds as $entried){
-            $entried_user = User::where('id', $entried->sell_user)->first();
-            $entried->user_name = $entried_user->nickname;
-            $entried->profile_image = $entried_user->img_url;
-            $entried->message = $entried_user->message;
-            $entried->gender = '男性';
-            if($entried_user->gender =='2'){
-                $entried->gender = '女性';
-            }elseif($entried_user->gender == '3'){
-                $entried->gender = 'その他';
-            }
-        }
+                            ->get();            
 
         return view('public_request.detail', compact('item', 'user_id', 'room_id', 'entry_id', 'entrieds'));
     }

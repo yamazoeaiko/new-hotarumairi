@@ -30,7 +30,7 @@
           </button>
         </form>
         @else
-        <form action="{{route('unfollow',['follower_id'=>$item->user_id])}}" method="post">
+        <form action="{{route('unfollow',['follower_id'=>$item->offer_user_id])}}" method="post">
           @csrf
           <button class="btn btn-outline-success my-1">
             <small>{{$item->user_name}}のフォローを解除する</small>

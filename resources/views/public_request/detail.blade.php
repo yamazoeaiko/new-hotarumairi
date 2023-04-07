@@ -110,6 +110,13 @@
       <button disabled="disabled" class="btn btn-outline-danger">応募が承認されました</button>
       @elseif($item->status == 'unapproved')
       <button disabled="disabled" class="btn btn-outline-danger">応募は否認されました</button>
+      @elseif($item->status == 'paid')
+      <div class="text-center my-2">
+        <div>
+          <button class="btn btn-primary">納品完了連絡をする</button>
+        </div>
+        <span>※相手方の支払い対応が完了しました。期日までに納品を完了して下さい。</span>
+      </div>
       @endif
     </div>
     @else
@@ -130,21 +137,21 @@
     </div>
     @endif
     @elseif($item->request_user_id == $user_id)
-      @if($item->edit == true)
-      <div class="text-center my-1">
-        <button class="btn btn-primary" onclick=location.href="{{route('mypage.service.edit',['service_id'=>$item->id])}}">公開依頼内容を編集する</button>
+    @if($item->edit == true)
+    <div class="text-center my-1">
+      <button class="btn btn-primary" onclick=location.href="{{route('mypage.service.edit',['service_id'=>$item->id])}}">公開依頼内容を編集する</button>
+    </div>
+    @else
+    <div class="text-center my-1">
+      <button disabled="disabled" class="btn btn-primary">公開依頼内容を編集する</button>
+      <div>
+        <span>※進行中の応募があるため依頼内容は編集できません</span>
       </div>
-      @else
-      <div class="text-center my-1">
-        <button disabled="disabled" class="btn btn-primary">公開依頼内容を編集する</button>
-        <div>
-          <span>※進行中の応募があるため依頼内容は編集できません</span>
-        </div>
-      </div>
-      @endif
-      @if($entrieds)
-      <div class="text-center">
-        <a href="{{route('pubreq.entried', ['service_id'=> $item->id])}}" class="fs-4">正式な応募が届いています</a>
-      </div>
-      @endif
+    </div>
+    @endif
+    @if(!$entrieds->isEmpty())
+    <div class="text-center">
+      <a href="{{route('pubreq.entried', ['service_id'=> $item->id])}}" class="fs-4">正式な応募が届いています</a>
+    </div>
+    @endif
     @endif

@@ -33,7 +33,7 @@
     @endif
     <div class="list-group">
       @foreach($requests as $request)
-      <button onClick="location.href='{{route('service.detail', ['service_id' => $item->id])}}'" class="list-group-item list-group-item-action">
+      <button onClick="location.href='{{route('search.more', ['service_id' => $request->id])}}'" class="list-group-item list-group-item-action">
         <div class="row">
           <div class="col-8 fw-bolder fs-5">{{$request->main_title}}</div>
           <div class="col-4">予算：{{$request->price}}円（税別）</div>
@@ -51,7 +51,7 @@
     <span>出品サービスへの相談はありません。</span>
     @else
     @foreach($consults as $consult)
-    <button onClick="location.href='{{route('service.fixed', ['fix_id' => $consult->fix_id])}}'" class="list-group-item list-group-item-action">
+    <button onClick="location.href='{{route('chat.room', ['room_id' => $room->id])}}'" class="list-group-item list-group-item-action">
       <div class="no-gutters">
         <div class="row">
           <div class="col-2">
@@ -69,24 +69,27 @@
         <div class="row">
           <div class="col-2"></div>
           <div class="col-6">
-            <p class="text-muted small text-left ml-auto" style="text-align: left !important;">{{ $consult->first_chat }}
+            <p class="text-muted fw-bolder fs-5 text-left ml-auto">{{ $consult->service_name }}
             </p>
           </div>
           <div class="col-3 text-right">
-            @if($consult->estimate == true && $consult->contract == false)
-            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">見積もり提案中
+            @if($consult->status =='pending')
+            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">相談中
             </small>
-            @endif
-            @if($consult->contract == true && $consult->payment == false)
-            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">契約成立中
+            @elseif($consult->status =='estimate')
+            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">正式な依頼あり
             </small>
-            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">支払い待ち
+            @elseif($consult->status =='approved')
+            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">依頼成立(支払い未対応)
             </small>
-            @endif
-            @if($consult->payment == true)
-            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">支払い完了
+            @elseif($consult->status =='unapproved')
+            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">依頼お断り済み
             </small>
-            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">作業完了報告待ち
+            @elseif($consult->status =='paid')
+            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">支払い対応完了
+            </small>
+            @elseif($consult->status =='deliverd')
+            <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">納品完了
             </small>
             @endif
           </div>

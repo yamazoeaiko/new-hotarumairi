@@ -7,7 +7,7 @@
       プロフィール
     </button>
     <button onclick="location.href='{{route('mypage.service.list')}}'" class="btn btn-primary p-3">
-      出品サービスの管理
+      出品サービス・相談中案件の管理
     </button>
   </div>
 </div>
