@@ -388,7 +388,14 @@ class ServiceController extends Controller
 
                 $consult->first_chat = Str::limit($consult->first_chat, 60);
 
-                $room = ChatRoom::where('service_id', $consult->service_id)->where('buy_user', $consulting_user->id)->where('sell_user', $user_id)->first();
+                $room = ChatRoom::where('service_id', $consult->service_id)
+                ->where('buy_user', $consulting_user->id)
+                ->where('sell_user', $user_id)
+                ->first();
+
+                if (!$room) {
+                    $room = null;
+                }
             }
         }
 
