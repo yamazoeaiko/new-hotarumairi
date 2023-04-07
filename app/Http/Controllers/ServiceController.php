@@ -393,7 +393,7 @@ class ServiceController extends Controller
                 ->where('sell_user', $user_id)
                 ->first();
 
-                if (!$room) {
+                if ($room==null) {
                     $room = null;
                 }
             }
