@@ -67,6 +67,7 @@ Route::controller(ServiceController::class)->group(function () {
 Route::controller(UserController::class)->group(
     function () {
         Route::get('/mypage', 'getMypage')->name('mypage.index');
+        Route::get('/mypage/favorite_follow', 'FavoriteFollow')->name('mypage.favorite.follow');
         Route::get('/mypage/myprofile', 'getMyProfile')->name('myprofile.index')->middleware('auth');
         Route::get('/mypage/myprofile/edit', 'editMyProfile')->name('myprofile.edit')->middleware('auth');
         Route::post('/mypage/myprofile/update', 'updateMyProfile')->name('myprofile.update')->middleware('auth');

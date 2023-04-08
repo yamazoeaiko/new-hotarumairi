@@ -228,7 +228,7 @@
 
     <div class="form-group mb-3">
       <label class="fw-bolder" for="free">自由記入欄</label>
-      <textarea class="form-control" name="free">{{$item->free}}</textarea>
+      <textarea class="form-control" name="free"></textarea>
     </div>
 
     <div class="mb-3">

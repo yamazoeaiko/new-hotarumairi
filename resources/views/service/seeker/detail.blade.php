@@ -141,7 +141,7 @@
       <div class="collapse" id="collapseConsult">
         <form action="{{route('service.consult')}}" method="post">
           @csrf
-          <input type="hidden" name="buy_user" value="{{$buy_user->id}}">
+          <input type="hidden" name="buy_user" value="{{$user_id}}">
           <input type="hidden" name="sell_user" value="{{ $item->offer_user_id }}">
           <input type="hidden" name="service_id" value="{{ $item->id }}">
           <textarea name="first_chat" id="first_chat" cols="80" rows="10" class="text-start m-3">※必ず記載してください。
