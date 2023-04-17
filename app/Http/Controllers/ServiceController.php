@@ -670,8 +670,8 @@ class ServiceController extends Controller
         }
 
         $entrieds = Entry::where('service_id', $service_id)        ->where('buy_user', $user_id)
-                            ->whereNotIn('status', ['pending'])
-                            ->get();            
+                            ->where('status', 'estimate')
+                            ->get();
 
         return view('public_request.detail', compact('item', 'user_id', 'room_id', 'entry_id', 'entrieds'));
     }

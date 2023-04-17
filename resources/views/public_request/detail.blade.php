@@ -151,7 +151,7 @@
     @endif
     @if(!$entrieds->isEmpty())
     <div class="text-center">
-      <a href="{{route('pubreq.entried', ['service_id'=> $item->id])}}" class="fs-4">正式な応募が届いています</a>
+      <a href="{{route('pubreq.entried', ['service_id'=> $item->id])}}" class="fs-7 text-danger">提案された見積もりを承認・否認のご対応をして下さい。</a>
     </div>
     @endif
     @endif
