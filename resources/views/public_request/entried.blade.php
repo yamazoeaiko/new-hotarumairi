@@ -36,7 +36,7 @@
               <input type="hidden" name="service_id" value="{{$service->id}}">
               <input type="hidden" name="buy_user" value="{{$user_id}}">
               <input type="hidden" name="sell_user" value="{{$entried->sell_user}}">
-              <button type="submit" class="btn btn-primary">正式に依頼する</button>
+              <button type="submit" class="btn btn-primary">見積もり内容を承認</button>
             </form>
           </div>
 
@@ -47,7 +47,7 @@
               <input type="hidden" name="service_id" value="{{$service->id}}">
               <input type="hidden" name="buy_user" value="{{$user_id}}">
               <input type="hidden" name="sell_user" value="{{$entried->sell_user}}">
-              <button type="submit" class="btn btn-outline-danger">お断りする</button>
+              <button type="submit" class="btn btn-outline-danger">見積もり内容をお断り</button>
             </form>
           </div>
           @elseif($entried->status == 'approved')

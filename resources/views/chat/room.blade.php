@@ -10,7 +10,29 @@
         @if($service->type == 'public_request')
         <button class="btn btn-success" onclick="location.href='{{route('search.more',['service_id'=>$service->id])}}'">依頼詳細を確認</button>
         @elseif($service->type == 'service')
-        <button class="btn btn-success" onclick="location.href='{{route('service.detail',['service_id'=>$service->id])}}'">依頼詳細を確認</button>
+        <button class="btn btn-success" onclick="location.href='{{route('service.detail',['service_id'=>$service->id])}}'">出品サービス詳細を確認</button>
+        @endif
+        @if($room->sell_user == $user_id)
+        @if($entry)
+        @if($entry->status == 'pending')
+        <form action="{{route('service.estimate')}}" method="post">
+          @csrf
+          <input type="hidden" name="entry_id" value="{{$entry->id}}">
+          <input type="hidden" name="service_id" value="{{$service->id}}">
+          <input type="hidden" name="buy_user" value="{{$entry->buy_user}}">
+          <input type="hidden" name="sell_user" value="{{$entry->sell_user}}">
+          <button type="submit" class="btn btn-outline-danger">現在の内容で見積もり提案</button>
+        </form>
+        @elseif($entry->status == 'estimate')
+        <div class="text-red">{{$entry->status_name}}</div>
+        @elseif($entry->status =='approved')
+        <div class="text-red">{{$entry->status_name}}</div>
+        @elseif($entry->status =='paid')
+        <div class="text-red">{{$entry->status_name}}</div>
+        @elseif($entry->statu == 'unapproved')
+        <div class="text-red">{{$entry->status_name}}</div>
+        @endif
+        @endif
         @endif
       </div>
       <!--hotaru_requestの修正・承認へ-->

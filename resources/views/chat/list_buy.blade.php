@@ -2,11 +2,12 @@
 
 @section('content')
 <div class="container">
-  <h4>チャットルーム一覧</h4>
+  <h4>【購入者側】チャットルーム一覧</h4>
+  <button class="btn btn-outline-success mb-3" onClick="location.href='{{ route('chat.list.sell') }}'">出品者側のチャット</button>
   <div class="list-group">
     @if($items)
     @foreach($items as $item)
-    <button class="list-group-item list-group-action" onClick="location.href='{{route('chat.room',['room_id'=>$item->id])}}'">
+    <button class="list-group-item list-group-action " onClick="location.href='{{route('chat.room',['room_id'=>$item->id])}}'">
       <div class="no-gutters">
         <div class="row">
           <div class="col-2">

@@ -27,28 +27,7 @@
           </div>
         </div>
         @if($entried->status == 'estimate')
-        <div class="d-flex">
-          <div class="mx-2">
-            <form action="{{route('service.approve')}}" method="post">
-              @csrf
-              <input type="hidden" name="entry_id" value="{{$entried->id}}">
-              <input type="hidden" name="service_id" value="{{$service->id}}">
-              <input type="hidden" name="buy_user" value="{{$entried->buy_user}}">
-              <input type="hidden" name="sell_user" value="{{ $user_id }}">
-              <button type="submit" class="btn btn-primary">引き受ける</button>
-            </form>
-          </div>
-
-          <div class="mx-2">
-            <form action="{{route('service.unapprove')}}" method="post">
-              @csrf
-              <input type="hidden" name="entry_id" value="{{$entried->id}}">
-              <input type="hidden" name="service_id" value="{{$service->id}}">
-              <input type="hidden" name="buy_user" value="{{$entried->buy_user}}">
-              <input type="hidden" name="sell_user" value="{{$user_id}}">
-              <button type="submit" class="btn btn-outline-danger">お断りする</button>
-            </form>
-          </div>
+        
           @elseif($entried->status == 'approved')
           <div class="row">
             <span>承認しました。相手方の支払い対応待ちです。</span>
@@ -71,7 +50,7 @@
           </div>
           @endif
           <div class="mx-2">
-            <button class="btn btn-secondary" onclick=location.href="{{route('user.profile',['user_id'=>$entried->id])}}">プロフィールを確認する</button>
+            <button class="btn btn-secondary" onclick=location.href="{{route('user.profile',['user_id'=>$entried->buy_user])}}">プロフィールを確認する</button>
           </div>
         </div>
       </div>

@@ -18,6 +18,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
 use Illuminate\Support\Str;
+use App\Models\Announcement;
+use App\Models\AnnouncementRead;
 
 class EntryController extends Controller
 {
@@ -66,10 +68,10 @@ class EntryController extends Controller
         $chat->room_id = $room->id;
         $chat->sender_id = $request->sell_user;
         $chat->receiver_id = $request->buy_user;
-        $chat->message = '正式な応募が完了しました。';
+        $chat->message = '見積もりの提案をしました。';
         $chat->save();
  
-        return redirect()->route('search.more',['service_id' => $request->service_id]);
+        return redirect()->route('chat.room',['room_id' => $room->id]);
     }
 
     public function pubreqEntried($service_id){
@@ -245,12 +247,13 @@ class EntryController extends Controller
         $room = ChatRoom::where('service_id', $request->service_id)->where('buy_user', $request->buy_user)->where('sell_user', $request->sell_user)->first();
         $chat = new Chat();
         $chat->room_id = $room->id;
-        $chat->sender_id = $request->buy_user;
-        $chat->receiver_id = $request->sell_user;
-        $chat->message = '正式な依頼が完了しました。';
+        $chat->sender_id = $request->sell_user;
+        $chat->receiver_id = $request->buy_user;
+        $chat->message = '見積もり提案を送付しました。
+        見積もり内容は「出品サービス詳細を確認」からご確認ください。';
         $chat->save();
 
-        return redirect()->route('service.detail', ['service_id' => $request->service_id]);
+        return redirect()->route('chat.room', ['room_id' => $room->id]);
     }
 
     public function serviceEntried($service_id){
@@ -278,12 +281,12 @@ class EntryController extends Controller
         $room = ChatRoom::where('service_id', $request->service_id)->where('buy_user', $request->buy_user)->where('sell_user', $request->sell_user)->first();
         $chat = new Chat();
         $chat->room_id = $room->id;
-        $chat->sender_id = $request->sell_user;
-        $chat->receiver_id = $request->buy_user;
-        $chat->message = '依頼を引き受けいたしました。';
+        $chat->sender_id = $request->buy_user;
+        $chat->receiver_id = $request->sell_user;
+        $chat->message = '見積もり提案を承認しました。支払い対応完了までしばらくお待ちください。';
         $chat->save();
 
-        return redirect()->route('service.entried', ['service_id' => $request->service_id]);
+        return redirect()->route('chat.room', ['room_id' => $room->id]);
     }
 
     public function serviceUnapprove(Request $request)

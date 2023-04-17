@@ -82,7 +82,9 @@ Route::controller(UserController::class)->group(
 
 Route::controller(ChatController::class)->group(
     function () {
-        Route::get('/chat/list', 'getChatList')->name('chat.list')->middleware('auth');
+        Route::get('/chat/list_buy', 'getChatList')->name('chat.list')->middleware('auth');
+        Route::get('/chat/list_sell', 'getChatSellList')->name('chat.list.sell')->middleware('auth');
+
         Route::get('/chat/room/{room_id}', 'getChatRoom')->name('chat.room')->middleware('auth');
         Route::post('/chat/send', 'sendChat')->name('send.chat')->middleware('auth');
     }

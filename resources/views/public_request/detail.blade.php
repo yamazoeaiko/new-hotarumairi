@@ -102,14 +102,14 @@
         <input type="hidden" name="service_id" value="{{$item->id}}">
         <input type="hidden" name="buy_user" value="{{$item->request_user_id}}">
         <input type="hidden" name="sell_user" value="{{$user_id}}">
-        <button type="submit" class="btn btn-outline-danger mt-2">現在の内容で正式に応募する</button>
+        <button type="submit" class="btn btn-outline-danger mt-2">現在の内容で見積もりを提出する</button>
       </form>
       @elseif($item->status == 'estimate')
-      <button disabled="disabled" class="btn btn-outline-danger">正式な応募完了</button>
+      <button disabled="disabled" class="btn btn-outline-danger">正式な見積もり送付完了</button>
       @elseif($item->status == 'approved')
-      <button disabled="disabled" class="btn btn-outline-danger">応募が承認されました</button>
+      <button disabled="disabled" class="btn btn-outline-danger">見積もり内容が承認されました</button>
       @elseif($item->status == 'unapproved')
-      <button disabled="disabled" class="btn btn-outline-danger">応募は否認されました</button>
+      <button disabled="disabled" class="btn btn-outline-danger">見積もり内容は否認されました</button>
       @elseif($item->status == 'paid')
       <div class="text-center my-2">
         <div>
