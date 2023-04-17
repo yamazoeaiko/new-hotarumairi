@@ -228,8 +228,8 @@ class EntryController extends Controller
         $room = ChatRoom::where('service_id', $service_id)->where('buy_user', $buy_user)->where('sell_user', $sell_user)->first();
         $chat = new Chat();
         $chat->room_id = $room->id;
-        $chat->sender_id = $sell_user;
-        $chat->receiver_id = $buy_user;
+        $chat->sender_id = Auth::id();
+        $chat->receiver_id = $sell_user;
         $chat->message = $request->first_chat;
         $chat->save();
 

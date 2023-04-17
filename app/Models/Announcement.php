@@ -30,4 +30,10 @@ class Announcement extends Model
 
         return $this->created_at->format('m月d日');
     }
+
+    protected $fillable = [
+        'title',
+        'description',
+        'link'
+    ];
 }

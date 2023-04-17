@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('buy_user')->references('id')->on('users');
             $table->unsignedBigInteger('sell_user');
             $table->foreign('sell_user')->references('id')->on('users');
+            $table->enum('status', ['stopping', 'deleted'])->nullable();
             $table->timestamps();
         });
     }

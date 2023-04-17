@@ -121,4 +121,10 @@ Route::controller(EntryController::class)->group(function () {
     Route::post('/service/entried_users/approve', 'serviceApprove')->name('service.approve');
     Route::post('/service/entried_users/unapprove', 'serviceUnapprove')->name('service.unapprove');
 });
+
+Route::controller(AnnouncementController::class)->group(function () {
+    Route::get('/announcement', 'index')->name('announcement.index')->middleware('auth');
+
+    Route::post('/announcement-read', 'read')->name('announcement.read');
+});
 require __DIR__ . '/auth.php';

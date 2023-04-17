@@ -235,10 +235,6 @@ class ServiceController extends Controller
         );
     }
 
-    public function serviceConsult(Request $request){
-        
-    }
-
     public function request()
     {
         $user_id = Auth::id();

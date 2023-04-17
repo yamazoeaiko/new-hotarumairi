@@ -5,48 +5,31 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Announcement;
 use App\Models\AnnouncementRead;
+use Illuminate\Support\Facades\Auth;
 
 class AnnouncementController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+        $items = Announcement::whereHas('reads', function ($query) use ($user) {
 
-        return view('announcement.index');
-    }
-
-    public function show(Request $request, Announcement $announcement)
-    {
-
-        $user = $request->user();
-        $announcement_read = AnnouncementRead::where('user_id', $user->id)
-            ->where('announcement_id', $announcement->id)
-            ->first();
-
-        if (!is_null($announcement_read)) {
-
-            $announcement_read->read = true;
-            $announcement_read->save();
-        }
-
-        return $announcement;
-    }
-
-    public function list(Request $request)
-    {
-        $user = $request->user();
-
-        return Announcement::whereDoesntHave('reads', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
+            $query->where('user_id', $user->id)
+                ->where('read', false);
         })
-            ->orWhere(function ($query) use ($user) {
-                $query->whereHas('reads', function ($query) use ($user) {
-                    $query->where('user_id', $user->id)
-                        ->where('read', false);
-                });
-            })
             ->orderBy('created_at', 'desc')
-            ->orderBy('id', 'desc')
-            ->paginate(7);
+            ->orderBy('id', 'desc')->get();
+
+        return view('announcement.index', compact('items'));
     }
 
+    public function read(Request $request)
+    {
+        $user_id = Auth::id();
+        $announcementRead = AnnouncementRead::where('announcement_id', $request->announcement_id)->where('user_id', $user_id)->first();
+        $announcementRead->read = true;
+        $announcementRead->save();
+
+        return redirect()->route($request->link_path);
+    }
 }

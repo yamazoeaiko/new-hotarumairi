@@ -15,13 +15,9 @@ return new class extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->comment('お知らせするユーザーID');
+            $table->string('title')->comment('お知らせ：タイトル');
             $table->text('description')->comment('お知らせ：内容');
-            $table->unsignedBigInteger('partner_id')->comment('相手のユーザーID')->nullable();
-            $table->boolean('read')->default(false)->comment('未読 or 既読');
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('partner_id')->references('id')->on('users');
+            $table->string('link')->nullable()->comment('遷移先パス');
             $table->timestamps();
         });
     }
