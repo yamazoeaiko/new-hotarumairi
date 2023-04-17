@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
   <h4>【購入者側】チャットルーム一覧</h4>
-  <button class="btn btn-outline-success mb-3" onClick="location.href='{{ route('chat.list.sell') }}'">出品者側のチャット</button>
+  <button class="btn btn-primary mb-3" onClick="location.href='{{ route('chat.list.sell') }}'">出品者側のチャットに切り換える</button>
   <div class="list-group">
     @if($items)
     @foreach($items as $item)
