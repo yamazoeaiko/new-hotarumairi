@@ -25,7 +25,7 @@
     <tr>
       <th>性別</th>
       <td>
-        {{$item->gender}}
+        {{$item->gender_name}}
       </td>
     </tr>
     <tr>
