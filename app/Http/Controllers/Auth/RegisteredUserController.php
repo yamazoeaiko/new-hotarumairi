@@ -38,15 +38,16 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'nickname' => ['required', 'string', 'max:255']
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'nickname' => $request->name,
+            'nickname' => $request->nickname,
             'password' => Hash::make($request->password),
             'birthday' => '1990-1-1',
-            'gender' => '1',
+            'gender' => '3',
             'living_area' => '1',
             'img_url' => 'storage/profile/no_image.jpg'
         ]);

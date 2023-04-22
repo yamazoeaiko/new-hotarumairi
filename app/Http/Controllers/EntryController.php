@@ -93,7 +93,7 @@ class EntryController extends Controller
             if ($entried_user->gender == '2') {
                 $entried->gender = '女性';
             } elseif ($entried_user->gender == '3') {
-                $entried->gender = 'その他';
+                $entried->gender = '未設定';
             }
         }
 

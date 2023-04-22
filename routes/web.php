@@ -51,8 +51,6 @@ Route::controller(ServiceController::class)->group(function () {
 
     Route::get('/service/create', 'create')->name('service.create')->middleware('auth');
     Route::post('/service/create/done', 'done')->name('service.create.done')->middleware('auth');
-    Route::get('/service/{service_id}/edit', 'edit')->name('service.edit')->middleware('auth');
-    Route::post('/service/update', 'update')->name('service.update')->middleware('auth');
     Route::post('/service/destroy', 'destroy')->name('service.destroy')->middleware('auth');
     Route::get('/mypage/service/list', 'getMyServiceList')->name('mypage.service.list')->middleware('auth');
     Route::get('/mypage/service/edit/{service_id}', 'getMyServiceEdit')->name('mypage.service.edit')->middleware('auth');

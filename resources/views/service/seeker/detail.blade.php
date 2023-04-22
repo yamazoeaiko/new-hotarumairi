@@ -135,102 +135,103 @@
             <button type="submit" class="btn btn-outline-danger">見積もり提案をお断り</button>
           </form>
         </div>
-      </div>  
-
-        @elseif($entry->status == 'approved')
-        <div class="d-flex align-items-center justify-content-center">
-          <div class="mx-2"><button class="btn btn-danger" onClick="location.href='{{route('payment', ['entry_id' => $entry->id])}}'">お支払い画面</button>
-          </div>
-          <div class="mx-2"><button class="btn btn-outline-danger">キャンセルする</button></div>
-        </div>
-        <span class="fs-7">※見積もりを承認しました。支払い対応を行って下さい。</span>
-        <div>
-
-        </div>
-        @elseif($entry->status == 'unapproved')
-        <button disabled="disabled" class="btn btn-outline-danger">見積もり提案を否認しました</button>
-        @endif
-        @else
-        <button type="button" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapseConsult">お見積りやサービス内容の相談をする</button>
-
-        <div class="collapse" id="collapseConsult">
-          <form action="{{route('service.consult')}}" method="post">
-            @csrf
-            <input type="hidden" name="buy_user" value="{{$user_id}}">
-            <input type="hidden" name="sell_user" value="{{ $item->offer_user_id }}">
-            <input type="hidden" name="service_id" value="{{ $item->id }}">
-            <textarea name="first_chat" id="first_chat" cols="80" rows="10" class="text-start m-3">※必ず記載してください。
-            </textarea>
-            <button type="submit" class="btn btn-primary col-3">送信する</button>
-          </form>
-        </div>
       </div>
+
+      @elseif($entry->status == 'approved')
+      <div class="d-flex align-items-center justify-content-center">
+        <div class="mx-2"><button class="btn btn-danger" onClick="location.href='{{route('payment', ['entry_id' => $entry->id])}}'">お支払い画面</button>
+        </div>
+        <div class="mx-2"><button class="btn btn-outline-danger">キャンセルする</button></div>
+      </div>
+      <span class="fs-7">※見積もりを承認しました。支払い対応を行って下さい。</span>
+      <div>
+
+      </div>
+      @elseif($entry->status == 'unapproved')
+      <button disabled="disabled" class="btn btn-outline-danger">見積もり提案を否認しました</button>
       @endif
-
-      @elseif($item->offer_user_id == $user_id)
-      @if($item->edit == true)
-      <div class="text-center my-1">
-        <button class=" btn btn-primary" onclick=location.href="{{route('mypage.service.edit',['service_id'=>$item->id])}}">編集する</button>
-      </div>
       @else
-      <div class="text-center my-1">
-        <button class=" btn btn-primary" disabled>編集する</button>
-        <span>進行中の依頼があるためサービスの内容を編集できません</span>
+      <button type="button" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapseConsult">お見積りやサービス内容の相談をする</button>
+
+      <div class="collapse" id="collapseConsult">
+        <form action="{{route('service.consult')}}" method="post">
+          @csrf
+          <input type="hidden" name="buy_user" value="{{$user_id}}">
+          <input type="hidden" name="sell_user" value="{{ $item->offer_user_id }}">
+          <input type="hidden" name="service_id" value="{{ $item->id }}">
+          <div class="input-group">
+            <textarea name="first_chat" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで送信。Shift+Enterで改行"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary col-3">送信する</button>
+        </form>
       </div>
-      @endif
-      <div class="text-center">
-        <button onclick="history.back()" class="btn btn-success">
-          <i class="fas fa-arrow-left">戻る</i>
-        </button>
-      </div>
-      @endif
+    </div>
+    @endif
+
+    @elseif($item->offer_user_id == $user_id)
+    @if($item->edit == true)
+    <div class="text-center my-1">
+      <button class=" btn btn-primary" onclick=location.href="{{route('mypage.service.edit',['service_id'=>$item->id])}}">編集する</button>
+    </div>
+    @else
+    <div class="text-center my-1">
+      <button class=" btn btn-primary" disabled>編集する</button>
+      <span>進行中の依頼があるためサービスの内容を編集できません</span>
+    </div>
+    @endif
+    <div class="text-center">
+      <button onclick="history.back()" class="btn btn-success">
+        <i class="fas fa-arrow-left">戻る</i>
+      </button>
+    </div>
+    @endif
 
 
-      <!-- Owl Carousel CSS -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-      <style>
-        /* Custom styles for the header carousel */
-        .header-section {
-          position: relative;
-          height: 400px;
-        }
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <style>
+      /* Custom styles for the header carousel */
+      .header-section {
+        position: relative;
+        height: 400px;
+      }
 
-        .header-item {
-          height: 400px;
-          background-size: cover;
-          background-position: center;
-        }
+      .header-item {
+        height: 400px;
+        background-size: cover;
+        background-position: center;
+      }
 
-        .owl-nav button {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-        }
+      .owl-nav button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
 
-        .owl-prev {
-          left: 0;
-        }
+      .owl-prev {
+        left: 0;
+      }
 
-        .owl-next {
-          right: 0;
-        }
-      </style>
+      .owl-next {
+        right: 0;
+      }
+    </style>
 
-      <!-- Owl Carousel JS -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-      <script>
-        $(function() {
-          // Initialize the header carousel
-          $('.owl-carousel').owlCarousel({
-            items: 1,
-            loop: true,
-            autoplay: true,
-            autoplayTimeout: 5000,
-            autoplayHoverPause: true,
-            nav: true,
-            navText: ['<i class="bi-chevron-left"></i>', '<i class="bi-chevron-right"></i>']
-          });
+    <!-- Owl Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+      $(function() {
+        // Initialize the header carousel
+        $('.owl-carousel').owlCarousel({
+          items: 1,
+          loop: true,
+          autoplay: true,
+          autoplayTimeout: 5000,
+          autoplayHoverPause: true,
+          nav: true,
+          navText: ['<i class="bi-chevron-left"></i>', '<i class="bi-chevron-right"></i>']
         });
-      </script>
-      @endsection
+      });
+    </script>
+    @endsection

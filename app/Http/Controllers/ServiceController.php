@@ -326,6 +326,7 @@ class ServiceController extends Controller
         if ($request->request_user_id) {
             $service->request_user_id = $request->request_user_id;
         }
+        $service->offer_user_id = $request->user_id;
         $service->main_title = $request->main_title;
         $service->content = $request->content;
         $service->category_ids = $request->category_id;
@@ -343,11 +344,6 @@ class ServiceController extends Controller
     }
 
     public function edit($service_id)
-    {
-        //
-    }
-
-    public function update(Request $request)
     {
         //
     }
@@ -498,7 +494,7 @@ class ServiceController extends Controller
         }
         $service->save();
 
-        return redirect()->route('search.more', ['service_id' => $request->service_id]);
+        return redirect()->route('service.detail', ['service_id' => $request->service_id]);
     }
 
     ///////////////////////////////////////

@@ -10,13 +10,18 @@
         <!-- Name -->
         <div>
             <label for="name">お名前</label>
-            <input id="name" class="block mt-1 w-full input-group-text" type="text" name="name" :value="old('name')" required autofocus />
+            <input id="name" class="block mt-1 w-full input-group-text" type="text" name="name" value="{{ old('name') }}" required />
+        </div>
+
+        <div>
+            <label for="name">ニックネーム<span>※サービス内での表示名</span></label>
+            <input id="nickname" class="block mt-1 w-full input-group-text" type="text" name="nickname" value="{{ old('nickname') }}" required />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
             <label for="email">メールアドレス</label>
-            <input id="email" class="block mt-1 w-full input-group-text" type="email" name="email" :value="old('email')" required />
+            <input id="email" class="block mt-1 w-full input-group-text" type="email" name="email" value="{{ old('email') }}" required />
         </div>
 
         <!-- Password -->

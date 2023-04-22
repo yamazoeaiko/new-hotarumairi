@@ -39,7 +39,7 @@ class UserController extends Controller
         }elseif($item->gender == 2) {
             $item->gender_name = "女性";
         }else{
-            $item->gender_name = "その他";
+            $item->gender_name = "未設定";
         }
         $item->living_area = Area::where('id', $item->living_area)->value('name');
 
@@ -57,7 +57,7 @@ class UserController extends Controller
         } elseif ($item->gender == 2) {
             $item->gender_name = "女性";
         } else {
-            $item->gender_name = "その他";
+            $item->gender_name = "未設定";
         }
         $item->living_area = Area::where('id', $item->living_area)->value('name');
 
@@ -75,7 +75,7 @@ class UserController extends Controller
         } elseif ($item->gender == 2) {
             $item->gender_name = "女性";
         } else {
-            $item->gender_name = "その他";
+            $item->gender_name = "未設定";
         }
         $areas = Area::get();
 
@@ -109,7 +109,7 @@ class UserController extends Controller
         } elseif ($item->gender == 2) {
             $item->gender_name = "女性";
         } else {
-            $item->gender_name = "その他";
+            $item->gender_name = "未設定";
         }
         $item->living_area = Area::where('id', $item->living_area)->value('name');
 
