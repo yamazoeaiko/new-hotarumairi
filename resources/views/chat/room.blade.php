@@ -5,12 +5,12 @@
   <div class="row gx-5 align-items-center">
     <div class="col-12">
       <button class="btn-outline-primary" onClick="location.href='{{route('chat.list')}}'">戻る</button>
-      <div class="d-flex  align-items-center mb-2">
+      <div class="d-flex  align-items-center mb-3">
         <p class="col me-2 fs-5 fw-bolder ">{{ $theother->nickname }}</p>
         @if($service->type == 'public_request')
-        <button class="btn btn-success fs-7 col" onclick="location.href='{{route('search.more',['service_id'=>$service->id])}}'">公開依頼詳細を確認</button>
+        <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('search.more',['service_id'=>$service->id])}}'">公開依頼詳細を確認</button>
         @elseif($service->type == 'service')
-        <button class="btn btn-success" onclick="location.href='{{route('service.detail',['service_id'=>$service->id])}}'">出品サービス詳細を確認</button>
+        <button class="btn btn-danger p-3" onclick="location.href='{{route('service.detail',['service_id'=>$service->id])}}'">出品サービス詳細を確認</button>
         @endif
       </div>
       <div class="row">
