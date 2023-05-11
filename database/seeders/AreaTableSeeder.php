@@ -17,6 +17,12 @@ class AreaTableSeeder extends Seeder
     {
 
         $param = [
+            'category' => 'その他',
+            'name' => 'エリア指定なし'
+        ];
+        DB::table('areas')->insert($param);
+
+        $param = [
             'category' => '北海道エリア',
             'name' => '北海道'
         ];

@@ -102,8 +102,8 @@
         </div>
 
         <div class="mb-3">
-          <label for="public_sign" class="fw-bolder">公開状況</label>
-          <div>{{ $item->public }}</div>
+          <label for="status" class="fw-bolder">公開状況</label>
+          <div>{{ $item->stauts }}</div>
         </div>
       </div>
     </div>
@@ -111,47 +111,8 @@
     <div class="text-center">
       @if($room_id)
       <button class="btn btn-success" onclick=location.href="{{route('chat.room',['room_id'=>$room_id])}}">チャット画面</button>
-      @if($entry->status == 'estimate')
-      <div class="fs-7 text-danger">見積もりの提案が届いています</div>
-      <div class="d-inline-flex align-items-center">
-        <div class="mx-2 ">
-          <form action="{{route('service.approve')}}" method="post">
-            @csrf
-            <input type="hidden" name="entry_id" value="{{$entry->id}}">
-            <input type="hidden" name="service_id" value="{{$entry->service_id}}">
-            <input type="hidden" name="buy_user" value="{{$entry->buy_user}}">
-            <input type="hidden" name="sell_user" value="{{ $entry->sell_user }}">
-            <button type="submit" class="btn btn-primary">見積もり提案を承認</button>
-          </form>
-        </div>
-
-        <div class="mx-2">
-          <form action="{{route('service.unapprove')}}" method="post">
-            @csrf
-            <input type="hidden" name="entry_id" value="{{$entry->id}}">
-            <input type="hidden" name="service_id" value="{{$entry->service_id}}">
-            <input type="hidden" name="buy_user" value="{{$entry->buy_user}}">
-            <input type="hidden" name="sell_user" value="{{ $entry->sell_user }}">
-            <button type="submit" class="btn btn-outline-danger">見積もり提案をお断り</button>
-          </form>
-        </div>
-      </div>
-
-      @elseif($entry->status == 'approved')
-      <div class="d-flex align-items-center justify-content-center">
-        <div class="mx-2"><button class="btn btn-danger" onClick="location.href='{{route('payment', ['entry_id' => $entry->id])}}'">お支払い画面</button>
-        </div>
-        <div class="mx-2"><button class="btn btn-outline-danger">キャンセルする</button></div>
-      </div>
-      <span class="fs-7">※見積もりを承認しました。支払い対応を行って下さい。</span>
-      <div>
-
-      </div>
-      @elseif($entry->status == 'unapproved')
-      <button disabled="disabled" class="btn btn-outline-danger">見積もり提案を否認しました</button>
-      @endif
-      @else
-      <button type="button" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapseConsult">お見積りやサービス内容の相談をする</button>
+      @else      
+      <button type="button" class="btn btn-success my-2" data-bs-toggle="collapse" data-bs-target="#collapseConsult">お見積りやサービス内容の相談をする</button>
 
       <div class="collapse" id="collapseConsult">
         <form action="{{route('service.consult')}}" method="post">
@@ -160,7 +121,7 @@
           <input type="hidden" name="sell_user" value="{{ $item->offer_user_id }}">
           <input type="hidden" name="service_id" value="{{ $item->id }}">
           <div class="input-group">
-            <textarea name="first_chat" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで送信。Shift+Enterで改行"></textarea>
+            <textarea name="first_chat" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
           </div>
           <button type="submit" class="btn btn-primary col-3">送信する</button>
         </form>
@@ -169,22 +130,15 @@
     @endif
 
     @elseif($item->offer_user_id == $user_id)
-    @if($item->edit == true)
     <div class="text-center my-1">
       <button class=" btn btn-primary" onclick=location.href="{{route('mypage.service.edit',['service_id'=>$item->id])}}">編集する</button>
     </div>
-    @else
-    <div class="text-center my-1">
-      <button class=" btn btn-primary" disabled>編集する</button>
-      <span>進行中の依頼があるためサービスの内容を編集できません</span>
-    </div>
     @endif
-    <div class="text-center">
-      <button onclick="history.back()" class="btn btn-success">
+    <div class="text-center my-2">
+      <button onclick="history.back()" class="btn btn-outline-secondary">
         <i class="fas fa-arrow-left">戻る</i>
       </button>
     </div>
-    @endif
 
 
     <!-- Owl Carousel CSS -->

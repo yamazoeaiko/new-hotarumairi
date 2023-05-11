@@ -4,25 +4,21 @@
   <h5>支払い画面</h5>
   <div class="form-control">
     <div class="form-control mb-3">
-      <label for="experience_name" class="fw-bolder">依頼タイトル</label>
-      <input class="form-control" value="{{ $entry->main_title }}" readonly>
+      <label for="experience_name" class="fw-bolder">サービスタイトル</label>
+      <input class="form-control" value="{{ $agreement->main_title }}" readonly>
     </div>
     <div class="form-control mb-3">
-      <label for="provider_name" class="fw-bolder">ご依頼ユーザー名</label>
-      <input class="form-control" value="{{ $entry->sell_user }}" readonly>
+      <label for="provider_name" class="fw-bolder">お支払い先ユーザー名</label>
+      <input class="form-control" value="{{ $agreement->sell_user }}" readonly>
     </div>
     <div class="form-control mb-3">
-      <label for="include_tax_price" class="fw-bolder">支払い金額(税込)</label>
+      <label for="include_tax_price" class="fw-bolder">お支払い金額(税込)</label>
       <div class="input-group">
-        <input type="number" class="form-control" value="{{$entry->include_tax_price}}" readonly>
+        <input type="number" class="form-control" value="{{$agreement->include_tax_price}}" readonly>
         <div class="input-group-append">
           <span class="input-group-text">円（税込）</span>
         </div>
       </div>
-    </div>
-    <div class="form-control mb-3">
-      <label for="" class="fw-bolder">注意事項</label>
-      <div>支払いにあたっての注意事項やキャンセルポリシーを記載する</div>
     </div>
   </div>
   <div class="text-center my-3">

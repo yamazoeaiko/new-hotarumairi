@@ -24,7 +24,6 @@ class Service extends Model
         'photo_7',
         'photo_8',
         'attention',
-        'public_sign',
         'price',
         'price_net',
         'area_id',
@@ -33,8 +32,7 @@ class Service extends Model
         'free',
         'session_id',
         'payment_id',
-        'status',
-        'public_sign'
+        'status'
     ];
 
     protected $casts = [

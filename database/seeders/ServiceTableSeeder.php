@@ -17,6 +17,7 @@ class ServiceTableSeeder extends Seeder
     {
         $param = [
             'offer_user_id' => '1',
+            'type' => 'service',
             'category_ids' => '["1","2"]',
             'main_title' => 'お墓参り代行お任せください',
             'content' => '詳細内容を記載します。',
@@ -25,13 +26,13 @@ class ServiceTableSeeder extends Seeder
             'price' => '10000',
             'price_net' => '8500',
             'area_id' => '[5,6,7]',
-            'public_sign'=>'public',
             'status'=> 'open_applications',
         ];
         DB::table('services')->insert($param);
 
         $param = [
             'offer_user_id' => '2',
+            'type' => 'service',
             'category_ids' => '["3"]',
             'main_title' => '参拝代行お任せください',
             'photo_1' => 'storage/service/sample2.png',
@@ -40,13 +41,13 @@ class ServiceTableSeeder extends Seeder
             'price' => '20000',
             'price_net' => '17000',
             'area_id' => '[23,24]',
-            'public_sign' => 'public',
             'status' => 'open_applications',
         ];
         DB::table('services')->insert($param);
 
         $param = [
             'offer_user_id' => '3',
+            'type' => 'service',
             'category_ids' => '["2","4"]',
             'main_title' => '【SNSで大人気】占いお任せください',
             'content' => 'SNSで大好評の占いを実施します',
@@ -55,13 +56,13 @@ class ServiceTableSeeder extends Seeder
             'price' => '5000',
             'price_net' => '4250',
             'area_id' => '[30,31,32]',
-            'public_sign' => 'public',
             'status' => 'open_applications',
         ];
         DB::table('services')->insert($param);
 
         $param = [
             'request_user_id' => '4',
+            'type' => 'public_request',
             'category_ids' => '["2","4"]',
             'main_title' => '婚期を占って下さい',
             'content' => '将来結婚できるか心配で占いしてほしいです',
@@ -70,13 +71,13 @@ class ServiceTableSeeder extends Seeder
             'price_net' => '4250',
             'application_deadline'=>'2023-04-20',
             'delivery_deadline'=> '2023-05-10',
-            'public_sign' => 'public',
             'status' => 'open_applications',
         ];
         DB::table('services')->insert($param);
 
         $param = [
             'request_user_id' => '1',
+            'type' => 'public_request',
             'category_ids' => '["5"]',
             'main_title' => '運気の上がるアクセサリーが欲しい',
             'content' => '最近運気が悪いので・・・',
@@ -84,13 +85,13 @@ class ServiceTableSeeder extends Seeder
             'price_net' => '8500',
             'application_deadline' => '2023-05-30',
             'delivery_deadline' => '2023-05-30',
-            'public_sign' => 'public',
             'status' => 'open_applications',
         ];
         DB::table('services')->insert($param);
 
         $param = [
             'request_user_id' => '2',
+            'type' => 'public_request',
             'category_ids' => '["1"]',
             'main_title' => 'お墓掃除をして欲しいです',
             'content' => '私の代わりにお墓のお掃除、お供えをしてくださる人を募集します',
@@ -101,13 +102,13 @@ class ServiceTableSeeder extends Seeder
             'delivery_deadline' => '2023-05-20',
             'area_id'=>'["18"]',
             'free'=> '宜しくお願いいたします',
-            'public_sign' => 'public',
             'status' => 'open_applications',
         ];
         DB::table('services')->insert($param);
 
         $param = [
-            'request_user_id' => '2',
+            'request_user_id' => '4',
+            'type' => 'public_request',
             'category_ids' => '["2"]',
             'main_title' => '合格祈願のお守りを購入・郵送して欲しいです',
             'content' => '受験があるのですが、時間がなく購入しに行けないので・・・',
@@ -117,7 +118,6 @@ class ServiceTableSeeder extends Seeder
             'application_deadline' => '2023-10-30',
             'delivery_deadline' => '2023-11-10',
             'area_id' => '["24", "25"]',
-            'public_sign' => 'public',
             'status' => 'open_applications',
         ];
         DB::table('services')->insert($param);

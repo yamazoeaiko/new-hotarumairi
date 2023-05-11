@@ -165,10 +165,10 @@ class ServiceController extends Controller
         $item->age =
             Carbon::parse($sell_user->birthday)->age;
 
-        if ($item->public_sign == true) {
-            $item->public = "公開中";
-        } else {
-            $item->public = "非公開中";
+        if ($item->status == 'open') {
+            $item->status_name = "公開中";
+        } elseif($item->status == 'closed') {
+            $item->status_name = "非公開中";
         }
 
         if ($item->categories) {
@@ -327,17 +327,18 @@ class ServiceController extends Controller
             $service->request_user_id = $request->request_user_id;
         }
         $service->offer_user_id = $request->user_id;
+        $service->type = 'service';
         $service->main_title = $request->main_title;
         $service->content = $request->content;
         $service->category_ids = $request->category_id;
         $service->attention = $request->attention;
         $service->free = $request->free;
         $service->price = $request->price;
-        $service->price_net = ($request->price) * 0.85;
+        $service->price_net = ($request->price) * 0.9;
         $service->application_deadline = $request->applying_deadline;
         $service->delivery_deadline = $request->delivery_deadline;
         $service->area_id = $request->area_id;
-        $service->public_sign = $request->public_sign;
+        $service->status = 'open';
         $service->save();
 
         return redirect()->route('mypage.service.list');
@@ -395,10 +396,10 @@ class ServiceController extends Controller
     {
         $item = Service::where('id', $service_id)->first();
 
-        if ($item->public_sign == true) {
-            $item->public = "公開中";
-        } else {
-            $item->public = "非公開中";
+        if ($item->status == 'open') {
+            $item->status_name = "公開中";
+        } elseif($item->status == 'closed') {
+            $item->status_name = "非公開中";
         }
 
         if ($item->category_ids) {
@@ -417,10 +418,10 @@ class ServiceController extends Controller
 
     public function updateMyService(Request $request)
     {
-        if ($request->public_sign == 1) {
-            $public = true;
-        } else {
-            $public = false;
+        if ($request->status == 1) {
+            $status = 'open';
+        } elseif($request->status == 2) {
+            $status = 'closed';
         }
 
         $service = Service::where('id', $request->service_id)->first();
@@ -430,7 +431,7 @@ class ServiceController extends Controller
         $service->category_ids = $request->category_ids;
         $service->area_id = $request->area_id;
         $service->attention = $request->attention;
-        $service->public_sign = $public;
+        $service->status = $status;
         $service->price = $request->price;
         $service->delivery_deadline = $request->delivery_deadline;
         $service->application_deadline = $request->application_deadline;
@@ -616,10 +617,10 @@ class ServiceController extends Controller
         $item->age =
             Carbon::parse($buy_user->birthday)->age;
 
-        if ($item->public_sign == true) {
-            $item->public = "公開中";
-        } else {
-            $item->public = "非公開中";
+        if ($item->status == 'open') {
+            $item->status_name = "公開中";
+        } elseif ($item->status == 'closed')  {
+            $item->status_name = "非公開中";
         }
 
         if ($item->category_ids) {

@@ -21,8 +21,7 @@ return new class extends Migration
             $table->foreign('buy_user')->references('id')->on('users');
             $table->unsignedBigInteger('sell_user')->comment('サービス実行者');
             $table->foreign('sell_user')->references('id')->on('users');
-            $table->enum('status',['pending', 'estimate', 'approved', 'unapprovced', 'paid', 'delivered']);
-            $table->string('session_id')->comment('stripeのID')->nullable();
+            $table->enum('status',['pending', 'estimate', 'unapprovced', 'paid', 'delivered','evaluated','closed']);
             $table->timestamps();
         });
     }

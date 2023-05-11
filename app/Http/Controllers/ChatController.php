@@ -9,7 +9,7 @@ use App\Models\Chat;
 use App\Models\ChatRoom;
 use App\Models\Entry;
 use App\Models\Service;
-use App\Models\ServiceConsult;
+use App\Models\Agreement;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -21,7 +21,12 @@ class ChatController extends Controller
         $user = User::where('id', $user_id)->first();
 
         if (ChatRoom::where('buy_user', $user_id)->exists() ) {
-            $items = ChatRoom::where('buy_user', $user->id)->get();
+            $items = ChatRoom::where('buy_user', $user->id)->get()->filter(function ($item){
+                $item->chat = Chat::where('room_id', $item->id)->orderByDesc('created_at')->first();
+                return $item->chat;
+            })->sortByDesc(function ($item){
+                return $item->chat->created_at;
+            });
             foreach ($items as $item) {
                 $item->user_type ='buy_user';
                 $theother = User::where('id', $item->sell_user)->first();
@@ -71,7 +76,12 @@ class ChatController extends Controller
         $user_id = Auth::id();
 
         if(ChatRoom::where('sell_user', $user_id)->exists()) {
-                $items = ChatRoom::where('sell_user', $user_id)->get();
+                $items = ChatRoom::where('sell_user', $user_id)->get()->filter(function ($item){
+                    $item->chat = Chat::where('room_id', $item->id)->orderByDesc('created_at')->first();
+                    return $item->chat;
+                })->sortByDesc(function ($item){
+                    return $item->chat->created_at;
+                });
                 foreach ($items as $item) {
                     $item->user_type ="sell_user";
                     $theother = User::where('id', $item->buy_user)->first();
@@ -122,14 +132,12 @@ class ChatController extends Controller
         $user_id = Auth::id();
         $room = ChatRoom::where('id', $room_id)->first();
         $service = Service::where('id', $room->service_id)->first();
-        $service->type = 'service';
-        if($service->offer_user_id == null){
-            $service->type = 'public_request';
-        }
 
         if($user_id == $room->buy_user) {
             $theother_id = $room->sell_user;
+            $mytype = 'buy_user';
         }else {
+            $mytype = 'sell_user';
             $theother_id = $room->buy_user;
         }
 
@@ -137,22 +145,23 @@ class ChatController extends Controller
 
         if (Entry::where('service_id', $service->id)->where('sell_user', $user_id)->where('buy_user', $theother_id)->exists()) {
             $entry = Entry::where('service_id', $service->id)->where('sell_user', $user_id)->where('buy_user', $theother->id)->first();
-
-            if ($entry->status == 'pending') {
-                $entry->status_name = '相談中';
-            } elseif ($entry->status == 'approved') {
-                $entry->status_name = '依頼中';
-            } elseif ($entry->status == 'unapproved') {
-                $entry->status_name = '依頼非成立';
-            } elseif ($entry->status == 'paid') {
-                $entry->status_name = '支払い対応済み';
-            } elseif ($entry->status == 'delivered') {
-                $entry->status_name = '納品済み';
-            } elseif($entry->status == 'estimate') {
-                $entry->status_name = '見積もり提案済み';
-            }
         }else {
-            $entry = null;
+            $entry = Entry::where('service_id', $service->id)->where('buy_user', $user_id)->where('sell_user', $theother->id)->first();
+        }
+        if ($entry->status == 'pending') {
+            $entry->status_name = '相談中';
+        } elseif ($entry->status == 'evaluated') {
+            $entry->status_name = '評価済み';
+        } elseif ($entry->status == 'unapproved') {
+            $entry->status_name = '見積もりを否認';
+        } elseif ($entry->status == 'paid') {
+            $entry->status_name = '支払い済み';
+        } elseif ($entry->status == 'delivered') {
+            $entry->status_name = '納品済み';
+        } elseif ($entry->status == 'estimate') {
+            $entry->status_name = '見積もり提案中';
+        }elseif ($entry->status = 'closed'){
+            $entry->status_name = 'クローズド';
         }
 
         //チャット内容の表示
@@ -163,7 +172,12 @@ class ChatController extends Controller
             $chat->img_url = $sender->img_url;
         }
 
-        return view('chat.room', compact('chats', 'theother', 'room_id', 'user_id', 'service','room', 'entry'));
+        $agreement = null;
+        if(Agreement::where('service_id', $service->id)->where('entry_id', $entry->id)->exists()){
+            $agreement = Agreement::where('service_id', $service->id)->where('entry_id', $entry->id)->first();
+        }
+
+        return view('chat.room', compact('chats', 'theother', 'room_id', 'user_id', 'service','room', 'entry', 'mytype', 'agreement'));
     }
 
     public function sendChat(Request $request)

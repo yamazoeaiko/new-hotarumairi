@@ -84,40 +84,12 @@
           <label for="free" class="fw-bolder">自由記入欄</label>
           <textarea name="free" id="" cols="30" rows="10" class="form-control" readonly>{{ $item->free }}</textarea>
         </div>
-
-        <div class="mb-3">
-          <label for="public_sign" class="fw-bolder">公開状況</label>
-          <div>{{ $item->public }}</div>
-        </div>
       </div>
     </div>
     @if($item->request_user_id !== $user_id)
     @if($room_id)
     <div class="text-center">
       <button class="btn btn-success" onclick=location.href="{{route('chat.room',['room_id'=>$room_id])}}">チャット画面</button>
-      @if($item->status == 'pending')
-      <form action="{{route('pubreq.estimate')}}" method="post">
-        @csrf
-        <input type="hidden" name="entry_id" value="{{$entry_id}}">
-        <input type="hidden" name="service_id" value="{{$item->id}}">
-        <input type="hidden" name="buy_user" value="{{$item->request_user_id}}">
-        <input type="hidden" name="sell_user" value="{{$user_id}}">
-        <button type="submit" class="btn btn-outline-danger mt-2">現在の内容で見積もりを提出する</button>
-      </form>
-      @elseif($item->status == 'estimate')
-      <button disabled="disabled" class="btn btn-outline-danger">正式な見積もり送付完了</button>
-      @elseif($item->status == 'approved')
-      <button disabled="disabled" class="btn btn-outline-danger">見積もり内容が承認されました</button>
-      @elseif($item->status == 'unapproved')
-      <button disabled="disabled" class="btn btn-outline-danger">見積もり内容は否認されました</button>
-      @elseif($item->status == 'paid')
-      <div class="text-center my-2">
-        <div>
-          <button class="btn btn-primary">納品完了連絡をする</button>
-        </div>
-        <span>※相手方の支払い対応が完了しました。期日までに納品を完了して下さい。</span>
-      </div>
-      @endif
     </div>
     @else
     <div class="text-center">
@@ -129,29 +101,23 @@
           <input type="hidden" name="sell_user" value="{{$user_id}}">
           <input type="hidden" name="buy_user" value="{{ $item->request_user_id }}">
           <input type="hidden" name="service_id" value="{{ $item->id }}">
-          <textarea name="first_chat" id="first_chat" cols="80" rows="10" class="text-start m-3">※必ず記載してください。
-              </textarea>
-          <button type="submit" class="btn btn-primary col-3">送信する</button>
+          <div style="padding-right: 0;">
+            <div class="input-group">
+              <textarea name="first_chat" class="text-start input-group-text is-valid my-3" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
+              <div class="form-group">
+                <input type="file" name="file_path">
+              </div>
+              <div class="input-group-append">
+                <button class="btn btn-outline-primary" type="submit">送信</button>
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     </div>
     @endif
     @elseif($item->request_user_id == $user_id)
-    @if($item->edit == true)
     <div class="text-center my-1">
       <button class="btn btn-primary" onclick=location.href="{{route('mypage.service.edit',['service_id'=>$item->id])}}">公開依頼内容を編集する</button>
     </div>
-    @else
-    <div class="text-center my-1">
-      <button disabled="disabled" class="btn btn-primary">公開依頼内容を編集する</button>
-      <div>
-        <span>※進行中の応募があるため依頼内容は編集できません</span>
-      </div>
-    </div>
-    @endif
-    @if(!$entrieds->isEmpty())
-    <div class="text-center">
-      <a href="{{route('pubreq.entried', ['service_id'=> $item->id])}}" class="fs-7 text-danger">提案された見積もりを承認・否認のご対応をして下さい。</a>
-    </div>
-    @endif
     @endif

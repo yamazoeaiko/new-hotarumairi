@@ -17,11 +17,15 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')->references('id')->on('services');
+            $table->unsignedBigInteger('entry_id')->nullable();
+            $table->foreign('entry_id')->references('id')->on('entries');
+            $table->unsignedBigInteger('agreement_id')->nullable();
+            $table->foreign('agreement_id')->references('id')->on('agreements');
             $table->unsignedBigInteger('buy_user');
             $table->foreign('buy_user')->references('id')->on('users');
             $table->unsignedBigInteger('sell_user');
             $table->foreign('sell_user')->references('id')->on('users');
-            $table->enum('status', ['stopping', 'deleted'])->nullable();
+            $table->enum('status', ['paid','stopping', 'deleted'])->nullable();
             $table->timestamps();
         });
     }

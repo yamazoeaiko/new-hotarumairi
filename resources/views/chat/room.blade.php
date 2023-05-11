@@ -7,64 +7,30 @@
       <button class="btn-outline-primary" onClick="location.href='{{route('chat.list')}}'">戻る</button>
       <div class="d-flex  align-items-center mb-3">
         <p class="col me-2 fs-5 fw-bolder ">{{ $theother->nickname }}</p>
+        <div class="mx-2">
+          @if($mytype == 'sell_user')
+          @if($agreement == null)
+          <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('agreement.create',['service_id'=>$service->id, 'entry_id'=>$entry->id])}}'">見積もり作成</button>
+          @else
+          <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">提案した見積もり内容</button>
+          @endif
+          @endif
+          @if($mytype == 'buy_user')
+          @if($agreement ==null)
+          <button class="btn btn-danger fs-7 col p-3" disabled>
+            見積もり提案がありません
+          </button>
+          @else
+          <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">提案された見積もり内容</button>
+          @endif
+          @endif
+        </div>
         @if($service->type == 'public_request')
-        <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('search.more',['service_id'=>$service->id])}}'">公開依頼詳細を確認</button>
+        <button class="btn btn-primary fs-7 col p-3" onclick="location.href='{{route('search.more',['service_id'=>$service->id])}}'">公開依頼詳細を確認</button>
         @elseif($service->type == 'service')
-        <button class="btn btn-danger p-3" onclick="location.href='{{route('service.detail',['service_id'=>$service->id])}}'">出品サービス詳細を確認</button>
+        <button class="btn btn-primary p-3" onclick="location.href='{{route('service.detail',['service_id'=>$service->id])}}'">出品サービス詳細を確認</button>
         @endif
       </div>
-      <div class="row">
-        @if($service->type == 'public_request')
-        @if($room->sell_user == $user_id)
-        @if($entry)
-        @if($entry->status == 'pending')
-        <form action="{{route('service.estimate')}}" method="post">
-          @csrf
-          <input type="hidden" name="entry_id" value="{{$entry->id}}">
-          <input type="hidden" name="service_id" value="{{$service->id}}">
-          <input type="hidden" name="buy_user" value="{{$entry->buy_user}}">
-          <input type="hidden" name="sell_user" value="{{$entry->sell_user}}">
-          <button type="submit" class="btn btn-outline-danger">現在の内容で見積もり提案</button>
-        </form>
-        <div class="fs-9 text-danger">※見積もり内容を変更したい場合は、公開依頼主（相手）に変更したい内容を伝え、「公開依頼詳細」に反映されてから提案して下さい。</div>
-        @elseif($entry->status == 'estimate')
-        <div class="text-red">{{$entry->status_name}}</div>
-        @elseif($entry->status =='approved')
-        <div class="text-red">{{$entry->status_name}}</div>
-        @elseif($entry->status =='paid')
-        <div class="text-red">{{$entry->status_name}}</div>
-        @elseif($entry->statu == 'unapproved')
-        <div class="text-red">{{$entry->status_name}}</div>
-        @endif
-        @endif
-        @endif
-        @endif
-      </div>
-      @if($service->type == 'service')
-      @if($room->sell_user == $user_id)
-      @if($entry)
-      @if($entry->status == 'pending')
-      <form action="{{route('service.estimate')}}" method="post">
-        @csrf
-        <input type="hidden" name="entry_id" value="{{$entry->id}}">
-        <input type="hidden" name="service_id" value="{{$service->id}}">
-        <input type="hidden" name="buy_user" value="{{$entry->buy_user}}">
-        <input type="hidden" name="sell_user" value="{{$entry->sell_user}}">
-        <button type="submit" class="btn btn-outline-danger">現在の内容で見積もり提案</button>
-      </form>
-      @elseif($entry->status == 'estimate')
-      <div class="text-red">{{$entry->status_name}}</div>
-      @elseif($entry->status =='approved')
-      <div class="text-red">{{$entry->status_name}}</div>
-      @elseif($entry->status =='paid')
-      <div class="text-red">{{$entry->status_name}}</div>
-      @elseif($entry->statu == 'unapproved')
-      <div class="text-red">{{$entry->status_name}}</div>
-      @endif
-      @endif
-      @endif
-      @endif
-    </div>
 
     <!--hotaru_requestの修正・承認へ-->
     <!-- Mashead text and app badges-->
@@ -108,7 +74,7 @@
             <input type="hidden" name="user_id" value="{{ $user_id }}">
             <div class="col-6" style="padding-right: 0;">
               <div class="input-group h-100">
-                <textarea name="message" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで送信。Shift+Enterで改行"></textarea>
+                <textarea name="message" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
                 <div class="form-group">
                   <input type="file" name="file_path">
                 </div>

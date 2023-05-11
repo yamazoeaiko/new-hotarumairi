@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('service_id')->references('id')->on('services');
             $table->unsignedBigInteger('entry_id');
             $table->foreign('entry_id')->references('id')->on('entries');
+            $table->unsignedBigInteger('agreement_id');
+            $table->foreign('agreement_id')->references('id')->on('agreements');
             $table->unsignedBigInteger('buy_user');
             $table->foreign('buy_user')->references('id')->on('users');
             $table->unsignedBigInteger('sell_user');

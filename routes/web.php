@@ -9,6 +9,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\AgreementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -111,8 +112,6 @@ Route::controller(EntryController::class)->group(function () {
     Route::get('/public_request/entried_users/{service_id}', 'pubreqEntried')->name('pubreq.entried');
     Route::post('/public_request/entried_users/approve', 'pubreqApprove')->name('pubreq.approve');
     Route::post('/public_request/entried_users/unapprove', 'pubreqUnapprove')->name('pubreq.unapprove');
-    Route::get('/payment/{entry_id}', 'payment')->name('payment')->middleware('auth');
-    Route::get('/payment/success/{entry_id}', 'successPayment')->name('payment.success')->middleware('auth');
 
     ////出品サービス側//////////
     Route::post('/service/consult/send', 'serviceConsult')->name('service.consult')->middleware('auth');
@@ -121,6 +120,22 @@ Route::controller(EntryController::class)->group(function () {
     Route::post('/service/entried_users/approve', 'serviceApprove')->name('service.approve');
     Route::post('/service/entried_users/unapprove', 'serviceUnapprove')->name('service.unapprove');
 });
+
+//見積書関連
+Route::controller(AgreementController::class)->group(function () {
+    Route::get('/agreement/create/{service_id}/{entry_id}', 'create')->name('agreement.create')->middleware('auth');
+    Route::post('/agreement/create/done', 'done')->name('agreement.create.done')->middleware('auth');
+    Route::get('/agreement/index/{agreement_id}', 'index')->name('agreement.index');
+    Route::get('/agreement/edit/{agreement_id}', 'edit')->name('agreement.edit');
+    Route::post('/agreement/update', 'update')->name('agreement.update')->middleware('auth');
+    Route::post('/agreement/cancel', 'cancel')->name('agreement.cancel')->middleware('auth');
+    
+    //購入者側が見積もりに対する行動
+    Route::post('/agreement/unapporoved', 'unapproved')->name('agreement.unapproved')->middleware('auth');
+    Route::get('/payment/{agreement_id}', 'payment')->name('payment')->middleware('auth');
+    Route::get('/payment/success/{agreement_id}', 'successPayment')->name('payment.success')->middleware('auth');
+});
+
 
 Route::controller(AnnouncementController::class)->group(function () {
     Route::get('/announcement', 'index')->name('announcement.index')->middleware('auth');

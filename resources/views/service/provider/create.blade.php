@@ -13,7 +13,7 @@
     <div class="mb-3">
       <label for="content" class="fw-bolder">サービス内容</label>
       <div class="input-group">
-        <textarea name="content" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで送信。Shift+Enterで改行"></textarea>
+        <textarea name="content" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
       </div>
     </div>
 
@@ -202,7 +202,7 @@
     <div class="mb-3">
       <label for="attention" class="fw-bolder">購入時の注意事項</label>
       <div class="input-group">
-        <textarea name="attention" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで送信。Shift+Enterで改行"></textarea>
+        <textarea name="attention" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
       </div>
     </div>
 
@@ -217,8 +217,8 @@
     </div>
 
     <div class="form-group mb-3">
-      <label class="fw-bolder" for="delicery_deadline">希望納品（実施）日</label>
-      <input type="date" class="form-control" name="delicery_deadline">
+      <label class="fw-bolder" for="delivery_deadline">希望納品（実施）日</label>
+      <input type="date" class="form-control" name="delivery_deadline">
     </div>
 
     <div class="form-group mb-3">
@@ -232,14 +232,14 @@
     </div>
 
     <div class="mb-3">
-      <label for="public_sign" class="fw-bolder">公開/非公開</label>
+      <label for="status" class="fw-bolder">公開/非公開</label>
       <div class="form-check form-switch">
-        <input class="form-check-input" type="radio" id="public_radio" name="public_sign" value="1" checked>
+        <input class="form-check-input" type="radio" id="public_radio" name="status" value="1" checked>
         <label class="form-check-label" for="public_radio">公開</label>
       </div>
 
       <div class="form-check form-switch">
-        <input class="form-check-input" type="radio" id="private_radio" name="public_sign" value="0">
+        <input class="form-check-input" type="radio" id="private_radio" name="status" value="2">
         <label class="form-check-label" for="private_radio">非公開</label>
       </div>
     </div>

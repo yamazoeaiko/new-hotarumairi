@@ -119,90 +119,9 @@ class EntryController extends Controller
         return redirect()->route('pubreq.entried', ['service_id' => $request->service_id]);
     }
 
-    //支払い画面
-    public function payment($entry_id)
-    {
-        $entry = Entry::where('id', $entry_id)->first();
-        $service = Service::where('id', $entry->service_id)->first();
+    
 
-        $sell_user = User::where('id', $entry->sell_user)->first();
-
-        $include_tax_price = $service->price*1.1;//課税
-
-        //stripe処理//
-        $publicKey = config('payment.stripe_public_key');
-        // 1. Stripeライブラリの初期化（サーバサイド）
-        \Stripe\Stripe::setApiKey(\Config::get('payment.stripe_secret_key'));
-
-        $secretKey = new \Stripe\StripeClient(\Config::get('payment.stripe_secret_key'));
-        //支払いフォームを構築するリクエストをStripe APIに送信する
-        $session = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card'],
-            'line_items'           => [[
-                'price_data' => [
-                    'currency' => 'jpy',
-                    'unit_amount' => $include_tax_price,
-                    'product_data' => [
-                        'name' => $service->main_title,
-                    ],
-                ],
-                'quantity' => '1',
-            ]],
-            'mode' => 'payment',
-
-            'success_url'          =>  route('payment.success', ['entry_id' => $entry->id]),
-            'cancel_url'           => route('pubreq.entried', ['service_id' => $entry->service_id])
-        ]);
-
-        $entry->session_id = $session->id;
-        $entry->save();
-
-        $entry->main_title = $service->main_title;
-        $entry->sell_user = $sell_user->nickname;
-        $entry->include_tax_price = $include_tax_price;
-
-        return view('payment.index', compact('entry', 'session', 'publicKey'));
-    }
-
-    public function successPayment($entry_id)
-    {
-        $user_id = Auth::id();
-        $entry = Entry::where('id', $entry_id)->first();
-        $entry->status = 'paid';
-        $entry->save();
-        $service = Service::where('id', $entry->service_id)->first();
-
-        $sell_user = User::where('id', $entry->sell_user)->first();
-        $price = $service->price;
-        $include_tax_price = $price*1.1;
-        $commission = $include_tax_price*0.15;
-
-        $stripe = new \Stripe\StripeClient(\Config::get('payment.stripe_secret_key'));
-        $session = $stripe->checkout->sessions->retrieve($entry->session_id);
-
-        $payment = new Payment();
-        $payment->service_id = $service->id;
-        $payment->entry_id = $entry_id;
-        $payment->sell_user = $sell_user->id;
-        $payment->buy_user = $user_id;
-        $payment->price = $price;
-        $payment->include_tax_price = $include_tax_price;
-        $payment->commission = $commission;
-        $payment->session_id = $session->id;
-        $payment->payment_intent = $session->payment_intent;
-        $payment->save();
-
-        $room = ChatRoom::where('service_id', $service->id)->where('buy_user', $user_id)->where('sell_user', $sell_user->id)->first();
-        $chat = new Chat();
-        $chat->room_id = $room->id;
-        $chat->sender_id = $user_id;
-        $chat->receiver_id = $sell_user->id;
-        $chat->message = '支払い対応が完了しました。';
-        $chat->save();
-
-
-        return view('payment.success', compact('entry'));
-    }
+    
 
     ///////////出品サービスがわ//////////////
     public function serviceConsult(Request $request){

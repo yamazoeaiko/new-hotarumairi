@@ -2,9 +2,9 @@
 @section('content')
 <div class="container">
   <div class="text-center">
-    <p>（文字大きくする）支払い処理が完了しました。</p>
+    <p class="text-primary fs-5 fw-bolder">お支払いが完了しました。</p>
     <div class="my-4">
-      <button class="btn btn-success" onClick="location.href='{{route('pubreq.entried', ['service_id' => $entry->service_id])}}'">体験イベント詳細を確認する</button>
+      <button class="btn btn-success" onClick="location.href='{{route('chat.room', ['room_id' => $room->id])}}'">チャットに戻る</button>
     </div>
   </div>
 </div>
