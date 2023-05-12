@@ -28,9 +28,6 @@
         @component('components.header')
         @endcomponent
 
-        @component('components.back-button')
-        @endcomponent
-
         <!-- Page Content -->
         <main class="my-4">
             @yield('content')

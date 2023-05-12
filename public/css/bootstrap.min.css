@@ -6,7 +6,18 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+@media (min-width: 992px) {
+  .header-section {
+    width: 65%;
+    float: right;
+  }
+}
 
+@media (max-width: 991px) {
+  .header-section {
+    width: 100%;
+  }
+}
 
  .btn-group {
    display: flex;

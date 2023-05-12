@@ -11,6 +11,49 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+@media (min-width: 992px) {
+  .header-section {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+  justify-content: space-between;
+    height: 400px;
+  }
+  .owl-carousel{
+    width:58.33333333% !important;
+  }
+  .slider-section {
+     width: 65%;
+     height: 100%;
+  }
+  
+  .header-item {
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    }
+
+  .news {
+    width: 35%;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 991px) {
+
+  .slider-section,
+  .news {
+    width: 100%;
+    height:200px;
+  }
+    .header-item {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+    }
+}
+
 @font-face {
   font-family: "zenkurenai";
   src: url("fonts/ZenKurenaido-Regular.ttf");
