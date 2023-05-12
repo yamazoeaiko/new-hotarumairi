@@ -26,7 +26,7 @@ class ServiceTableSeeder extends Seeder
             'price' => '10000',
             'price_net' => '8500',
             'area_id' => '[5,6,7]',
-            'status'=> 'open_applications',
+            'status' => 'open',
         ];
         DB::table('services')->insert($param);
 
@@ -41,7 +41,7 @@ class ServiceTableSeeder extends Seeder
             'price' => '20000',
             'price_net' => '17000',
             'area_id' => '[23,24]',
-            'status' => 'open_applications',
+            'status' => 'open',
         ];
         DB::table('services')->insert($param);
 
@@ -56,7 +56,7 @@ class ServiceTableSeeder extends Seeder
             'price' => '5000',
             'price_net' => '4250',
             'area_id' => '[30,31,32]',
-            'status' => 'open_applications',
+            'status' => 'open',
         ];
         DB::table('services')->insert($param);
 
@@ -69,9 +69,9 @@ class ServiceTableSeeder extends Seeder
             'attention' => 'オンラインで実施希望です',
             'price' => '5000',
             'price_net' => '4250',
-            'application_deadline'=>'2023-04-20',
-            'delivery_deadline'=> '2023-05-10',
-            'status' => 'open_applications',
+            'application_deadline' => '2023-04-20',
+            'delivery_deadline' => '2023-05-10',
+            'status' => 'open',
         ];
         DB::table('services')->insert($param);
 
@@ -85,7 +85,7 @@ class ServiceTableSeeder extends Seeder
             'price_net' => '8500',
             'application_deadline' => '2023-05-30',
             'delivery_deadline' => '2023-05-30',
-            'status' => 'open_applications',
+            'status' => 'open',
         ];
         DB::table('services')->insert($param);
 
@@ -100,9 +100,9 @@ class ServiceTableSeeder extends Seeder
             'price_net' => '17000',
             'application_deadline' => '2023-05-05',
             'delivery_deadline' => '2023-05-20',
-            'area_id'=>'["18"]',
-            'free'=> '宜しくお願いいたします',
-            'status' => 'open_applications',
+            'area_id' => '["18"]',
+            'free' => '宜しくお願いいたします',
+            'status' => 'open',
         ];
         DB::table('services')->insert($param);
 
@@ -118,7 +118,7 @@ class ServiceTableSeeder extends Seeder
             'application_deadline' => '2023-10-30',
             'delivery_deadline' => '2023-11-10',
             'area_id' => '["24", "25"]',
-            'status' => 'open_applications',
+            'status' => 'open',
         ];
         DB::table('services')->insert($param);
     }

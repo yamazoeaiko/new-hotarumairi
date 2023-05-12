@@ -38,7 +38,7 @@ return new class extends Migration
             $table->json('area_id')->nullable();
             $table->decimal('price',8,0)->comment('税抜きの金額総額');
             $table->decimal('price_net',8,0)->nullable()->comment('納品者への振込額（手数料10%計算）');
-            $table->enum('status',['open_applications', 'closed_applications','stopping'])->nullable();
+            $table->enum('status',['open', 'closed','stopping'])->nullable();
             $table->timestamps();
         });
     }
