@@ -260,7 +260,92 @@ class ServiceController extends Controller
         );
     }
 
-    public function done(Request $request)
+    public function ServiceDone(Request $request)
+    {
+        $service = new Service();
+
+        if ($request->hasFile('photo_1')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_1')->getClientOriginalName();
+            $path_1 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_1')->storeAs('public/' . $dir, $file_name);
+            $service->photo_1 = $path_1;
+        }
+        if ($request->hasFile('photo_2')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_2')->getClientOriginalName();
+            $path_2 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_2')->storeAs('public/' . $dir, $file_name);
+            $service->photo_2 = $path_2;
+        }
+        if ($request->hasFile('photo_3')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_3')->getClientOriginalName();
+            $path_3 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_3')->storeAs('public/' . $dir, $file_name);
+            $service->photo_3 = $path_3;
+        }
+        if ($request->hasFile('photo_4')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_4')->getClientOriginalName();
+            $path_4 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_4')->storeAs('public/' . $dir, $file_name);
+            $service->photo_4 = $path_4;
+        }
+        if ($request->hasFile('photo_5')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_5')->getClientOriginalName();
+            $path_5 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_5')->storeAs('public/' . $dir, $file_name);
+            $service->photo_5 = $path_5;
+        }
+        if ($request->hasFile('photo_6')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_6')->getClientOriginalName();
+            $path_6 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_6')->storeAs('public/' . $dir, $file_name);
+            $service->photo_6 = $path_6;
+        }
+        if ($request->hasFile('photo_7')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_7')->getClientOriginalName();
+            $path_7 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_7')->storeAs('public/' . $dir, $file_name);
+            $service->photo_7 = $path_7;
+        }
+        if ($request->hasFile('photo_8')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_8')->getClientOriginalName();
+            $path_8 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_8')->storeAs('public/' . $dir, $file_name);
+            $service->photo_8 = $path_8;
+        }
+
+        if ($request->offer_user_id) {
+            $service->offer_usr_id = $request->offer_user_id;
+        }
+        if ($request->request_user_id) {
+            $service->request_user_id = $request->request_user_id;
+        }
+        $service->offer_user_id = $request->user_id;
+        $service->type = $request->type;
+        $service->main_title = $request->main_title;
+        $service->content = $request->content;
+        $service->category_ids = $request->category_id;
+        $service->attention = $request->attention;
+        $service->free = $request->free;
+        $service->price = $request->price;
+        $service->price_net = ($request->price) * 0.9;
+        $service->application_deadline = $request->applying_deadline;
+        $service->delivery_deadline = $request->delivery_deadline;
+        $service->area_id = $request->area_id;
+        $service->status = 'open';
+        $service->save();
+
+        return redirect()->route('mypage.service.list');
+    }
+
+    public function PubreqDone(Request $request)
     {
         $service = new Service();
 

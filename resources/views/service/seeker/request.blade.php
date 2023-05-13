@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
   <h5>公開依頼の作成</h5>
-  <form action="{{ route('service.create.done') }}" method="post" class="form-control" enctype="multipart/form-data">
+  <form action="{{ route('pubreq.create.done') }}" method="post" class="form-control" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="request_user_id" value="{{ $user_id }}">
     <input type="hidden" name="type" value="public_request">
@@ -245,7 +245,7 @@
     </div>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-primary mt-3">出品サービスに登録</button>
+      <button type="submit" class="btn btn-primary mt-3">公開依頼に登録</button>
     </div>
   </form>
 </div>

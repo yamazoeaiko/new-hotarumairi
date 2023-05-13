@@ -197,7 +197,7 @@
             </div>
             <div class="col-4 fs-7 text-secondary text-md-center">{{ $item->price }}円</div>
             <div class="col-4 text-md-end">
-              <a href="{{ route('service.detail',['service_id'=>$item->id]) }}" class="btn btn-primary fs-7">詳細</a>
+              <a href="{{ route('pubreq.detail',['service_id'=>$item->id]) }}" class="btn btn-primary fs-7">詳細</a>
             </div>
           </div>
         </div>
