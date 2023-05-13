@@ -65,25 +65,23 @@ class ServiceController extends Controller
     public function service()
     {
         $user_id = Auth::id();
-        $items = Service::whereNotNull('offer_user_id')
-                ->orderBy('application_deadline')
-                ->get();
-        
+        $items = Service::orderBy('created_at', 'desc')
+            ->where('type', 'service')
+            ->where('status', 'open')
+            ->get();
         foreach ($items as $item) {
-            $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
+            if ($item->category_ids) {
+                $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
 
-            foreach ($item->categories as $value) {
-                $data = ServiceCategory::where('id', $value->id)->first();
-                $value->category_name = $data->name;
+                foreach ($item->categories as $value) {
+                    $data = ServiceCategory::where('id', $value->id)->first();
+                    $value->category_name = $data->name;
+                }
             }
+            $provider = User::where('id', $item->offer_user_id)->first();
 
-            $user = User::where('id', $item->offer_user_id)->first();
-            $item->user_name = $user->nickname;
-            $item->img_url = $user->img_url;
-
-            $item->favorite = Favorite::where('favorite_id', $item->id)->where('user_id', $user_id)->exists();
-
-            $item->follow = Follow::where('follow_id', $item->user_id)->where('user_id', $user_id)->exists();
+            $item->profile_image = $provider->img_url;
+            $item->provider_name = $provider->nickname;
         }
         $categories = ServiceCategory::get();
         $areas = Area::get();
@@ -96,9 +94,11 @@ class ServiceController extends Controller
     }
 
     public function searchService(Request $request){
-        $items = Service::whereNotNull('offer_user_id')
-            ->orderBy('created_at')
-            ->get();
+
+        $items = Service::orderBy('created_at', 'desc')
+        ->where('type', 'service')
+        ->where('status', 'open')
+        ->get();
 
         if ($request->category_ids) {
             $search_category = Service::where(function ($query) use ($request) {
@@ -139,22 +139,21 @@ class ServiceController extends Controller
 
         foreach ($items as $item) {
             if ($item->category_ids) {
-                $category = ServiceCategory::where('id', $item->category_ids)->first();
-                $item->category_name = $category->name;
+                $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
+
+                foreach ($item->categories as $value) {
+                    $data = ServiceCategory::where('id', $value->id)->first();
+                    $value->category_name = $data->name;
+                }
             }
+            $provider = User::where('id', $item->offer_user_id)->first();
+
+            $item->profile_image = $provider->img_url;
+            $item->provider_name = $provider->nickname;
 
             if ($item->area_id) {
                 $area = Area::where('id', $item->area_id)->first();
                 $item->area_name = $area->name;
-            }
-
-            $user = User::where('id', $item->offer_user_id)->first();
-            $item->profile_img = $user->img_url;
-            $item->user_name = $user->nickname;
-
-            if (Auth::check()) {
-                $user_id = Auth::id();
-                $item->entry = Entry::where('service_id', $item->id)->where('sell_user', $user_id)->first();
             }
         }
 
@@ -231,22 +230,9 @@ class ServiceController extends Controller
 
         $item->follow = Follow::where('follow_id', $item->offer_user_id)->where('user_id', $user_id)->exists();
 
-        
-
-        $edit_flags = Entry::where('service_id', $service_id)->where('sell_user', $sell_user->id)->get();
-        if ($edit_flags) {
-            $item->edit = true;
-            foreach ($edit_flags as $edit_flag) {
-                if ($edit_flag->status == 'approved' || $edit_flag->status == 'paid' || $edit_flag->status == 'estimate') {
-                    $item->edit = false;
-                    break;
-                }
-            }
-        }
-
         return view(
             'service.seeker.detail',
-            compact('item', 'entry', 'edit_flags', 'room_id','user_id')
+            compact('item', 'entry', 'room_id','user_id')
         );
     }
 
@@ -517,30 +503,25 @@ class ServiceController extends Controller
     ////////公開依頼の検索について////////////
     public function getPubReq()
     {
-        $items = Service::whereNotNull('request_user_id')
-            ->orderBy('created_at')
+        $items = Service::orderBy('created_at', 'desc')
+            ->where('type', 'public_request')
+            ->where('status', 'open')
             ->get();
 
 
         foreach ($items as $item) {
             if ($item->category_ids) {
-                $category = ServiceCategory::where('id', $item->category_ids)->first();
-                $item->category_name = $category->name;
-            }
+                $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
 
-            if ($item->area_id) {
-                $area = Area::where('id', $item->area_id)->first();
-                $item->area_name = $area->name;
+                foreach ($item->categories as $value) {
+                    $data = ServiceCategory::where('id', $value->id)->first();
+                    $value->category_name = $data->name;
+                }
             }
+            $provider = User::where('id', $item->request_user_id)->first();
 
-            $user = User::where('id', $item->request_user_id)->first();
-            $item->profile_img = $user->img_url;
-            $item->user_name = $user->nickname;
-
-            if (Auth::check()) {
-                $user_id = Auth::id();
-                $item->entry = Entry::where('service_id', $item->id)->where('sell_user', $user_id)->first();
-            }
+            $item->profile_image = $provider->img_url;
+            $item->provider_name = $provider->nickname;
         }
 
         $areas = Area::get();
@@ -551,8 +532,9 @@ class ServiceController extends Controller
 
     public function searchPubReq(Request $request)
     {
-        $items = Service::whereNotNull('request_user_id')
-            ->orderBy('created_at')
+        $items = Service::orderBy('created_at', 'desc')
+            ->where('type', 'service')
+            ->where('status', 'open')
             ->get();
 
         if ($request->category_ids) {
@@ -594,22 +576,21 @@ class ServiceController extends Controller
 
         foreach ($items as $item) {
             if ($item->category_ids) {
-                $category = ServiceCategory::where('id', $item->category_ids)->first();
-                $item->category_name = $category->name;
+                $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
+
+                foreach ($item->categories as $value) {
+                    $data = ServiceCategory::where('id', $value->id)->first();
+                    $value->category_name = $data->name;
+                }
             }
+            $provider = User::where('id', $item->offer_user_id)->first();
+
+            $item->profile_image = $provider->img_url;
+            $item->provider_name = $provider->nickname;
 
             if ($item->area_id) {
                 $area = Area::where('id', $item->area_id)->first();
                 $item->area_name = $area->name;
-            }
-
-            $user = User::where('id', $item->request_user_id)->first();
-            $item->profile_img = $user->img_url;
-            $item->user_name = $user->nickname;
-
-            if (Auth::check()) {
-                $user_id = Auth::id();
-                $item->entry = Entry::where('service_id', $item->id)->where('sell_user', $user_id)->first();
             }
         }
 

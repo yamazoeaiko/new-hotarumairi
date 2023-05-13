@@ -179,50 +179,30 @@
   </form>
 
   <!--検索結果表示-->
-  <div class="mb-5 mb-lg-0 text-center text-lg-start">
+  <div class="row mt-3">
+    @if($items->isEmpty())
+    <div class="text-danger fs-6 fw-bolder">検索結果に当てはまる公開依頼はございませんでした。</div>
+    @endif
     @foreach($items as $item)
-    @if($items == null)
-    <p>検索結果に該当するラウンドはありませんでした。</p>
-    @endif
-    @if($item->applied !==null)
-    <button onClick="location.href='{{ route('search.more',['service_id'=>$item->id]) }}'" class="card m-4 shadow card-point bg-success" style="max-width: 500px;">
-      <div class="row no-gutters">
-        <div class="col-md-4">
-          <img src="{{ asset($item->profile_img) }}" alt="Profile image" class="card-img">
-          <p class="card-text mb-0">{{$item->user_name}}</p>
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">{{$item->category_name}}</h5>
-            <p class="card-text mb-0"><small class="text-muted">代行期日：</small>{{$item->date_end}}</p>
-            <p class="card-text mb-0"><small class="text-muted">エリア：</small>{{$item->area_name}}</p>
-            <p class="card-text mb-0"><small class="text-muted">見積り：</small>{{ $item->price_net }}円</p>
-            <a href="{{ route('search.more',['service_id'=>$item->id]) }}" class="btn btn-secondary stretched-link">詳細を見る</a>
-            <span class="ml-auto mb-2 fs-6 fw-bolder"><i class="bi bi-check-circle"></i> 応募済み</span>
+    <div class="col-md-6 col-lg-3">
+      <div class="card mb-4">
+        <div class="card-body">
+          @foreach($item->categories as $value)
+          <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
+          @endforeach
+          <h5 class="fs-6 fw-bolder">{{$item->main_title}}</h5>
+          <div class="row align-items-center">
+            <div class="col-4 d-flex fs-7">
+              {{$item->provider_name }}
+            </div>
+            <div class="col-4 fs-7 text-secondary text-md-center">{{ $item->price }}円</div>
+            <div class="col-4 text-md-end">
+              <a href="{{ route('service.detail',['service_id'=>$item->id]) }}" class="btn btn-primary fs-7">詳細</a>
+            </div>
           </div>
         </div>
       </div>
-    </button>
-    @else
-
-    <button onClick="location.href='{{ route('search.more',['service_id'=>$item->id]) }}'" class="card m-4 shadow card-point" style="max-width: 500px;">
-      <div class="row no-gutters">
-        <div class="col-md-4">
-          <img src="{{ asset($item->profile_img) }}" alt="Profile image" class="card-img">
-          <p class="card-text mb-0">{{$item->user_name}}</p>
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">{{$item->category_name}}</h5>
-            <p class="card-text mb-0"><small class="text-muted">代行期日：</small>{{$item->date_end}}</p>
-            <p class="card-text mb-0"><small class="text-muted">エリア：</small>{{$item->area_name}}</p>
-            <p class="card-text mb-0"><small class="text-muted">見積り：</small>{{ $item->price_net }}円</p>
-            <a href="{{ route('search.more',['service_id'=>$item->id]) }}" class="btn btn-primary stretched-link">詳細を見る</a>
-          </div>
-        </div>
-      </div>
-    </button>
-    @endif
+    </div>
     @endforeach
   </div>
 </div>

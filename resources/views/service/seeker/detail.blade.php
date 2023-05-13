@@ -103,7 +103,7 @@
 
         <div class="mb-3">
           <label for="status" class="fw-bolder">公開状況</label>
-          <div>{{ $item->stauts }}</div>
+          <div>{{ $item->status_name }}</div>
         </div>
       </div>
     </div>

@@ -60,7 +60,7 @@ Route::controller(ServiceController::class)->group(function () {
     //公開依頼の検索について
     Route::get('/public_request', 'getPubReq')->name('pubreq.index');
     Route::get('/public_request/search', 'searchPubReq')->name('pubreq.search');
-    Route::get('/public_request/search/{service_id}', 'moreSearch')->name('search.more')->middleware('auth');
+    Route::get('/public_request/search/{service_id}', 'moreSearch')->name('pubreq.detail')->middleware('auth');
 });
 
 Route::controller(UserController::class)->group(
@@ -108,7 +108,7 @@ Route::controller(FollowController::class)->group(function () {
 
 Route::controller(EntryController::class)->group(function () {
     Route::post('/search/offer/post', 'sendOffer')->name('service.offer.send')->middleware('auth');
-    Route::post('/public_request/estimate','postEstimate')->name('pubreq.estimate')->middleware('auth');
+    Route::post('/public_request/estimate', 'postEstimate')->name('pubreq.estimate')->middleware('auth');
     Route::get('/public_request/entried_users/{service_id}', 'pubreqEntried')->name('pubreq.entried');
     Route::post('/public_request/entried_users/approve', 'pubreqApprove')->name('pubreq.approve');
     Route::post('/public_request/entried_users/unapprove', 'pubreqUnapprove')->name('pubreq.unapprove');
@@ -129,7 +129,7 @@ Route::controller(AgreementController::class)->group(function () {
     Route::get('/agreement/edit/{agreement_id}', 'edit')->name('agreement.edit');
     Route::post('/agreement/update', 'update')->name('agreement.update')->middleware('auth');
     Route::post('/agreement/cancel', 'cancel')->name('agreement.cancel')->middleware('auth');
-    
+
     //購入者側が見積もりに対する行動
     Route::post('/agreement/unapporoved', 'unapproved')->name('agreement.unapproved')->middleware('auth');
     Route::get('/payment/{agreement_id}', 'payment')->name('payment')->middleware('auth');

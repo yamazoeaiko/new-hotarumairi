@@ -45,15 +45,12 @@
                         <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
                         @endforeach
                         <h5 class="fs-6 fw-bolder">{{$item->main_title}}</h5>
-                        <div class="row">
-                            <div class="d-flex align-items-center col-6 justify-content-start row">
-                                <div class="  rounded-circle overflow-hidden d-flex align-items-center  col-4">
-                                    <img src="{{ asset($item->profile_image) }}" alt="profile_image" class="w-100 h-100">
-                                </div>
-                                <div class=" fs-7 col-8">{{$item->provider_name}}</div>
+                        <div class="row align-items-center">
+                            <div class="col-4 d-flex fs-7">
+                            {{$item->provider_name }}
                             </div>
-                            <div class="d-flex fs-7 justify-content-center col-3 text-secondary align-items-center">{{ $item->price }}円</div>
-                            <div class="justify-content-end col-3">
+                            <div class="col-4 fs-7 text-secondary text-md-center">{{ $item->price }}円</div>
+                            <div class="col-4 text-md-end">
                                 <a href="{{ route('service.detail',['service_id'=>$item->id]) }}" class="btn btn-primary fs-7">詳細</a>
                             </div>
                         </div>

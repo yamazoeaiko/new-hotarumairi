@@ -18,7 +18,7 @@
     }
   
     .card-all {
-      height: 350px;
+      height: 450px;
     }
 } 
 @media(min-width: 576px){
@@ -27,7 +27,7 @@
   overflow: hidden;
 }
 .card-all{
-  height:350px;
+  height:450px;
 }
 }
 @media(min-width: 768px){

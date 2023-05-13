@@ -33,7 +33,7 @@
     @endif
     <div class="list-group">
       @foreach($requests as $request)
-      <button onClick="location.href='{{route('search.more', ['service_id' => $request->id])}}'" class="list-group-item list-group-item-action">
+      <button onClick="location.href='{{route('pubreq.detail', ['service_id' => $request->id])}}'" class="list-group-item list-group-item-action">
         <div class="row">
           <div class="col-8 fw-bolder fs-5">{{$request->main_title}}</div>
           <div class="col-4">予算：{{$request->price}}円（税別）</div>

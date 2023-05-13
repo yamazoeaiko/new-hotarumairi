@@ -66,6 +66,7 @@ class ServiceTableSeeder extends Seeder
             'category_ids' => '["2","4"]',
             'main_title' => '婚期を占って下さい',
             'content' => '将来結婚できるか心配で占いしてほしいです',
+            
             'attention' => 'オンラインで実施希望です',
             'price' => '5000',
             'price_net' => '4250',
