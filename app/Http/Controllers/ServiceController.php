@@ -35,8 +35,23 @@ class ServiceController extends Controller
     public function toppage()
     {
         $items = Service::orderBy('created_at', 'desc')
-            ->whereNull('request_user_id')
+            ->where('type', 'service')
+            ->where('status', 'open')
             ->get();
+        foreach($items as $item){
+            if ($item->category_ids) {
+                $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
+
+                foreach ($item->categories as $value) {
+                    $data = ServiceCategory::where('id', $value->id)->first();
+                    $value->category_name = $data->name;
+                }
+            }
+            $provider = User::where('id', $item->offer_user_id)->first();
+            
+            $item->profile_image = $provider->img_url;
+            $item->provider_name = $provider->nickname;
+        }    
 
 
         return view('index', compact('items'));

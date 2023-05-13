@@ -11,6 +11,66 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+@media(max-width: 575px){
+  .service-card {
+      height: 231px;
+      overflow: hidden;
+    }
+  
+    .card-all {
+      height: 350px;
+    }
+} 
+@media(min-width: 576px){
+.service-card{
+  height: 231px;
+  overflow: hidden;
+}
+.card-all{
+  height:350px;
+}
+}
+@media(min-width: 768px){
+.service-card {
+    height: 150px;
+    overflow: hidden;
+  }
+.card-all {
+  height: 350px;
+}
+}
+@media(min-width: 992px){
+.service-card {
+    height: 150px;
+    overflow: hidden;
+  }
+.card-all {
+  height: 300px;
+}
+}
+@media(min-width: 1200px){
+.service-card {
+    height: 160px;
+    overflow: hidden;
+  }
+.card-all {
+  height: 300px;
+}
+}
+@media(min-width: 1400px) {
+  .service-card {
+    height: 160px;
+    overflow: hidden;
+  }
+.card-all {
+  height: 300px;
+}
+}
+.service-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 @media (min-width: 992px) {
   .header-section {
     display: flex;
@@ -187,7 +247,7 @@ span {
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
-  --bs-primary-rgb: 41, 55, 240;
+  --bs-primary-rgb: 39,17,94;
   --bs-secondary-rgb: 159, 26, 226;
   --bs-success-rgb: 241,196,15;
   --bs-info-rgb: 13, 202, 240;
@@ -5312,7 +5372,7 @@ fieldset:disabled .btn {
 .card {
   position: relative;
   display: flex;
-  width: 80%;
+  width: 100%;
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
@@ -8718,6 +8778,12 @@ fieldset:disabled .btn {
 .fs-6 {
   font-size: 1rem !important;
 }
+.fs-7 {
+  font-size: 0.8rem !important;
+}
+.fs-9 {
+  font-size: 0.6rem !important;
+}
 
 .fst-italic {
   font-style: italic !important;
@@ -8816,17 +8882,17 @@ fieldset:disabled .btn {
 /* rtl:end:remove */
 .text-primary {
   --bs-text-opacity: 1;
-  color: rgba(var(--bs-primary-rgb), var(--bs-text-opacity)) !important;
+  color: #27AE60!important;
 }
 
 .text-secondary {
   --bs-text-opacity: 1;
-  color: rgba(var(--bs-secondary-rgb), var(--bs-text-opacity)) !important;
+  color: #7F8C8D !important;
 }
 
 .text-success {
   --bs-text-opacity: 1;
-  color: rgba(var(--bs-success-rgb), var(--bs-text-opacity)) !important;
+  color: #F1C40F !important;
 }
 
 .text-info {
