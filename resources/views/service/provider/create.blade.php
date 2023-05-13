@@ -8,14 +8,22 @@
     <input type="hidden" name="type" value="service">
     <div class="mb-3">
       <label for="main_title" class="fw-bolder"> サービスタイトル<span class="fs-7 text-danger ">※必須</span></label>
-      <input type="text" name="main_title" class="form-control fw-bolder">
+      <input type="text" name="main_title" class="form-control fw-bolder" value="{{old('main_title')}}">
+      @if($errors->has('main_title'))
+      <div class="fs-8 text-danger">エラー：サービスタイトルは必須です。
+      </div>
+      @endif
     </div>
 
     <div class="mb-3">
       <label for="content" class="fw-bolder">サービス内容<span class="fs-7 text-danger ">※必須</span></label>
       <div class="input-group">
-        <textarea name="content" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
+        <textarea name="content" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;"  oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="サービス内容、購入者のメリット、アピールポイントなどを具体的にご記載ください。">{{old('content')}}</textarea>
       </div>
+      @if($errors->has('content'))
+      <div class="fs-8 text-danger">エラー：サービス内容は必須です。
+      </div>
+      @endif
     </div>
 
     <div class="mb-3">
@@ -26,11 +34,19 @@
         <label class="form-check-label">{{ $category->name }}</label>
       </div>
       @endforeach
+      @if($errors->has('category_id'))
+      <div class="fs-8 text-danger">エラー：出品カテゴリーは必須です。
+      </div>
+      @endif
     </div>
 
     <div class="form-group">
       <label class="fw-bolder" for="photo_1">イメージ画像（１枚目）<span class="fs-7 text-danger ">※イメージ画像１枚は必須</span></label>
       <input type="file" class="form-control" name="photo_1" value="{{old('photo_1')}}">
+      @if($errors->has('photo_1'))
+      <div class="fs-8 text-danger">エラー：画像最低１枚は必須です。
+      </div>
+      @endif
     </div>
 
     <div class="form-group">
@@ -204,7 +220,7 @@
     <div class="mb-3">
       <label for="attention" class="fw-bolder">購入時の注意事項<span class="fs-7 text-secondary">※任意</span></label>
       <div class="input-group">
-        <textarea name="attention" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
+        <textarea name="attention" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;"  oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="購入前に教えて欲しいことなどがあれば、をご記載ください。（任意）">{{old('attention')}}</textarea>
       </div>
     </div>
 
@@ -212,26 +228,31 @@
       <label for="price" class="fw-bolder">サービス価格<span class="fs-7 text-danger">※必須<br>
           物品購入などのサービスに付随し発生する費用を含んだ金額。</span></label>
       <div class="input-group">
-        <input type="number" class="form-control" name="price" id="price" required>
+        <input type="number" class="form-control" name="price" id="price" value="{{ old('price') }}" required>
         <div class="input-group-append">
           <span class="input-group-text">円（税別）</span>
         </div>
       </div>
+      @if($errors->has('price'))
+      <div class="fs-8 text-danger">エラー：サービス価格は必須です。
+      </div>
+      @endif
+    </div>
+
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="reservation_deadline">応募締切日<span class="fs-7 text-secondary">※任意</span></label>
+      <input type="date" class="form-control" name="application_deadline" value="{{ old('application_deadline') }}" min="{{ date('Y-m-d') }}">
     </div>
 
     <div class="form-group mb-3">
       <label class="fw-bolder" for="delivery_deadline">希望納品（実施）日<span class="fs-7 text-secondary">※任意</span></label>
-      <input type="date" class="form-control" name="delivery_deadline">
-    </div>
-
-    <div class="form-group mb-3">
-      <label class="fw-bolder" for="reservation_deadline">応募締切日<span class="fs-7 text-secondary">※任意</span></label>
-      <input type="date" class="form-control" name="application_deadline">
+      <input type="date" class="form-control" name="delivery_deadline" value="{{ old('delivery_deadline') }}" min="{{ date('Y-m-d') }}">
     </div>
 
     <div class="form-group mb-3">
       <label class="fw-bolder" for="free">自由記入欄<span class="fs-7 text-secondary">※任意</span></label>
-      <textarea class="form-control" name="free"></textarea>
+      <textarea class="form-control" name="free" placeholder="その他なにかあればご自由にご記載ください。（任意）">{{ old('free') }}</textarea>
     </div>
 
     <div class="mb-3">

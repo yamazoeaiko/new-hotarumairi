@@ -262,6 +262,16 @@ class ServiceController extends Controller
 
     public function ServiceDone(Request $request)
     {
+        //validate
+        $validatedData = $request->validate([
+            'photo_1'=>'required',
+            'main_title' => 'required|max:20',
+            'content' => 'required',
+            'price' => 'required',
+            'category_id' => 'required'
+        ]);
+
+
         $service = new Service();
 
         if ($request->hasFile('photo_1')) {
@@ -321,25 +331,24 @@ class ServiceController extends Controller
             $service->photo_8 = $path_8;
         }
 
-        if ($request->offer_user_id) {
-            $service->offer_usr_id = $request->offer_user_id;
-        }
-        if ($request->request_user_id) {
-            $service->request_user_id = $request->request_user_id;
+        if($request->status ==1){
+            $status = 'open';
+        }elseif($request->status == 2){
+            $status = 'closed';
         }
         $service->offer_user_id = $request->user_id;
         $service->type = $request->type;
-        $service->main_title = $request->main_title;
-        $service->content = $request->content;
+        $service->main_title = $validatedData['main_title'];
+        $service->content = $validatedData['content'];
         $service->category_ids = $request->category_id;
         $service->attention = $request->attention;
         $service->free = $request->free;
-        $service->price = $request->price;
+        $service->price = $validatedData['price'];
         $service->price_net = ($request->price) * 0.9;
         $service->application_deadline = $request->applying_deadline;
         $service->delivery_deadline = $request->delivery_deadline;
         $service->area_id = $request->area_id;
-        $service->status = 'open';
+        $service->status = $status;
         $service->save();
 
         return redirect()->route('mypage.service.list');

@@ -87,9 +87,19 @@
           <textarea name="content" id="" cols="30" rows="10" class="form-control" readonly>{{ $item->content }}</textarea>
         </div>
 
+        <div class="form-group mb-3">
+          <label class="fw-bolder" for="reservation_deadline">応募締切日<span class="fs-7 text-secondary">※任意</span></label>
+          <input type="date" class="form-control" name="application_deadline" value="{{ $item->application_deadline }}" readonly>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="fw-bolder" for="delivery_deadline">希望納品（実施）日<span class="fs-7 text-secondary">※任意</span></label>
+          <input type="date" class="form-control" name="delivery_deadline" value="{{ $item->delivery_deadline }}" readonly>
+        </div>
+
         @if($item->area_ids)
         <div class="mb-3">
-          <label for="area_id" class="fw-bolder">対応可能エリア</label>
+          <label for="area_id" class="fw-bolder">対応可能エリア<span class="fs-7 text-secondary">※任意</span></label>
           @foreach($item->area_ids as $area_id)
           <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1 bg-success">{{ $area_id->name}}</small>
           @endforeach
@@ -97,8 +107,13 @@
         @endif
 
         <div class="mb-3">
-          <label for="attention" class="fw-bolder">購入時の注意事項</label>
+          <label for="attention" class="fw-bolder">購入時の注意事項<span class="fs-7 text-secondary">※任意</span></label>
           <textarea name="attention" id="" cols="30" rows="10" class="form-control" readonly>{{ $item->attention }}</textarea>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="fw-bolder" for="free">自由記入欄<span class="fs-7 text-secondary">※任意</span></label>
+          <textarea class="form-control" name="free" readonly>{{ $item->free }}</textarea>
         </div>
 
         <div class="mb-3">
@@ -111,7 +126,7 @@
     <div class="text-center">
       @if($room_id)
       <button class="btn btn-success" onclick=location.href="{{route('chat.room',['room_id'=>$room_id])}}">チャット画面</button>
-      @else      
+      @else
       <button type="button" class="btn btn-success my-2" data-bs-toggle="collapse" data-bs-target="#collapseConsult">お見積りやサービス内容の相談をする</button>
 
       <div class="collapse" id="collapseConsult">
