@@ -5,20 +5,21 @@
   <form action="{{ route('service.create.done') }}" method="post" class="form-control" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="user_id" value="{{ $user_id }}">
+    <input type="hidden" name="type" value="service">
     <div class="mb-3">
-      <label for="main_title" class="fw-bolder"> サービスタイトル</label>
+      <label for="main_title" class="fw-bolder"> サービスタイトル<span class="fs-7 text-danger ">※必須</span></label>
       <input type="text" name="main_title" class="form-control fw-bolder">
     </div>
 
     <div class="mb-3">
-      <label for="content" class="fw-bolder">サービス内容</label>
+      <label for="content" class="fw-bolder">サービス内容<span class="fs-7 text-danger ">※必須</span></label>
       <div class="input-group">
         <textarea name="content" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
       </div>
     </div>
 
     <div class="mb-3">
-      <label for="category_id" class="fw-bolder">出品カテゴリー(複数選択可能)</label>
+      <label for="category_id" class="fw-bolder">出品カテゴリー(複数選択可能)<span class="fs-7 text-danger ">※必須</span></label>
       @foreach($categories as $category)
       <div class="form-check">
         <input type="checkbox" name="category_id[]" value="{{ $category->id }}" class="form-check-input">
@@ -28,12 +29,12 @@
     </div>
 
     <div class="form-group">
-      <label class="fw-bolder" for="photo_1">イメージ画像（１枚目）</label>
+      <label class="fw-bolder" for="photo_1">イメージ画像（１枚目）<span class="fs-7 text-danger ">※イメージ画像１枚は必須</span></label>
       <input type="file" class="form-control" name="photo_1" value="{{old('photo_1')}}">
     </div>
 
     <div class="form-group">
-      <label class="fw-bolder" for="photo_2">イメージ画像（２枚目）</label>
+      <label class="fw-bolder" for="photo_2">イメージ画像（２枚目）<span class="fs-7 text-secondary ">※２枚目以降は任意</span></label>
       <input type="file" class="form-control" name="photo_2" value="{{old('photo_2')}}">
     </div>
 
@@ -68,7 +69,8 @@
     </div>
 
     <div class="mb-3">
-      <label for="area_id" class="fw-bolder">対応エリア(複数選択可能)</label>
+      <label for="area_id" class="fw-bolder">対応エリア(複数選択可能)<span class="fs-7 text-secondary">※任意</span>
+      </label>
       <div>
         <button type="button" class="btn btn-outline-success" data-bs-toggle="collapse" data-bs-target="#collapseHokkaido">北海道エリア</button>
         <div class="collapse" id="collapseHokkaido">
@@ -200,14 +202,15 @@
     </div>
 
     <div class="mb-3">
-      <label for="attention" class="fw-bolder">購入時の注意事項</label>
+      <label for="attention" class="fw-bolder">購入時の注意事項<span class="fs-7 text-secondary">※任意</span></label>
       <div class="input-group">
         <textarea name="attention" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
       </div>
     </div>
 
     <div class="mb-3">
-      <label for="price" class="fw-bolder">サービス価格<span>物品購入などのサービスに付随し発生する費用は除く。</span></label>
+      <label for="price" class="fw-bolder">サービス価格<span class="fs-7 text-danger">※必須<br>
+          物品購入などのサービスに付随し発生する費用を含んだ金額。</span></label>
       <div class="input-group">
         <input type="number" class="form-control" name="price" id="price" required>
         <div class="input-group-append">
@@ -217,17 +220,17 @@
     </div>
 
     <div class="form-group mb-3">
-      <label class="fw-bolder" for="delivery_deadline">希望納品（実施）日</label>
+      <label class="fw-bolder" for="delivery_deadline">希望納品（実施）日<span class="fs-7 text-secondary">※任意</span></label>
       <input type="date" class="form-control" name="delivery_deadline">
     </div>
 
     <div class="form-group mb-3">
-      <label class="fw-bolder" for="reservation_deadline">応募締切日</label>
+      <label class="fw-bolder" for="reservation_deadline">応募締切日<span class="fs-7 text-secondary">※任意</span></label>
       <input type="date" class="form-control" name="application_deadline">
     </div>
 
     <div class="form-group mb-3">
-      <label class="fw-bolder" for="free">自由記入欄</label>
+      <label class="fw-bolder" for="free">自由記入欄<span class="fs-7 text-secondary">※任意</span></label>
       <textarea class="form-control" name="free"></textarea>
     </div>
 

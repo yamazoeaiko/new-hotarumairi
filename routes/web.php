@@ -41,7 +41,7 @@ Route::controller(ServiceController::class)->group(function () {
     Route::get('/seeker', 'seekerIndex')->name('seeker.index')->middleware('auth');
     Route::get('/', 'toppage')->name('toppage');
     Route::get('/request', 'getRequest')->name('request.index');
-    Route::get('/request/create', 'request')->name('service.request')->middleware('auth');
+    Route::get('/request/create', 'requestCreate')->name('service.request')->middleware('auth');
 
     //サービスを探す
     Route::get('/service', 'service')->name('service');

@@ -232,7 +232,7 @@
     </div>
 
     <div class="mb-3">
-      <label for="price" class="fw-bolder">サービス価格<span>物品購入などのサービスに付随し発生する費用は除く。</span></label>
+      <label for="price" class="fw-bolder">サービス価格<span>物品購入などのサービスに付随し発生する費用を含んだ金額。</span></label>
       <div class="input-group">
         <input type="number" class="form-control" name="price" id="price" required value="{{ $item->price }}">
         <div class="input-group-append">

@@ -5,6 +5,7 @@
   <form action="{{ route('service.create.done') }}" method="post" class="form-control" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="request_user_id" value="{{ $user_id }}">
+    <input type="hidden" name="type" value="public_request">
     <div class="mb-3">
       <label for="main_title" class="fw-bolder"> 依頼タイトル</label>
       <input type="text" name="main_title" class="form-control fw-bolder">

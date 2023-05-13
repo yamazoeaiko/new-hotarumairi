@@ -236,7 +236,7 @@ class ServiceController extends Controller
         );
     }
 
-    public function request()
+    public function requestCreate()
     {
         $user_id = Auth::id();
         $areas = Area::get();
@@ -328,7 +328,7 @@ class ServiceController extends Controller
             $service->request_user_id = $request->request_user_id;
         }
         $service->offer_user_id = $request->user_id;
-        $service->type = 'service';
+        $service->type = $request->type;
         $service->main_title = $request->main_title;
         $service->content = $request->content;
         $service->category_ids = $request->category_id;
