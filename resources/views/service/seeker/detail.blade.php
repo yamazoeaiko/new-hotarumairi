@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+  <h5>出品サービス詳細</h5>
   <div class="form-control">
     <div class="mb-3 row">
       <div class="col-md-4">
@@ -85,16 +86,6 @@
         <div class="mb-3">
           <label for="content" class="fw-bolder">サービス内容</label>
           <textarea name="content" id="" cols="30" rows="10" class="form-control" readonly>{{ $item->content }}</textarea>
-        </div>
-
-        <div class="form-group mb-3">
-          <label class="fw-bolder" for="reservation_deadline">応募締切日<span class="fs-7 text-secondary">※任意</span></label>
-          <input type="date" class="form-control" name="application_deadline" value="{{ $item->application_deadline }}" readonly>
-        </div>
-
-        <div class="form-group mb-3">
-          <label class="fw-bolder" for="delivery_deadline">希望納品（実施）日<span class="fs-7 text-secondary">※任意</span></label>
-          <input type="date" class="form-control" name="delivery_deadline" value="{{ $item->delivery_deadline }}" readonly>
         </div>
 
         @if($item->area_ids)

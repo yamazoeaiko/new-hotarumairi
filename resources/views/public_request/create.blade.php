@@ -7,19 +7,19 @@
     <input type="hidden" name="request_user_id" value="{{ $user_id }}">
     <input type="hidden" name="type" value="public_request">
     <div class="mb-3">
-      <label for="main_title" class="fw-bolder"> 依頼タイトル</label>
+      <label for="main_title" class="fw-bolder"> 依頼タイトル<span class="fs-7 text-danger ">※必須(20字以内)</span></label>
       <input type="text" name="main_title" class="form-control fw-bolder">
     </div>
 
     <div class="mb-3">
-      <label for="content" class="fw-bolder">依頼内容</label>
+      <label for="content" class="fw-bolder">依頼内容<span class="fs-7 text-danger ">※必須</span></label>
       <div class="input-group">
         <textarea name="content" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
       </div>
     </div>
 
     <div class="mb-3">
-      <label for="category_id" class="fw-bolder">出品カテゴリー(複数選択可能)</label>
+      <label for="category_id" class="fw-bolder">依頼カテゴリー(複数選択可能)<span class="fs-7 text-danger ">※必須</span></label>
       @foreach($categories as $category)
       <div class="form-check">
         <input type="checkbox" name="category_id[]" value="{{ $category->id }}" class="form-check-input">
@@ -29,48 +29,42 @@
     </div>
 
     <div class="form-group">
-      <label class="fw-bolder" for="photo_1">イメージ画像（１枚目）</label>
+      <label class="fw-bolder" for="photo_1">依頼内容に関する画像やファイル（１枚目）<span class="fs-7 text-secondary">※任意</span></label>
       <input type="file" class="form-control" name="photo_1" value="{{old('photo_1')}}">
     </div>
 
     <div class="form-group">
-      <label class="fw-bolder" for="photo_2">イメージ画像（２枚目）</label>
+      <label class="fw-bolder" for="photo_2">依頼内容に関する画像やファイル（２枚目）<span class="fs-7 text-secondary">※任意</span></label>
       <input type="file" class="form-control" name="photo_2" value="{{old('photo_2')}}">
     </div>
 
     <div class="form-group">
-      <label class="fw-bolder" for="photo_3">イメージ画像（３枚目）</label>
+      <label class="fw-bolder" for="photo_3">依頼内容に関する画像やファイル（３枚目）<span class="fs-7 text-secondary">※任意</span></label>
       <input type="file" class="form-control" name="photo_3" value="{{old('photo_3')}}">
     </div>
 
     <div class="form-group">
-      <label class="fw-bolder" for="photo_4">イメージ画像（４枚目）</label>
+      <label class="fw-bolder" for="photo_4">依頼内容に関する画像やファイル（４枚目）<span class="fs-7 text-secondary">※任意</span></label>
       <input type="file" class="form-control" name="photo_4" value="{{old('photo_4')}}">
     </div>
-
-    <div class="form-group">
-      <label class="fw-bolder" for="photo_5">イメージ画像（５枚目）</label>
-      <input type="file" class="form-control" name="photo_5" value="{{old('photo_5')}}">
-    </div>
-
-    <div class="form-group">
-      <label class="fw-bolder" for="photo_6">イメージ画像（６枚目）</label>
-      <input type="file" class="form-control" name="photo_6" value="{{old('photo_6')}}">
-    </div>
-
-    <div class="form-group">
-      <label class="fw-bolder" for="photo_7">イメージ画像（７枚目）</label>
-      <input type="file" class="form-control" name="photo_7" value="{{old('photo_7')}}">
-    </div>
-
-    <div class="form-group">
-      <label class="fw-bolder" for="photo_8">イメージ画像（８枚目）</label>
-      <input type="file" class="form-control" name="photo_8" value="{{old('photo_8')}}">
-    </div>
-
+    <div class="text-danger fs-7">画像やファイルが５点以上になる場合は、別途チャットで送付できます。</div>
     <div class="mb-3">
-      <label for="area_id" class="fw-bolder">エリア(複数選択可能)※任意</label>
+      <label for="area_id" class="fw-bolder">エリア(複数選択可能)<span class="fs-7 text-secondary">※任意</span></label>
       <div>
+        <button type="button" class="btn btn-outline-success" data-bs-toggle="collapse" data-bs-target="#collapseOthers">全国(エリア指定なし)</button>
+        <div class="collapse" id="collapseOthers">
+          @foreach($areas as $area)
+          @if($area->category == 'その他')
+          <label for="area_id" class="mr-1">
+            <input type="checkbox" name="area_id[]" value="{{$area->id}}" multiple @if(is_array(old('area_id')) && in_array($area->id, old('area_id')))checked
+            @endif />
+
+            {{$area->name}}
+
+          </label>
+          @endif
+          @endforeach
+        </div>
         <button type="button" class="btn btn-outline-success" data-bs-toggle="collapse" data-bs-target="#collapseHokkaido">北海道エリア</button>
         <div class="collapse" id="collapseHokkaido">
           @foreach($areas as $area)
@@ -201,14 +195,16 @@
     </div>
 
     <div class="mb-3">
-      <label for="attention" class="fw-bolder">その他自由記入※任意</label>
+      <label for="attention" class="fw-bolder">ご提案時の注意事項<span class="fs-7 text-secondary">※任意</span></label>
       <div class="input-group">
-        <textarea name="free" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
+        <textarea name="attention" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="        <textarea name=" attention" class="text-start input-group-text is-valid" style="resize: none; height: 150px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="ご提案時に教えて欲しいことなどがあれば、ご記載ください。（任意）">{{ $item->attention }}</textarea>
+        "></textarea>
       </div>
     </div>
 
     <div class="mb-3">
-      <label for="price" class="fw-bolder">予算(税別)<span>物品購入などのサービスに付随し発生する費用も全て含めた支払い総額</span></label>
+      <label for="price" class="fw-bolder">予算(税別)<span class="fs-7 text-danger">※必須<br>
+          物品購入などのサービスに付随し発生する費用を含んだ金額。</span></label>
       <div class="input-group">
         <input type="number" class="form-control" name="price" id="price" required>
         <div class="input-group-append">
@@ -218,14 +214,14 @@
     </div>
 
     <div class="mb-3">
-      <label for="application_deadline" class="fw-bolder">応募締切日</label>
+      <label for="application_deadline" class="fw-bolder">応募締切日<span class="fs-7 text-secondary">※任意</span></label>
       <div class="input-group">
         <input type="date" name="application_deadline">
       </div>
     </div>
 
     <div class="mb-3">
-      <label for="delivery_deadline" class="fw-bolder">納品締切日</label>
+      <label for="delivery_deadline" class="fw-bolder">希望納品(実施)日<span class="fs-7 text-secondary">※任意</span></label>
       <div class="input-group">
         <input type="date" name="delivery_deadline">
       </div>

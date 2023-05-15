@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+  <h5>公開依頼の詳細</h5>
   <div class="form-control">
     <div class="mb-3 row">
       <div class="col-md-4">
@@ -9,11 +10,12 @@
       </div>
       <div class="col-md-8">
         <div class="mb-3">
-          <p class="fw-bolder fs-3">{{ $item->main_title }}</p>
+          <label for="main_title" class="fw-bolder"> 依頼タイトル<span class="fs-7 text-danger ">※必須</span></label>
+          <div class="fw-bolder fs-5">{{ $item->main_title }}</div>
         </div>
         @if($item->categories)
         <div>
-          カテゴリー：
+          依頼カテゴリー：
           @foreach($item->categories as $value)
           <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
           @endforeach
@@ -31,20 +33,15 @@
             <small class="text-muted">住まい地域：</small>{{ $item->living_area }}
           </p>
         </div>
+
         <div class="mb-3">
-          <div class="owl-carousel owl-theme">
-            @foreach (range(1, 8) as $i)
-            @php
-            $photo = "photo_" . $i;
-            @endphp
-            @if ($item->$photo !== null)
-            <img src="{{asset($item->$photo)}}" style=" width: 300px; height: 200px;">
-            @endif
-            @endforeach
-          </div>
+          <label for="content" class="fw-bolder">依頼内容<span class="fs-7 text-danger ">※必須</span></label>
+          <textarea name="content" id="" cols="30" rows="10" class="form-control" readonly>{{ $item->content }}</textarea>
         </div>
+
         <div class="mb-3">
-          <label for="price" class="fw-bolder">サービス価格</label>
+          <label for="price" class="fw-bolder">予算(税別)<span class="fs-7 text-danger">※必須<br>
+              物品購入などのサービスに付随し発生する費用を含んだ金額。</span></label>
           <div class="input-group">
             <input type="number" name="price" class="form-control" value="{{$item->price}}" readonly>
             <div class="input-group-append">
@@ -52,14 +49,10 @@
             </div>
           </div>
         </div>
-        <div class="mb-3">
-          <label for="content" class="fw-bolder">サービス内容</label>
-          <textarea name="content" id="" cols="30" rows="10" class="form-control" readonly>{{ $item->content }}</textarea>
-        </div>
 
         @if($item->area_ids)
         <div class="mb-3">
-          <label for="area_id" class="fw-bolder">対応可能エリア</label>
+          <label for="area_id" class="fw-bolder">エリア(複数選択可能)<span class="fs-7 text-secondary">※任意</span></label>
           @foreach($item->area_ids as $area_id)
           <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1 bg-success">{{ $area_id->name}}</small>
           @endforeach
@@ -67,23 +60,43 @@
         @endif
 
         <div class="mb-3">
-          <label for="attention" class="fw-bolder">注意事項</label>
+          <label for="attention" class="fw-bolder">ご提案時の注意事項<span class="fs-7 text-secondary">※任意</span></label>
           <textarea name="attention" id="" cols="30" rows="10" class="form-control" readonly>{{ $item->attention }}</textarea>
         </div>
 
         <div class="form-group mb-3">
-          <label class="fw-bolder" for="delivery_deadline">希望納品（実施）日</label>
+          <label for="application_deadline" class="fw-bolder">応募締切日<span class="fs-7 text-secondary">※任意</span></label>
+          <input type="date" class="form-control" name="application_deadline" value="{{$item->application_deadline}}" readonly>
+        </div>
+        <div class="form-group mb-3">
+          <label for="delivery_deadline" class="fw-bolder">希望納品(実施)日<span class="fs-7 text-secondary">※任意</span></label>
           <input type="date" class="form-control" name="delivery_deadline" value="{{$item->delivery_deadline}}" readonly>
         </div>
 
-        <div class="form-group mb-3">
-          <label class="fw-bolder" for="application_deadline">応募締切日</label>
-          <input type="date" class="form-control" name="application_deadline" value="{{$item->application_deadline}}" readonly>
-        </div>
         <div class="mb-3">
           <label for="free" class="fw-bolder">自由記入欄</label>
           <textarea name="free" id="" cols="30" rows="10" class="form-control" readonly>{{ $item->free }}</textarea>
         </div>
+        @if($item->photo_1)
+        <div class="mb-3">
+          <a href="{{ asset($item->photo_1) }}" class="fc-blue fw-bolder">画像・ファイル①</a>
+        </div>
+        @endif
+        @if($item->photo_2)
+        <div class="mb-3">
+          <a href="{{ asset($item->photo_2) }}" class="fc-blue fw-bolder">画像・ファイル②</a>
+        </div>
+        @endif
+        @if($item->photo_3)
+        <div class="mb-3">
+          <a href="{{ asset($item->photo_3) }}" class="fc-blue fw-bolder">画像・ファイル③</a>
+        </div>
+        @endif
+        @if($item->photo_4)
+        <div class="mb-3">
+          <a href="{{ asset($item->photo_4) }}" class="fc-blue fw-bolder">画像・ファイル④</a>
+        </div>
+        @endif
       </div>
     </div>
     @if($item->request_user_id !== $user_id)
@@ -118,6 +131,6 @@
     @endif
     @elseif($item->request_user_id == $user_id)
     <div class="text-center my-1">
-      <button class="btn btn-primary" onclick=location.href="{{route('mypage.service.edit',['service_id'=>$item->id])}}">公開依頼内容を編集する</button>
+      <button class="btn btn-primary" onclick=location.href="{{route('pubreq.edit',['service_id'=>$item->id])}}">公開依頼内容を編集する</button>
     </div>
     @endif

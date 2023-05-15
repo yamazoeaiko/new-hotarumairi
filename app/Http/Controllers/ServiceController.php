@@ -185,7 +185,7 @@ class ServiceController extends Controller
             $item->status_name = "非公開中";
         }
 
-        if ($item->categories) {
+        if ($item->category_ids) {
             $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
 
             foreach ($item->categories as $value) {
@@ -194,7 +194,7 @@ class ServiceController extends Controller
             }
         }
 
-        if ($item->area_ids) {
+        if ($item->area_id) {
             $item->area_ids = Area::whereIn('id', $item->area_id)->get();
             foreach ($item->area_ids as $area_id) {
                 $area = Area::where('id', $area_id->id)->first();
@@ -230,6 +230,7 @@ class ServiceController extends Controller
 
         $item->follow = Follow::where('follow_id', $item->offer_user_id)->where('user_id', $user_id)->exists();
 
+
         return view(
             'service.seeker.detail',
             compact('item', 'entry', 'room_id','user_id')
@@ -243,7 +244,7 @@ class ServiceController extends Controller
         $categories = ServiceCategory::get();
 
         return view(
-            'service.seeker.request',
+            'public_request.create',
             compact('user_id', 'areas', 'categories')
         );
     }
@@ -761,5 +762,93 @@ class ServiceController extends Controller
                             ->get();
 
         return view('public_request.detail', compact('item', 'user_id', 'room_id', 'entry_id', 'entrieds'));
+    }
+
+    public function editPubreq($service_id)
+    {
+        $item = Service::where('id', $service_id)->first();
+
+        if ($item->status == 'open') {
+            $item->status_name = "公開中";
+        } elseif ($item->status == 'closed') {
+            $item->status_name = "非公開中";
+        }
+
+        if ($item->category_ids) {
+            $item->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
+        }
+
+        if ($item->area_id) {
+            $item->area_ids = Area::whereIn('id', $item->area_id)->get();
+        }
+
+        $categories = ServiceCategory::get();
+        $areas = Area::get();
+
+        return view('public_request.edit', compact('item', 'categories', 'areas'));
+    }
+
+    public function update(Request $request)
+    {
+        //validate
+        $validatedData = $request->validate([
+            'main_title' => 'required|max:20',
+            'content' => 'required',
+            'price' => 'required',
+            'category_ids' => 'required'
+        ]);
+
+        if ($request->status == 1) {
+            $status = 'open';
+        } elseif ($request->status == 2) {
+            $status = 'closed';
+        }
+
+        $service = Service::where('id', $request->service_id)->first();
+
+        $service->main_title = $validatedData['main_title'];
+        $service->content = $validatedData['content'];
+        $service->category_ids = $request->category_ids;
+        $service->area_id = $request->area_id;
+        $service->attention = $request->attention;
+        $service->status = $status;
+        $service->price = $validatedData['price'];
+        $service->price_net = $request->price*0.9;
+        $service->delivery_deadline = $request->delivery_deadline;
+        $service->application_deadline = $request->application_deadline;
+        $service->free = $request->free;
+
+        if ($request->hasFile('photo_1')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_1')->getClientOriginalName();
+            $path_1 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_1')->storeAs('public/' . $dir, $file_name);
+            $service->photo_1 = $path_1;
+        }
+        if ($request->hasFile('photo_2')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_2')->getClientOriginalName();
+            $path_2 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_2')->storeAs('public/' . $dir, $file_name);
+            $service->photo_2 = $path_2;
+        }
+        if ($request->hasFile('photo_3')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_3')->getClientOriginalName();
+            $path_3 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_3')->storeAs('public/' . $dir, $file_name);
+            $service->photo_3 = $path_3;
+        }
+        if ($request->hasFile('photo_4')) {
+            $dir = 'service';
+            $file_name = $request->file('photo_4')->getClientOriginalName();
+            $path_4 = 'storage/' . $dir . '/' . $file_name;
+            $request->file('photo_4')->storeAs('public/' . $dir, $file_name);
+            $service->photo_4 = $path_4;
+        }
+        
+        $service->save();
+
+        return redirect()->route('pubreq.detail', ['service_id' => $request->service_id]);
     }
 }

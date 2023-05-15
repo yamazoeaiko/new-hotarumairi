@@ -41,7 +41,6 @@ Route::controller(ServiceController::class)->group(function () {
     Route::get('/seeker', 'seekerIndex')->name('seeker.index')->middleware('auth');
     Route::get('/', 'toppage')->name('toppage');
     Route::get('/request', 'getRequest')->name('request.index');
-    Route::get('/request/create', 'requestCreate')->name('service.request')->middleware('auth');
 
     //サービスを探す
     Route::get('/service', 'service')->name('service');
@@ -62,6 +61,9 @@ Route::controller(ServiceController::class)->group(function () {
     Route::get('/public_request', 'getPubReq')->name('pubreq.index');
     Route::get('/public_request/search', 'searchPubReq')->name('pubreq.search');
     Route::get('/public_request/search/{service_id}', 'moreSearch')->name('pubreq.detail')->middleware('auth');
+    Route::get('/public_request/create', 'requestCreate')->name('pubreq.create')->middleware('auth');
+    Route::get('/public_request/edit/{service_id}', 'editPubreq')->name('pubreq.edit')->middleware('auth');
+    Route::post('/public_request/update', 'update')->name('pubreq.update')->middleware('auth');
 });
 
 Route::controller(UserController::class)->group(
