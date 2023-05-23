@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('big_category')->comment('サービスの大カテゴリー');
             $table->string('name')->comment('カテゴリ名');
+            $table->string('icon')->comment('アイコン画像');
             $table->timestamps();
         });
     }

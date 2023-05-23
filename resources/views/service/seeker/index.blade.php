@@ -169,6 +169,27 @@
   </form>
   <!--検索結果-->
   <div class="row mt-3">
+    <div class="col-lg-3 d-lg-block d-none">
+      <!-- Navbar Left -->
+      <div class="navbar-left">
+        <ul class="navbar-nav list-group">
+          @foreach($categories as $category)
+          <li class="nav-item px-2 list-group-item border-0">
+            <div class="row">
+              <div class="col-4">
+                <img src="{{ asset($category->icon) }}" alt="Category Icon" class="category-icon">
+              </div>
+              <div class="col-8">
+                <a href="{{ route('service.search', ['category_ids[]' => $category->id]) }}" class="nav-link btn btn-link">
+                  {{ $category->name }}
+                </a>
+              </div>
+            </div>
+          </li>
+          @endforeach
+        </ul>
+      </div>
+    </div>
     @foreach($items as $item)
     <div class="col-md-6 col-lg-3 card-all">
       <div class="card mb-4">

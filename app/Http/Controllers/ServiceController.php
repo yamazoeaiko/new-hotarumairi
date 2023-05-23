@@ -51,10 +51,11 @@ class ServiceController extends Controller
             
             $item->profile_image = $provider->img_url;
             $item->provider_name = $provider->nickname;
-        }    
+        }
+        $categories = ServiceCategory::get();
 
 
-        return view('index', compact('items'));
+        return view('index', compact('items','categories'));
     }
     public function getRequest()
     {
