@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('nickname')->comment('サービス内表記名')->nullable();
+            $table->string('trade_name')->nullable()->comment('屋号');
             $table->integer('gender')->comment('性別')->nullable();
             $table->date('birthday')->comment('誕生日')->nullable()->default('1980-01-01');
             $table->unsignedBigInteger('living_area')->comment('住まいの都道府県')->nullable();

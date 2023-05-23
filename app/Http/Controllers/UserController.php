@@ -88,6 +88,7 @@ class UserController extends Controller
         $item = User::where('id', $user_id)->first();
         $param = [
             'nickname' => $request->nickname,
+            'trade_name' => $request->trade_name,
             'birthday' => $request->birthday,
             'gender'   => $request->gender,
             'living_area' => $request->living_area,

@@ -17,6 +17,10 @@
       </td>
     </tr>
     <tr>
+      <th>屋号</th>
+      <td>{{ $item->trade_name }}</td>
+    </tr>
+    <tr>
       <th>年齢</th>
       <td>
         {{$item->age}}歳

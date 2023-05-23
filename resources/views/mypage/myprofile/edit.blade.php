@@ -21,6 +21,10 @@
           </td>
         </tr>
         <tr>
+          <th>屋号</th>
+          <td><input type="text" name="trade_name" value="{{ $item->trade_name }}"></td>
+        </tr>
+        <tr>
           <th>誕生日</th>
           <td>
             <input type="date" name="birthday" value="{{$item->birthday}}">

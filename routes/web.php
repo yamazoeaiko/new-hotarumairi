@@ -145,4 +145,6 @@ Route::controller(AnnouncementController::class)->group(function () {
 
     Route::post('/announcement-read', 'read')->name('announcement.read');
 });
+
+
 require __DIR__ . '/auth.php';
