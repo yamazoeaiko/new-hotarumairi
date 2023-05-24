@@ -87,10 +87,19 @@ class AgreementController extends Controller
     }
 
     public function edit($agreement_id){
+        $item = Agreement::where('id', $agreement_id)->first();
         return view('agreement.edit', compact('item'));
     }
 
     public function update(Request $request){
+        $agreement = Agreement::where('id', $request->agreement_id)->first();
+        $agreement->main_title = $request->main_title;
+        $agreement->content = $request->content;
+        $agreement->price = $request->price;
+        $agreement->delivery_deadline = $request->delivery_deadline;
+        $agreement->free = $request->free;
+        $agreement->save();
+
         return redirect()->route('agreement.index', ['agreement_id' => $agreement->id]);
     }
 

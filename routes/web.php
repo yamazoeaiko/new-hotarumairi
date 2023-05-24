@@ -10,6 +10,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\AgreementController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -146,5 +147,10 @@ Route::controller(AnnouncementController::class)->group(function () {
     Route::post('/announcement-read', 'read')->name('announcement.read');
 });
 
+Route::controller(PaymentController::class)->group(
+    function () {
+        Route::get('/mypage/payment/index', 'paidInformation')->name('payment.information')->middleware('auth');
+        Route::get('/mypage/proceeds/index', 'proceedsInformation')->name('proceeds.information')->middleware('auth');
+    });
 
 require __DIR__ . '/auth.php';

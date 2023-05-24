@@ -17,6 +17,24 @@
       </td>
     </tr>
     <tr>
+      <th>TwitterアカウントURL</th>
+      <td>
+        <a href="{{$item->twitter_url}}" target="_blank">{{$item->twitter_url}}</a>
+      </td>
+    </tr>
+    <tr>
+      <th>InstagramアカウントURL</th>
+      <td>
+        <a href="{{$item->instagram_url}}" target="_blank">{{$item->instagram_url}}</a>
+      </td>
+    </tr>
+    <tr>
+      <th>その他SNSアカウントURL</th>
+      <td>
+        <a href="{{$item->others_sns_url}}" target="_blank">{{$item->others_sns_url}}</a>
+      </td>
+    </tr>
+    <tr>
       <th>屋号</th>
       <td>{{ $item->trade_name }}</td>
     </tr>

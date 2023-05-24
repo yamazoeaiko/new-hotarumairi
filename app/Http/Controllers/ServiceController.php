@@ -432,7 +432,7 @@ class ServiceController extends Controller
         $service->free = $request->free;
         $service->price = $request->price;
         $service->price_net = ($request->price) * 0.9;
-        $service->application_deadline = $request->applying_deadline;
+        $service->application_deadline = $request->application_deadline;
         $service->delivery_deadline = $request->delivery_deadline;
         $service->area_id = $request->area_id;
         $service->status = 'open';

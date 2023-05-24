@@ -21,6 +21,27 @@
           </td>
         </tr>
         <tr>
+          <th>TwitterアカウントURL</th>
+          <div class="input-group mb-3">
+            <span class="input-group-text">https://twitter.com/</span>
+            <input type="text" class="form-control" name="twitter_url" value="{{str_replace('https://twitter.com/', '', $item->twitter_url)}}" placeholder="ユーザー名">
+          </div>
+        </tr>
+        <tr>
+          <th>InstagramアカウントURL</th>
+          <div class="input-group mb-3">
+            <span class="input-group-text">https://www.instagram.com/</span>
+            <input type="text" class="form-control" name="instagram_url" value="{{str_replace('https://www.instagram.com/', '', $item->instagram_url)}}" placeholder="ユーザー名">
+          </div>
+        </tr>
+        <tr>
+          <th>その他SNSアカウントURL</th>
+          <div class="input-group mb-3">
+            <span class="input-group-text">https://</span>
+            <input type="text" class="form-control" name="others_sns_url" value="{{str_replace('https://', '', $item->others_sns_url)}}">
+          </div>
+        </tr>
+        <tr>
           <th>屋号</th>
           <td><input type="text" name="trade_name" value="{{ $item->trade_name }}"></td>
         </tr>

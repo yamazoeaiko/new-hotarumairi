@@ -197,8 +197,7 @@
     <div class="mb-3">
       <label for="attention" class="fw-bolder">ご提案時の注意事項<span class="fs-7 text-secondary">※任意</span></label>
       <div class="input-group">
-        <textarea name="attention" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="        <textarea name=" attention" class="text-start input-group-text is-valid" style="resize: none; height: 150px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="ご提案時に教えて欲しいことなどがあれば、ご記載ください。（任意）"></textarea>
-        "></textarea>
+        <textarea name="attention" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="ご提案時に教えて欲しいことなどがあれば、ご記載ください。（任意）"></textarea>
       </div>
     </div>
 
@@ -225,6 +224,11 @@
       <div class="input-group">
         <input type="date" name="delivery_deadline">
       </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="fw-bolder" for="free">自由記入欄<span class="fs-7 text-secondary" placeholder="その他なにかあればご自由にご記載ください。（任意）">※任意</span></label>
+      <textarea class="form-control" name="free"></textarea>
     </div>
 
     <div class="mb-3">

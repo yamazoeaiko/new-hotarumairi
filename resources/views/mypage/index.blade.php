@@ -12,6 +12,12 @@
     <button onclick="location.href='{{route('mypage.favorite.follow')}}'" class="btn btn-primary p-3">
       フォロー・お気に入り
     </button>
+    <button onclick="location.href='{{route('payment.information')}}'" class="btn btn-primary p-3">
+      支払い情報
+    </button>
+    <button onclick="location.href='{{route('proceeds.information')}}'" class="btn btn-primary p-3">
+      売上情報
+    </button>
   </div>
 </div>
 @endsection

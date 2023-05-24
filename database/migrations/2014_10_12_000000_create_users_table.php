@@ -28,6 +28,9 @@ return new class extends Migration
             $table->foreign('living_area')->references('id')->on('areas');
             $table->text('message')->comment('一言、自己紹介')->nullable();
             $table->string('img_url')->comment('プロフィール画像')->default('storage/profile/no_image.jpg')->nullable();
+            $table->string('twitter_url')->nullable();
+            $table->string('instagram_url')->nullable();
+            $table->string('others_sns_url')->nullable();
             $table->timestamps();
         });
     }

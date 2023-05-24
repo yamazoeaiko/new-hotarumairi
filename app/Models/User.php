@@ -27,7 +27,11 @@ class User extends Authenticatable
         'gender',
         'living_area',
         'img_url',
-        'message'
+        'message',
+        'twitter_url',
+        'instagram_url',
+        'others_sns_url',
+
     ];
 
     /**
