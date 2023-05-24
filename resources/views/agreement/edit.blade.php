@@ -30,7 +30,7 @@
 
     <div class="form-group mb-3">
       <label class="fw-bolder" for="delivery_deadline">納品（実施）日<span class="fs-7 text-danger">（任意）</span></label>
-      <input type="date" class="form-control" name="delivery_deadline" value="{{ $item->delivery_deadline }}">
+      <input type="date" class="form-control" name="delivery_deadline" value="{{ $item->delivery_deadline }}" min="<?php echo date('Y-m-d'); ?>">
     </div>
 
     <div class="form-group mb-3">
@@ -40,6 +40,6 @@
     <div class="text-cente mt-3">
       <button type="submit" class="btn btn-primary">更新</button>
     </div>
-  </form>  
+  </form>
 </div>
 @endsection

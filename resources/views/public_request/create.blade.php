@@ -215,14 +215,14 @@
     <div class="mb-3">
       <label for="application_deadline" class="fw-bolder">応募締切日<span class="fs-7 text-secondary">※任意</span></label>
       <div class="input-group">
-        <input type="date" name="application_deadline">
+        <input type="date" name="application_deadline" min="<?php echo date('Y-m-d'); ?>">
       </div>
     </div>
 
     <div class="mb-3">
       <label for="delivery_deadline" class="fw-bolder">希望納品(実施)日<span class="fs-7 text-secondary">※任意</span></label>
       <div class="input-group">
-        <input type="date" name="delivery_deadline">
+        <input type="date" name="delivery_deadline" min="<?php echo date('Y-m-d'); ?>">
       </div>
     </div>
 

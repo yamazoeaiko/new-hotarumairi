@@ -6,8 +6,8 @@
     @csrf
     <input type="hidden" name="service_id" value="{{ $item->id }}">
     <div class="mb-3">
-      <label for="main_title" class="fw-bolder"> 依頼タイトル<span class="fs-7 text-danger ">※必須(20字以内) 
-      </span></label>
+      <label for="main_title" class="fw-bolder"> 依頼タイトル<span class="fs-7 text-danger ">※必須(20字以内)
+        </span></label>
       <input type="text" name="main_title" class="form-control fw-bolder" value="{{ $item->main_title }}">
       @if($errors->has('main_title'))
       <div class="fs-8 text-danger">エラー：依頼タイトルは必須です。
@@ -246,7 +246,7 @@
     <div class="mb-3">
       <label for="delivery_deadline" class="fw-bolder">希望納品(実施)日<span class="fs-7 text-secondary">※任意</span></label>
       <div class="input-group">
-        <input type="date" name="delivery_deadline" value="{{ $item->delivery_deadline }}">
+        <input type="date" name="delivery_deadline" value="{{ $item->delivery_deadline }}" min="<?php echo date('Y-m-d'); ?>">
       </div>
     </div>
 
