@@ -11,6 +11,8 @@ use App\Http\Controllers\FollowController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\AgreementController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\AdminController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -152,5 +154,13 @@ Route::controller(PaymentController::class)->group(
         Route::get('/mypage/payment/index', 'paidInformation')->name('payment.information')->middleware('auth');
         Route::get('/mypage/proceeds/index', 'proceedsInformation')->name('proceeds.information')->middleware('auth');
     });
+
+//管理者
+Route::controller(AdminController::class)->group(function (){
+        Route::get('/admin-limited', 'index')->name('admin.index');
+    });
+
+
+
 
 require __DIR__ . '/auth.php';

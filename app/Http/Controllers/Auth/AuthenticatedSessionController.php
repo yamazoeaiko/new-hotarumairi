@@ -51,4 +51,21 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    public function createAdmin()
+    {
+        return view('auth.admin-login');
+    }
+
+    /**
+     * Handle an incoming authentication request.
+     */
+    public function storeAdmin(LoginRequest $request)
+    {
+        $request->authenticate();
+
+        $request->session()->regenerate();
+
+        return redirect()->route('admin.index');
+    }
 }

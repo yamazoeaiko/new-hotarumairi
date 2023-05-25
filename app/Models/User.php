@@ -31,7 +31,7 @@ class User extends Authenticatable
         'twitter_url',
         'instagram_url',
         'others_sns_url',
-
+        'type'
     ];
 
     /**

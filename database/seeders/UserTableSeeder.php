@@ -16,6 +16,17 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         $param = [
+            'name' => '管理者',
+            'email' => 'admin@example.com',
+            'password' => \Hash::make('adminadmin'),
+            'nickname' => '管理者',
+            'birthday' => '2023/6/1',
+            'message' => '管理者です',
+            'type' => 'admin'
+        ];
+        DB::table('users')->insert($param);
+
+        $param = [
             'name' => '山田A太郎',
             'email' => 'test_a@example.com',
             'password' => \Hash::make('testtest'),
@@ -23,7 +34,8 @@ class UserTableSeeder extends Seeder
             'birthday' => '1987/5/12',
             'gender' => '1',
             'living_area' => '1',
-            'message' => '丁寧な作業を心がけます！'
+            'message' => '丁寧な作業を心がけます！',
+            'type' => 'user'
         ];
         DB::table('users')->insert($param);
 
@@ -35,7 +47,8 @@ class UserTableSeeder extends Seeder
             'birthday' => '1994/8/1',
             'gender' => '2',
             'living_area' => '18',
-            'message' => '宜しくお願いします！'
+            'message' => '宜しくお願いします！',
+            'type' => 'user'
         ];
         DB::table('users')->insert($param);
 
@@ -47,7 +60,8 @@ class UserTableSeeder extends Seeder
             'birthday' => '1970/12/21',
             'gender' => '1',
             'living_area' => '38',
-            'message' => '宜しくお願いします！'
+            'message' => '宜しくお願いします！',
+            'type' => 'user'
         ];
         DB::table('users')->insert($param);
 
@@ -59,7 +73,8 @@ class UserTableSeeder extends Seeder
             'birthday' => '1988/2/5',
             'gender' => '2',
             'living_area' => '25',
-            'message' => '宜しくお願いします！'
+            'message' => '宜しくお願いします！',
+            'type' => 'user'
         ];
         DB::table('users')->insert($param);
     }

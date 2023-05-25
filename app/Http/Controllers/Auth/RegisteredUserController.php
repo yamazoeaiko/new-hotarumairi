@@ -49,7 +49,8 @@ class RegisteredUserController extends Controller
             'birthday' => '1990-1-1',
             'gender' => '3',
             'living_area' => '1',
-            'img_url' => 'storage/profile/no_image.jpg'
+            'img_url' => 'storage/profile/no_image.jpg',
+            'type' => 'user'
         ]);
 
         event(new Registered($user));

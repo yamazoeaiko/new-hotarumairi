@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('twitter_url')->nullable();
             $table->string('instagram_url')->nullable();
             $table->string('others_sns_url')->nullable();
+            $table->enum('type', ['user', 'admin']);
             $table->timestamps();
         });
     }
