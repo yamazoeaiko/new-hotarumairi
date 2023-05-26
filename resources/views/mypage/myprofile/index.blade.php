@@ -16,6 +16,7 @@
         {{$item->nickname}}
       </td>
     </tr>
+    <!--
     <tr>
       <th>TwitterアカウントURL</th>
       <td>
@@ -34,6 +35,7 @@
         <a href="{{$item->others_sns_url}}" target="_blank">{{$item->others_sns_url}}</a>
       </td>
     </tr>
+-->
     <tr>
       <th>屋号</th>
       <td>{{ $item->trade_name }}</td>

@@ -86,21 +86,22 @@ class UserController extends Controller
     {
         $user_id = Auth::id();
         $item = User::where('id', $user_id)->first();
-        if($request->twitter_url){
-            $twitter = 'https://twitter.com/'.$request->twitter_url;
-            $item->twitter_url = $twitter;
-            $item->save();
-        }
-        if($request->instagram_url){
-            $instagram = 'https://www.instagram.com/'.$request->instagram_url;
-            $item->instagram_url = $instagram;
-            $item->save();
-        }
-        if($request->others_sns_url){
-            $others = 'https://'.$request->others_sns_url;
-            $item->others_sns_url = $others;
-            $item->save();
-        }
+        
+        //if($request->twitter_url){
+            //$twitter = 'https://twitter.com/'.$request->twitter_url;
+            //$item->twitter_url = $twitter;
+            //$item->save();
+        //}
+        //if($request->instagram_url){
+            //$instagram = 'https://www.instagram.com/'.$request->instagram_url;
+            //$item->instagram_url = $instagram;
+            //$item->save();
+        //}
+        //if($request->others_sns_url){
+            //$others = 'https://'.$request->others_sns_url;
+            //$item->others_sns_url = $others;
+            //$item->save();
+        //}
         $param = [
             'nickname' => $request->nickname,
             'trade_name' => $request->trade_name,

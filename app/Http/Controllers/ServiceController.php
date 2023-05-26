@@ -176,7 +176,9 @@ class ServiceController extends Controller
         $item->user_name = $sell_user->nickname;
         $item->img_url = $sell_user->img_url;
         $living = Area::where('id', $sell_user->living_area)->first();
+        if($living){
         $item->living_area = $living->name;
+        }
         $item->age =
             Carbon::parse($sell_user->birthday)->age;
 

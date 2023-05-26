@@ -20,6 +20,7 @@
             <input type="text" name="nickname" value="{{$item->nickname}}">
           </td>
         </tr>
+        <!--
         <tr>
           <th>TwitterアカウントURL</th>
           <div class="input-group mb-3">
@@ -41,6 +42,7 @@
             <input type="text" class="form-control" name="others_sns_url" value="{{str_replace('https://', '', $item->others_sns_url)}}">
           </div>
         </tr>
+            -->
         <tr>
           <th>屋号</th>
           <td><input type="text" name="trade_name" value="{{ $item->trade_name }}"></td>
