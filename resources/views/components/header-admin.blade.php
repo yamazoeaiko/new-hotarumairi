@@ -9,9 +9,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-        <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('seeker.index')}}">仕事を依頼する・商品(サービス)を購入する</a></li>
-        <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('provider.index')}}">仕事を探す・商品（サービス）を出品する</a></li>
-        <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('chat.list')}}">チャット</a></li>
+        <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('admin.user.list')}}">ユーザー管理</a></li>
+        <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('admin.service.list')}}">出品サービス管理</a></li>
+        <li class="nav-item"><a class="nav-link me-lg-3">チャット管理（ユーザー同士）</a></li>
         <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('mypage.index')}}">マイページ</a></li>
         @guest
         <li class="nav-item"><a class="nav-link me-lg-3" href="/login">ログイン</a></li>

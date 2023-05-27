@@ -157,7 +157,18 @@ Route::controller(PaymentController::class)->group(
 
 //管理者
 Route::controller(AdminController::class)->group(function (){
+        //ユーザー管理
         Route::get('/admin-limited', 'index')->name('admin.index');
+        Route::get('/admin-limited/user/list', 'userList')->name('admin.user.list');
+        Route::get('admin-limited/user/detail/{user_id}', 'userDetail')->name('admin.user.detail');
+        Route::get('admin-limited/user/edit/{user_id}', 'userEdit')->name('admin.user.edit');
+        Route::post('/admin-limited/user/update', 'userUpdate')->name('admin.user.update');
+
+        //サービス管理
+        Route::get('/admin-limited/service/list', 'serviceList')->name('admin.service.list');
+        Route::get('/admin-limited/service/detail/{service_id}', 'serviceDetail')->name('admin.service.detail');
+        Route::get('/admin-limited/service/edit/{service_id}', 'serviceEdit')->name('admin.service.edit');
+        Route::post('/admin-limited/service/update', 'serviceUpdate')->name('admin.service.update');
     });
 
 

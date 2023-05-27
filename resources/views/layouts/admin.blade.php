@@ -25,7 +25,7 @@
 
 <body class="font-sans antialiased">
   <div class="min-h-screen bg-gray-100">
-    @component('components.header')
+    @component('components.header-admin')
     @endcomponent
 
     <!-- Page Content -->
