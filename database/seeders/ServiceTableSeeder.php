@@ -16,7 +16,7 @@ class ServiceTableSeeder extends Seeder
     public function run()
     {
         $param = [
-            'offer_user_id' => '1',
+            'offer_user_id' => '2',
             'type' => 'service',
             'category_ids' => '["1","2"]',
             'main_title' => 'お墓参り代行お任せください',
@@ -31,7 +31,7 @@ class ServiceTableSeeder extends Seeder
         DB::table('services')->insert($param);
 
         $param = [
-            'offer_user_id' => '2',
+            'offer_user_id' => '3',
             'type' => 'service',
             'category_ids' => '["3"]',
             'main_title' => '参拝代行お任せください',
@@ -46,7 +46,7 @@ class ServiceTableSeeder extends Seeder
         DB::table('services')->insert($param);
 
         $param = [
-            'offer_user_id' => '3',
+            'offer_user_id' => '4',
             'type' => 'service',
             'category_ids' => '["2","4"]',
             'main_title' => '【SNSで大人気】占いお任せください',
@@ -61,7 +61,7 @@ class ServiceTableSeeder extends Seeder
         DB::table('services')->insert($param);
 
         $param = [
-            'request_user_id' => '4',
+            'request_user_id' => '2',
             'type' => 'public_request',
             'category_ids' => '["2","4"]',
             'main_title' => '婚期を占って下さい',
@@ -77,7 +77,7 @@ class ServiceTableSeeder extends Seeder
         DB::table('services')->insert($param);
 
         $param = [
-            'request_user_id' => '1',
+            'request_user_id' => '3',
             'type' => 'public_request',
             'category_ids' => '["5"]',
             'main_title' => '運気の上がるアクセサリーが欲しい',
@@ -91,7 +91,7 @@ class ServiceTableSeeder extends Seeder
         DB::table('services')->insert($param);
 
         $param = [
-            'request_user_id' => '2',
+            'request_user_id' => '4',
             'type' => 'public_request',
             'category_ids' => '["1"]',
             'main_title' => 'お墓掃除をして欲しいです',
@@ -108,7 +108,7 @@ class ServiceTableSeeder extends Seeder
         DB::table('services')->insert($param);
 
         $param = [
-            'request_user_id' => '4',
+            'request_user_id' => '3',
             'type' => 'public_request',
             'category_ids' => '["2"]',
             'main_title' => '合格祈願のお守りを購入・郵送して欲しいです',

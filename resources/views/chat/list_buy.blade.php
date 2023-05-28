@@ -7,7 +7,7 @@
   <div class="list-group">
     @if($items)
     @foreach($items as $item)
-    <button class="list-group-item list-group-action " onClick="location.href='{{route('chat.room',['room_id'=>$item->id])}}'">
+    <button class="list-group-item list-group-action " onClick="location.href='{{route('chat.room',['room_id'=>$item->id])}}'" @if($item->status=='stopping') disabled @endif>
       <div class="no-gutters">
         <div class="row">
           <div class="col-2">
@@ -33,8 +33,8 @@
           </div>
           <div class="col-3">
             <div class="row">
-              @if($item->status)
-              <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1 bg-success fw-bolder">{{ $item->status }}</small>
+              @if($item->entry_status)
+              <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1 bg-success fw-bolder">{{ $item->entry_status }}</small>
               @endif
             </div>
             <div class="row">
@@ -52,13 +52,20 @@
           </div>
         </div>
       </div>
-    </button>
-    @endforeach
-    @else
-    <div class="text-center">
-      <span>現在チャットルームはございません</span>
-    </div>
+      @if($item->status=='stopping')
+      <div class="row">
+        <small class=" col-4 d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1 bg-danger">チャット停止中</small>
+        <div class="col-7 fs-7">※運営者判断で現在停止中です</div>
+      </div>
+      @endif
   </div>
-  @endif
+  </button>
+  @endforeach
+  @else
+  <div class="text-center">
+    <span>現在チャットルームはございません</span>
+  </div>
+</div>
+@endif
 </div>
 @endsection

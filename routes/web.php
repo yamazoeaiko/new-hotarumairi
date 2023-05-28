@@ -169,6 +169,13 @@ Route::controller(AdminController::class)->group(function (){
         Route::get('/admin-limited/service/detail/{service_id}', 'serviceDetail')->name('admin.service.detail');
         Route::get('/admin-limited/service/edit/{service_id}', 'serviceEdit')->name('admin.service.edit');
         Route::post('/admin-limited/service/update', 'serviceUpdate')->name('admin.service.update');
+
+        //ユーザー同士のチャットの監視
+        Route::get('/admin-limited/user_chat/list', 'userChatList')->name('admin.user.chat.list');
+        Route::get('/admin-limited/user_chat/room/{room_id}', 'userChatRoom')->name('admin.user.chat.room');
+        Route::post('/admin-limited/user_chat/send', 'postUserChat')->name('admin.user.chat.send');
+        Route::post('/admin-limited/user_chat/stop', 'stopUserChat')->name('admin.user.chat.stop');
+        Route::post('/admin-limited/user_chat/unstop', 'unstopUserChat')->name('admin.user.chat.unstop');
     });
 
 

@@ -280,4 +280,102 @@ class AdminController extends Controller
 
         return redirect()->route('admin.service.detail', ['service_id' => $request->service_id]);
     }
+
+    public function userChatList(){
+        $items = ChatRoom::get()->filter(function ($item) {
+            $item->chat = Chat::where('room_id', $item->id)->orderByDesc('created_at')->first();
+            return $item->chat;
+        })->sortByDesc(function ($item) {
+            return $item->chat->created_at;
+        });
+
+        foreach ($items as $item) {
+            $service = Service::where('id', $item->service_id)->first();
+            $item->service_name = $service->main_title;
+
+            $buy_user = User::where('id', $item->buy_user)->first();
+            $sell_user = User::where('id', $item->sell_user)->first();
+            $item->buy_user = $buy_user->nickname;
+            $item->sell_user = $sell_user->nickname;
+
+            $item->create = Chat::where('room_id', $item->id)->orderBy('created_at', 'desc')->pluck('created_at')->first()->format('Y年m月d日 H時i分');
+            if($item->status == 'stopping'){
+                $item->stopping = '強制停止中';
+            }
+
+            if (Entry::where('service_id', $item->service_id)->where('buy_user', $buy_user->id)->where('sell_user', $sell_user->id)->exists()) {
+                $entry = Entry::where('service_id', $item->service_id)->where('buy_user', $buy_user->id)->where('sell_user', $sell_user->id)->first();
+
+                if ($entry->status == 'pending') {
+                    $item->entry_status = '相談中';
+                } elseif ($entry->status == 'approved') {
+                    $item->entry_status = '依頼中';
+                } elseif ($entry->status == 'unapproved') {
+                    $item->entry_status = '依頼非成立';
+                } elseif ($entry->status == 'paid') {
+                    $item->entry_status = '支払い対応済み';
+                } elseif ($entry->status == 'delivered') {
+                    $item->entry_status = '納品済み';
+                }
+            } else {
+                $item->entry_status = null;
+            }
+        }
+        return view('admin.user_chat.list', compact('items'));
+    }
+
+    public function userChatRoom($room_id){
+        $room = ChatRoom::where('id', $room_id)->first();
+        $sell_user = User::where('id', $room->sell_user)->first();
+        $buy_user = User::where('id', $room->buy_user)->first();
+        //チャット内容の表示
+        $chats = Chat::where('room_id', $room_id)->get();
+        foreach ($chats as $chat) {
+            $sender = User::where('id', $chat->sender_id)->first();
+            $chat->nickname = $sender->nickname;
+            $chat->img_url = $sender->img_url;
+        }
+
+        return view('admin.user_chat.room',compact('chats', 'sell_user', 'buy_user', 'room'));
+    }
+
+    public function postUserChat(Request $request){
+        if (is_null($request->input('message')) && !$request->hasFile('file_path')) {
+            return redirect()->back()->with('error', 'メッセージまたは画像を選択してください。');
+        }
+
+        $chat = new Chat;
+        // 画像ファイルを保存する処理
+        $chat->room_id = $request->room_id;
+        $chat->sender_id = $request->sender_id;
+        $chat->receiver_id = $request->receiver_id;
+        $chat->message = $request->input('message');
+        if ($request->hasFile('file_path')) {
+            $dir = 'in_chat';
+            $file = $request->file('file_path');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/' . $dir, $filename);
+            $chat->file = 'storage/in_chat/' . $filename;
+        }
+        $chat->save();
+        return redirect()->back();
+    }
+
+    public function stopUserChat(Request $request){
+        $chat_room = ChatRoom::where('id', $request->room_id)->first();
+
+        $chat_room->status = 'stopping';
+        $chat_room->save();
+
+        return redirect()->back();
+    }
+
+    public function unstopUserChat(Request $request){
+        $chat_room = ChatRoom::where('id', $request->room_id)->first();
+
+        $chat_room->status = null;
+        $chat_room->save();
+
+        return redirect()->back();
+    }
 }

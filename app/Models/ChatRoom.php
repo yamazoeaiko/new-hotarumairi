@@ -10,10 +10,11 @@ class ChatRoom extends Model
     use HasFactory;
 
     protected $fillable = [
-        'room_id',
-        'apply_id',
-        'consult_id',
-        'user_id_one',
-        'user_id_another',
+        'service_id',
+        'entry_id',
+        'agreement_id',
+        'buy_user',
+        'sell_user',
+        'status'
     ];
 }

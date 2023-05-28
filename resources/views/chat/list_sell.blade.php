@@ -33,8 +33,8 @@
           </div>
           <div class="col-3">
             <div class="row">
-              @if($item->status)
-              <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1 bg-success fw-bolder">{{ $item->status }}</small>
+              @if($item->entry_status)
+              <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1 bg-success fw-bolder">{{ $item->entry_status }}</small>
               @endif
             </div>
             <div class="row">

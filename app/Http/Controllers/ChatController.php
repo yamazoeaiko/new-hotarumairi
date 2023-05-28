@@ -51,18 +51,18 @@ class ChatController extends Controller
                     $entry = Entry::where('service_id', $item->service_id)->where('buy_user', $user_id)->where('sell_user', $theother->id)->first();
                     
                     if($entry->status == 'pending'){
-                        $item->status = '相談中';
+                        $item->entry_status = '相談中';
                     }elseif($entry->status == 'approved'){
-                        $item->status = '依頼中';
+                        $item->entry_status = '依頼中';
                     }elseif($entry->status == 'unapproved'){
-                        $item->status = '依頼非成立';
+                        $item->entry_status = '依頼非成立';
                     }elseif($entry->status == 'paid') {
-                        $item->status = '支払い対応済み';
+                        $item->entry_status = '支払い対応済み';
                     }elseif($entry->status =='delivered') {
-                        $item->status = '納品済み';
+                        $item->entry_status = '納品済み';
                     }
                 }else {
-                    $item->status = null;
+                    $item->entry_status = null;
                 }
             }
         }else{
@@ -106,18 +106,18 @@ class ChatController extends Controller
                         $entry = Entry::where('service_id', $item->service_id)->where('sell_user', $user_id)->where('buy_user', $theother->id)->first();
 
                         if ($entry->status == 'pending') {
-                            $item->status = '相談中';
+                            $item->entry_status = '相談中';
                         } elseif ($entry->status == 'approved') {
-                            $item->status = '依頼中';
+                            $item->entry_status = '依頼中';
                         } elseif ($entry->status == 'unapproved') {
-                            $item->status = '依頼非成立';
+                            $item->entry_status = '依頼非成立';
                         } elseif ($entry->status == 'paid') {
-                            $item->status = '支払い対応済み';
+                            $item->entry_status = '支払い対応済み';
                         } elseif ($entry->status == 'delivered') {
-                            $item->status = '納品済み';
+                            $item->entry_status = '納品済み';
                         }
                     } else {
-                        $item->status = null;
+                        $item->entry_status = null;
                     }
                 }
             }else {
