@@ -226,4 +226,121 @@ class AgreementController extends Controller
 
         return view('payment.success', compact('agreement','room'));
     }
+
+    public function buyerCancel($entry_id, $agreement_id, $payment_id) {
+        $entry = Entry::where('id', $entry_id)->first();
+        $item = Agreement::where('id', $agreement_id)->first();
+        $payment = Payment::where('id', $payment_id)->first();
+        $user_id = Auth::id();
+        $item->include_tax_price = $payment->include_tax_price;
+        $item->create = $payment->created_at;
+        $item->entry_id = $entry->id;
+        $item->payment_id = $payment->id;
+
+        return view('payment.cancel_buyer', compact('item'));
+    }
+
+    public function sellerCancel($entry_id, $agreement_id, $payment_id)
+    {
+        $entry = Entry::where('id', $entry_id)->first();
+        $item = Agreement::where('id', $agreement_id)->first();
+        $payment = Payment::where('id', $payment_id)->first();
+        $user_id = Auth::id();
+        $item->include_tax_price = $payment->include_tax_price;
+        $item->create = $payment->created_at;
+        $item->entry_id = $entry->id;
+        $item->payment_id = $payment->id;
+
+        return view('payment.cancel_seller', compact('item'));
+    }
+
+    public function cancelBuyerOffer(Request $request){
+        $entry = Entry::where('id', $request->entry_id)->first();
+        $agreement = Agreement::where('id', $request->agreement_id)->first();
+
+        $entry->status = 'cancel_pending';
+        $entry->save();
+        $agreement->status = 'cancel_pending';
+        $agreement->save();
+
+        $buy_user = User::where('id', $agreement->buy_user)->first();
+
+        //sell_userへのアナウンス
+        $announcement_s = new Announcement([
+            'title' =>  $buy_user->nickname . 'が'.$agreement->main_title.'のキャンセルを申請しました',
+            'description' =>  'キャンセル内容の確認をしてください',
+            'link' => 'mypage.service.list',
+        ]);
+        $announcement_s->save();
+
+        $announcementRead_s = new AnnouncementRead([
+            'user_id' => $agreement->sell_user,
+            'announcement_id' => $announcement_s->id,
+            'read' => false
+        ]);
+        $announcementRead_s->save();
+
+        //buy_userへのメッセージ
+        $announcement_b = new Announcement([
+            'title' =>   $agreement->main_title . 'のキャンセル申請を受け付けました。',
+            'description' =>  '管理者が確認中です',
+            'link' => 'chat.list',
+        ]);
+        $announcement_b->save();
+
+        $announcementRead_b = new AnnouncementRead([
+            'user_id' => $agreement->buy_user,
+            'announcement_id' => $announcement_b->id,
+            'read' => false
+        ]);
+        $announcementRead_b->save();
+
+        return redirect()->route('agreement.index',['agreement_id'=>$agreement->id]);
+    }
+
+    public function cancelSellerOffer(Request $request)
+    {
+        $entry = Entry::where('id', $request->entry_id)->first();
+        $agreement = Agreement::where('id', $request->agreement_id)->first();
+
+        $entry->status = 'cancel_pending';
+        $entry->save();
+        $agreement->status = 'cancel_pending';
+        $agreement->save();
+
+        $buy_user = User::where('id', $agreement->buy_user)->first();
+        $sell_user = User::where('id', $agreement->sell_user)->first();
+
+        //sell_userへのアナウンス
+        $announcement_s = new Announcement([
+            'title' =>  $agreement->main_title . 'のキャンセル申請を受け付けました',
+            'description' =>  '管理者確認中です',
+            'link' => 'mypage.service.list',
+        ]);
+        $announcement_s->save();
+
+        $announcementRead_s = new AnnouncementRead([
+            'user_id' => $agreement->sell_user,
+            'announcement_id' => $announcement_s->id,
+            'read' => false
+        ]);
+        $announcementRead_s->save();
+
+        //buy_userへのメッセージ
+        $announcement_b = new Announcement([
+            'title' =>  $sell_user->nickname.'さんが'. $agreement->main_title . 'のキャンセル申請をしました。',
+            'description' =>  '管理者が確認中です',
+            'link' => 'chat.list',
+        ]);
+        $announcement_b->save();
+
+        $announcementRead_b = new AnnouncementRead([
+            'user_id' => $agreement->buy_user,
+            'announcement_id' => $announcement_b->id,
+            'read' => false
+        ]);
+        $announcementRead_b->save();
+
+        return redirect()->route('agreement.index', ['agreement_id' => $agreement->id]);
+    }
 }

@@ -30,7 +30,7 @@ return new class extends Migration
             $table->decimal('commission', 8, 0)->comment('手数料');
             $table->string('session_id');
             $table->string('payment_intent');
-            $table->decimal('cancel_fee', 8, 0)->comment('運営側が受け取るキャンセル料（残りは返金）')->nullable();
+            $table->decimal('cancel_fee', 8, 0)->comment('ユーザーへの返金額')->nullable();
             $table->timestamps();
         });
     }

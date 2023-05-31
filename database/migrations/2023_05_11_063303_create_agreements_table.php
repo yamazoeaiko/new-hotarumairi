@@ -29,7 +29,7 @@ return new class extends Migration
             $table->decimal('price_net', 8, 0)->nullable()->comment('納品者への振込額（手数料10%計算）');
             $table->date('delivery_deadline')->nullable()->comment('納品締切日');
             $table->text('free')->nullable()->comment('自由記入欄');
-            $table->enum('status', ['pending', 'paid', 'unapproved'])->nullable();
+            $table->enum('status', ['pending', 'paid','unapproved', 'cancel_pending','canceled'])->nullable();
             $table->string('session_id')->comment('stripeのID')->nullable();
             $table->timestamps();
         });
