@@ -140,12 +140,12 @@ Route::controller(AgreementController::class)->group(function () {
     Route::post('/agreement/unapporoved', 'unapproved')->name('agreement.unapproved')->middleware('auth');
     Route::get('/payment/{agreement_id}', 'payment')->name('payment')->middleware('auth');
     Route::get('/payment/success/{agreement_id}', 'successPayment')->name('payment.success')->middleware('auth');
-    Route::get('/payment/cancel/offer/{entry_id}/{agreement_id}/{payment_id}', 'buyerCancel')->name('buyer.cancel.offer')->middleware('auth');
+    Route::get('/payment/cancel/offer/{entry_id}/{agreement_id}', 'buyerCancel')->name('buyer.cancel.offer')->middleware('auth');
     //出品者からのキャンセル
-    Route::get('/proceeds/cancel/offer/{entry_id}/{agreement_id}/{payment_id}', 'sellerCancel')->name('seller.cancel.offer')->middleware('auth');
+    Route::get('/proceeds/cancel/offer/{entry_id}/{agreement_id}', 'sellerCancel')->name('seller.cancel.offer')->middleware('auth');
     //購入者キャンセルオファー送信
-    Route::post('/cancel/offer/done', 'cancelBuyerOffer')->name('cancel.offer.buyer')->middleware('auth');
-    Route::post('/cancel/offer/done', 'cancelSellerOffer')->name('cancel.offer.seller')->middleware('auth');
+    Route::post('/cancel/buyer/offer/done', 'cancelBuyerOffer')->name('cancel.offer.buyer')->middleware('auth');
+    Route::post('/cancel/seller/offer/done', 'cancelSellerOffer')->name('cancel.offer.seller')->middleware('auth');
 });
 
 
@@ -182,6 +182,8 @@ Route::controller(AdminController::class)->group(function (){
         Route::post('/admin-limited/user_chat/send', 'postUserChat')->name('admin.user.chat.send');
         Route::post('/admin-limited/user_chat/stop', 'stopUserChat')->name('admin.user.chat.stop');
         Route::post('/admin-limited/user_chat/unstop', 'unstopUserChat')->name('admin.user.chat.unstop');
+        //キャンセル
+        Route::get('/admin-limited/cancel_offer/list', 'cancelOfferList')->name('cancel.offer.list');
     });
 
 

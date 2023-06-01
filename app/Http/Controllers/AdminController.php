@@ -378,4 +378,21 @@ class AdminController extends Controller
 
         return redirect()->back();
     }
+
+    public function cancelOfferList(){
+        $items = Agreement::where('status', 'cancel_pending')->get();
+        foreach ($items as $item){
+            $entry = Entry::where('id', $item->entry_id)->first();
+            $buy_user = User::where('id', $item->buy_user)->first();
+            $sell_user = User::where('id', $item->sell_user)->first();
+            $item->buy_user_name = $buy_user->nickname;
+            $item->sell_user_name = $sell_user->nickname;
+
+            $payment = Payment::where('entry_id', $entry->id)->where('agreement_id', $item->id)->where('buy_user', $buy_user->id)->first();
+            $item->include_tax_price = $payment->include_tax_price;
+            $item->payment_date = $payment->created_at;
+        }
+
+        return view('admin.cancel.list',compact('items'));
+    }
 }
