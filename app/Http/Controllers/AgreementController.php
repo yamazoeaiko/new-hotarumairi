@@ -11,6 +11,7 @@ use App\Models\Entry;
 use App\Models\Service;
 use App\Models\Agreement;
 use App\Models\Payment;
+use App\Models\Cancel;
 use Stripe\Stripe;
 use Illuminate\Support\Str;
 use App\Models\Announcement;
@@ -265,6 +266,15 @@ class AgreementController extends Controller
 
         $buy_user = User::where('id', $agreement->buy_user)->first();
 
+        $payment = Payment::where('entry_id', $entry->id)->where('agreement_id', $agreement->id)->where('buy_user', $buy_user->id)->first();
+
+        $cancel = new Cancel();
+        $cancel->status = 'pending';
+        $cancel->payment_id = $payment->id;
+        $cancel->agreement_id = $agreement->id;
+        $agreement->save();
+
+
         //sell_userへのアナウンス
         $announcement_s = new Announcement([
             'title' =>  $buy_user->nickname . 'が'.$agreement->main_title.'のキャンセルを申請しました',
@@ -325,6 +335,14 @@ class AgreementController extends Controller
 
         $buy_user = User::where('id', $agreement->buy_user)->first();
         $sell_user = User::where('id', $agreement->sell_user)->first();
+
+        $payment = Payment::where('entry_id', $entry->id)->where('agreement_id', $agreement->id)->where('buy_user', $buy_user->id)->first();
+
+        $cancel = new Cancel();
+        $cancel->status = 'pending';
+        $cancel->payment_id = $payment->id;
+        $cancel->agreement_id = $agreement->id;
+        $agreement->save();
 
         //sell_userへのアナウンス
         $announcement_s = new Announcement([

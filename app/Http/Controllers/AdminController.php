@@ -13,6 +13,7 @@ use App\Models\Service;
 use App\Models\ServiceCategory;
 use App\Models\Agreement;
 use App\Models\Payment;
+use App\Models\Cancel;
 use Stripe\Stripe;
 use Illuminate\Support\Str;
 use App\Models\Announcement;
@@ -380,19 +381,28 @@ class AdminController extends Controller
     }
 
     public function cancelOfferList(){
-        $items = Agreement::where('status', 'cancel_pending')->get();
+        $items = Cancel::where('status', 'pending')->get();
         foreach ($items as $item){
-            $entry = Entry::where('id', $item->entry_id)->first();
-            $buy_user = User::where('id', $item->buy_user)->first();
-            $sell_user = User::where('id', $item->sell_user)->first();
+            $agreement = Agreement::where('id', $item->agreement_id)->first();
+
+            $item->main_title = $agreement->main_title;
+            $entry = Entry::where('id', $agreement->entry_id)->first();
+            $buy_user = User::where('id', $agreement->buy_user)->first();
+            $sell_user = User::where('id', $agreement->sell_user)->first();
             $item->buy_user_name = $buy_user->nickname;
             $item->sell_user_name = $sell_user->nickname;
 
-            $payment = Payment::where('entry_id', $entry->id)->where('agreement_id', $item->id)->where('buy_user', $buy_user->id)->first();
+            $payment = Payment::where('id', $item->payment_id)->first();
             $item->include_tax_price = $payment->include_tax_price;
             $item->payment_date = $payment->created_at;
+
+            $item->payment_id = $payment->id;
         }
 
         return view('admin.cancel.list',compact('items'));
+    }
+
+    public function cancelOfferDetail(Request $request){
+        
     }
 }

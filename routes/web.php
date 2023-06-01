@@ -184,6 +184,9 @@ Route::controller(AdminController::class)->group(function (){
         Route::post('/admin-limited/user_chat/unstop', 'unstopUserChat')->name('admin.user.chat.unstop');
         //キャンセル
         Route::get('/admin-limited/cancel_offer/list', 'cancelOfferList')->name('cancel.offer.list');
+        Route::get('/admin-limited/cancel_offer/detail/{agreement_id}', 'cancelOfferDetail')->name('cancel.offer.detail');
+        Route::post('/admin-limited/cancel/approve', 'approveCancel')->name('admin.cancel.approve');
+        Route::post('/admin-limited/cancel/unapprove', 'unapproveCancel')->name('admin.cancel.unapprove');
     });
 
 
