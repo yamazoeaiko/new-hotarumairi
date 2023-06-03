@@ -44,7 +44,8 @@
     <button class="btn btn-danger my-1 mx-2" onclick="location.href='{{route('payment',['agreement_id'=>$item->id])}}'">承認（支払い画面へ）</button>
     <form action="{{ route('agreement.unapproved') }}" method="post">
       @csrf
-      <button type="submit" class="btn btn-outline-danger">辞退する</button>
+      <input type="hidden" name="agreement_id" value="{{$item->id}}">
+      <button type="submit" class="btn btn-outline-danger" onclick="return confirm('この見積もり提案を辞退しますか？辞退すると復元できません。')">辞退する</button>
     </form>
     @elseif($item->status == 'unapproved')
     <button class="btn btn-danger" disabled>辞退しました</button>
@@ -63,7 +64,8 @@
     <button class="btn btn-danger my-1 mx-2" onclick="location.href='{{route('agreement.edit',['agreement_id'=>$item->id])}}'">お見積もり修正</button>
     <form action="{{ route('agreement.cancel') }}" method="post">
       @csrf
-      <button type="submit" class="btn btn-outline-danger">キャンセルする</button>
+      <input type="hidden" name="agreement_id" value="{{$item->id}}">
+      <button type="submit" class="btn btn-outline-danger" onclick="return confirm('この見積もり提案をキャンセルしますか？キャンセルすると復元できません。')">キャンセルする</button>
     </form>
     @elseif($item->status == 'unapproved')
     <button class="btn btn-danger my-1 mx-2" onclick="location.href='{{route('agreement.edit',['agreement_id'=>$item->id])}}'">お見積もり修正して再提案</button>

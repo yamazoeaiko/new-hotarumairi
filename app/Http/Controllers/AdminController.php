@@ -398,12 +398,141 @@ class AdminController extends Controller
             $item->payment_date = $payment->created_at;
 
             $item->payment_id = $payment->id;
+
+            if($agreement->status == 'canceled'){
+                $item->status_name = 'キャンセル済み';
+            }elseif($agreement->status == 'cancel_pending'){
+                $item->status_name ='未対応';
+            }elseif($agreement->status == 'paid'){
+                $item->status_name = 'キャンセル取り消し済み';
+            }
         }
 
         return view('admin.cancel.offer_list',compact('items'));
     }
 
-    public function cancelOfferDetail(Request $request){
+    public function cancelOfferDetail($cancel_id){
+        $item = Cancel::where('id', $cancel_id)->first();
+        $agreement = Agreement::where('id', $item->agreement_id)->first();
+        $item->main_title = $agreement->main_title;
+        $item->buy_user_name = User::where('id', $agreement->buy_user)->value('nickname');
+        $item->sell_user_name = User::where('id', $agreement->sell_user)->value('nickname');
 
+        $payment = Payment::where('id', $item->payment_id)->first();
+        $item->include_tax_price = $payment->include_tax_price;
+
+        if($agreement->status == 'cancel_pending'){
+            $item->status_name = 'cancel_pending';
+        }elseif($agreement->status == 'canceled'){
+            $item->status_name = 'canceled';
+        }elseif($agreement->status == 'paid'){
+            $item->status_name = 'paid';
+        }
+
+        
+        return view('admin.cancel.offer_detail', compact('item'));
+    }
+
+    public function approveCancel(Request $request){
+        $cancel = Cancel::where('id', $request->cancel_id)->first();
+        $payment= Payment::where('id', $cancel->payment_id)->first();
+        $agreement = Agreement::where('id', $payment->agreement_id)->first();
+        $entry = Entry::where('id', $agreement->entry_id)->first();
+
+        $entry->status = 'canceled';
+        $entry->save();
+
+        $agreement->status = 'canceled';
+        $agreement->save();
+
+        $payment->cancel_fee = $payment->include_tax_price;
+        $payment->save();
+
+        $cancel->refund = 'will_refund';
+        $cancel->save();
+
+        //sell_userへのアナウンス
+        $announcement_s = new Announcement([
+            'title' =>  $agreement->main_title . 'のキャンセルが承認されました',
+            'description' =>  'キャンセル済み',
+            'link' => 'mypage.service.list',
+        ]);
+        $announcement_s->save();
+
+        $announcementRead_s = new AnnouncementRead([
+            'user_id' => $agreement->sell_user,
+            'announcement_id' => $announcement_s->id,
+            'read' => false
+        ]);
+        $announcementRead_s->save();
+
+        //buy_userへのメッセージ
+        $announcement_b = new Announcement([
+            'title' =>
+            $agreement->main_title . 'のキャンセルが承認されました',
+            'description' =>  'キャンセル済み',
+            'link' => 'chat.list',
+        ]);
+        $announcement_b->save();
+
+        $announcementRead_b = new AnnouncementRead([
+            'user_id' => $agreement->buy_user,
+            'announcement_id' => $announcement_b->id,
+            'read' => false
+        ]);
+        $announcementRead_b->save();
+
+
+        return redirect()->route('admin.cancel.offer.detail',['cancel_id'=> $cancel->id]);
+    }
+
+    public function unapproveCancel(Request $request)
+    {
+        $cancel = Cancel::where('id', $request->cancel_id)->first();
+        $payment = Payment::where('id', $cancel->payment_id)->first();
+        $agreement = Agreement::where('id', $payment->agreement_id)->first();
+        $entry = Entry::where('id', $agreement->entry_id)->first();
+
+        $entry->status = 'paid';
+        $entry->save();
+
+        $agreement->status = 'paid';
+        $agreement->save();
+
+        $cancel->refund = 'not_haveto_refund';
+        $cancel->save();
+
+        //sell_userへのアナウンス
+        $announcement_s = new Announcement([
+            'title' =>  $agreement->main_title . 'のキャンセルは認められませんでした。',
+            'description' =>  'キャンセルできてません',
+            'link' => 'mypage.service.list',
+        ]);
+        $announcement_s->save();
+
+        $announcementRead_s = new AnnouncementRead([
+            'user_id' => $agreement->sell_user,
+            'announcement_id' => $announcement_s->id,
+            'read' => false
+        ]);
+        $announcementRead_s->save();
+
+        //buy_userへのメッセージ
+        $announcement_b = new Announcement([
+            'title' =>
+            $agreement->main_title . 'のキャンセルは認められませんでした',
+            'description' =>  'キャンセルできてません',
+            'link' => 'chat.list',
+        ]);
+        $announcement_b->save();
+
+        $announcementRead_b = new AnnouncementRead([
+            'user_id' => $agreement->buy_user,
+            'announcement_id' => $announcement_b->id,
+            'read' => false
+        ]);
+        $announcementRead_b->save();
+
+        return redirect()->route('admin.cancel.offer.detail', ['cancel_id' => $cancel->id]);
     }
 }

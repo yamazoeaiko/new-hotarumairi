@@ -229,7 +229,92 @@ class AgreementController extends Controller
     }
 
     public function unapproved(Request $request){
-        //未作成
+        $agreement = Agreement::where('id', $request->agreement_id)->first();
+        $entry = Entry::where('id', $agreement->entry_id)->first();
+
+        $buy_user = User::where('id', $agreement->buy_user)->first();
+        $sell_user = User::where('id', $agreement->sell_user)->first();
+
+        //sell_userへのアナウンス
+        $announcement_s = new Announcement([
+            'title' =>  $buy_user->nickname . 'が'.$agreement->main_title. 'の見積り提案を辞退しました',
+            'description' => $agreement->main_title . '見積もり辞退です',
+            'link' => 'mypage.service.list',
+        ]);
+        $announcement_s->save();
+
+        $announcementRead_a = new AnnouncementRead([
+            'user_id' => $agreement->sell_user,
+            'announcement_id' => $announcement_s->id,
+            'read' => false
+        ]);
+        $announcementRead_a->save();
+
+        //buy_userへのメッセージ
+        $announcement_b = new Announcement([
+            'title' =>  $agreement->main_title . 'の見積もり提案を辞退しました',
+            'description' =>  '見積もり辞退',
+            'link' => 'chat.list',
+        ]);
+        $announcement_b->save();
+
+        $announcementRead_b = new AnnouncementRead([
+            'user_id' => $agreement->buy_user,
+            'announcement_id' => $announcement_b->id,
+            'read' => false
+        ]);
+        $announcementRead_b->save();
+
+        $agreement->delete();
+        $entry->status = 'pending';
+        $entry->save();
+
+        return redirect()->route('chat.list');
+    }
+
+    public function cancel(Request $request){
+        $agreement = Agreement::where('id', $request->agreement_id)->first();
+        $entry = Entry::where('id', $agreement->entry_id)->first();
+
+        $buy_user = User::where('id', $agreement->buy_user)->first();
+        $sell_user = User::where('id', $agreement->sell_user)->first();
+
+        //sell_userへのアナウンス
+        $announcement_s = new Announcement([
+            'title' =>  $agreement->main_title . 'の'.$buy_user->nickname.'に提案中の見積もりを取り下げました',
+            'description' => $agreement->main_title . '見積もり取り下げです',
+            'link' => 'mypage.service.list',
+        ]);
+        $announcement_s->save();
+
+        $announcementRead_a = new AnnouncementRead([
+            'user_id' => $agreement->sell_user,
+            'announcement_id' => $announcement_s->id,
+            'read' => false
+        ]);
+        $announcementRead_a->save();
+
+        //buy_userへのメッセージ
+        $announcement_b = new Announcement([
+            'title' =>  $agreement->main_title . 'の見積もり提案が取り下げられました',
+            'description' =>  '見積もり取り下げ',
+            'link' => 'chat.list',
+        ]);
+        $announcement_b->save();
+
+        $announcementRead_b = new AnnouncementRead([
+            'user_id' => $agreement->buy_user,
+            'announcement_id' => $announcement_b->id,
+            'read' => false
+        ]);
+        $announcementRead_b->save();
+
+        $agreement->delete();
+        $entry->status = 'pending';
+        $entry->save();
+
+        return redirect()->route('chat.list');
+
     }
 
     public function buyerCancel($entry_id, $agreement_id) {

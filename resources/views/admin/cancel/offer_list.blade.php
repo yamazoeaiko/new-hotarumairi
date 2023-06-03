@@ -7,7 +7,7 @@
     未対応のキャンセルリクエストはありません。
     @endif
     @foreach($items as $item)
-    <button class="list-group-item list-group-action" onClick="location.href='{{route('admin.cancel.offer.detail',['agreement_id'=>$item->id])}}'">
+    <button class="list-group-item list-group-action" onClick="location.href='{{route('admin.cancel.offer.detail',['cancel_id'=>$item->id])}}'">
       <div class="no-gutters">
         <div class="row">
           <div class="col-8">
@@ -21,7 +21,12 @@
         <div class="row px-2">
           <div class="col d-flex"><span class="fs-7 fw-bolder">購入者：</span><span class="fs-6">{{$item->buy_user_name}}</span></div>
 
-          <div class="col d-flex"><span class="fs-7 fw-bolder offset-2">販売者：</span><span class="fs-6">{{$item->sell_user_name}}</span></div>
+          <div class="col d-flex">
+            <span class="fs-7 fw-bolder offset-2">販売者：</span><span class="fs-6">{{$item->sell_user_name}}</span>
+          </div>
+        </div>
+        <div>
+          <small class="rounded-pill border mb-1 p-1">{{ $item->status_name}}</small>
         </div>
       </div>
     </button>
