@@ -228,6 +228,10 @@ class AgreementController extends Controller
         return view('payment.success', compact('agreement','room'));
     }
 
+    public function unapproved(Request $request){
+        //未作成
+    }
+
     public function buyerCancel($entry_id, $agreement_id) {
         $entry = Entry::where('id', $entry_id)->first();
         $item = Agreement::where('id', $agreement_id)->first();
@@ -272,7 +276,7 @@ class AgreementController extends Controller
         $cancel->status = 'pending';
         $cancel->payment_id = $payment->id;
         $cancel->agreement_id = $agreement->id;
-        $agreement->save();
+        $cancel->save();
 
 
         //sell_userへのアナウンス
@@ -309,7 +313,7 @@ class AgreementController extends Controller
         $announcement_admin = new Announcement([
             'title' =>  $buy_user->nickname . 'から' . $agreement->main_title . 'のキャンセル申請があります。',
             'description' =>  '管理者が確認中です',
-            'link' => 'admin.cancel_offer.list',
+            'link' => 'admin.cancel.offer.list',
         ]);
         $announcement_admin->save();
 
@@ -342,7 +346,7 @@ class AgreementController extends Controller
         $cancel->status = 'pending';
         $cancel->payment_id = $payment->id;
         $cancel->agreement_id = $agreement->id;
-        $agreement->save();
+        $cancel->save();
 
         //sell_userへのアナウンス
         $announcement_s = new Announcement([
@@ -378,7 +382,7 @@ class AgreementController extends Controller
         $announcement_admin = new Announcement([
             'title' =>  $sell_user->nickname . 'から' . $agreement->main_title . 'のキャンセル申請があります。',
             'description' =>  '管理者が確認中です',
-            'link' => 'admin.cancel_offer.list',
+            'link' => 'admin.cancel.offer.list',
         ]);
         $announcement_admin->save();
 

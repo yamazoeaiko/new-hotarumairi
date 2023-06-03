@@ -95,13 +95,6 @@ Route::controller(ChatController::class)->group(
     }
 );
 
-Route::controller(AnnouncementController::class)->group(function () {
-    Route::get('/announcement', 'index')->name('announcement.index');
-    Route::get('/announcement/list', 'list')->name('announcement.list');
-    Route::get('/announcement/show', 'show')->name('announcement.show');
-});
-
-
 Route::controller(FavoriteController::class)->group(function () {
     Route::post('/service/{service_id}/favorite', 'favorite')->name('favorite');
     Route::post('/service/{service_id}/unfavorite', 'unfavorite')->name('unfavorite');
@@ -153,6 +146,12 @@ Route::controller(AnnouncementController::class)->group(function () {
     Route::get('/announcement', 'index')->name('announcement.index')->middleware('auth');
 
     Route::post('/announcement-read', 'read')->name('announcement.read');
+
+
+    //管理画面用
+    Route::get('/admin-limited/announcement', 'adminIndex')->name('admin.announcement.index');
+
+    Route::post('/admin-limited/announcement-read', 'adminRead')->name('admin.announcement.read');
 });
 
 Route::controller(PaymentController::class)->group(
@@ -183,8 +182,8 @@ Route::controller(AdminController::class)->group(function (){
         Route::post('/admin-limited/user_chat/stop', 'stopUserChat')->name('admin.user.chat.stop');
         Route::post('/admin-limited/user_chat/unstop', 'unstopUserChat')->name('admin.user.chat.unstop');
         //キャンセル
-        Route::get('/admin-limited/cancel_offer/list', 'cancelOfferList')->name('cancel.offer.list');
-        Route::get('/admin-limited/cancel_offer/detail/{agreement_id}', 'cancelOfferDetail')->name('cancel.offer.detail');
+        Route::get('/admin-limited/cancel_offer/list', 'cancelOfferList')->name('admin.cancel.offer.list');
+        Route::get('/admin-limited/cancel_offer/detail/{agreement_id}', 'cancelOfferDetail')->name('admin.cancel.offer.detail');
         Route::post('/admin-limited/cancel/approve', 'approveCancel')->name('admin.cancel.approve');
         Route::post('/admin-limited/cancel/unapprove', 'unapproveCancel')->name('admin.cancel.unapprove');
     });

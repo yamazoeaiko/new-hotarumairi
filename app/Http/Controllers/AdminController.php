@@ -382,6 +382,7 @@ class AdminController extends Controller
 
     public function cancelOfferList(){
         $items = Cancel::where('status', 'pending')->get();
+        
         foreach ($items as $item){
             $agreement = Agreement::where('id', $item->agreement_id)->first();
 
@@ -399,10 +400,10 @@ class AdminController extends Controller
             $item->payment_id = $payment->id;
         }
 
-        return view('admin.cancel.list',compact('items'));
+        return view('admin.cancel.offer_list',compact('items'));
     }
 
     public function cancelOfferDetail(Request $request){
-        
+
     }
 }
