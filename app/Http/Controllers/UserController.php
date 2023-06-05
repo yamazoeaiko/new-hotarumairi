@@ -5,17 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Gender;
 use App\Models\Area;
-use App\Models\Plan;
-use App\Models\OhakamairiSummary;
-use App\Models\SanpaiSummary;
-use App\Models\HotaruRequest;
-use App\Models\Apply;
-use App\Models\Confirm;
 use App\Models\Payment;
 use App\Models\Chat;
 use App\Models\ChatRoom;
+use App\Models\Favorite;
+use App\Models\Service;
+use App\Models\Follow;
+use App\Models\ServiceCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
@@ -131,5 +128,46 @@ class UserController extends Controller
         $item->living_area = Area::where('id', $item->living_area)->value('name');
 
         return redirect()->route('myprofile.index', compact('item'));
+    }
+
+    public function favoriteFollow(){
+        $user_id = Auth::id();
+
+        $favorites = Favorite::orderBy('created_at', 'desc')
+        ->where('user_id', $user_id)
+        ->get();
+        foreach($favorites as $favorite){
+            $item = Service::where('id', $favorite->favorite_id)->first();
+
+            if ($item->category_ids) {
+                $favorite->categories = ServiceCategory::whereIn('id', $item->category_ids)->get();
+
+                foreach ($favorite->categories as $value) {
+                    $data = ServiceCategory::where('id', $value->id)->first();
+                    $value->category_name = $data->name;
+                }
+            }
+            $provider = User::where('id', $item->offer_user_id)->first();
+
+            $favorite->profile_image = $provider->img_url;
+            $favorite->provider_name = $provider->nickname;
+
+            $favorite->photo_1 = $item->photo_1;
+            $favorite->price = $item->price;
+        }
+
+        $follows = Follow::orderBy('created_at', 'desc')
+        ->where('user_id', $user_id)
+        ->get();
+
+        foreach($follows as $follow){
+            $user = User::where('id', $follow->follow_id)->first();
+
+            $follow->img_url = $user->img_url;
+            $follow->user_name = $user->nickname;
+        }
+
+
+        return view('mypage.favorite_follow.list', compact('favorites', 'follows'));
     }
 }
