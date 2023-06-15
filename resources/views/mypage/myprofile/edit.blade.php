@@ -12,7 +12,7 @@
     </div>
     <form method="post" action="{{route('myprofile.update')}}" enctype="multipart/form-data">
       @csrf
-      <input type="file" name="image">
+      <input type="file" accept=".png, .jpeg, .jpg" name="image">
       <table class="table">
         <tr>
           <th>ニックネーム</th>

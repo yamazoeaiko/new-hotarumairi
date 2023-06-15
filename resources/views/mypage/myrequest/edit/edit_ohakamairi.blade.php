@@ -51,7 +51,7 @@
       <label for="offering" class="fw-bolder">お供え物・墓花・お線香マナーなどのご要望があれば</label>
       <textarea name="offering" id="offering" class="form-control" rows="3">{{ $item->offering }}</textarea>
       <div class="my-2">
-        <input type="file" name="img_url" class="form-control" accept="image/png, image/jpeg">
+        <input type="file" accept=".png, .jpeg, .jpg" name="img_url" class="form-control" accept="image/png, image/jpeg">
       </div>
       <a href="{{asset($item->img_url)}}">添付画像</a>
     </div>

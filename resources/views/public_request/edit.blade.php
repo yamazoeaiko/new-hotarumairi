@@ -45,7 +45,7 @@
       @if($item->photo_1)
       <a href="{{asset($item->photo_1)}}">画像①</a>
       @endif
-      <input type="file" class="form-control" name="photo_1" value="{{$item->photo_1}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_1" value="{{$item->photo_1}}">
     </div>
 
     <div class="form-group mb-3">
@@ -53,7 +53,7 @@
       @if($item->photo_2)
       <a href="{{asset($item->photo_2)}}">画像②</a>
       @endif
-      <input type="file" class="form-control" name="photo_2" value="{{$item->photo_2}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_2" value="{{$item->photo_2}}">
     </div>
 
     <div class="form-group mb-3">
@@ -61,7 +61,7 @@
       @if($item->photo_3)
       <a href="{{asset($item->photo_3)}}">画像③</a>
       @endif
-      <input type="file" class="form-control" name="photo_3" value="{{$item->photo_3}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_3" value="{{$item->photo_3}}">
     </div>
 
     <div class="form-group mb-3">
@@ -69,7 +69,7 @@
       @if($item->photo_4)
       <a href="{{asset($item->photo_4)}}">画像④</a>
       @endif
-      <input type="file" class="form-control" name="photo_4" value="{{$item->photo_4}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_4" value="{{$item->photo_4}}">
     </div>
     <div class="text-danger fs-7">画像やファイルが５点以上になる場合は、別途チャットで送付できます。</div>
 

@@ -72,7 +72,7 @@
     <div class="mb-3">
       <label for="img_url" class="form-label fw-bolder">購入したいもの(正式名称、金額、参考URL、画像)</label>
       <div class="my-2">
-        <input type="file" name="img_url" class="form-control" accept="image/png, image/jpeg">
+        <input type="file" accept=".png, .jpeg, .jpg" name="img_url" class="form-control" accept="image/png, image/jpeg">
       </div>
       <a href="{{asset($item->img_url)}}">添付画像</a>
     </div>

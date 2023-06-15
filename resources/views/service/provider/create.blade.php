@@ -25,7 +25,7 @@
       </div>
       @endif
     </div>
-    
+
 
     <div class="mb-3">
       <label for="category_id" class="fw-bolder">出品カテゴリー(複数選択可能)<span class="fs-7 text-danger ">※必須</span></label>
@@ -44,7 +44,7 @@
 
     <div class="form-group">
       <label class="fw-bolder" for="photo_1">イメージ画像（１枚目）<span class="fs-7 text-danger ">※イメージ画像１枚は必須</span></label>
-      <input type="file" class="form-control" name="photo_1" value="{{old('photo_1')}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_1" value="{{old('photo_1')}}">
       @if($errors->has('photo_1'))
       <div class="fs-8 text-danger">エラー：画像最低１枚は必須です。
       </div>
@@ -53,37 +53,37 @@
 
     <div class="form-group">
       <label class="fw-bolder" for="photo_2">イメージ画像（２枚目）<span class="fs-7 text-secondary ">※２枚目以降は任意</span></label>
-      <input type="file" class="form-control" name="photo_2" value="{{old('photo_2')}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_2" value="{{old('photo_2')}}">
     </div>
 
     <div class="form-group">
       <label class="fw-bolder" for="photo_3">イメージ画像（３枚目）</label>
-      <input type="file" class="form-control" name="photo_3" value="{{old('photo_3')}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_3" value="{{old('photo_3')}}">
     </div>
 
     <div class="form-group">
       <label class="fw-bolder" for="photo_4">イメージ画像（４枚目）</label>
-      <input type="file" class="form-control" name="photo_4" value="{{old('photo_4')}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_4" value="{{old('photo_4')}}">
     </div>
 
     <div class="form-group">
       <label class="fw-bolder" for="photo_5">イメージ画像（５枚目）</label>
-      <input type="file" class="form-control" name="photo_5" value="{{old('photo_5')}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_5" value="{{old('photo_5')}}">
     </div>
 
     <div class="form-group">
       <label class="fw-bolder" for="photo_6">イメージ画像（６枚目）</label>
-      <input type="file" class="form-control" name="photo_6" value="{{old('photo_6')}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_6" value="{{old('photo_6')}}">
     </div>
 
     <div class="form-group">
       <label class="fw-bolder" for="photo_7">イメージ画像（７枚目）</label>
-      <input type="file" class="form-control" name="photo_7" value="{{old('photo_7')}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_7" value="{{old('photo_7')}}">
     </div>
 
     <div class="form-group">
       <label class="fw-bolder" for="photo_8">イメージ画像（８枚目）</label>
-      <input type="file" class="form-control" name="photo_8" value="{{old('photo_8')}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_8" value="{{old('photo_8')}}">
     </div>
 
     <div class="mb-3">

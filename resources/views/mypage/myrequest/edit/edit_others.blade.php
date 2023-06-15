@@ -42,7 +42,7 @@
     <div class="mb-3">
       <label for="image" class="form-label fw-bolder">画像添付(任意)</label>
       <div class="my-2">
-        <input type="file" name="img_url" class="form-control" accept="image/png, image/jpeg">
+        <input type="file" accept=".png, .jpeg, .jpg" name="img_url" class="form-control" accept="image/png, image/jpeg">
       </div>
       <a href="{{asset($item->img_url)}}">添付画像</a>
     </div>

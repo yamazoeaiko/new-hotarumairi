@@ -29,9 +29,9 @@
           <p class="card-text mb-0">
             <small class="text-muted">年齢：</small>@if ($item->age >= 10 && $item->age < 20) 10代 @elseif ($item->age >= 20 && $item->age < 30) 20代 @elseif ($item->age >= 30 && $item->age < 40) 30代 @elseif ($item->age >= 40 && $item->age < 50) 40代 @elseif ($item->age >= 50 && $item->age < 60) 50代 @elseif ($item->age >= 60 && $item->age < 70) 60代 @elseif ($item->age >= 70 && $item->age < 80) 70代 @elseif ($item->age >= 80 && $item->age < 90) 80代 @elseif ($item->age >= 90 && $item->age < 100) 90代 @else その他の年齢 @endif </p>
 
-            <p class="card-text mb-0">
-               <small class="text-muted">住まい地域：</small>{{ $item->living_area }}
-            </p>
+                              <p class="card-text mb-0">
+                                <small class="text-muted">住まい地域：</small>{{ $item->living_area }}
+                              </p>
         </div>
 
         <div class="mb-3">
@@ -118,7 +118,7 @@
             <div class="input-group">
               <textarea name="first_chat" class="text-start input-group-text is-valid my-3" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
               <div class="form-group">
-                <input type="file" name="file_path">
+                <input type="file" accept=".png, .jpeg, .jpg" name="file_path">
               </div>
               <div class="input-group-append">
                 <button class="btn btn-outline-primary" type="submit">送信</button>

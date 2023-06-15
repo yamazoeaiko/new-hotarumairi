@@ -76,7 +76,7 @@
                 <div class="input-group h-100">
                   <textarea name="message" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
                   <div class="form-group">
-                    <input type="file" name="file_path">
+                    <input type="file" accept=".png, .jpeg, .jpg" name="file_path">
                   </div>
                   <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="submit">送信</button>

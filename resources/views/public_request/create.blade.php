@@ -30,22 +30,22 @@
 
     <div class="form-group">
       <label class="fw-bolder" for="photo_1">依頼内容に関する画像やファイル（１枚目）<span class="fs-7 text-secondary">※任意</span></label>
-      <input type="file" class="form-control" name="photo_1" value="{{old('photo_1')}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_1" value="{{old('photo_1')}}">
     </div>
 
     <div class="form-group">
       <label class="fw-bolder" for="photo_2">依頼内容に関する画像やファイル（２枚目）<span class="fs-7 text-secondary">※任意</span></label>
-      <input type="file" class="form-control" name="photo_2" value="{{old('photo_2')}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_2" value="{{old('photo_2')}}">
     </div>
 
     <div class="form-group">
       <label class="fw-bolder" for="photo_3">依頼内容に関する画像やファイル（３枚目）<span class="fs-7 text-secondary">※任意</span></label>
-      <input type="file" class="form-control" name="photo_3" value="{{old('photo_3')}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_3" value="{{old('photo_3')}}">
     </div>
 
     <div class="form-group">
       <label class="fw-bolder" for="photo_4">依頼内容に関する画像やファイル（４枚目）<span class="fs-7 text-secondary">※任意</span></label>
-      <input type="file" class="form-control" name="photo_4" value="{{old('photo_4')}}">
+      <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_4" value="{{old('photo_4')}}">
     </div>
     <div class="text-danger fs-7">画像やファイルが５点以上になる場合は、別途チャットで送付できます。</div>
     <div class="mb-3">
