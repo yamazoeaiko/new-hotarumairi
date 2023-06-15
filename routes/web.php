@@ -57,6 +57,7 @@ Route::controller(ServiceController::class)->group(function () {
     Route::post('/public_request/create/done', 'PubreqDone')->name('pubreq.create.done')->middleware('auth');
     Route::post('/service/destroy', 'destroy')->name('service.destroy')->middleware('auth');
     Route::get('/mypage/service/list', 'getMyServiceList')->name('mypage.service.list')->middleware('auth');
+    Route::get('/mypage/pubreq_request/list', 'getMyPubreqList')->name('mypage.pubreq.list')->middleware('auth');
     Route::get('/mypage/service/edit/{service_id}', 'getMyServiceEdit')->name('mypage.service.edit')->middleware('auth');
     Route::post('/mypage/service/update', 'updateMyService')->name('mypage.service.update')->middleware('auth');
 
@@ -82,6 +83,8 @@ Route::controller(UserController::class)->group(
         Route::get('/mypage/myrequest/detail/{service_id}', 'getMyRequestDetail')->name('mypage.myrequest.detail')->middleware('auth');
 
         Route::get('/user/profile/{user_id}', 'getUserProfile')->name('user.profile')->middleware('auth');
+
+        Route::get('/user/detail/{user_id}', 'getUserDetail')->name('user.detail')->middleware('auth');
     }
 );
 

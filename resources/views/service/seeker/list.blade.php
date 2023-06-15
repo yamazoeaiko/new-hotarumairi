@@ -3,32 +3,34 @@
 @section('content')
 <div class="container">
   <div class="my-5">
-    <h5>販売者の管理画面</h5>
-    <button class="btn btn-primary" onClick="location.href='{{ route('service.create') }}'">サービスを出品する</button>
-    @if($items->isEmpty())
+    <h5>購入者の管理画面</h5>
+    <button class="btn btn-primary" onClick="location.href='{{ route('pubreq.create') }}'">公開依頼する</button>
+
+  <div class="my-5">
+    <h5>公開した依頼</h5>
+    @if($requests->isEmpty())
     <div>
-      <span>現在あなたが出品しているサービスはございません</span>
+      <span>現在公開中の依頼はございません</span>
     </div>
     @endif
     <div class="list-group">
-      @foreach($items as $item)
-      <button onClick="location.href='{{route('service.detail', ['service_id' => $item->id])}}'" class="list-group-item list-group-item-action">
+      @foreach($requests as $request)
+      <button onClick="location.href='{{route('pubreq.detail', ['service_id' => $request->id])}}'" class="list-group-item list-group-item-action">
         <div class="row">
-          <div class="col-8 fw-bolder fs-5">{{$item->main_title}}</div>
-          <div class="col-4">サービス価格：{{$item->price}}円（税別）</div>
+          <div class="col-8 fw-bolder fs-5">{{$request->main_title}}</div>
+          <div class="col-4">予算：{{$request->price}}円（税別）</div>
         </div>
         <div class="row">
-          <p class="text-muted small text-left ml-auto" style="text-align: left !important;">{{ $item->content }}</p>
+          <p class="text-muted small text-left ml-auto" style="text-align: left !important;">{{ $request->content }}</p>
         </div>
       </button>
       @endforeach
     </div>
   </div>
-
   <div class="my-3">
-    <h5>提案しているお見積り・内容相談など</h5>
+    <h5>相談・提案を受けたお見積もりなど</h5>
     @if($room ==null)
-    <span>出品サービスへの相談はありません。</span>
+    <span>相談中の案件はありません。</span>
     @else
     @foreach($consults as $consult)
     <button onClick="location.href='{{route('chat.room', ['room_id' => $room->id])}}'" class="list-group-item list-group-item-action">
@@ -40,7 +42,7 @@
             </div>
           </div>
           <div class="col-6">
-            <h5 class="font-weight-bold mb-0">{{ $consult->consulted_user_name }}</h5>
+            <h5 class="font-weight-bold mb-0">{{ $consult->consulting_user_name }}</h5>
           </div>
           <div class="col-4 text-right">
             <p class="text-muted small">{{ date('Y年m月d日h時m分', strtotime($consult->created_at)) }}</p>

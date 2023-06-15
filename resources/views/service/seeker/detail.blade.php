@@ -56,11 +56,10 @@
             {{$item->user_name}}
           </p>
           <p class="card-text mb-0">
-            <small class="text-muted">年齢：</small>{{ $item->age }}歳
-          </p>
-          <p class="card-text mb-0">
-            <small class="text-muted">住まい地域：</small>{{ $item->living_area }}
-          </p>
+            <small class="text-muted">年齢：</small>@if ($item->age >= 10 && $item->age < 20) 10代 @elseif ($item->age >= 20 && $item->age < 30) 20代 @elseif ($item->age >= 30 && $item->age < 40) 30代 @elseif ($item->age >= 40 && $item->age < 50) 40代 @elseif ($item->age >= 50 && $item->age < 60) 50代 @elseif ($item->age >= 60 && $item->age < 70) 60代 @elseif ($item->age >= 70 && $item->age < 80) 70代 @elseif ($item->age >= 80 && $item->age < 90) 80代 @elseif ($item->age >= 90 && $item->age < 100) 90代 @else その他の年齢 @endif </p>
+                              <p class="card-text mb-0">
+                                <small class="text-muted">住まい地域：</small>{{ $item->living_area }}
+                              </p>
         </div>
         <div class="mb-3">
           <div class="owl-carousel owl-theme">

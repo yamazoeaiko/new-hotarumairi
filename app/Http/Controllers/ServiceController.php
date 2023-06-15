@@ -470,11 +470,48 @@ class ServiceController extends Controller
 
         $room = null;
         if ($consults = Entry::where('sell_user', $user_id)->get()) {
+            $consults = Entry::where('sell_user', $user_id)->get();
+
+            //sell_user=自分
             foreach ($consults as $consult) {
                 $consulted_service = Service::where('id', $consult->service_id)->first();
                 $consult->service_name = $consulted_service->main_title;
 
-                $consulting_user = User::where('id', $consult->buy_user)->first();
+                $consulted_user = User::where('id', $consult->buy_user)->first();
+                $consult->consulted_user_name = $consulted_user->nickname;
+                $consult->profile_img = $consulted_user->img_url;
+                $consult->consulted_user_id = $consulted_user->id;
+
+                $consult->first_chat = Str::limit($consult->first_chat, 60);
+
+                $room = ChatRoom::where('service_id', $consult->service_id)
+                ->where('buy_user', $consulted_user->id)
+                ->where('sell_user', $user_id)
+                ->first();
+            }
+        }
+
+        return view('service.provider.list', compact('items', 'consults', 'room'));
+    }
+
+    public function getMyPubreqList(){
+        $user_id = Auth::id();
+
+        $requests = Service::where('request_user_id', $user_id)->get();
+        foreach ($requests as $request) {
+            $request->content = Str::limit($request->content, 60);
+        }
+
+        $room = null;
+        if ($consults = Entry::where('buy_user', $user_id)->get()) {
+            $consults = Entry::where('buy_user', $user_id)->get();
+
+            //buy_user=自分
+            foreach ($consults as $consult) {
+                $consulted_service = Service::where('id', $consult->service_id)->first();
+                $consult->service_name = $consulted_service->main_title;
+
+                $consulting_user = User::where('id', $consult->sell_user)->first();
                 $consult->consulting_user_name = $consulting_user->nickname;
                 $consult->profile_img = $consulting_user->img_url;
                 $consult->consulting_user_id = $consulting_user->id;
@@ -482,13 +519,13 @@ class ServiceController extends Controller
                 $consult->first_chat = Str::limit($consult->first_chat, 60);
 
                 $room = ChatRoom::where('service_id', $consult->service_id)
-                ->where('buy_user', $consulting_user->id)
-                ->where('sell_user', $user_id)
-                ->first();
+                    ->where('sell_user', $consulting_user->id)
+                    ->where('buy_user', $user_id)
+                    ->first();
             }
         }
 
-        return view('service.provider.list', compact('items', 'requests', 'consults', 'room'));
+        return view('service.seeker.list', compact('requests', 'consults', 'room'));
     }
 
     public function getMyServiceEdit($service_id)

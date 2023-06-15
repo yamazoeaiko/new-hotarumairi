@@ -20,7 +20,7 @@
             </div>
             <div class="col-4 fs-7 text-secondary text-md-center">{{ $favorite->price }}円</div>
             <div class="col-4 text-md-end">
-              <a href="{{ route('service.detail',['service_id'=>$favorite->id]) }}" class="btn btn-primary fs-7">詳細</a>
+              <a href="{{ route('service.detail',['service_id'=>$favorite->favorite_id]) }}" class="btn btn-primary fs-7">詳細</a>
             </div>
           </div>
         </div>
@@ -33,7 +33,7 @@
   <div class="list-group">
     @if($follows)
     @foreach($follows as $follow)
-    <button class="list-group-item list-group-action " onClick="location.href='{{route('chat.room',['room_id'=>$follow->id])}}'">
+    <button class="list-group-item list-group-action " onClick="location.href='{{route('user.detail',['user_id'=>$follow->follow_id])}}'">
       <div class="no-gutters">
         <div class="row">
           <div class="col-2">
@@ -44,12 +44,12 @@
           <div class="col-4">
             <h5 class="font-weight-bold mb-0">{{ $follow->user_name }}</h5>
           </div>
-          <div class="col-3">出品サービス数：</div>
+          <div class="col-3">出品サービス数：{{ $follow->count_services }}</div>
       </div>
   </div>
   </button>
   @endforeach
-  @else
+  @elseif($follows->isEmpty())
   <div class="text-center">
     <span>フォローしているアカウントはありません</span>
   </div>

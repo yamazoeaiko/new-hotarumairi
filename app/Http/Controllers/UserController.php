@@ -165,9 +165,32 @@ class UserController extends Controller
 
             $follow->img_url = $user->img_url;
             $follow->user_name = $user->nickname;
+
+            $services = Service::where('offer_user_id', $user->id)->get();
+            $follow->count_services = $services->count();
         }
 
 
         return view('mypage.favorite_follow.list', compact('favorites', 'follows'));
+    }
+
+    public function getUserDetail($user_id){
+        $auth_id = Auth::id();
+        $item = User::where('id', $user_id)->first();
+        $item->follow = Follow::where('follow_id', $item->id)->where('user_id', $auth_id)->exists();
+
+        if($item->gender == 1){
+            $item->gender_name = '男性';
+        }elseif($item->gender == 2){
+            $item->gender_name = '女性';
+        }else{
+            $item->gender_name = '未設定';
+        }
+
+        $item->age = Carbon::parse($item->birthday)->age;
+
+        $item->living_area = Area::where('id', $item->living_area)->value('name');
+
+        return view('user.detail', compact('item'));
     }
 }
