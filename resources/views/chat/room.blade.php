@@ -10,9 +10,9 @@
         <div class="mx-2">
           @if($mytype == 'sell_user')
           @if($agreement == null)
-          <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('agreement.create',['service_id'=>$service->id, 'entry_id'=>$entry->id])}}'">見積もり作成</button>
+          <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('agreement.create',['service_id'=>$service->id, 'entry_id'=>$entry->id])}}'">見積もり提案を送付</button>
           @else
-          <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">提案した見積もり内容</button>
+          <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">提案した見積もり内容を見る</button>
           @endif
           @endif
           @if($mytype == 'buy_user')
@@ -21,7 +21,7 @@
             見積もり提案がありません
           </button>
           @else
-          <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">提案された見積もり内容</button>
+          <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">提案された見積もり内容を見る</button>
           @endif
           @endif
         </div>

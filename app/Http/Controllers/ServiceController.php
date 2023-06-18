@@ -37,6 +37,7 @@ class ServiceController extends Controller
         $items = Service::orderBy('created_at', 'desc')
             ->where('type', 'service')
             ->where('status', 'open')
+            ->take(3)
             ->get();
         foreach($items as $item){
             if ($item->category_ids) {
@@ -52,11 +53,33 @@ class ServiceController extends Controller
             $item->profile_image = $provider->img_url;
             $item->provider_name = $provider->nickname;
         }
+
+        //公開依頼の表示について
+        $public_requests = Service::orderBy('created_at', 'desc')
+        ->where('type', 'public_request')
+        ->where('status', 'open')
+        ->take(3)
+        ->get();
+        foreach ($public_requests as $public_request) {
+            if ($public_request->category_ids) {
+                $public_request->categories = ServiceCategory::whereIn('id', $public_request->category_ids)->get();
+
+                foreach ($public_request->categories as $value) {
+                    $data = ServiceCategory::where('id', $value->id)->first();
+                    $value->category_name = $data->name;
+                }
+            }
+            $seeker = User::where('id', $public_request->request_user_id)->first();
+
+            $public_request->profile_image = $seeker->img_url;
+            $public_request->seeker_name = $seeker->nickname;
+        }
+
         $categories = ServiceCategory::get();
 
-
-        return view('index', compact('items','categories'));
+        return view('index', compact('items','categories', 'public_requests'));
     }
+    
     public function getRequest()
     {
 

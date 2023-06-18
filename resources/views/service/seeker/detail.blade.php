@@ -117,7 +117,7 @@
       @if($room_id)
       <button class="btn btn-success" onclick=location.href="{{route('chat.room',['room_id'=>$room_id])}}">チャット画面</button>
       @else
-      <button type="button" class="btn btn-success my-2" data-bs-toggle="collapse" data-bs-target="#collapseConsult">お見積りやサービス内容の相談をする</button>
+      <button type="button" class="btn btn-success my-2" data-bs-toggle="collapse" data-bs-target="#collapseConsult">購入、見積もり、質問をする</button>
 
       <div class="collapse" id="collapseConsult">
         <form action="{{route('service.consult')}}" method="post">

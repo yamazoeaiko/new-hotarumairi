@@ -12,7 +12,7 @@
     </div>
 
     <div class="mb-3">
-      <label for="content" class="fw-bolder">依頼内容<span class="fs-7 text-danger ">※必須</span></label>
+      <label for="content" class="fw-bolder">依頼内容<span class="fs-7 text-danger ">※必須(公開ページになりますので本名、住所などの個人情報の記載はしないでください)</span></label>
       <div class="input-group">
         <textarea name="content" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
       </div>
@@ -212,12 +212,14 @@
       </div>
     </div>
 
+    <!--
     <div class="mb-3">
       <label for="application_deadline" class="fw-bolder">応募締切日<span class="fs-7 text-secondary">※任意</span></label>
       <div class="input-group">
         <input type="date" name="application_deadline" min="<?php echo date('Y-m-d'); ?>">
       </div>
     </div>
+    -->
 
     <div class="mb-3">
       <label for="delivery_deadline" class="fw-bolder">希望納品(実施)日<span class="fs-7 text-secondary">※任意</span></label>

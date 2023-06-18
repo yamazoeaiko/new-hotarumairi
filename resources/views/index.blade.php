@@ -55,8 +55,11 @@
             <section class="new-arrivals-section">
                 <div class="container">
                     <div class="row">
-                        <div class="col-12">
-                            <h2 class="section-title">新着の案件情報</h2>
+                        <div class="col-7">
+                            <h2 class="section-title">出品サービスの新着案件</h2>
+                        </div>
+                        <div class="col-4">
+                            <a href="{{ route('service') }}">もっと見る</a>
                         </div>
                     </div>
                     <div class="row">
@@ -78,6 +81,61 @@
                                         <div class="col-4 fs-7 text-secondary text-md-center">{{ $item->price }}円</div>
                                         <div class="col-4 text-md-end">
                                             <a href="{{ route('service.detail',['service_id'=>$item->id]) }}" class="btn btn-primary fs-7">詳細</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 d-lg-block d-none"></div>
+        <!--公開依頼-->
+        <div class="col-lg-9">
+            <!-- New Arrivals -->
+            <section class="new-arrivals-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-7">
+                            <h2 class="section-title">公開依頼の新着案件</h2>
+                        </div>
+                        <div class="col-4">
+                            <a href="{{ route('pubreq.index') }}">もっと見る</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @foreach($public_requests as $public_request)
+                        <div class="col-md-6 col-lg-4 card-all">
+                            <div class="card mb-2 p-2">
+                                <div class="px-2">
+                                    <p class="text-muted small">依頼投稿日：{{\Carbon\Carbon::parse($public_request->created_at)->format('Y年m月d日')}}</p>
+                                </div>
+                                <div class="row">
+                                    <div class="offset-1 col-3">
+                                        <div class="rounded-circle overflow-hidden d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                            <img src="{{ asset($public_request->profile_image) }}" alt="" class="w-100 h-100">
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <p class="fs-6 mb-0">{{ $public_request->seeker_name }}</p>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    @foreach($public_request->categories as $value)
+                                    <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
+                                    @endforeach
+                                    <h5 class="fs-6 fw-bolder">{{$public_request->main_title}}</h5>
+                                    <div class="row align-items-center">
+                                        <div class="col-4 d-flex fs-7">
+                                            {{$public_request->provider_name }}
+                                        </div>
+                                        <div class="col-4 fs-7 text-secondary text-md-center">{{ $public_request->price }}円</div>
+                                        <div class="col-4 text-md-end">
+                                            <a href="{{ route('pubreq.detail',['service_id'=>$public_request->id]) }}" class="btn btn-primary fs-7">詳細</a>
                                         </div>
                                     </div>
                                 </div>
