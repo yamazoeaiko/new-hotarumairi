@@ -50,7 +50,8 @@ class RegisteredUserController extends Controller
             'gender' => '3',
             'living_area' => '1',
             'img_url' => 'storage/profile/no_image.jpg',
-            'type' => 'user'
+            'type' => 'user',
+            'identificaton_agreement'=> 'unsubmit'
         ]);
 
         event(new Registered($user));

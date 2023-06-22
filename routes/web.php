@@ -85,6 +85,8 @@ Route::controller(UserController::class)->group(
         Route::get('/user/profile/{user_id}', 'getUserProfile')->name('user.profile')->middleware('auth');
 
         Route::get('/user/detail/{user_id}', 'getUserDetail')->name('user.detail')->middleware('auth');
+
+        Route::post('/user/identification_photo/send', 'sendIdentificationPhoto')->name('send.identification');
     }
 );
 

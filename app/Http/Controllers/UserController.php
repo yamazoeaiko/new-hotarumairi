@@ -193,4 +193,19 @@ class UserController extends Controller
 
         return view('user.detail', compact('item'));
     }
+
+    public function sendIdentificationPhoto(Request $request){
+        $user = User::where('id', $request->user_id)->first();
+
+        if ($request->hasFile('identification_photo')) {
+            $dir = 'user_identification_photo';
+            $file_name = $request->file('identification_photo')->getClientOriginalName();
+            $user->identification_photo = 'storage/' . $dir . '/' . $file_name;
+
+            $request->file('identification_photo')->storeAs('public/' . $dir, $file_name);
+            $user->identification_agreement = "pending";
+        }
+        $user->save();
+        return redirect()->back();
+    }
 }

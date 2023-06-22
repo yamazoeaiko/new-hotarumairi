@@ -16,6 +16,31 @@
         {{$item->nickname}}
       </td>
     </tr>
+    <tr>
+      <th>本人確認証明状況</th>
+      <td>
+        @if($item->identification_agreement == 'approved')
+        本人確認済み
+        @elseif($item->identification_agreement == 'unapproved')
+        否認されています
+        @elseif($item->identification_agreement == 'unsubmit')
+        本人確認証明書が提出されていません
+        <div>
+          <button type="button" class="btn btn-primary my-2" data-bs-toggle="collapse" data-bs-target="#collapseIdentification">本人確認証明する</button>
+          <div class="collapse" id="collapseIdentification">
+            <form action="{{route('send.identification')}}" method="post" enctype="multipart/form-data">
+              @csrf
+              <input type="hidden" name="user_id" value="{{ $item->id}}">
+              <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="identification_photo" value="identification_photo">
+              <button type="submit" class="btn btn-outline-primary">送信</button>
+            </form>
+          </div>
+        </div>
+        @elseif($item->identification_agreement == 'pending')
+        本人確認中です。
+        @endif
+      </td>
+    </tr>
     <!--
     <tr>
       <th>TwitterアカウントURL</th>
