@@ -14,6 +14,7 @@ use App\Models\ServiceCategory;
 use App\Models\Agreement;
 use App\Models\Payment;
 use App\Models\Cancel;
+use App\Models\Identification;
 use Stripe\Stripe;
 use Illuminate\Support\Str;
 use App\Models\Announcement;
@@ -534,5 +535,69 @@ class AdminController extends Controller
         $announcementRead_b->save();
 
         return redirect()->route('admin.cancel.offer.detail', ['cancel_id' => $cancel->id]);
+    }
+
+    //本人確認証明書の確認依頼_リスト表示
+    public function identificationOfferList(){
+        $items = Identification::orderBy('created_at', 'desc')
+        ->where('identification_agreement', 'pending')
+        ->get();
+
+        foreach($items as $item){
+            $user = User::where('id', $item->user_id)->first();
+            $item->user_nickname = $user->nickname;
+            $item->user_name = $user->name;
+            $item->user_id = $user->id;
+            $item->profile_image = $user->img_url;
+        }
+
+        return view('admin.user.identification.offer_list', compact('items'));
+    }
+
+    public function identificationDetail($identification_id){
+        $item = Identification::where('id', $identification_id)->first();
+
+        if($item->identification_agreement == 'pending'){
+            $item->status = '確認未対応';
+        }elseif($item->identification_agreement == 'approved'){
+            $item->status = '承認済み';
+        }else{
+            $item->status = '否認済み';
+        }
+        $user = User::where('id', $item->user_id)->first();
+        $item->user_name = $user->name;
+        $item->user_nickname = $user->nickname;
+        if ($user->gender == 1) {
+            $item->gender = "男性";
+        } elseif ($user->gender == 2) {
+            $item->gender = "女性";
+        } else {
+            $item->gender = "未設定";
+        }
+
+        $another_items = Identification::where('user_id',$user->id)->get();
+
+        $hasOtherItems = $another_items->contains(function ($value) use ($item) {
+            return $value->id !== $item->id;
+        });
+        if ($hasOtherItems == true) {
+            // $another_itemsに$item以外の要素が存在する場合の処理
+            $other_items = $another_items->reject(
+                function ($value) use ($item) {
+                    return $value->id === $item->id;
+                });        
+
+            foreach($other_items as $other_item){
+                if ($other_item->identification_agreement == 'pending') {
+                    $other_item->status = '確認未対応';
+                } elseif ($other_item->identification_agreement == 'approved') {
+                    $other_item->status = '承認済み';
+                } else {
+                    $other_item->status = '否認済み';
+                }
+            }
+        }
+
+        return view('admin.user.identification.detail', compact('item', 'other_items'));
     }
 }

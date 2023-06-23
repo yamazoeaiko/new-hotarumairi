@@ -191,6 +191,16 @@ Route::controller(AdminController::class)->group(function (){
         Route::get('/admin-limited/cancel_offer/detail/{cancel_id}', 'cancelOfferDetail')->name('admin.cancel.offer.detail');
         Route::post('/admin-limited/cancel/approve', 'approveCancel')->name('admin.cancel.approved');
         Route::post('/admin-limited/cancel/unapprove', 'unapproveCancel')->name('admin.cancel.unapproved');
+        //本人確認証明
+        Route::get('/admin-limited/identification/offer/list', 'identificationOfferList')->name('admin.identification.offer.list');
+        Route::get('admin-limited/identification/detail/{identification_id}', 'identificationDetail')->name(
+        'admin.identification.detail');
+        Route::get('/admin-limited/identification/approved/list', 'identificationApprovedList')->name('admin.identification.approved.list');
+        Route::get('/admin-limited/identification/unapproved/list', 'identificationUnapprovedList')->name('admin.identification.unapproved.list');
+        Route::post('/admin-limited/identification/approved', 'identificationApproved')->name('admin.identification.approved');
+        Route::post('/admin-limited/identification/unapproved', 'identificationUnapproved')->name('admin.identification.unapproved');
+
+
     });
 
 

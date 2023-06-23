@@ -20,7 +20,7 @@
       <th>本人確認証明状況</th>
       <td>
         @if($item->identification_agreement == 'approved')
-        本人確認済み
+        （チェックマーク入れる）本人確認済み。
         @elseif($item->identification_agreement == 'unapproved')
         否認されています
         @elseif($item->identification_agreement == 'unsubmit')
@@ -37,7 +37,7 @@
           </div>
         </div>
         @elseif($item->identification_agreement == 'pending')
-        本人確認中です。
+        本人確認中です。しばらくお待ちください。
         @endif
       </td>
     </tr>

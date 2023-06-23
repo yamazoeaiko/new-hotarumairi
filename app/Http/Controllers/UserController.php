@@ -13,6 +13,7 @@ use App\Models\Favorite;
 use App\Models\Service;
 use App\Models\Follow;
 use App\Models\ServiceCategory;
+use App\Models\Identification;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
@@ -39,6 +40,19 @@ class UserController extends Controller
             $item->gender_name = "未設定";
         }
         $item->living_area = Area::where('id', $item->living_area)->value('name');
+
+        $identification = Identification::where('user_id', $user_id)->first();
+        if($identification){
+            if($identification->identification_agreement == 'pending'){
+                $item->identification_agreement = 'pending';
+            }elseif($identification->identification_agreement == 'approved') {
+                $item->identification_agreement = 'approved';
+            } elseif ($identification->identification_agreement == 'unapproved') {
+                $item->identification_agreement = 'unapproved';
+            }
+        }else {
+            $item->identification_agreement = 'unsubmit';
+        }
 
         return view('mypage.myprofile.index', compact('item'));
     }
@@ -196,16 +210,18 @@ class UserController extends Controller
 
     public function sendIdentificationPhoto(Request $request){
         $user = User::where('id', $request->user_id)->first();
+        $identification = new Identification();
 
         if ($request->hasFile('identification_photo')) {
             $dir = 'user_identification_photo';
             $file_name = $request->file('identification_photo')->getClientOriginalName();
-            $user->identification_photo = 'storage/' . $dir . '/' . $file_name;
+            $identification->identification_photo = 'storage/' . $dir . '/' . $file_name;
 
             $request->file('identification_photo')->storeAs('public/' . $dir, $file_name);
-            $user->identification_agreement = "pending";
+            $identification->identification_agreement = "pending";
+            $identification->user_id = $user->id;
         }
-        $user->save();
+        $identification->save();
         return redirect()->back();
     }
 }

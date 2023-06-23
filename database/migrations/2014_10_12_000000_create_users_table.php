@@ -32,8 +32,6 @@ return new class extends Migration
             $table->string('instagram_url')->nullable();
             $table->string('others_sns_url')->nullable();
             $table->enum('type', ['user', 'admin']);
-            $table->string('identification_photo')->nullable();
-            $table->enum('identification_agreement',['approved', 'unapproved', 'pending','unsubmit'])->default('unsubmit')->nullable();
             $table->timestamps();
         });
     }
