@@ -5,34 +5,52 @@
   <div class="row gx-5 align-items-center">
     <div class="col-12">
       <button class="btn-outline-primary" onClick="location.href='{{route('chat.list')}}'">戻る</button>
+      <p class="col me-2 fs-5 fw-bolder ">{{ $theother->nickname }}</p>
       <div class="d-flex  align-items-center mb-3">
-        <p class="col me-2 fs-5 fw-bolder ">{{ $theother->nickname }}</p>
-        <div class="mx-2">
-          @if($mytype == 'sell_user')
-          @if($agreement == null)
-          <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('agreement.create',['service_id'=>$service->id, 'entry_id'=>$entry->id])}}'">見積もり提案を送付</button>
-          @else
-          <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">提案した見積もり内容を見る</button>
-          @endif
-          @endif
-          @if($mytype == 'buy_user')
-          @if($agreement ==null)
-          <button class="btn btn-danger fs-7 col p-3" disabled>
-            見積もり提案がありません
-          </button>
-          @else
-          <button class="btn btn-danger fs-7 col p-3" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">提案された見積もり内容を見る</button>
-          @endif
-          @endif
-        </div>
+
+        @if($mytype == 'sell_user')
+        @if($agreement == null)
+        <button class="btn btn-danger fs-7 col p-3 mx-2" onclick="location.href='{{route('agreement.create',['service_id'=>$service->id, 'entry_id'=>$entry->id])}}'">見積もり提案を送付</button>
+        @else
+        <button class="btn btn-danger fs-7 col p-3 mx-2" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">見積もり内容</button>
+        @endif
+        @endif
+        @if($mytype == 'buy_user')
+        @if($agreement ==null)
+        <button class="btn btn-danger fs-7 col p-3 mx-2" disabled>
+          見積もり提案がありません
+        </button>
+        @else
+        <button class="btn btn-outline-danger fs-7 col p-3 mx-2" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">見積もり内容</button>
+        @endif
+        @endif
+
         @if($service->type == 'public_request')
-        <button class="btn btn-primary fs-7 col p-3" onclick="location.href='{{route('pubreq.detail',['service_id'=>$service->id])}}'">公開依頼詳細を確認</button>
+
+        <button class="btn btn-outline-primary fs-7 col p-3 mx-2" onclick="location.href='{{route('pubreq.detail',['service_id'=>$service->id])}}'">公開依頼内容</button>
         @elseif($service->type == 'service')
-        <button class="btn btn-primary p-3" onclick="location.href='{{route('service.detail',['service_id'=>$service->id])}}'">出品サービス詳細を確認</button>
+        <button class="btn btn-outline-primary col fs-7 p-3 mx-2" onclick="location.href='{{route('service.detail',['service_id'=>$service->id])}}'">出品サービス内容</button>
+
+        @endif
+        <!--正式な納品報告-->
+        @if($entry)
+        @if($mytype == 'sell_user')
+
+        <button type="button" id="deliveryButton" class="col fs-7 p-3 btn btn-success mx-2 fw-bolder">正式納品を報告</button>
+        <div id="deliveryPopup" class="delivery_offer">
+          <div class="fs-7 text-danger">※納品報告をしてください。事前にチャットにて確認いただく方がスムーズです。</div>
+        <form action="{{route('offer.delivery')}}" method="post">
+          @csrf
+          <input type="hidden" name="entry_id" value="{{$entry->id}}">
+          <div class="input-group">
+            <textarea name="delivery_offer" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary col-3" onclick="return confirm('正式な納品を報告しますか？')">送信する</button>
+        </form>
+        </div>
+        @endif
         @endif
       </div>
-
-      <!--hotaru_requestの修正・承認へ-->
       <!-- Mashead text and app badges-->
       <div class="col-12 mb-5 text-center text-start">
         <!--ここからルーム-->
@@ -92,4 +110,30 @@
     </div>
   </div>
 </div>
+
+<script>
+  var deliveryButton = document.getElementById("deliveryButton");
+  var deliveryPopup = document.getElementById("deliveryPopup");
+
+  deliveryButton.addEventListener("click", function() {
+    if (deliveryPopup.style.display === "none") {
+      deliveryPopup.style.display = "block";
+    } else {
+      deliveryPopup.style.display = "none";
+    }
+  });
+</script>
+
+<style>
+  .delivery_offer {
+    display: none;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>
 @endsection

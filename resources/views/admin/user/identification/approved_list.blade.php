@@ -2,13 +2,13 @@
 @section('content')
 <div class="container">
   <div class="d-flex">
-    <button class="btn btn-outline-primary mx-2" onClick="location.href='{{route('admin.identification.approved.list')}}'">承認済みリスト</button>
+    <button class="btn btn-outline-primary mx-2" onClick="location.href='{{route('admin.identification.offer.list')}}'">未対応リスト</button>
     <button class="btn btn-outline-danger mx-2" onClick="location.href='{{route('admin.identification.unapproved.list')}}'">否認済みリスト</button>
   </div>
-  <h5 class="my-3">【管理画面】本人確認証明書　申請（一覧）</h5>
+  <h5 class="my-3">【管理画面】本人確認証明書　承認済み（一覧）</h5>
   <div class="list-group">
     @if($items == null)
-    未確認の本人確認証明書の申請はありません。
+    承認済みの本人確認証明書の申請はありません。
     @endif
     @foreach($items as $item)
     <button class="list-group-item list-group-action" onClick="location.href='{{route('admin.identification.detail',['identification_id'=>$item->id])}}'">

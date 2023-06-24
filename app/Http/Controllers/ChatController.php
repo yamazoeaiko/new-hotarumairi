@@ -180,6 +180,14 @@ class ChatController extends Controller
         return view('chat.room', compact('chats', 'theother', 'room_id', 'user_id', 'service','room', 'entry', 'mytype', 'agreement'));
     }
 
+    public function offerDelivery(Request $request){
+        $entry = Entry::where('id', $request->entry_id)->first();
+        $entry->status = 'delivery_pending';
+        $entry->save();
+
+        
+    }
+
     public function sendChat(Request $request)
     {
         if (is_null($request->input('message')) && !$request->hasFile('file_path')) {

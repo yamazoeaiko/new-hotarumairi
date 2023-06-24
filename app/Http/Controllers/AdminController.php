@@ -600,4 +600,57 @@ class AdminController extends Controller
 
         return view('admin.user.identification.detail', compact('item', 'other_items'));
     }
+
+    public function identificationApproved(Request $request){
+        $identification = Identification::where('id', $request->identification_id)->first();
+
+        $identification->identification_agreement = 'approved';
+        $identification->save();
+
+        return redirect()->back();
+    }
+
+    public function identificationUnapproved(Request $request)
+    {
+        $identification = Identification::where('id', $request->identification_id)->first();
+
+        $identification->identification_agreement = 'unapproved';
+        $identification->save();
+
+        return redirect()->back();
+    }
+
+    public function identificationApprovedList(){
+        $items = Identification::orderBy('created_at', 'desc')
+        ->where('identification_agreement', 'approved')
+        ->get();
+
+        foreach ($items as $item) {
+            $user = User::where('id', $item->user_id)->first();
+            $item->user_nickname = $user->nickname;
+            $item->user_name = $user->name;
+            $item->user_id = $user->id;
+            $item->profile_image = $user->img_url;
+        }
+
+        return view('admin.user.identification.approved_list', compact('items'));
+    }
+
+    public function identificationUnpprovedList()
+    {
+        $items = Identification::orderBy('created_at', 'desc')
+        ->where('identification_agreement', 'unapproved')
+        ->get();
+
+        foreach ($items as $item) {
+            $user = User::where('id', $item->user_id)->first();
+            $item->user_nickname = $user->nickname;
+            $item->user_name = $user->name;
+            $item->user_id = $user->id;
+            $item->profile_image = $user->img_url;
+        }
+
+        return view('admin.user.identification.unapproved_list', compact('items'));
+    }
+
 }

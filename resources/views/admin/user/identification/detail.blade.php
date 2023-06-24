@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 @section('content')
 <div class="container">
-  <h5>【管理画面】本人確認証明書　詳細確認</h5>
+  <a href="{{route('admin.identification.offer.list')}}" class="mb-3 text-secondary">本人確認証明書の申請一覧に戻る</a>
+  <h5 class="my-3">【管理画面】本人確認証明書　詳細確認</h5>
   <div>
     <table class="table">
       <tr>
@@ -32,6 +33,24 @@
       </tr>
     </table>
   </div>
+  @if($item->identification_agreement == 'pending')
+  <div class="text-center d-flex">
+    <form action="{{route('admin.identification.approved')}}" class="mx-2" method="post">
+      @csrf
+      <input type="hidden" name="identification_id" value="{{ $item->id }}">
+      <button class="btn btn-primary" type="submit" onclick="return confirm('承認しますか？')">承認</button>
+    </form>
+    <form action="{{route('admin.identification.unapproved')}}" method="post" class="mx-2">
+      @csrf
+      <input type="hidden" name="identification_id" value="{{ $item->id }}">
+      <button class="btn btn-outline-danger" type="submit" onclick="return confirm('否認しますか？')">否認</button>
+    </form>
+  </div>
+  @elseif($item->identification_agreement =='approved')
+  <button disabled="disabled" class="btn btn-primary">承認済み</button>
+  @elseif($item->identification_agreement =='unapproved')
+  <button disabled="disabled" class="btn btn-danger">否認済み</button>
+  @endif
   <div class="my-5">
     <h6>{{$item->user_name}}（{{$item->user_nickname}}）のその他の本人確認証明申請</h6>
     @if($other_items->isEmpty())
