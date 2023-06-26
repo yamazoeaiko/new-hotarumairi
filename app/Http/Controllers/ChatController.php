@@ -9,6 +9,7 @@ use App\Models\Chat;
 use App\Models\ChatRoom;
 use App\Models\Entry;
 use App\Models\Service;
+use App\Models\Delivery;
 use App\Models\Agreement;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -177,7 +178,12 @@ class ChatController extends Controller
             $agreement = Agreement::where('service_id', $service->id)->where('entry_id', $entry->id)->first();
         }
 
-        return view('chat.room', compact('chats', 'theother', 'room_id', 'user_id', 'service','room', 'entry', 'mytype', 'agreement'));
+        $delivery = Delivery::where('entry_id', $entry->id)
+        ->where('room_id', $room->id)
+        ->first();
+
+
+        return view('chat.room', compact('chats', 'theother', 'room_id', 'user_id', 'service','room', 'entry', 'mytype', 'agreement', 'delivery'));
     }
 
     public function offerDelivery(Request $request){
@@ -185,7 +191,13 @@ class ChatController extends Controller
         $entry->status = 'delivery_pending';
         $entry->save();
 
-        
+        $delivery = new Delivery();
+        $delivery->entry_id = $entry->id;
+        $delivery->room_id = $request->room_id;
+        $delivery->message = $request->message;
+        $delivery->save();
+
+        return redirect()->back();
     }
 
     public function sendChat(Request $request)

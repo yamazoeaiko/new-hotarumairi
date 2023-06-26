@@ -35,26 +35,47 @@
         <!--正式な納品報告-->
         @if($entry)
         @if($mytype == 'sell_user')
-
+        @if($entry->status == 'paid')
         <button type="button" id="deliveryButton" class="col fs-7 p-3 btn btn-success mx-2 fw-bolder">正式納品を報告</button>
-        <div id="deliveryPopup" class="delivery_offer">
-          <div class="fs-7 text-danger">※納品報告をしてください。事前にチャットにて確認いただく方がスムーズです。</div>
-        <form action="{{route('offer.delivery')}}" method="post">
-          @csrf
-          <input type="hidden" name="entry_id" value="{{$entry->id}}">
-          <div class="input-group">
-            <textarea name="delivery_offer" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary col-3" onclick="return confirm('正式な納品を報告しますか？')">送信する</button>
-        </form>
+        <div id="deliveryPopup" class="delivery_offer text-center p-3 rounded-2 border-primary border-3">
+          <div class="fs-5 fw-bolder text-primary my-3">正式な納品を報告する</div>
+          <div class="fs-7 text-danger">※納品報告をしてください。<br>事前にチャットにて確認いただく方がスムーズです。</div>
+          <form action="{{route('offer.delivery')}}" method="post">
+            @csrf
+            <input type="hidden" name="entry_id" value="{{$entry->id}}">
+            <input type="hidden" name="room_id" value="{{$room->id}}">
+            <div class="input-group my-3">
+              <textarea name="message" class="text-start input-group-text is-valid" style="resize: none; height: 100px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13){event.preventDefault(); return false;}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary my-2" onclick="return confirm('正式な納品を報告しますか？')">送信する</button>
+          </form>
         </div>
+        @endif
         @endif
         @endif
       </div>
       <!-- Mashead text and app badges-->
-      <div class="col-12 mb-5 text-center text-start">
-        <!--ここからルーム-->
-        <div>
+      <div>
+        @if($delivery)
+        @if($mytype == 'buy_user')
+        <div class="mb-3 p-3 rounded-2 border border-primary border-3 ">
+          <h6>正式な納品の連絡あり</h6>
+          <p class="fs-6">納品時のメッセージ：{{$delivery->message}}</p>
+          <div class="text-center d-flex">
+            <form action="{{ route('approved.delivery') }}" method="post" class="mx-2 mt-2">
+              @csrf
+              <button type="submit" class="btn btn-outline-success my-2 border border-2 border-success" onclick="return confirm('納品を承認しますか？作業完了となり、これ以降本件で依頼はできなくなります。')">承認する</button>
+            </form>
+            <form action="{{ route('approved.delivery') }}" method="post" class="mx-2 mt-2">
+              @csrf
+              <button type="submit" class="btn btn-outline-danger my-2" onclick="return confirm('納品を否認しますか？避妊の理由などはチャットにてお伝えください。')">否認する</button>
+            </form>
+          </div>
+        </div>
+        @endif
+        @endif
+        <div class="col-12 mb-5 text-center text-start">
+          <!--ここからルーム-->
           <div class="col-9 col-sm-12 mx-auto bg-light p-1" style="max-height: 500px; overflow-y: auto;">
             <ul style="padding: 0;">
               @if($chats->isEmpty())
@@ -126,6 +147,7 @@
 
 <style>
   .delivery_offer {
+    width: 80%;
     display: none;
     background-color: #f1f1f1;
     border: 1px solid #ccc;

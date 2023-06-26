@@ -98,6 +98,8 @@ Route::controller(ChatController::class)->group(
         Route::get('/chat/room/{room_id}', 'getChatRoom')->name('chat.room')->middleware('auth');
         Route::post('/chat/send', 'sendChat')->name('send.chat')->middleware('auth');
         Route::post('/chat/delivery/offer', 'offerDelivery')->name('offer.delivery')->middleware('auth');
+        Route::post('/chat/delivery/approved', 'approvedDelivery')->name('approved.delivery')->middleware('auth');
+        Route::post('/chat/delivery/unapproved', 'unapprovedDelivery')->name('unapproved.delivery')->middleware('auth');
     }
 );
 
