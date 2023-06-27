@@ -41,7 +41,9 @@ class UserController extends Controller
         }
         $item->living_area = Area::where('id', $item->living_area)->value('name');
 
-        $identification = Identification::where('user_id', $user_id)->first();
+        $identification = Identification::where('user_id', $user_id)
+        ->orderBy('created_at', 'desc')
+        ->first();
         if($identification){
             if($identification->identification_agreement == 'pending'){
                 $item->identification_agreement = 'pending';
