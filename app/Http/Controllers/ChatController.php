@@ -161,7 +161,7 @@ class ChatController extends Controller
             $entry->status_name = '納品済み';
         } elseif ($entry->status == 'estimate') {
             $entry->status_name = '見積もり提案中';
-        }elseif ($entry->status = 'closed'){
+        }elseif ($entry->status == 'closed'){
             $entry->status_name = 'クローズド';
         }
 
@@ -196,6 +196,26 @@ class ChatController extends Controller
         $delivery->room_id = $request->room_id;
         $delivery->message = $request->message;
         $delivery->save();
+
+        return redirect()->back();
+    }
+
+    public function approvedDelivery(Request $request){
+        $entry = Entry::where('id', $request->entry_id)->first();
+        $entry->status = 'delivery_complete';
+        $entry->save();
+
+        return redirect()->back();
+    }
+
+    public function unapprovedDelivery(Request $request)
+    {
+        $entry = Entry::where('id', $request->entry_id)->first();
+        $entry->status = 'paid';
+        $entry->save();
+
+        $delivery = Delivery::where('entry_id', $request->entry_id)->first();
+        $delivery->delete();
 
         return redirect()->back();
     }

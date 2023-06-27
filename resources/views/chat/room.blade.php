@@ -61,16 +61,31 @@
         <div class="mb-3 p-3 rounded-2 border border-primary border-3 ">
           <h6>正式な納品の連絡あり</h6>
           <p class="fs-6">納品時のメッセージ：{{$delivery->message}}</p>
+          @if($entry->status == 'delivery_pending')
           <div class="text-center d-flex">
             <form action="{{ route('approved.delivery') }}" method="post" class="mx-2 mt-2">
               @csrf
+              <input type="hidden" name="entry_id" value="{{$entry->id}}">
               <button type="submit" class="btn btn-outline-success my-2 border border-2 border-success" onclick="return confirm('納品を承認しますか？作業完了となり、これ以降本件で依頼はできなくなります。')">承認する</button>
             </form>
-            <form action="{{ route('approved.delivery') }}" method="post" class="mx-2 mt-2">
+            <form action="{{ route('unapproved.delivery') }}" method="post" class="mx-2 mt-2">
               @csrf
-              <button type="submit" class="btn btn-outline-danger my-2" onclick="return confirm('納品を否認しますか？避妊の理由などはチャットにてお伝えください。')">否認する</button>
+              <input type="hidden" name="entry_id" value="{{$entry->id}}">
+              <button type="submit" class="btn btn-outline-danger my-2" onclick="return confirm('納品を否認しますか？否認の理由などはチャットにてお伝えください。')">否認する</button>
             </form>
           </div>
+          @endif
+          @if($entry->status == 'delivery_complete')
+          <div class="text-center">
+            <button disabled class="btn btn-primary">承認完了</button>
+          </div>
+          @endif
+        </div>
+        @elseif($mytype == 'sell_user')
+        <div class="mb-3 p-3 rounded-2 border border-primary border-3 ">
+          <h6>正式な納品の連絡</h6>
+          <p class="fs-6">納品時のメッセージ：{{$delivery->message}}</p>
+          <p class="text-danger fs-6">相手の承認・否認をお待ちください</p>
         </div>
         @endif
         @endif
