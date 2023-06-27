@@ -85,7 +85,14 @@
         <div class="mb-3 p-3 rounded-2 border border-primary border-3 ">
           <h6>正式な納品の連絡</h6>
           <p class="fs-6">納品時のメッセージ：{{$delivery->message}}</p>
+          @if($entry->status == 'delivery_pending')
           <p class="text-danger fs-6">相手の承認・否認をお待ちください</p>
+          @endif
+          @if($entry->status == 'delivery_complete')
+          <div class="text-center">
+            <button disabled class="btn btn-primary">承認完了されました</button>
+          </div>
+          @endif
         </div>
         @endif
         @endif
