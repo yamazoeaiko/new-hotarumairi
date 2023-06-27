@@ -53,9 +53,9 @@
   @endif
   <div class="my-5">
     <h6>{{$item->user_name}}（{{$item->user_nickname}}）のその他の本人確認証明申請</h6>
-    @if($other_items->isEmpty())
+    @if($other_items == null)
     <div class="fs-6 text-danger">その他の申請はありません</div>
-    @endif
+    @else
     <div class="list-group">
       @foreach($other_items as $other_item)
       <div class="list-group-item list-group-action">
@@ -75,6 +75,7 @@
       </div>
       @endforeach
     </div>
+    @endif
   </div>
 </div>
 @endsection

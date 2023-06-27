@@ -596,6 +596,8 @@ class AdminController extends Controller
                     $other_item->status = '否認済み';
                 }
             }
+        }else{
+            $other_items = null;
         }
 
         return view('admin.user.identification.detail', compact('item', 'other_items'));
