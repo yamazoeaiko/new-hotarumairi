@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <!-- Header -->
-<header class="row justify-content-center">
+<header class="row justify-content-center mb-2">
     <div class="d-flex  col-lg-7 justify-content-lg-end order-lg-2 owl-carousel owl-theme">
         <div class="header-item" style="background-image: url('{{ asset('storage/images/toppage_1.png')}}');"></div>
         <div class="header-item" style="background-image: url('{{ asset('storage/images/toppage_2.png')}}');"></div>
@@ -27,9 +27,9 @@
 
 
 <!-- New Arrivals -->
-<div class="container">
+<div class="container-fluid px-3 my-4">
     <div class="row">
-        <div class="col-lg-3 d-lg-block d-none">
+        <div class="col-lg-2 d-lg-block d-none">
             <!-- Navbar Left -->
             <div class="navbar-left">
                 <ul class="navbar-nav list-group">
@@ -50,7 +50,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-lg-9">
+        <div class="col-lg-10">
             <!-- New Arrivals -->
             <section class="new-arrivals-section">
                 <div class="container">
@@ -64,7 +64,7 @@
                     </div>
                     <div class="row">
                         @foreach($items as $item)
-                        <div class="col-md-6 col-lg-4 card-all">
+                        <div class="col-md-6 col-lg-3 card-all">
                             <div class="card mb-4">
                                 <div class="service-card">
                                     <img src="{{asset($item->photo_1)}}" class="card-img-top" alt="image_photo">
@@ -93,9 +93,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-3 d-lg-block d-none"></div>
+        <div class="col-lg-2 d-lg-block d-none"></div>
         <!--公開依頼-->
-        <div class="col-lg-9">
+        <div class="col-lg-10">
             <!-- New Arrivals -->
             <section class="new-arrivals-section">
                 <div class="container">
@@ -109,7 +109,7 @@
                     </div>
                     <div class="row">
                         @foreach($public_requests as $public_request)
-                        <div class="col-md-6 col-lg-4 card-all">
+                        <div class="col-md-6 col-lg-3 card-all">
                             <div class="card mb-2 p-2">
                                 <div class="px-2">
                                     <p class="text-muted small">依頼投稿日：{{\Carbon\Carbon::parse($public_request->created_at)->format('Y年m月d日')}}</p>

@@ -203,7 +203,9 @@ Route::controller(AdminController::class)->group(function (){
         Route::post('/admin-limited/identification/approved', 'identificationApproved')->name('admin.identification.approved');
         Route::post('/admin-limited/identification/unapproved', 'identificationUnapproved')->name('admin.identification.unapproved');
 
-
+        //お知らせの編集
+        Route::get('/admin-limited/informations/edit', 'informationsEdit')->name('admin.informations.edit')->middleware('auth');
+        Route::post('/admin-limited/informations/update', 'informationsUpdate')->name('admin.informations.update')->middleware('auth');
     });
 
 

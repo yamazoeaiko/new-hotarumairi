@@ -15,6 +15,7 @@ use App\Models\Agreement;
 use App\Models\Payment;
 use App\Models\Cancel;
 use App\Models\Identification;
+use App\Models\Information;
 use Stripe\Stripe;
 use Illuminate\Support\Str;
 use App\Models\Announcement;
@@ -30,7 +31,42 @@ class AdminController extends Controller
             return redirect()->route('toppage');
         }
 
-        return view('admin.index');
+        $info_1 = Information::where('status', '1')->first();
+        $info_2 = Information::where('status', '2')->first();
+        $info_3 = Information::where('status', '3')->first();
+
+        return view('admin.index', compact('info_1', 'info_2', 'info_3'));
+    }
+
+    public function informationsEdit(){
+        $info_1 = Information::where('status', '1')->first();
+        $info_2 = Information::where('status', '2')->first();
+        $info_3 = Information::where('status', '3')->first();
+
+
+        $informations = Information::get();
+
+        return view('admin.information.edit', compact('info_1', 'info_2', 'info_3', 'informations'));
+    }
+
+    public function informationsUpdate(Request $request){
+        try{
+        $informationId = $request->input('information_id');
+        $status = $request->input('status');
+        $title = $request->input('title');
+        $content = $request->input('content');
+
+        $information = Information::where('id', $informationId)->first();
+        $information->status = $status;
+        $information->title = $title;
+        $information->content = $content;
+        $information->save();
+
+        return response()->json(['message' => '更新が完了しました']);
+
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+        }
     }
 
     public function userList(){
