@@ -206,6 +206,7 @@ Route::controller(AdminController::class)->group(function (){
         //お知らせの編集
         Route::get('/admin-limited/informations/edit', 'informationsEdit')->name('admin.informations.edit')->middleware('auth');
         Route::post('/admin-limited/informations/update', 'informationsUpdate')->name('admin.informations.update')->middleware('auth');
+        Route::post('/admin-limited/information/create', 'informationsCreate')->name('admin.create.information')->middleware('auth');
     });
 
 

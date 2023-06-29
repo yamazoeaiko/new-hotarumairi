@@ -31,20 +31,29 @@ class AdminController extends Controller
             return redirect()->route('toppage');
         }
 
-        $info_1 = Information::where('status', '1')->first();
-        $info_2 = Information::where('status', '2')->first();
-        $info_3 = Information::where('status', '3')->first();
+        $info_1 = Information::where('status', 'public')->orderBy('id', 'desc')->first();
+        $info_2 = Information::where('status', 'public')->where('id', '<', $info_1->id)->orderBy('id', 'desc')->first();
+        $info_3 = Information::where('status', 'public')->where('id', '<', $info_2->id)->orderBy('id', 'desc')->first();
+
 
         return view('admin.index', compact('info_1', 'info_2', 'info_3'));
     }
 
     public function informationsEdit(){
-        $info_1 = Information::where('status', '1')->first();
-        $info_2 = Information::where('status', '2')->first();
-        $info_3 = Information::where('status', '3')->first();
+        $info_1 = Information::where('status', 'public')->orderBy('id', 'desc')->first();
+        $info_2 = Information::where('status', 'public')->where('id', '<', $info_1->id)->orderBy('id', 'desc')->first();
+        $info_3 = Information::where('status', 'public')->where('id', '<', $info_2->id)->orderBy('id', 'desc')->first();
+
 
 
         $informations = Information::get();
+        foreach ($informations as $information){
+            if($information->status == 'public'){
+                $information->status_name = '公開';
+            }else{
+                $information->status_name = '非公開';
+            }
+        }
 
         return view('admin.information.edit', compact('info_1', 'info_2', 'info_3', 'informations'));
     }
@@ -67,6 +76,16 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
         }
+    }
+
+    public function informationsCreate(Request $request){
+        $information = new Information();
+        $information->title = $request->title;
+        $information->content = $request->content;
+        $information->status = 'public';
+        $information->save();
+
+        return redirect()->back();
     }
 
     public function userList(){

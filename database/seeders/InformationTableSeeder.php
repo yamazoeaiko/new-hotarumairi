@@ -18,21 +18,21 @@ class InformationTableSeeder extends Seeder
         $param = [
             'title' => 'おお知らせ（デフォルト①）',
             'content' => 'お知らせ①の内容が入る。',
-            'status' => '1'
+            'status' => 'public'
         ];
         DB::table('informations')->insert($param);
 
         $param = [
             'title' => 'おお知らせ（デフォルト②）',
             'content' => 'お知らせ②の内容が入る。',
-            'status' => '2'
+            'status' => 'public'
         ];
         DB::table('informations')->insert($param);
 
         $param = [
             'title' => 'おお知らせ（デフォルト③）',
             'content' => 'お知らせ③の内容が入る。',
-            'status' => '3'
+            'status' => 'public'
         ];
         DB::table('informations')->insert($param);
 

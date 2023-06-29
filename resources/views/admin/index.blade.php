@@ -12,21 +12,27 @@
         <th>タイトル</th>
         <th>お知らせ内容</th>
       </tr>
+      @if($info_1)
       <tr>
         <td>1</td>
         <td>{{$info_1->title}}</td>
         <td>{{$info_1->content}}</td>
       </tr>
+      @endif
+      @if($info_2)
       <tr>
         <td>2</td>
         <td>{{$info_2->title}}</td>
         <td>{{$info_2->content}}</td>
       </tr>
+      @endif
+      @if($info_3)
       <tr>
         <td>3</td>
         <td>{{$info_3->title}}</td>
         <td>{{$info_3->content}}</td>
       </tr>
+      @endif
     </table>
     <div class="my-2 text-center">
       <button class="btn btn-primary" onclick=location.href="{{route('admin.informations.edit')}}">変更する</button>

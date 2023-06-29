@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->text('title');
             $table->text('content');
-            $table->enum('status',['1','2','3','4','5','6', 'nopublic']);
+            $table->enum('status',['public', 'nopublic']);
             $table->timestamps();
         });
     }
