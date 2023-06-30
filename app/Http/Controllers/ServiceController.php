@@ -15,6 +15,7 @@ use App\Models\Chat;
 use App\Models\ChatRoom;
 use App\Models\Favorite;
 use App\Models\Follow;
+use App\Models\Information;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
@@ -77,7 +78,11 @@ class ServiceController extends Controller
 
         $categories = ServiceCategory::get();
 
-        return view('index', compact('items','categories', 'public_requests'));
+        $info_1 = Information::where('status', 'public')->orderBy('id', 'desc')->first();
+        $info_2 = Information::where('status', 'public')->where('id', '<', $info_1->id)->orderBy('id', 'desc')->first();
+        $info_3 = Information::where('status', 'public')->where('id', '<', $info_2->id)->orderBy('id', 'desc')->first();
+
+        return view('index', compact('items','categories', 'public_requests','info_1', 'info_2', 'info_3'));
     }
     
     public function getRequest()

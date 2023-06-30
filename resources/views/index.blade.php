@@ -11,15 +11,44 @@
     <div class="d-flex col-lg-4 justify-content-lg-start order-lg-1">
         <table class="table">
             <tr>
-                <td>お知らせ①</td>
+                <th>{{$info_1->title}}</th>
+                <td>{{ \Carbon\Carbon::parse($info_1->created_at)->format('m月d日 H時') }}
+                    <button class="mx-2 btn btn-primary" id="informationButton1">詳細</button>
+                </td>
             </tr>
             <tr>
-                <td>お知らせ②</td>
+                <th>{{$info_2->title}}</th>
+                <td>{{ \Carbon\Carbon::parse($info_2->created_at)->format('m月d日 H時') }}
+                    <button class="mx-2 btn btn-primary" id="informationButton2">詳細</button>
+                </td>
+
             </tr>
             <tr>
-                <td>お知らせ③</td>
+                <th>{{$info_3->title}}</th>
+                <td>{{ \Carbon\Carbon::parse($info_3->created_at)->format('m月d日 H時') }}
+                    <button class="mx-2 btn btn-primary" id="informationButton3">詳細</button>
+                </td>
+
             </tr>
         </table>
+    </div>
+    <div id="informationPopup1" class="informationPopup p-3 rounded-2 border-primary border-3 fs-6">
+        {{ $info_1->content }}
+        <div>
+            <button class="mx-2 btn btn-outline-primary" id="closeButton1">閉じる</button>
+        </div>
+    </div>
+    <div id="informationPopup2" class="informationPopup p-3 rounded-2 border-primary border-3 fs-6">
+        {{ $info_2->content }}
+        <div>
+            <button class="mx-2 btn btn-outline-primary" id="closeButton2">閉じる</button>
+        </div>
+    </div>
+    <div id="informationPopup3" class="informationPopup p-3 rounded-2 border-primary border-3 fs-6">
+        {{ $info_3->content }}
+        <div>
+            <button class="mx-2 btn btn-outline-primary" id="closeButton3">閉じる</button>
+        </div>
     </div>
 </header>
 
@@ -172,6 +201,18 @@
     .owl-next {
         right: 0;
     }
+
+    .informationPopup {
+        width: 80%;
+        display: none;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        padding: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 </style>
 
 <!-- Owl Carousel JS -->
@@ -189,5 +230,58 @@
             navText: ['<i class="bi-chevron-left"></i>', '<i class="bi-chevron-right"></i>']
         });
     });
+
+    var deliveryButton1 = document.getElementById("informationButton1");
+    var deliveryPopup1 = document.getElementById("informationPopup1");
+
+    deliveryButton1.addEventListener("click", function() {
+        if (deliveryPopup1.style.display === "none") {
+            deliveryPopup1.style.display = "block";
+        } else {
+            deliveryPopup1.style.display = "none";
+        }
+    });
+
+    var deliveryButton2 = document.getElementById("informationButton2");
+    var deliveryPopup2 = document.getElementById("informationPopup2");
+
+    deliveryButton2.addEventListener("click", function() {
+        if (deliveryPopup2.style.display === "none") {
+            deliveryPopup2.style.display = "block";
+        } else {
+            deliveryPopup2.style.display = "none";
+        }
+    });
+
+    var deliveryButton3 = document.getElementById("informationButton3");
+    var deliveryPopup3 = document.getElementById("informationPopup3");
+
+    deliveryButton3.addEventListener("click", function() {
+        if (deliveryPopup3.style.display === "none") {
+            deliveryPopup3.style.display = "block";
+        } else {
+            deliveryPopup3.style.display = "none";
+        }
+    });
+
+    var closeButton1 = document.getElementById("closeButton1");
+    var popup1 = document.getElementById("informationPopup1");
+
+    closeButton1.addEventListener("click", function() {
+        informationPopup1.style.display = "none";
+    });
+    var closeButton2 = document.getElementById("closeButton2");
+    var popup2 = document.getElementById("informationPopup2");
+
+    closeButton2.addEventListener("click", function() {
+        informationPopup2.style.display = "none";
+    });
+    var closeButton3 = document.getElementById("closeButton3");
+    var popup3 = document.getElementById("informationPopup3");
+
+    closeButton3.addEventListener("click", function() {
+        informationPopup3.style.display = "none";
+    });
 </script>
+
 @endsection
