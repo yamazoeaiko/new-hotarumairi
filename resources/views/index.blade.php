@@ -203,6 +203,7 @@
     }
 
     .informationPopup {
+        z-index: 9999;
         width: 80%;
         display: none;
         background-color: #f1f1f1;
