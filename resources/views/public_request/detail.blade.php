@@ -116,7 +116,7 @@
           <input type="hidden" name="service_id" value="{{ $item->id }}">
           <div style="padding-right: 0;">
             <div class="input-group">
-              <textarea name="first_chat" class="text-start input-group-text is-valid my-3" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。"></textarea>
+              <textarea name="first_chat" class="text-start input-group-text is-valid my-3" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。"></textarea>
               <div class="form-group">
                 <input type="file" accept=".png, .jpeg, .jpg" name="file_path">
               </div>

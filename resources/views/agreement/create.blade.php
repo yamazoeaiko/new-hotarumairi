@@ -17,7 +17,7 @@
     <div class="mb-3">
       <label for="content" class="fw-bolder">サービス内容<span class="fs-7 text-danger">（任意）</span></label>
       <div class="input-group">
-        <textarea name="content" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.form.submit();}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Shift+Enterで改行。Enterで送信。">{{ $service->content }}</textarea>
+        <textarea name="content" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。">{{ $service->content }}</textarea>
       </div>
     </div>
 
@@ -38,7 +38,7 @@
 
     <div class="form-group mb-3">
       <label class="fw-bolder" for="free">自由記入欄<span class="fs-7 text-danger">（任意）</span></label>
-      <textarea class="form-control" name="free"></textarea>
+      <textarea class="form-control" name="free" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。"></textarea>
     </div>
 
     <div class="text-center">

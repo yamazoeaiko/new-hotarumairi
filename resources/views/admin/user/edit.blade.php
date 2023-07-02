@@ -71,7 +71,7 @@
       <tr>
         <th>自己紹介</th>
         <td>
-          <textarea name="message" cols="30" rows="3">{{$item->message}}</textarea>
+          <textarea name="message" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。">{{$item->message}}</textarea>
         </td>
       </tr>
     </table>

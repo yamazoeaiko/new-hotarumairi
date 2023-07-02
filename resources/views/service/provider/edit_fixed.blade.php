@@ -43,7 +43,7 @@
 
         <div class="mb-3">
           <label for="content" class="fw-bolder">サービス内容</label>
-          <textarea name="content" id="" cols="30" rows="10" class="form-control">{{ $item->content }}</textarea>
+          <textarea name="content"  class="form-control" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。">{{ $item->content }}</textarea>
         </div>
       </div>
     </div>
