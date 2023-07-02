@@ -468,7 +468,7 @@ class ServiceController extends Controller
         $service->status = 'open';
         $service->save();
 
-        return redirect()->route('mypage.service.list');
+        return redirect()->route('mypage.pubreq.list');
     }
 
     public function edit($service_id)
