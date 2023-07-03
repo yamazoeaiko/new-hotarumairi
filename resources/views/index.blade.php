@@ -4,9 +4,9 @@
 <header class="row justify-content-center mb-2">
     <div class="col-xl-7 d-flex justify-content-xl-end order-xl-2 d-flex">
         <div class="owl-carousel owl-theme">
-            <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_hakamairi700_400.png')}}');"></div>
-            <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_omamori700_400.png')}}');"></div>
-            <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_uranai700_400.png')}}');"></div>
+            <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_hakamairi1400_400.png')}}');"></div>
+            <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_omamori1400_400.png')}}');"></div>
+            <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_uranai1400_400.png')}}');"></div>
         </div>
     </div>
     <div class="d-flex col-xl-4 justify-content-xl-start order-xl-1">
