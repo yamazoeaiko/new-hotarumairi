@@ -3,11 +3,21 @@
 <!-- Header -->
 <header class="row justify-content-center mb-2">
     <div class="col-xl-7 d-flex justify-content-xl-end order-xl-2 d-flex">
-        <div class="owl-carousel owl-theme">
+        <input type="hidden" id="window-width" value="">
+        <!-- 横幅が992px以上の場合の処理 -->
+        <div class="owl-carousel owl-theme ">
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_hakamairi1400_400.png')}}');"></div>
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_omamori1400_400.png')}}');"></div>
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_uranai1400_400.png')}}');"></div>
         </div>
+
+        <!-- 横幅が991px以下の場合の処理 -->
+        <div class="owl-carousel owl-theme d-xl-none d-xxl-none">
+            <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_hakamairi576_200.png')}}');"></div>
+            <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_omamori576_200.png')}}');"></div>
+            <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_uranai576_200.png')}}');"></div>
+        </div>
+
     </div>
     <div class="d-flex col-xl-4 justify-content-xl-start order-xl-1">
         <table class="table">
@@ -284,6 +294,12 @@
     closeButton3.addEventListener("click", function() {
         informationPopup3.style.display = "none";
     });
+
+    //デバイス横幅取得
+    function getWindowWidth() {
+        return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    }
+    document.getElementById('window-width').value = getWindowWidth();
 </script>
 
 @endsection
