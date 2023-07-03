@@ -18,35 +18,35 @@ class ServiceCategoryTableSeeder extends Seeder
         $param = [
             'big_category' => 'お墓参り',
             'name' => 'お墓参り',
-            'icon' => 'storage/images/category_icon_ohakamairi.png'
+            'icon' => 'storage/images/using_icon_hakamairi.png'
         ];
         DB::table('service_categories')->insert($param);
 
         $param = [
             'big_category' => 'お守り・お札・御朱印購入',
             'name' => 'お守り・お札・御朱印購入',
-             'icon' => 'storage/images/category_icon_temple.png'
+             'icon' => 'storage/images/using_icon_omamorikounyuu.png'
         ];
         DB::table('service_categories')->insert($param);
 
         $param = [
             'big_category' => '参拝・祈祷',
-            'name' => '参拝・祈祷',
-            'icon' => 'storage/images/category_icon_tanzaku.png'
+            'name' => '寺・神社参拝',
+            'icon' => 'storage/images/using_icon_terajinjamairi.png'
         ];
         DB::table('service_categories')->insert($param);
 
         $param = [
             'big_category' => '占い',
             'name' => '占い',
-            'icon' => 'storage/images/category_icon_uranai.png'
+            'icon' => 'storage/images/using_icon_uranai.png'
         ];
         DB::table('service_categories')->insert($param);
 
         $param = [
-            'big_category' => 'その他',
-            'name' => 'その他',
-            'icon' => 'storage/images/category_icon_ishi.png'
+            'big_category' => 'その他スキル販売',
+            'name' => 'その他スキル販売',
+            'icon' => 'storage/images/using_icon_sonota.png'
         ];
         DB::table('service_categories')->insert($param);
     }

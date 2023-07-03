@@ -107,6 +107,7 @@
   height: 100%;
   object-fit: cover;
 }
+
 @media (min-width: 992px) {
   .header-section {
     display: flex;
@@ -114,26 +115,20 @@
     flex-wrap: wrap;
     align-items: center;
   justify-content: space-between;
-    height: 400px;
+    height: 200px;
   }
-  .owl-carousel{
-    width:58.33333333% !important;
-  }
-  .slider-section {
-     width: 65%;
-     height: 100%;
-  }
-  
-  .header-item {
-    height: 400px;
-    background-size: cover;
-    background-position: center;
-    }
 
-  .news {
-    width: 35%;
-    padding: 10px;
-  }
+    .slider-section,
+    .news {
+      width: 100%;
+      height: 200px;
+    }
+  
+    .header-item {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+    }
 }
 
 @media (max-width: 991px) {

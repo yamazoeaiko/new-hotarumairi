@@ -2,13 +2,14 @@
 @section('content')
 <!-- Header -->
 <header class="row justify-content-center mb-2">
-    <div class="d-flex  col-lg-7 justify-content-lg-end order-lg-2 owl-carousel owl-theme">
-        <div class="header-item" style="background-image: url('{{ asset('storage/images/toppage_1.png')}}');"></div>
-        <div class="header-item" style="background-image: url('{{ asset('storage/images/toppage_2.png')}}');"></div>
-        <div class="header-item" style="background-image: url('{{ asset('storage/images/toppage_3.png')}}');"></div>
-        <div class="header-item" style="background-image: url('{{ asset('storage/images/toppage_4.png')}}');"></div>
+    <div class="col-xl-7 d-flex justify-content-xl-end order-xl-2 d-flex">
+        <div class="owl-carousel owl-theme">
+            <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_hakamairi700_400.png')}}');"></div>
+            <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_omamori700_400.png')}}');"></div>
+            <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_uranai700_400.png')}}');"></div>
+        </div>
     </div>
-    <div class="d-flex col-lg-4 justify-content-lg-start order-lg-1">
+    <div class="d-flex col-xl-4 justify-content-xl-start order-xl-1">
         <table class="table">
             <tr>
                 <th>{{$info_1->title}}</th>
