@@ -5,14 +5,14 @@
     <div class="col-xl-7 d-flex justify-content-xl-end order-xl-2 d-flex">
         <input type="hidden" id="window-width" value="">
         <!-- 横幅が992px以上の場合の処理 -->
-        <div class="owl-carousel owl-theme ">
+        <div class="owl-carousel owl-theme d-none d-md-block">
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_hakamairi1400_400.png')}}');"></div>
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_omamori1400_400.png')}}');"></div>
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_uranai1400_400.png')}}');"></div>
         </div>
 
         <!-- 横幅が991px以下の場合の処理 -->
-        <div class="owl-carousel owl-theme d-xl-none d-xxl-none">
+        <div class="owl-carousel owl-theme d-md-none">
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_hakamairi576_200.png')}}');"></div>
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_omamori576_200.png')}}');"></div>
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_uranai576_200.png')}}');"></div>
