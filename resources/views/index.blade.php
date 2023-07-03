@@ -102,33 +102,60 @@
                             <a href="{{ route('service') }}">もっと見る</a>
                         </div>
                     </div>
-                    <div class="row">
-                        @foreach($items as $item)
-                        <div class="col-md-6 col-lg-3 card-all">
-                            <div class="card mb-4">
-                                <div class="service-card">
-                                    <img src="{{asset($item->photo_1)}}" class="card-img-top" alt="image_photo">
+                    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="row">
+                                @php $count = 0; @endphp
+                                @foreach($items as $item)
+                                <div class="col-3">
+
+                                    <a class="card mb-4 text-decoration-none" href="{{ route('service.detail',['service_id'=>$item->id]) }}">
+                                        <div class=" service-card">
+                                            <img src="{{asset($item->photo_1)}}" class="card-img-top" alt="image_photo">
+                                        </div>
+                                        <div class="card-body">
+                                            <!--カテゴリー名出さない（デザインのため）
+                                                        @foreach($item->categories as $value)
+                                                        <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
+                                                        @endforeach
+                                                        -->
+                                            <p class="fw-bolder text-ellipsis">{{$item->main_title}}</p>
+                                            <div class="row align-items-center">
+                                                <div class="rounded-circle overflow-hidden d-flex" style="width: 40px; height: 40px; padding: 0;">
+                                                    <img src="{{ asset($item->profile_image) }}" alt="" style="max-width: 100%; max-height: 100%;">
+                                                </div>
+
+                                                <div class="col-7 fs-7 text-secondary text-md-center">{{ $item->price }}円</div>
+                                                <!--詳細ボタン消す（デザインのため
+                                                <div class="col-4 text-md-end">
+                                                    <a href="{{ route('service.detail',['service_id'=>$item->id]) }}" class="btn btn-primary fs-7">詳細</a>
+                                                </div>
+                                                -->
+                                            </div>
+                                        </div>
+                                    </a>
+
                                 </div>
-                                <div class="card-body">
-                                    @foreach($item->categories as $value)
-                                    <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
+                                @php $count++; @endphp
+                                @if($count % 4 === 0)
+                            </div>
+                            <div class="carousel-item {{ $count === 4 ? 'active' : '' }}">
+                                <div class="row">
+                                    @endif
                                     @endforeach
-                                    <h5 class="fs-6 fw-bolder">{{$item->main_title}}</h5>
-                                    <div class="row align-items-center">
-                                        <div class="col-4 d-flex fs-7">
-                                            {{$item->provider_name }}
-                                        </div>
-                                        <div class="col-4 fs-7 text-secondary text-md-center">{{ $item->price }}円</div>
-                                        <div class="col-4 text-md-end">
-                                            <a href="{{ route('service.detail',['service_id'=>$item->id]) }}" class="btn btn-primary fs-7">詳細</a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
-                        @endforeach
+
                     </div>
-                </div>
             </section>
         </div>
     </div>

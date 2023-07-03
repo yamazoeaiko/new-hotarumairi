@@ -40,6 +40,57 @@
     margin-bottom: 10px;
   }
 }*/
+.text-ellipsis {
+  white-space: nowrap;
+  /* テキストを折り返さずに1行で表示する */
+  overflow: hidden;
+  /* オーバーフローした部分を隠す */
+  text-overflow: ellipsis;
+  /* オーバーフローした部分を省略記号（...）で表示する */
+  max-width: 100%;
+  /* 親要素の幅に合わせてテキストを表示する */
+}
+
+@media (max-width: 576px) {
+  .card-body {
+    font-size: 8px;
+    /* 適切なフォントサイズに変更してください */
+  }
+
+  .card-img-top {
+    max-width: 100%;
+    /* 適切な画像サイズに変更してください */
+    height: auto;
+  }
+}
+
+/* タブレットサイズ用のスタイル */
+@media (min-width: 577px) and (max-width: 992px) {
+  .card-body {
+    font-size: 8px;
+    /* 適切なフォントサイズに変更してください */
+  }
+
+  .card-img-top {
+    max-width: 100%;
+    /* 適切な画像サイズに変更してください */
+    height: auto;
+  }
+}
+
+/* デスクトップサイズ用のスタイル */
+@media (min-width: 993px) {
+  .card-body {
+    font-size: 14px;
+    /* 適切なフォントサイズに変更してください */
+  }
+
+  .card-img-top {
+    max-width: 100%;
+    /* 適切な画像サイズに変更してください */
+    height: auto;
+  }
+}
 
 .new-arrivals-section{
   padding: 0;
