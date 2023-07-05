@@ -38,7 +38,7 @@ class ServiceController extends Controller
         $items = Service::orderBy('created_at', 'desc')
             ->where('type', 'service')
             ->where('status', 'open')
-            ->take(3)
+            ->take(15)
             ->get();
         foreach($items as $item){
             if ($item->category_ids) {
@@ -59,7 +59,7 @@ class ServiceController extends Controller
         $public_requests = Service::orderBy('created_at', 'desc')
         ->where('type', 'public_request')
         ->where('status', 'open')
-        ->take(3)
+        ->take(15)
         ->get();
         foreach ($public_requests as $public_request) {
             if ($public_request->category_ids) {

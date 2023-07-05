@@ -102,60 +102,37 @@
                             <a href="{{ route('service') }}">もっと見る</a>
                         </div>
                     </div>
-                    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="row">
-                                @php $count = 0; @endphp
-                                @foreach($items as $item)
-                                <div class="col-3">
+                    <div class="card-items">
+                        @foreach($items as $item)
+                        <div class="card-item">
+                            <a class="card mb-4 text-decoration-none" href="{{ route('service.detail',['service_id'=>$item->id]) }}">
+                                <div class=" service-card">
+                                    <img src="{{asset($item->photo_1)}}" class="card-img-top" alt="image_photo">
+                                </div>
+                                <div class="card-body">
+                                    <div class="category-parent">
+                                        @foreach($item->categories as $value)
+                                        <small class="text-ellipsis d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
+                                        @endforeach
+                                    </div>
 
-                                    <a class="card mb-4 text-decoration-none" href="{{ route('service.detail',['service_id'=>$item->id]) }}">
-                                        <div class=" service-card">
-                                            <img src="{{asset($item->photo_1)}}" class="card-img-top" alt="image_photo">
-                                        </div>
-                                        <div class="card-body">
-                                            <!--カテゴリー名出さない（デザインのため）
-                                                        @foreach($item->categories as $value)
-                                                        <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
-                                                        @endforeach
-                                                        -->
-                                            <p class="fw-bolder text-ellipsis">{{$item->main_title}}</p>
-                                            <div class="row align-items-center">
-                                                <div class="rounded-circle overflow-hidden d-flex" style="width: 40px; height: 40px; padding: 0;">
-                                                    <img src="{{ asset($item->profile_image) }}" alt="" style="max-width: 100%; max-height: 100%;">
-                                                </div>
+                                    <p class="fw-bolder text-ellipsis">{{$item->main_title}}</p>
 
-                                                <div class="col-7 fs-7 text-secondary text-md-center">{{ $item->price }}円</div>
-                                                <!--詳細ボタン消す（デザインのため
-                                                <div class="col-4 text-md-end">
-                                                    <a href="{{ route('service.detail',['service_id'=>$item->id]) }}" class="btn btn-primary fs-7">詳細</a>
-                                                </div>
-                                                -->
+                                    <div class="row align-items-center px-1">
+                                        <div class="col-5">
+                                            <div class="rounded-circle overflow-hidden d-flex" style="width: 40px; height: 40px; padding: 0;">
+                                                <img src="{{ asset($item->profile_image) }}" alt="" style="max-width: 100%; max-height: 100%;">
                                             </div>
                                         </div>
-                                    </a>
 
+                                        <div class="col-7 fs-7 text-secondary">{{ $item->price }}円</div>
+                                    </div>
                                 </div>
-                                @php $count++; @endphp
-                                @if($count % 4 === 0)
-                            </div>
-                            <div class="carousel-item {{ $count === 4 ? 'active' : '' }}">
-                                <div class="row">
-                                    @endif
-                                    @endforeach
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-
-                    </div>
+                            </a>
+                        </div> 
+                        @endforeach
+                    </div>               
+                 </div>
             </section>
         </div>
     </div>
@@ -174,39 +151,28 @@
                             <a href="{{ route('pubreq.index') }}">もっと見る</a>
                         </div>
                     </div>
-                    <div class="row">
+
+                  <div class="card-items">
                         @foreach($public_requests as $public_request)
-                        <div class="col-md-6 col-lg-3 card-all">
-                            <div class="card mb-2 p-2">
-                                <div class="px-2">
-                                    <p class="text-muted small">依頼投稿日：{{\Carbon\Carbon::parse($public_request->created_at)->format('Y年m月d日')}}</p>
-                                </div>
-                                <div class="row">
-                                    <div class="offset-1 col-3">
-                                        <div class="rounded-circle overflow-hidden d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                            <img src="{{ asset($public_request->profile_image) }}" alt="" class="w-100 h-100">
-                                        </div>
-                                    </div>
-                                    <div class="col-8">
-                                        <p class="fs-6 mb-0">{{ $public_request->seeker_name }}</p>
-                                    </div>
-                                </div>
+                        <div class="card-pub-item">
+                            <a class="card mb-4 text-decoration-none" href="{{ route('pubreq.detail',['service_id'=>$public_request->id]) }}">
                                 <div class="card-body">
-                                    @foreach($public_request->categories as $value)
-                                    <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
-                                    @endforeach
-                                    <h5 class="fs-6 fw-bolder">{{$public_request->main_title}}</h5>
-                                    <div class="row align-items-center">
-                                        <div class="col-4 d-flex fs-7">
-                                            {{$public_request->provider_name }}
+                                    <div class="category-parent">
+                                        @foreach($public_request->categories as $value)
+                                        <small class=".text-ellipsis d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
+                                        @endforeach
+                                    </div>
+                                    <p class="fw-bolder text-ellipsis">{{$public_request->main_title}}</p>
+                                    <div class="row align-items-center px-1">
+                                        <div class="col-5">
+                                            <div class="rounded-circle overflow-hidden d-flex" style="width: 40px; height: 40px; padding: 0;">
+                                                <img src="{{ asset($public_request->profile_image) }}" alt="" style="max-width: 100%; max-height: 100%;">
+                                            </div>
                                         </div>
-                                        <div class="col-4 fs-7 text-secondary text-md-center">{{ $public_request->price }}円</div>
-                                        <div class="col-4 text-md-end">
-                                            <a href="{{ route('pubreq.detail',['service_id'=>$public_request->id]) }}" class="btn btn-primary fs-7">詳細</a>
-                                        </div>
+                                        <div class="col-7 fs-7 text-secondary">{{ $public_request->price }}円</div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                         @endforeach
                     </div>
