@@ -287,12 +287,6 @@
     closeButton3.addEventListener("click", function() {
         informationPopup3.style.display = "none";
     });
-
-    //デバイス横幅取得
-    function getWindowWidth() {
-        return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    }
-    document.getElementById('window-width').value = getWindowWidth();
 </script>
 
 @endsection
