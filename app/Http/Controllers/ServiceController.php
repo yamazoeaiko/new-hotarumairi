@@ -308,56 +308,128 @@ class ServiceController extends Controller
 
         if ($request->hasFile('photo_1')) {
             $dir = 'service';
+            $file = $request->file('photo_1');
             $file_name = $request->file('photo_1')->getClientOriginalName();
+
+            // ファイル名の重複をチェックする
+            $counter = 1;
+            while (file_exists('storage/' . $dir . '/' . $file_name)) {
+                $file_name = pathinfo($file_name, PATHINFO_FILENAME) . '_' . $counter . '.' . $file->getClientOriginalExtension();
+                $counter++;
+            }
+
             $path_1 = 'storage/' . $dir . '/' . $file_name;
             $request->file('photo_1')->storeAs('public/' . $dir, $file_name);
             $service->photo_1 = $path_1;
         }
         if ($request->hasFile('photo_2')) {
             $dir = 'service';
+            $file = $request->file('photo_2');
             $file_name = $request->file('photo_2')->getClientOriginalName();
+
+            // ファイル名の重複をチェックする
+            $counter = 1;
+            while (file_exists('storage/' . $dir . '/' . $file_name)) {
+                $file_name = pathinfo($file_name, PATHINFO_FILENAME) . '_' . $counter . '.' . $file->getClientOriginalExtension();
+                $counter++;
+            }
+
             $path_2 = 'storage/' . $dir . '/' . $file_name;
             $request->file('photo_2')->storeAs('public/' . $dir, $file_name);
             $service->photo_2 = $path_2;
         }
         if ($request->hasFile('photo_3')) {
             $dir = 'service';
+            $file = $request->file('photo_3');
             $file_name = $request->file('photo_3')->getClientOriginalName();
+
+            // ファイル名の重複をチェックする
+            $counter = 1;
+            while (file_exists('storage/' . $dir . '/' . $file_name)) {
+                $file_name = pathinfo($file_name, PATHINFO_FILENAME) . '_' . $counter . '.' . $file->getClientOriginalExtension();
+                $counter++;
+            }
+
             $path_3 = 'storage/' . $dir . '/' . $file_name;
             $request->file('photo_3')->storeAs('public/' . $dir, $file_name);
             $service->photo_3 = $path_3;
         }
         if ($request->hasFile('photo_4')) {
             $dir = 'service';
+            $file = $request->file('photo_4');
             $file_name = $request->file('photo_4')->getClientOriginalName();
+
+            // ファイル名の重複をチェックする
+            $counter = 1;
+            while (file_exists('storage/' . $dir . '/' . $file_name)) {
+                $file_name = pathinfo($file_name, PATHINFO_FILENAME) . '_' . $counter . '.' . $file->getClientOriginalExtension();
+                $counter++;
+            }
+
             $path_4 = 'storage/' . $dir . '/' . $file_name;
             $request->file('photo_4')->storeAs('public/' . $dir, $file_name);
             $service->photo_4 = $path_4;
         }
         if ($request->hasFile('photo_5')) {
             $dir = 'service';
+            $file = $request->file('photo_5');
             $file_name = $request->file('photo_5')->getClientOriginalName();
+
+            // ファイル名の重複をチェックする
+            $counter = 1;
+            while (file_exists('storage/' . $dir . '/' . $file_name)) {
+                $file_name = pathinfo($file_name, PATHINFO_FILENAME) . '_' . $counter . '.' . $file->getClientOriginalExtension();
+                $counter++;
+            }
+
             $path_5 = 'storage/' . $dir . '/' . $file_name;
             $request->file('photo_5')->storeAs('public/' . $dir, $file_name);
             $service->photo_5 = $path_5;
         }
         if ($request->hasFile('photo_6')) {
             $dir = 'service';
+            $file = $request->file('photo_6');
             $file_name = $request->file('photo_6')->getClientOriginalName();
+
+            // ファイル名の重複をチェックする
+            $counter = 1;
+            while (file_exists('storage/' . $dir . '/' . $file_name)) {
+                $file_name = pathinfo($file_name, PATHINFO_FILENAME) . '_' . $counter . '.' . $file->getClientOriginalExtension();
+                $counter++;
+            }
+
             $path_6 = 'storage/' . $dir . '/' . $file_name;
             $request->file('photo_6')->storeAs('public/' . $dir, $file_name);
             $service->photo_6 = $path_6;
         }
         if ($request->hasFile('photo_7')) {
             $dir = 'service';
+            $file = $request->file('photo_7');
             $file_name = $request->file('photo_7')->getClientOriginalName();
+
+            // ファイル名の重複をチェックする
+            $counter = 1;
+            while (file_exists('storage/' . $dir . '/' . $file_name)) {
+                $file_name = pathinfo($file_name, PATHINFO_FILENAME) . '_' . $counter . '.' . $file->getClientOriginalExtension();
+                $counter++;
+            }
+
             $path_7 = 'storage/' . $dir . '/' . $file_name;
             $request->file('photo_7')->storeAs('public/' . $dir, $file_name);
             $service->photo_7 = $path_7;
         }
         if ($request->hasFile('photo_8')) {
             $dir = 'service';
+            $file = $request->file('photo_8');
             $file_name = $request->file('photo_8')->getClientOriginalName();
+
+            // ファイル名の重複をチェックする
+            $counter = 1;
+            while (file_exists('storage/' . $dir . '/' . $file_name)) {
+                $file_name = pathinfo($file_name, PATHINFO_FILENAME) . '_' . $counter . '.' . $file->getClientOriginalExtension();
+                $counter++;
+            }
+            
             $path_8 = 'storage/' . $dir . '/' . $file_name;
             $request->file('photo_8')->storeAs('public/' . $dir, $file_name);
             $service->photo_8 = $path_8;
