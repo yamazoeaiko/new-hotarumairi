@@ -35,7 +35,7 @@
     <textarea class="form-control" name="free" readonly>{{ $item->free }}</textarea>
   </div>
 
-  <div class="text-center">
+  <div class="d-flex justify-content-around">
     @if($mytype == 'buy_user')
     @if($item->status == 'paid')
     <button class="btn btn-primary" disabled>支払い済み</button>
@@ -43,7 +43,7 @@
     <button class="btn btn-danger my-1 mx-2" onclick="location.href='{{route('buyer.cancel.offer',['agreement_id'=>$item->id, 'entry_id'=>$item->entry_id])}}'">キャンセル申請（返金依頼）</button>
     -->
     @elseif($item->status == 'pending')
-    <button class="btn btn-danger my-1 mx-2" onclick="location.href='{{route('payment',['agreement_id'=>$item->id])}}'">承認（支払い画面へ）</button>
+    <button class="btn btn-success fw-bolder my-1 mx-2" onclick="location.href='{{route('payment',['agreement_id'=>$item->id])}}'">承認（支払い画面へ）</button>
     <form action="{{ route('agreement.unapproved') }}" method="post">
       @csrf
       <input type="hidden" name="agreement_id" value="{{$item->id}}">
@@ -63,14 +63,14 @@
 
     @if($mytype == 'sell_user')
     @if($item->status == 'pending')
-    <button class="btn btn-danger my-1 mx-2" onclick="location.href='{{route('agreement.edit',['agreement_id'=>$item->id])}}'">お見積もり修正</button>
+    <button class="btn btn-success my-1 mx-2" onclick="location.href='{{route('agreement.edit',['agreement_id'=>$item->id])}}'">お見積もり修正</button>
     <form action="{{ route('agreement.cancel') }}" method="post">
       @csrf
       <input type="hidden" name="agreement_id" value="{{$item->id}}">
       <button type="submit" class="btn btn-outline-danger" onclick="return confirm('この見積もり提案をキャンセルしますか？キャンセルすると復元できません。')">キャンセルする</button>
     </form>
     @elseif($item->status == 'unapproved')
-    <button class="btn btn-danger my-1 mx-2" onclick="location.href='{{route('agreement.edit',['agreement_id'=>$item->id])}}'">お見積もり修正して再提案</button>
+    <button class="btn btn-success my-1 mx-2" onclick="location.href='{{route('agreement.edit',['agreement_id'=>$item->id])}}'">お見積もり修正して再提案</button>
     @elseif($item->status == 'paid')
     <button class="btn btn-primary" disabled>承認されました（支払い済み）</button>
     <button class="btn btn-danger my-1 mx-2" onclick="location.href='{{route('seller.cancel.offer',['agreement_id'=>$item->id, 'entry_id'=>$item->entry_id])}}'">キャンセル申請（返金依頼）</button>
@@ -84,6 +84,5 @@
     @endif
     @endif
   </div>
-  </form>
 </div>
 @endsection

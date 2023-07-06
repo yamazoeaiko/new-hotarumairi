@@ -3596,6 +3596,36 @@ fieldset:disabled .btn {
   pointer-events: none;
   opacity: 0.65;
 }
+.btn-twitter {
+  color: #fff;
+  background-color: #55acee;
+  border-color: #55acee;
+}
+.btn-twitter:hover{
+  color: #55acee;
+  background-color: #ffffff;
+  border-color: #55acee;
+}
+.btn-instagram {
+  color: #fff;
+  background-color: #f56040;
+  border-color: #f56040;
+}
+.btn-instagram:hover {
+  color: #f56040;
+  background-color: #ffffff;
+  border-color: #f56040;
+}
+.btn-facebook {
+  color: #fff;
+  background-color: #315096;
+  border-color: #315096;
+}
+.btn-facebook:hover {
+  color: #315096;
+  background-color: #ffffff;
+  border-color: #315096;
+}
 
 .btn-primary {
   color: #fff;
@@ -3604,9 +3634,9 @@ fieldset:disabled .btn {
 }
 
 .btn-primary:hover {
-  color: #34495E;
+  color: #27AE60;
   font-weight: bolder;
-  background-color: #F1C40F;
+  background-color: #ffffff;
   border-color: #27AE60;
 }
 
@@ -3650,9 +3680,9 @@ fieldset:disabled .btn {
 }
 
 .btn-secondary:hover {
-  color: #fff;
-  background-color: #8716c0;
-  border-color: #7f15b5;
+  color: #7F8C8D;
+  background-color: #ffffff;
+  border-color: #7F8C8D;
 }
 
 .btn-check:focus+.btn-secondary,
@@ -3689,15 +3719,15 @@ fieldset:disabled .btn {
 }
 
 .btn-success {
-  color: #34495E;
+  color: #000000;
   background-color: #F1C40F;
   border-color: #F1C40F;
 }
 
 .btn-success:hover {
-  color: #fff;
-  background-color: #27AE60;
-  border-color: #146c43;
+  color: #F1C40F;
+  background-color: #ffffff;
+  border-color: #F1C40F;
 }
 
 .btn-check:focus+.btn-success,
@@ -3734,15 +3764,15 @@ fieldset:disabled .btn {
 }
 
 .btn-info {
-  color: #000;
+  color: #ffffff;
   background-color: #0dcaf0;
   border-color: #0dcaf0;
 }
 
 .btn-info:hover {
-  color: #000;
-  background-color: #31d2f2;
-  border-color: #25cff2;
+  color: #0dcaf0;
+  background-color: #ffffff;
+  border-color: #0dcaf0;
 }
 
 .btn-check:focus+.btn-info,
@@ -3830,9 +3860,9 @@ fieldset:disabled .btn {
 }
 
 .btn-danger:hover {
-  color: #fff;
-  background-color: #bb2d3b;
-  border-color: #b02a37;
+  color: #E74C3C;
+  background-color: #ffffff;
+  border-color: #E74C3C;
 }
 
 .btn-check:focus+.btn-danger,

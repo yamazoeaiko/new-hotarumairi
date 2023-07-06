@@ -126,7 +126,16 @@ class UserController extends Controller
 
         if ($request->hasFile('image')) {
             $dir = 'profile';
+            $file = $request->file('image');
             $file_name = $request->file('image')->getClientOriginalName();
+
+            // ファイル名の重複をチェックする
+            $counter = 1;
+            while (file_exists('storage/' . $dir . '/' . $file_name)) {
+                $file_name = pathinfo($file_name, PATHINFO_FILENAME) . '_' . $counter . '.' . $file->getClientOriginalExtension();
+                $counter++;
+            }
+
             $param['img_url'] = 'storage/' . $dir . '/' . $file_name;
 
             $request->file('image')->storeAs('public/' . $dir, $file_name);
@@ -216,7 +225,16 @@ class UserController extends Controller
 
         if ($request->hasFile('identification_photo')) {
             $dir = 'user_identification_photo';
+            $file = $request->file('identification_photo');
             $file_name = $request->file('identification_photo')->getClientOriginalName();
+
+            // ファイル名の重複をチェックする
+            $counter = 1;
+            while (file_exists('storage/' . $dir . '/' . $file_name)) {
+                $file_name = pathinfo($file_name, PATHINFO_FILENAME) . '_' . $counter . '.' . $file->getClientOriginalExtension();
+                $counter++;
+            }
+            
             $identification->identification_photo = 'storage/' . $dir . '/' . $file_name;
 
             $request->file('identification_photo')->storeAs('public/' . $dir, $file_name);

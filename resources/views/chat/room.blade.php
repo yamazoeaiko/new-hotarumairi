@@ -4,15 +4,14 @@
 <div class="container">
   <div class="row gx-5 align-items-center">
     <div class="col-12">
-      <button class="btn-outline-primary" onClick="location.href='{{route('chat.list')}}'">戻る</button>
+      <button class="btn btn-outline-secondary" onClick="location.href='{{route('chat.list')}}'">戻る</button>
       <p class="col me-2 fs-5 fw-bolder ">{{ $theother->nickname }}</p>
       <div class="d-flex  align-items-center mb-3">
-
         @if($mytype == 'sell_user')
         @if($agreement == null)
-        <button class="btn btn-danger fs-7 col p-3 mx-2" onclick="location.href='{{route('agreement.create',['service_id'=>$service->id, 'entry_id'=>$entry->id])}}'">見積もり提案を送付</button>
+        <button class="btn btn-primary fs-7 col p-3 mx-2" onclick="location.href='{{route('agreement.create',['service_id'=>$service->id, 'entry_id'=>$entry->id])}}'">見積もり提案を送付</button>
         @else
-        <button class="btn btn-danger fs-7 col p-3 mx-2" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">見積もり内容</button>
+        <button class="btn btn-outline-primary fs-7 col p-3 mx-2" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">見積もり内容</button>
         @endif
         @endif
         @if($mytype == 'buy_user')
@@ -21,7 +20,7 @@
           見積もり提案がありません
         </button>
         @else
-        <button class="btn btn-outline-danger fs-7 col p-3 mx-2" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">見積もり内容</button>
+        <button class="btn btn-primary fs-7 col p-3 mx-2" onclick="location.href='{{route('agreement.index',['agreement_id'=>$agreement->id])}}'">見積もり内容</button>
         @endif
         @endif
 
@@ -140,7 +139,7 @@
                     <input type="file" accept=".png, .jpeg, .jpg" name="file_path">
                   </div>
                   <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="submit">送信</button>
+                    <button class="btn btn-success" type="submit">送信</button>
                   </div>
                 </div>
               </div>

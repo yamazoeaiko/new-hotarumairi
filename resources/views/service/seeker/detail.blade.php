@@ -112,12 +112,13 @@
         </div>
       </div>
     </div>
+
     @if($item->offer_user_id !== $user_id)
     <div class="text-center">
       @if($room_id)
       <button class="btn btn-success" onclick=location.href="{{route('chat.room',['room_id'=>$room_id])}}">チャット画面</button>
       @else
-      <button type="button" class="btn btn-success my-2" data-bs-toggle="collapse" data-bs-target="#collapseConsult">購入、見積もり、質問をする</button>
+      <button type="button" class="btn btn-primary my-2" data-bs-toggle="collapse" data-bs-target="#collapseConsult">購入、見積もり、質問をする</button>
 
       <div class="collapse" id="collapseConsult">
         <form action="{{route('service.consult')}}" method="post">
@@ -128,22 +129,35 @@
           <div class="input-group">
             <textarea name="first_chat" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary col-3">送信する</button>
+          <button type="submit" class="btn btn-success col-3">送信する</button>
         </form>
       </div>
     </div>
     @endif
 
     @elseif($item->offer_user_id == $user_id)
-    <div class="text-center my-1">
+    <div class="d-flex justify-content-around">
       <button class=" btn btn-primary" onclick=location.href="{{route('mypage.service.edit',['service_id'=>$item->id])}}">編集する</button>
     </div>
-    @endif
-    <div class="text-center my-2">
-      <button onclick="history.back()" class="btn btn-outline-secondary">
-        <i class="fas fa-arrow-left">戻る</i>
-      </button>
+
+    <div class="text-center bg-light my-2 py-2">
+      <p class="fs-6 fw-bolder">ご自身の出品サービスをSNSでアピールしよう！</p>
+      <div class="d-flex justify-content-around">
+        <!-- Twitterの共有ボタン -->
+        <a href="https://twitter.com/intent/tweet?url={{ urlencode(Request::url()) }}&text=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！" class="btn btn-twitter my-1">
+          <small>Twitterでシェア</small>
+        </a>
+        <!-- Instagramの共有ボタン -->
+        <a href="https://www.instagram.com/sharer.php?u={{ urlencode(Request::url()) }}&title=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！" class="btn btn-instagram my-1">
+          <small>Instagramでシェア</small>
+        </a>
+        <!-- Facebookの共有ボタン -->
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(Request::url()) }}&title=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！" class="btn btn-facebook my-1">
+          <small>Facebookでシェア</small>
+        </a>
+      </div>
     </div>
+    @endif
 
 
     <!-- Owl Carousel CSS -->

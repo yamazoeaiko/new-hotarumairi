@@ -22,7 +22,7 @@
     </div>
   </div>
   <div class="text-center my-3">
-    <button class="btn btn-danger" onClick="onClick();">支払いを実行する</button>
+    <button class="btn btn-primary" onClick="onClick();">支払いを実行する</button>
     <div>
       <span class="red small">※こちらをクリックするとクレジットカードでの決済画面にリダイレクトします。</span>
     </div>

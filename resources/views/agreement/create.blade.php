@@ -42,7 +42,7 @@
     </div>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-primary mt-3" onclick="return confirm('この内容でお見積りを提案しますか？')">お見積もりを提案する</button>
+      <button type="submit" class="btn btn-success mt-3" onclick="return confirm('この内容でお見積りを提案しますか？')">お見積もりを提案する</button>
     </div>
   </form>
 </div>
