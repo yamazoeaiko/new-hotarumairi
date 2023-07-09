@@ -27,12 +27,14 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
-        @component('components.header')
-        @endcomponent
+        <div class="fixed-top">
+            @component('components.header')
+            @endcomponent
+        </div>
 
         <!-- Page Content -->
-        <main class="my-4">
-            @yield('content')
+        <main class="my-header">
+                @yield('content')
         </main>
     </div>
 </body>

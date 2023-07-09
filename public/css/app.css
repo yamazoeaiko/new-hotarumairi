@@ -68,6 +68,9 @@
   width: 205px;
   height: 130px;
 }
+.my-header {
+  margin-top: 100px;
+}
 
 @media (max-width: 991px) {
   .card-item {
@@ -82,6 +85,9 @@
        width: 167px;
        height: 125px;
      }
+  .my-header {
+      margin-top: 74px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -91,12 +97,16 @@
     width: 167px;
     height: 239px;
   }
-        .card-pub-item {
+  .card-pub-item {
           flex: 0 0 calc(33.33% - 10px);
           /* タブレットサイズ以下の場合の列の数を指定（3列） */
           width: 167px;
           height: 125px;
-        }
+  }
+
+  .my-header {
+      margin-top: 74px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -111,6 +121,9 @@
       /* タブレットサイズ以下の場合の列の数を指定（3列） */
       width: 147px;
       height: 118px;
+    }
+    .my-header{
+      margin-top: 74px;
     }
 }
 
