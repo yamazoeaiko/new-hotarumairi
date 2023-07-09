@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-  <h5>支払い画面</h5>
+  <h5 class="my-2 fw-bold">支払い画面</h5>
   <div class="form-control">
     <div class="form-control mb-3">
       <label for="experience_name" class="fw-bolder">サービスタイトル</label>

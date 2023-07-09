@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-  <h5>キャンセル申請画面</h5>
+  <h5 class="my-2 fw-bold">キャンセル申請画面</h5>
   <h6 class="fw-bolder mt-3">予約内容</h6>
   <table class="table">
     <tr>

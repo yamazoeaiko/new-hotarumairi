@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <h5>公開依頼の詳細</h5>
+  <h5 class="my-2 fw-bold">公開依頼の詳細</h5>
   <div class="form-control">
     <div class="mb-3 row">
       <div class="col-md-4">

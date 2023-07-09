@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <h5>お見積書</h5>
+  <h5 class="my-2 fw-bold">お見積書</h5>
   <div class="mb-3">
     <label for="main_title" class="fw-bolder"> サービスタイトル</label>
     <input type="text" name="main_title" class="form-control fw-bolder" value="{{ $item->main_title }}" readonly>

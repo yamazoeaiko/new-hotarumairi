@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <h5>お見積書作成</h5>
+  <h5 class="my-2 fw-bold">お見積書作成</h5>
   <form action="{{ route('agreement.create.done') }}" method="post" class="form-control" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="sell_user" value="{{ $user_id }}">

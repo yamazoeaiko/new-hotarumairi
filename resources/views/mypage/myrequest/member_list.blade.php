@@ -3,7 +3,7 @@
 @section('content')
 <div class="container row">
   <div class="col-10">
-    <h5>あなたが依頼している代行一覧</h5>
+    <h5 class="my-2 fw-bold">あなたが依頼している代行一覧</h5>
     @if($items->isEmpty())
     <span>現在応募者はいません。</span>
     @endif

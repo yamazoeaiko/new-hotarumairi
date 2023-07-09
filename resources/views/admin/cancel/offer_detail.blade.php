@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="container">
-  <h5>【管理画面】キャンセル申請（詳細）</h5>
+  <h5 class="my-2 fw-bold">【管理画面】キャンセル申請（詳細）</h5>
   <div class="form-control">
     <div class="form-control mb-3">
       <label for="experience_name" class="fw-bolder">サービスタイトル</label>

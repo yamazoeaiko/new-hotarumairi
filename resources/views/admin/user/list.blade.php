@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="container">
-  <h5>【管理画面】ユーザー（一覧）</h5>
+  <h5 class="my-2 fw-bold">【管理画面】ユーザー（一覧）</h5>
   <div class="list-group">
     @if($items == null)
     登録しているユーザーはいません

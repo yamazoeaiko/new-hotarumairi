@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <h5>お見積内容の修正</h5>
+  <h5 class="my-2 fw-bold">お見積内容の修正</h5>
   <form action="{{ route('agreement.update') }}" method="post">
     @csrf
     <input type="hidden" name="agreement_id" value="{{$item->id}}">

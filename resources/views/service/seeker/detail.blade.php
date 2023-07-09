@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <h5>出品サービス詳細</h5>
+  <h6 class="my-2 fw-bold">出品サービス詳細</h6>
   <div class="form-control">
     <div class="mb-3 row">
       <div class="col-md-4">

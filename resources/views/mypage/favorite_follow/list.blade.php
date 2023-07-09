@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-  <h5>お気に入りしたサービス一覧</h5>
+  <h5 class="my-2 fw-bold">お気に入りしたサービス一覧</h5>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
     @foreach($favorites as $favorite)
     <div class="col">
@@ -29,7 +29,7 @@
     @endforeach
   </div>
 
-  <h5>フォローしたユーザーアカウント一覧</h5>
+  <h5 class="my-2 fw-bold">フォローしたユーザーアカウント一覧</h5>
   <div class="list-group">
     @if($follows)
     @foreach($follows as $follow)
@@ -45,15 +45,15 @@
             <h5 class="font-weight-bold mb-0">{{ $follow->user_name }}</h5>
           </div>
           <div class="col-3">出品サービス数：{{ $follow->count_services }}</div>
+        </div>
       </div>
+    </button>
+    @endforeach
+    @elseif($follows->isEmpty())
+    <div class="text-center">
+      <span>フォローしているアカウントはありません</span>
+    </div>
   </div>
-  </button>
-  @endforeach
-  @elseif($follows->isEmpty())
-  <div class="text-center">
-    <span>フォローしているアカウントはありません</span>
-  </div>
-</div>
-@endif
+  @endif
 </div>
 @endsection

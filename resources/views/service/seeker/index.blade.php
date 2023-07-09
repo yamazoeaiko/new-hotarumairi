@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-  <h5>出品サービス一覧</h5>
+  <h5 class="my-2 fw-bold">出品サービス一覧</h5>
   <!--検索する-->
-  <form action="{{route('service.search')}}" method="get" class="form">
+  <form action="{{route('service.search')}}" method="get" class="form-group my-4">
     @csrf
-    <table class="table">
+    <table class="table my-2">
       <tr>
         <th>エリア</th>
         <td>
@@ -168,8 +168,8 @@
     </div>
   </form>
   <!--検索結果-->
-  <div class="row mt-3">
-    <div class="col-lg-3 d-lg-block d-none">
+  <div class="row">
+    <div class="col-lg-2 d-lg-block d-none">
       <!-- Navbar Left -->
       <div class="navbar-left">
         <ul class="navbar-nav list-group">
@@ -190,30 +190,51 @@
         </ul>
       </div>
     </div>
-    @foreach($items as $item)
-    <div class="col-md-6 col-lg-3 card-all">
-      <div class="card mb-4">
-        <div class="service-card">
-          <img src="{{asset($item->photo_1)}}" class="card-img-top" alt="image_photo">
-        </div>
-        <div class="card-body">
-          @foreach($item->categories as $value)
-          <small class="d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
-          @endforeach
-          <h5 class="fs-6 fw-bolder">{{$item->main_title}}</h5>
-          <div class="row align-items-center">
-            <div class="col-4 d-flex fs-7">
-              {{$item->provider_name }}
+    <div class="col-lg-10">
+      <!-- New Arrivals -->
+      <section class="new-arrivals-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-7">
+              <h2 class="section-title">出品サービスの新着案件</h2>
             </div>
-            <div class="col-4 fs-7 text-secondary text-md-center">{{ $item->price }}円</div>
-            <div class="col-4 text-md-end">
-              <a href="{{ route('service.detail',['service_id'=>$item->id]) }}" class="btn btn-primary fs-7">詳細</a>
+            <div class="col-4">
+              <a href="{{ route('service') }}">もっと見る</a>
             </div>
           </div>
+          <div class="card-items">
+            @foreach($items as $item)
+            <div class="card-item">
+              <a class="card mb-4 text-decoration-none" href="{{ route('service.detail',['service_id'=>$item->id]) }}">
+                <div class=" service-card">
+                  <img src="{{asset($item->photo_1)}}" class="card-img-top" alt="image_photo">
+                </div>
+                <div class="card-body">
+                  <div class="category-parent">
+                    @foreach($item->categories as $value)
+                    <small class="text-ellipsis d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
+                    @endforeach
+                  </div>
+
+                  <p class="fw-bolder text-ellipsis">{{$item->main_title}}</p>
+
+                  <div class="row align-items-center px-1">
+                    <div class="col-5">
+                      <div class="rounded-circle overflow-hidden d-flex" style="width: 40px; height: 40px; padding: 0;">
+                        <img src="{{ asset($item->profile_image) }}" alt="" style="max-width: 100%; max-height: 100%;">
+                      </div>
+                    </div>
+
+                    <div class="col-7 fs-7 text-secondary">{{ $item->price }}円</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            @endforeach
+          </div>
         </div>
-      </div>
+      </section>
     </div>
-    @endforeach
   </div>
 </div>
 @endsection

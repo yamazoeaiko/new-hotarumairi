@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-  <h5>公開依頼の作成</h5>
+  <h5 class="my-2 fw-bold">公開依頼の作成</h5>
   <form action="{{ route('pubreq.create.done') }}" method="post" class="form-control" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="request_user_id" value="{{ $user_id }}">

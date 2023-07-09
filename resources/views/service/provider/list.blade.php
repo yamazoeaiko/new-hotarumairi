@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
   <div class="my-5">
-    <h5>販売者の管理画面</h5>
+    <h5 class="my-2 fw-bold">販売者の管理画面</h5>
     <button class="btn btn-primary" onClick="location.href='{{ route('service.create') }}'">サービスを出品する</button>
     @if($items->isEmpty())
     <div>
@@ -26,7 +26,7 @@
   </div>
 
   <div class="my-3">
-    <h5>提案しているお見積り・内容相談など</h5>
+    <h5 class="my-2 fw-bold">提案しているお見積り・内容相談など</h5>
     @if($room ==null)
     <span>出品サービスへの相談はありません。</span>
     @else

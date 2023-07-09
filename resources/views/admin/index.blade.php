@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="container">
-  <h5>【管理画面】トップページ</h5>
+  <h5 class="my-2 fw-bold">【管理画面】トップページ</h5>
 
   <div class="card p-2">
     <h6 class="fs-6 fw-bolder">◆お知らせ情報の管理</h6>
