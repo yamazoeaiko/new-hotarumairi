@@ -2,49 +2,51 @@
 
 @section('content')
 
-<div class="container card input-group">
-    <form method="POST" action="{{ route('register') }}">
+<div class="container card input-group p-5">
+    <form method="POST" action="{{ route('register') }}" class="form-group">
         @csrf
-        <h4 class="m-2">新規登録画面</h4>
+        <div class="d-flex">
+            <h4 class="fw-bolder my-3">新規登録画面</h4>
+            <button class="btn btn-outline-success ms-auto" onclick="location.href='{{route('login')}}'">
+                ログイン
+            </button>
+        </div>
 
         <!-- Name -->
         <div>
             <label for="name">お名前</label>
-            <input id="name" class="block mt-1 w-full input-group-text" type="text" name="name" value="{{ old('name') }}" required />
+            <input id="name" class="block mt-1  form-control" type="text" name="name" value="{{ old('name') }}" required />
         </div>
 
         <div>
             <label for="name">ニックネーム<span>※サービス内での表示名</span></label>
-            <input id="nickname" class="block mt-1 w-full input-group-text" type="text" name="nickname" value="{{ old('nickname') }}" required />
+            <input id="nickname" class="block mt-1 w-full form-control" type="text" name="nickname" value="{{ old('nickname') }}" required />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
             <label for="email">メールアドレス</label>
-            <input id="email" class="block mt-1 w-full input-group-text" type="email" name="email" value="{{ old('email') }}" required />
+            <input id="email" class="block mt-1 w-full form-control" type="email" name="email" value="{{ old('email') }}" required />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
             <label for="password">パスワード（8文字以上）</label>
-            <input id="password" class="block mt-1 w-full input-group-text" type="password" name="password" required autocomplete="new-password" />
+            <input id="password" class="block mt-1 w-full form-control" type="password" name="password" required autocomplete="new-password" />
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
             <label for="password_confirmation">パスワード（確認用）</label>
 
-            <input id="password_confirmation" class="block mt-1 w-full input-group-text" type="password" name="password_confirmation" required />
+            <input id="password_confirmation" class="block mt-1 w-full form-control" type="password" name="password_confirmation" required />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <button class="offset-1 btn btn-primary">
+        <div class="text-center mt-4">
+            <button class="btn btn-primary">
                 新規登録
             </button>
         </div>
     </form>
-    <a class="text-sm text-gray-600 hover:text-white-900 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-indigo-500" href="{{ route('login') }}">
-        新規登録がお済みの方はログイン画面へ
-    </a>
 </div>
 @endsection
