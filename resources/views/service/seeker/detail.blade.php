@@ -144,18 +144,24 @@
       <p class="fs-6 fw-bolder">ご自身の出品サービスをSNSでアピールしよう！</p>
       <div class="d-flex justify-content-around">
         <!-- Twitterの共有ボタン -->
-        <a href="https://twitter.com/intent/tweet?url={{ urlencode(Request::url()) }}&text=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！" class="btn btn-twitter my-1">
+        <a href="https://twitter.com/intent/tweet?url={{ urlencode(Request::url()) }}&text=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！&image={{ urlencode(asset($item->photo_1)) }}" class="btn btn-twitter my-1">
           <small>Twitterでシェア</small>
         </a>
         <!-- Instagramの共有ボタン -->
-        <a href="https://www.instagram.com/sharer.php?u={{ urlencode(Request::url()) }}&title=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！" class="btn btn-instagram my-1">
+        <a href="https://www.instagram.com/sharer.php?u={{ urlencode(Request::url()) }}&title=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！&image={{ urlencode(asset($item->photo_1)) }}" class="btn btn-instagram my-1">
           <small>Instagramでシェア</small>
         </a>
         <!-- Facebookの共有ボタン -->
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(Request::url()) }}&title=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！" class="btn btn-facebook my-1">
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(Request::url()) }}&title=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！&picture={{ urlencode(asset($item->photo_1)) }}" class="btn btn-facebook my-1">
           <small>Facebookでシェア</small>
         </a>
+        <button class="btn btn-outline-primary my-1" id="copyButton">
+          <small>リンクをコピー</small>
+        </button>
+        <!-- リンクの表示用テキストエリア -->
+        <textarea id="linkTextArea" style="display: none;">{{ Request::url() }}</textarea>
       </div>
+
     </div>
     @endif
 
@@ -205,6 +211,15 @@
           nav: true,
           navText: ['<i class="bi-chevron-left"></i>', '<i class="bi-chevron-right"></i>']
         });
+      });
+
+      document.getElementById('copyButton').addEventListener('click', function() {
+        var linkTextArea = document.getElementById('linkTextArea');
+        linkTextArea.style.display = 'block';
+        linkTextArea.select();
+        document.execCommand('copy');
+        linkTextArea.style.display = 'none';
+        alert('リンクがコピーされました！');
       });
     </script>
     @endsection
