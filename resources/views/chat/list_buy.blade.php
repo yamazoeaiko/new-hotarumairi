@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-  <h4>【購入者側】チャットルーム一覧</h4>
-  <button class="btn btn-primary mb-3" onClick="location.href='{{ route('chat.list.sell') }}'">出品者側のチャットに切り換える</button>
+  <h4 class="fw-bold fs-5">【購入者側】チャットルーム一覧</h4>
+  <button class="btn btn-primary my-3" onClick="location.href='{{ route('chat.list.sell') }}'">出品者側のチャットに切り換える</button>
 
   @if($items)
   <div class="list-group">
@@ -16,10 +16,10 @@
           </div>
         </div>
         <div class="col-2">
-          <h5 class="font-weight-bold mb-0">{{ $item->theother_name }}</h5>
+          <p class="fw-bold mb-0">{{ $item->theother_name }}</p>
         </div>
         <div class="col-4">
-          <h6 class="font-weight-bold mb-0">{{ $item->service_name }}</h6>
+          <p class="fw-bold mb-0">{{ $item->service_name }}</p>
         </div>
         <div class="col-4 text-right">
           <p class="text-muted small">{{ $item->create }}</p>
