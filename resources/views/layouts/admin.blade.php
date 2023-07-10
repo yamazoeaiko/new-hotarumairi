@@ -28,11 +28,13 @@
 
 <body class="font-sans antialiased">
   <div class="min-h-screen bg-gray-100">
-    @component('components.header-admin')
-    @endcomponent
+    <div class="fixed-top">
+      @component('components.header-admin')
+      @endcomponent
+    </div>
 
     <!-- Page Content -->
-    <main class="my-4">
+    <main class="my-header">
       @yield('content')
     </main>
   </div>

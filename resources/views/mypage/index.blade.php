@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container my-4">
   <div class="d-grid gap-4">
     <button onclick="location.href='{{route('myprofile.index')}}'" class="btn btn-primary p-3">
       プロフィール
