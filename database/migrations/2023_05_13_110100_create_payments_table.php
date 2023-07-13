@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('session_id');
             $table->string('payment_intent');
             $table->decimal('cancel_fee', 8, 0)->comment('ユーザーへの返金額')->nullable();
+            $table->enum('transfer',['unapplied', 'applied', 'transferred'])->comment('振り込み申請に関するフラグ');
             $table->timestamps();
         });
     }

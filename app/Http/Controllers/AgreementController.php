@@ -182,6 +182,7 @@ class AgreementController extends Controller
         $payment->commission = $commission;
         $payment->session_id = $session->id;
         $payment->payment_intent = $session->payment_intent;
+        $payment->transfer = 'unapplied';
         $payment->save();
 
         $room = ChatRoom::where('service_id', $service->id)->where('buy_user', $agreement->buy_user)->where('sell_user', $agreement->sell_user)->first();

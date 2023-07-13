@@ -106,7 +106,7 @@
                         @foreach($items as $item)
                         <div class="card-item">
                             <a class="card mb-4 text-decoration-none" href="{{ route('service.detail',['service_id'=>$item->id]) }}">
-                                <div class=" service-card">
+                                <div class="service-card">
                                     <img src="{{asset($item->photo_1)}}" class="card-img-top" alt="image_photo">
                                 </div>
                                 <div class="card-body">
@@ -159,7 +159,7 @@
                                 <div class="card-body">
                                     <div class="category-parent">
                                         @foreach($public_request->categories as $value)
-                                        <small class=".text-ellipsis d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
+                                        <small class="text-ellipsis d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
                                         @endforeach
                                     </div>
                                     <p class="fw-bolder text-ellipsis">{{$public_request->main_title}}</p>

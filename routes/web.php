@@ -166,6 +166,16 @@ Route::controller(PaymentController::class)->group(
     function () {
         Route::get('/mypage/payment/index', 'paidInformation')->name('payment.information')->middleware('auth');
         Route::get('/mypage/proceeds/index', 'proceedsInformation')->name('proceeds.information')->middleware('auth');
+
+        //口座情報関連
+        Route::get('mypage/bank/index', 'bankInformation')->name('mypage.bank.index')->middleware('auth');
+        Route::get('mypage/bank/create', 'bankCreate')->name('mypage.bank.create')->middleware('auth');
+        Route::post('mypage/bank/create/done', 'bankDone')->name('mypage.bank.done')->middleware('auth');
+
+        Route::get('mypage/bank/edit', 'bankEdit')->name('mypage.bank.edit')->middleware('auth');
+        Route::post('mypage/bank/update', 'bankUpdate')->name('mypage.bank.update')->middleware('auth');
+        Route::post('mypage/bank/delete', 'bankDelete')->name('mypage.bank.delete')->middleware('auth');
+        Route::post('/mypage/offer/transfer', 'offerTransfer')->name('offer.transfer')->middleware('auth');
     });
 
 //管理者
