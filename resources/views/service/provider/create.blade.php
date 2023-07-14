@@ -282,7 +282,7 @@
 
 <script>
   function handleKeyDown(event) {
-    if (event.keyCode === 13 && !event.shiftKey) {
+    if (event.keyCode === 13) {
       event.preventDefault();
       const textarea = event.target;
       textarea.value += '\n';
