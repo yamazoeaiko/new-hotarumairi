@@ -18,7 +18,7 @@
     <div class="mb-3">
       <label for="content" class="fw-bolder">サービス内容<span class="fs-7 text-danger ">※必須</span></label>
       <div class="input-group">
-        <textarea onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" name="content" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="サービス内容、購入者のメリット、アピールポイントなどを具体的にご記載ください。">{{old('content')}}</textarea>
+        <textarea oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" name="content" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';} else if (event.keyCode == 13 && event.shiftKey) { this.value += '\r\n'; }" placeholder="サービス内容、購入者のメリット、アピールポイントなどを具体的にご記載ください。">{{old('content')}}</textarea>
       </div>
       @if($errors->has('content'))
       <div class="fs-8 text-danger">エラー：サービス内容は必須です。
@@ -257,7 +257,7 @@
 
     <div class="form-group mb-3">
       <label class="fw-bolder" for="free">自由記入欄<span class="fs-7 text-secondary">※任意</span></label>
-      <textarea onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';"   class="form-control" name="free" placeholder="その他なにかあればご自由にご記載ください。（任意）">{{ old('free') }}</textarea>
+      <textarea onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" class="form-control" name="free" placeholder="その他なにかあればご自由にご記載ください。（任意）">{{ old('free') }}</textarea>
     </div>
 
     <div class="mb-3">
