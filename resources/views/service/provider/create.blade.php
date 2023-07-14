@@ -18,7 +18,7 @@
     <div class="mb-3">
       <label for="content" class="fw-bolder">サービス内容<span class="fs-7 text-danger ">※必須</span></label>
       <div class="input-group">
-        <textarea oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" name="content" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';} else if (event.keyCode == 13 && event.shiftKey) { this.value += '\r\n'; }" placeholder="サービス内容、購入者のメリット、アピールポイントなどを具体的にご記載ください。">{{old('content')}}</textarea>
+        <textarea oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" name="content" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" placeholder="サービス内容、購入者のメリット、アピールポイントなどを具体的にご記載ください." onKeyDown="handleKeyDown(event)">{{old('content')}}</textarea>
       </div>
       @if($errors->has('content'))
       <div class="fs-8 text-danger">エラー：サービス内容は必須です。
@@ -279,3 +279,19 @@
   </form>
 </div>
 @endsection
+
+<script>
+  function handleKeyDown(event) {
+    if (event.keyCode === 13 && !event.shiftKey) {
+      event.preventDefault();
+      const textarea = event.target;
+      textarea.value += '\n';
+      resizeTextarea(textarea);
+    }
+  }
+
+  function resizeTextarea(textarea) {
+    textarea.style.height = '70px';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+</script>
