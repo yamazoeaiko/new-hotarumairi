@@ -83,7 +83,7 @@
         <tr>
           <th>自己紹介</th>
           <td>
-            <textarea name="message" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。">{{$item->message}}</textarea>
+            <textarea name="message" oninput="resizeTextarea(this)" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。">{{$item->message}}</textarea>
           </td>
       </table>
       <button name="update" class="btn btn-primary">更新する</button>
@@ -92,3 +92,21 @@
   </table>
 </div>
 @endsection
+
+<script>
+  function resizeTextarea(textarea) {
+    textarea.style.height = '70px';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  const textarea = document.querySelector('textarea');
+  textarea.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const startPos = textarea.selectionStart;
+      const endPos = textarea.selectionEnd;
+      textarea.value = textarea.value.substring(0, startPos) + '\n' + textarea.value.substring(endPos, textarea.value.length);
+      resizeTextarea(textarea);
+    }
+  });
+</script>

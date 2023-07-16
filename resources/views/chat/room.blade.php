@@ -44,7 +44,7 @@
             <input type="hidden" name="entry_id" value="{{$entry->id}}">
             <input type="hidden" name="room_id" value="{{$room->id}}">
             <div class="input-group my-3">
-              <textarea name="message" class="text-start input-group-text is-valid" style="resize: none; height: 100px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。"></textarea>
+              <textarea name="message" class="text-start form-control" style="resize: none; height: 100px; overflow-y: auto; padding: 10px; width: 100%;" oninput="resizeTextarea(this)" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。"></textarea>
             </div>
             <button type="submit" class="btn btn-primary my-2" onclick="return confirm('正式な納品を報告しますか？')">送信する</button>
           </form>
@@ -134,7 +134,7 @@
               <input type="hidden" name="user_id" value="{{ $user_id }}">
               <div class="col-6" style="padding-right: 0;">
                 <div class="input-group h-100">
-                  <textarea name="message" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。"></textarea>
+                  <textarea name="message" class="text-start form-control" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" oninput="resizeTextarea(this)" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。"></textarea>
                   <div class="form-group">
                     <input type="file" accept=".png, .jpeg, .jpg" name="file_path">
                   </div>
@@ -180,3 +180,21 @@
   }
 </style>
 @endsection
+
+<script>
+  function resizeTextarea(textarea) {
+    textarea.style.height = '70px';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  const textarea = document.querySelector('textarea');
+  textarea.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const startPos = textarea.selectionStart;
+      const endPos = textarea.selectionEnd;
+      textarea.value = textarea.value.substring(0, startPos) + '\n' + textarea.value.substring(endPos, textarea.value.length);
+      resizeTextarea(textarea);
+    }
+  });
+</script>

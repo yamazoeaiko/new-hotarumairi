@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
   <h6 class="my-2 fw-bold">出品サービス詳細</h6>
   <div class="form-control">
@@ -22,7 +23,6 @@
           </button>
         </form>
         @endif
-
         @if($item->follow == false)
         <form method="POST" action="{{ route('follow',['follower_id'=> $item->offer_user_id]) }}">
           @csrf
@@ -127,7 +127,7 @@
           <input type="hidden" name="sell_user" value="{{ $item->offer_user_id }}">
           <input type="hidden" name="service_id" value="{{ $item->id }}">
           <div class="input-group">
-            <textarea name="first_chat" class="text-start input-group-text is-valid" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。"></textarea>
+            <textarea name="first_chat" class="text-start form-control" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" oninput="resizeTextarea(this)" placeholder="Enterで改行されます。"></textarea>
           </div>
           <button type="submit" class="btn btn-success col-3">送信する</button>
         </form>
@@ -164,62 +164,79 @@
 
     </div>
     @endif
+  </div>
+</div>
 
+@endsection
+<!-- Owl Carousel CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+<style>
+  /* Custom styles for the header carousel */
+  .header-section {
+    position: relative;
+    height: 400px;
+  }
 
-    <!-- Owl Carousel CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-    <style>
-      /* Custom styles for the header carousel */
-      .header-section {
-        position: relative;
-        height: 400px;
-      }
+  .header-item {
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+  }
 
-      .header-item {
-        height: 400px;
-        background-size: cover;
-        background-position: center;
-      }
+  .owl-nav button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 
-      .owl-nav button {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-      }
+  .owl-prev {
+    left: 0;
+  }
 
-      .owl-prev {
-        left: 0;
-      }
+  .owl-next {
+    right: 0;
+  }
+</style>
 
-      .owl-next {
-        right: 0;
-      }
-    </style>
+<!-- Owl Carousel JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script>
+  $(function() {
+    // Initialize the header carousel
+    $('.owl-carousel').owlCarousel({
+      items: 1,
+      loop: true,
+      autoplay: true,
+      autoplayTimeout: 5000,
+      autoplayHoverPause: true,
+      nav: true,
+      navText: ['<i class="bi-chevron-left"></i>', '<i class="bi-chevron-right"></i>']
+    });
+  });
 
-    <!-- Owl Carousel JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script>
-      $(function() {
-        // Initialize the header carousel
-        $('.owl-carousel').owlCarousel({
-          items: 1,
-          loop: true,
-          autoplay: true,
-          autoplayTimeout: 5000,
-          autoplayHoverPause: true,
-          nav: true,
-          navText: ['<i class="bi-chevron-left"></i>', '<i class="bi-chevron-right"></i>']
-        });
-      });
+  document.getElementById('copyButton').addEventListener('click', function() {
+    var linkTextArea = document.getElementById('linkTextArea');
+    linkTextArea.style.display = 'block';
+    linkTextArea.select();
+    document.execCommand('copy');
+    linkTextArea.style.display = 'none';
+    alert('リンクがコピーされました！');
+  });
 
-      document.getElementById('copyButton').addEventListener('click', function() {
-        var linkTextArea = document.getElementById('linkTextArea');
-        linkTextArea.style.display = 'block';
-        linkTextArea.select();
-        document.execCommand('copy');
-        linkTextArea.style.display = 'none';
-        alert('リンクがコピーされました！');
-      });
-    </script>
-    @endsection
+  function resizeTextarea(textarea) {
+    textarea.style.height = '70px';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  const textarea = document.querySelector('textarea');
+  textarea.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const startPos = textarea.selectionStart;
+      const endPos = textarea.selectionEnd;
+      textarea.value = textarea.value.substring(0, startPos) + '\n' + textarea.value.substring(endPos, textarea.value.length);
+      resizeTextarea(textarea);
+    }
+  });
+</script>

@@ -43,7 +43,7 @@
 
         <div class="mb-3">
           <label for="content" class="fw-bolder">サービス内容</label>
-          <textarea name="content"  class="form-control" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。">{{ $item->content }}</textarea>
+          <textarea name="content" class="form-control" oninput="resizeTextarea(this)" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。">{{ $item->content }}</textarea>
         </div>
       </div>
     </div>
@@ -54,3 +54,21 @@
   </form>
 </div>
 @endsection
+
+<script>
+  function resizeTextarea(textarea) {
+    textarea.style.height = '70px';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  const textarea = document.querySelector('textarea');
+  textarea.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const startPos = textarea.selectionStart;
+      const endPos = textarea.selectionEnd;
+      textarea.value = textarea.value.substring(0, startPos) + '\n' + textarea.value.substring(endPos, textarea.value.length);
+      resizeTextarea(textarea);
+    }
+  });
+</script>

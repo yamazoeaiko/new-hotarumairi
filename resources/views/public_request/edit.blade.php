@@ -18,7 +18,7 @@
     <div class="mb-3">
       <label for="content" class="fw-bolder">依頼内容<span class="fs-7 text-danger ">※必須</span></label>
       <div class="input-group">
-        <textarea onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" name="content" class="text-start input-group-text is-valid" style="resize: none; height: 150px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '150px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="サービス内容、購入者のメリット、アピールポイントなどを具体的にご記載ください。">{{ $item->content }}</textarea>
+        <textarea oninput="resizeTextarea(this)" name="content" class="text-start form-control" style="resize: none; height: 150px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '150px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="サービス内容、購入者のメリット、アピールポイントなどを具体的にご記載ください。">{{ $item->content }}</textarea>
       </div>
       @if($errors->has('content'))
       <div class="fs-8 text-danger">エラー：依頼内容は必須です。
@@ -221,7 +221,7 @@
     <div class="mb-3">
       <label for="attention" class="fw-bolder">ご提案時の注意事項<span class="fs-7 text-secondary">※任意</span></label>
       <div class="input-group">
-        <textarea onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" name="attention" class="text-start input-group-text is-valid" style="resize: none; height: 150px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="ご提案時に教えて欲しいことなどがあれば、ご記載ください。（任意）">{{ $item->attention }}</textarea>
+        <textarea oninput="resizeTextarea(this)" name="attention" class="text-start form-control" style="resize: none; height: 150px; overflow-y: auto; padding: 10px; width: 100%;" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="ご提案時に教えて欲しいことなどがあれば、ご記載ください。（任意）">{{ $item->attention }}</textarea>
       </div>
     </div>
 
@@ -255,7 +255,7 @@
 
     <div class="form-group mb-3">
       <label class="fw-bolder" for="free">自由記入欄<span class="fs-7 text-secondary" placeholder="その他なにかあればご自由にご記載ください。（任意）">※任意</span></label>
-      <textarea class="form-control" name="free" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。">{{$item->free}}</textarea>
+      <textarea class="form-control" name="free" oninput="resizeTextarea(this)" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。">{{$item->free}}</textarea>
     </div>
 
     <div class="mb-3">
@@ -277,3 +277,21 @@
   </form>
 </div>
 @endsection
+
+<script>
+  function resizeTextarea(textarea) {
+    textarea.style.height = '70px';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  const textarea = document.querySelector('textarea');
+  textarea.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const startPos = textarea.selectionStart;
+      const endPos = textarea.selectionEnd;
+      textarea.value = textarea.value.substring(0, startPos) + '\n' + textarea.value.substring(endPos, textarea.value.length);
+      resizeTextarea(textarea);
+    }
+  });
+</script>

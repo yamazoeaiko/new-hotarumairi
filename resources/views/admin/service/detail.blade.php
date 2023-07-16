@@ -70,3 +70,21 @@
     <button class="btn btn-outline-primary" onClick="location.href='{{route('admin.service.list')}}'">戻る</button>
   </div>
   @endsection
+
+  <script>
+    function resizeTextarea(textarea) {
+      textarea.style.height = '70px';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    const textarea = document.querySelector('textarea');
+    textarea.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        const startPos = textarea.selectionStart;
+        const endPos = textarea.selectionEnd;
+        textarea.value = textarea.value.substring(0, startPos) + '\n' + textarea.value.substring(endPos, textarea.value.length);
+        resizeTextarea(textarea);
+      }
+    });
+  </script>

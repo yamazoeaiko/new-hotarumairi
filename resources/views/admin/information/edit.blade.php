@@ -65,7 +65,7 @@
           </div>
           <div class="mb-3">
             <label for="content" class="form-label fw-bolder">お知らせ内容</label>
-            <textarea name="content" id="content" style="height: 100px" class="form-control" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。"></textarea>
+            <textarea name="content" id="content" style="height: 100px" class="form-control" oninput="resizeTextarea(this)" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。"></textarea>
           </div>
           <button type="submit" class="btn btn-outline-primary">上記情報で登録</button>
         </form>

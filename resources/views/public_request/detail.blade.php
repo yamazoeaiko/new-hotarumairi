@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
   <h5 class="my-2 fw-bold">公開依頼の詳細</h5>
   <div class="form-control">
@@ -28,7 +29,6 @@
           </p>
           <p class="card-text mb-0">
             <small class="text-muted">年齢：</small>@if ($item->age >= 10 && $item->age < 20) 10代 @elseif ($item->age >= 20 && $item->age < 30) 20代 @elseif ($item->age >= 30 && $item->age < 40) 30代 @elseif ($item->age >= 40 && $item->age < 50) 40代 @elseif ($item->age >= 50 && $item->age < 60) 50代 @elseif ($item->age >= 60 && $item->age < 70) 60代 @elseif ($item->age >= 70 && $item->age < 80) 70代 @elseif ($item->age >= 80 && $item->age < 90) 80代 @elseif ($item->age >= 90 && $item->age < 100) 90代 @else その他の年齢 @endif </p>
-
                               <p class="card-text mb-0">
                                 <small class="text-muted">住まい地域：</small>{{ $item->living_area }}
                               </p>
@@ -116,7 +116,7 @@
           <input type="hidden" name="service_id" value="{{ $item->id }}">
           <div style="padding-right: 0;">
             <div class="input-group">
-              <textarea name="first_chat" class="text-start input-group-text is-valid my-3" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" onkeydown="if(event.keyCode == 13 && !event.shiftKey){event.preventDefault(); this.value += '\n';}" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。"></textarea>
+              <textarea name="first_chat" class="text-start form-control my-3" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" oninput="resizeTextarea(this)" placeholder="Enterで改行されます。"></textarea>
               <div class="form-group">
                 <input type="file" accept=".png, .jpeg, .jpg" name="file_path">
               </div>
@@ -134,3 +134,23 @@
       <button class="btn btn-primary" onclick=location.href="{{route('pubreq.edit',['service_id'=>$item->id])}}">公開依頼内容を編集する</button>
     </div>
     @endif
+  </div>
+</div>
+@endsection
+<script>
+  function resizeTextarea(textarea) {
+    textarea.style.height = '70px';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  const textarea = document.querySelector('textarea');
+  textarea.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const startPos = textarea.selectionStart;
+      const endPos = textarea.selectionEnd;
+      textarea.value = textarea.value.substring(0, startPos) + '\n' + textarea.value.substring(endPos, textarea.value.length);
+      resizeTextarea(textarea);
+    }
+  });
+</script>
