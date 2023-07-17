@@ -43,7 +43,7 @@
     </div>
 
     <div class="form-group">
-      <label class="fw-bolder" for="photo_1">イメージ画像（１枚目）<span class="fs-7 text-danger ">※イメージ画像１枚は必須</span></label>
+      <label class="fw-bolder" for="photo_1">イメージ画像（１枚目）<span class="fs-7 text-danger ">※画像がない場合、デフォルト画像が設定されます</span></label>
       <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_1" value="{{old('photo_1')}}">
       @if($errors->has('photo_1'))
       <div class="fs-8 text-danger">エラー：画像最低１枚は必須です。
@@ -52,7 +52,7 @@
     </div>
 
     <div class="form-group">
-      <label class="fw-bolder" for="photo_2">イメージ画像（２枚目）<span class="fs-7 text-secondary ">※２枚目以降は任意</span></label>
+      <label class="fw-bolder" for="photo_2">イメージ画像（２枚目）</label>
       <input type="file" accept=".png, .jpeg, .jpg" class="form-control" name="photo_2" value="{{old('photo_2')}}">
     </div>
 
@@ -236,7 +236,7 @@
     <div class="mb-3">
       <label for="attention" class="fw-bolder">購入時の注意事項<span class="fs-7 text-secondary">※任意</span></label>
       <div class="input-group">
-        <textarea oninput="resizeTextarea(this)" name="content" class="text-start form-control" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" placeholder="購入前に教えて欲しいことなどがあれば、ご記載ください。（任意）">{{old('attention')}}</textarea>
+        <textarea oninput="resizeTextarea(this)" name="attention" class="text-start form-control" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" placeholder="購入前に教えて欲しいことなどがあれば、ご記載ください。（任意）">{{old('attention')}}</textarea>
       </div>
     </div>
 

@@ -18,6 +18,7 @@
           <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('mypage.index')}}">マイページ</a></li>
           @guest
           <li class="nav-item"><a class="nav-link me-lg-3" href="/login">ログイン</a></li>
+          <li class="nav-item"><a class="nav-link me-lg-3" href="/register">新規登録</a></li>
           @endguest
           @auth
           <li class="nav-item"><a class="nav-link me-lg-3" href="/logout">ログアウト</a></li>

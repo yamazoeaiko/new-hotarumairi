@@ -296,7 +296,6 @@ class ServiceController extends Controller
     {
         //validate
         $validatedData = $request->validate([
-            'photo_1'=>'required',
             'main_title' => 'required|max:20',
             'content' => 'required',
             'price' => 'required',
@@ -321,6 +320,8 @@ class ServiceController extends Controller
             $path_1 = 'storage/' . $dir . '/' . $file_name;
             $request->file('photo_1')->storeAs('public/' . $dir, $file_name);
             $service->photo_1 = $path_1;
+        }else{
+            $service->photo_1 = 'storage/profile/no_image.jpg';
         }
         if ($request->hasFile('photo_2')) {
             $dir = 'service';
