@@ -20,6 +20,7 @@ use Stripe\Stripe;
 use Illuminate\Support\Str;
 use App\Models\Announcement;
 use App\Models\AnnouncementRead;
+use App\Models\BankAccount;
 use Illuminate\Support\Carbon;
 
 class AdminController extends Controller
@@ -787,6 +788,134 @@ class AdminController extends Controller
         }
 
         return view('admin.user.identification.unapproved_list', compact('items'));
+    }
+
+    //振込申請
+    public function adminTransferList()
+    {
+        $items = Payment::get();
+
+        foreach ($items as $item) {
+            $user = User::where('id', $item->sell_user)->first();
+            $item->user_id = $user->id;
+            $item->nickname = $user->nickname;
+
+            if ($item->transfer == 'applied') {
+                $item->status_name = '振込申請済み';
+            } elseif ($item->transfer == 'unapplied') {
+                $item->status_name = '未申請';
+            } elseif ($item->transfer == 'transferred') {
+                $item->status_name = '振込済み';
+            }
+
+            $item->transfer_price = $item->price * 0.9 - $item->cancel_fee;
+        }
+
+        return view('admin.transfer.list', compact('items'));
+    }
+
+    public function adminTransferOfferList()
+    {
+        $items = Payment::where('transfer', 'applied')
+        ->get();
+
+        foreach ($items as $item) {
+            $user = User::where('id', $item->sell_user)->first();
+            $item->user_id = $user->id;
+            $item->nickname = $user->nickname;
+
+            if ($item->transfer == 'applied') {
+                $item->status_name = '振込申請済み';
+            } elseif ($item->transfer == 'unapplied') {
+                $item->status_name = '未申請';
+            } elseif ($item->transfer == 'transferred') {
+                $item->status_name = '振込済み';
+            }
+
+            $item->transfer_price = $item->price * 0.9 - $item->cancel_fee;
+        }
+
+        return view('admin.transfer.offer_list', compact('items'));
+    }
+
+    public function adminTransferDoneList()
+    {
+        $items = Payment::where('transfer', 'transferred')
+        ->get();
+
+        foreach ($items as $item) {
+            $user = User::where('id', $item->sell_user)->first();
+            $item->user_id = $user->id;
+            $item->nickname = $user->nickname;
+
+            if ($item->transfer == 'applied') {
+                $item->status_name = '振込申請済み';
+            } elseif ($item->transfer == 'unapplied') {
+                $item->status_name = '未申請';
+            } elseif ($item->transfer == 'transferred') {
+                $item->status_name = '振込済み';
+            }
+
+            $item->transfer_price = $item->price * 0.9 - $item->cancel_fee;
+        }
+        return view('admin.transfer.done_list', compact('items'));
+    }
+
+    public function adminTransferDetail($user_id){
+
+        $user = User::where('id', $user_id)->first();
+    
+        $items = Payment::where('sell_user', $user_id)
+        ->where('transfer', 'applied')
+        ->get();
+
+        $total_transfer_price = 0;
+        foreach($items as $item){
+            $item->transfer_price = $item->price * 0.9 - $item->cancel_fee;
+            $total_transfer_price += $item->transfer_price;
+
+            if ($item->transfer == 'applied') {
+                $item->status_name = '振込申請済み';
+            } elseif ($item->transfer == 'unapplied') {
+                $item->status_name = '未申請';
+            } elseif ($item->transfer == 'transferred') {
+                $item->status_name = '振込済み';
+            }
+        }
+
+        $bank = BankAccount::where('user_id', $user_id)->first();
+    
+        return view('admin.transfer.detail', compact('items', 'total_transfer_price', 'user', 'bank'));
+    }
+
+    public function adminTransferDone(Request $request){
+        $user_id = $request->user_id;
+        $user = User::where('id', $user_id)->first();
+
+        $items = Payment::where('sell_user', $user_id)
+        ->where('transfer', 'applied')
+        ->get();
+        foreach ($items as $item){
+            $item->transfer = 'transferred';
+            $item->save();
+        }
+
+        //ユーザーへの通知
+        $announcement_user = new Announcement([
+            'title' =>  '振込が完了しました。',
+            'description' =>  '正常に振り込まれているかご確認ください。',
+            'link' => 'proceeds.information',
+        ]);
+        $announcement_user->save();
+
+        $announcementRead_user = new AnnouncementRead([
+            'user_id' => $user_id,
+            'announcement_id' => $announcement_user->id,
+            'read' => false
+        ]);
+        $announcementRead_user->save();
+        
+        return redirect()->back();
     }
 
 }

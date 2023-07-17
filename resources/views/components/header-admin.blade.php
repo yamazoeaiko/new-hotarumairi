@@ -15,6 +15,7 @@
           <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('admin.user.list')}}">ユーザー管理</a></li>
           <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('admin.identification.offer.list')}}">本人確認証明の申請</a></li>
           <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('admin.service.list')}}">出品サービス管理</a></li>
+          <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('admin.transfer.list')}}">振込申請</a></li>
           <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('admin.cancel.offer.list')}}">キャンセル申請</a></li>
           <li class="nav-item"><a class="nav-link me-lg-3" href="{{route('admin.user.chat.list')}}">チャット管理（ユーザー同士）</a></li>
           <li class="nav-item"><a class="nav-link me-lg-3">マイページ</a></li>

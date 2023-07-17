@@ -148,12 +148,44 @@ class PaymentController extends Controller
 
     public function offerTransfer(Request $request){
         $user_id = $request->user_id;
+        $user = User::where('id', $user_id)->first();
         $items = Payment::where('sell_user', $user_id)->get();
         foreach($items as $item){
             $item->transfer = 'applied';
             $item->save();
         }
 
+        //userへのメッセージ
+        $announcement_user = new Announcement([
+            'title' =>  '振込申請をしました。',
+            'description' =>  '管理者が確認中です',
+            'link' => 'proceeds.information',
+        ]);
+        $announcement_user->save();
+
+        $announcementRead_user = new AnnouncementRead([
+            'user_id' => $user_id,
+            'announcement_id' => $announcement_user->id,
+            'read' => false
+        ]);
+        $announcementRead_user->save();
+
+        //管理者へのメッセージ
+        $announcement_admin = new Announcement([
+            'title' =>  $user->nickname . 'から振込申請があります。',
+            'description' =>  '振込を実行してください',
+            'link' => 'admin.transfer.offer_list',
+        ]);
+        $announcement_admin->save();
+
+        $announcementRead_admin = new AnnouncementRead([
+            'user_id' => 1,
+            'announcement_id' => $announcement_admin->id,
+            'read' => false
+        ]);
+        $announcementRead_admin->save();
+
         return redirect()->back();
-    } 
+    }
+
 }

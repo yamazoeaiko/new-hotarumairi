@@ -217,6 +217,13 @@ Route::controller(AdminController::class)->group(function (){
         Route::get('/admin-limited/informations/edit', 'informationsEdit')->name('admin.informations.edit')->middleware('auth');
         Route::post('/admin-limited/informations/update', 'informationsUpdate')->name('admin.informations.update')->middleware('auth');
         Route::post('/admin-limited/information/create', 'informationsCreate')->name('admin.create.information')->middleware('auth');
+
+        //振込申請
+        Route::get('/admin-limited/transfer/list', 'adminTransferList')->name('admin.transfer.list')->middleware('auth');
+        Route::get('/admin-limited/transfer/offer/list', 'adminTransferOfferList')->name('admin.transfer.offer.list')->middleware('auth');
+        Route::get('/admin-limited/transfer/done/list', 'adminTransferDoneList')->name('admin.transfer.done.list')->middleware('auth');
+        Route::post('/admin-limited/transfer/done', 'adminTransferDone')->name('admin.transfer.done')->middleware('auth');
+        Route::get('/admin-limited/transfer/detail/{user_id}', 'adminTransferDetail')->name('admin.transfer.detail')->middleware('auth');
     });
 
 
