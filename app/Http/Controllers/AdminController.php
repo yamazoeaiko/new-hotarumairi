@@ -809,6 +809,9 @@ class AdminController extends Controller
             }
 
             $item->transfer_price = $item->price * 0.9 - $item->cancel_fee;
+            if($item->transfer_price < 0){
+                $item->transfer_price = 0;
+            }
         }
 
         return view('admin.transfer.list', compact('items'));
@@ -833,6 +836,9 @@ class AdminController extends Controller
             }
 
             $item->transfer_price = $item->price * 0.9 - $item->cancel_fee;
+            if ($item->transfer_price < 0) {
+                $item->transfer_price = 0;
+            }
         }
 
         return view('admin.transfer.offer_list', compact('items'));
@@ -857,6 +863,9 @@ class AdminController extends Controller
             }
 
             $item->transfer_price = $item->price * 0.9 - $item->cancel_fee;
+            if ($item->transfer_price < 0) {
+                $item->transfer_price = 0;
+            }
         }
         return view('admin.transfer.done_list', compact('items'));
     }
@@ -872,6 +881,9 @@ class AdminController extends Controller
         $total_transfer_price = 0;
         foreach($items as $item){
             $item->transfer_price = $item->price * 0.9 - $item->cancel_fee;
+            if ($item->transfer_price < 0) {
+                $item->transfer_price = 0;
+            }
             $total_transfer_price += $item->transfer_price;
 
             if ($item->transfer == 'applied') {
