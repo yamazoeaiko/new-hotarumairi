@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+  <h5 class="fs-5 fw-bolder text-primary">出品サービスの作成</h5>
   <form action="{{ route('service.create.done') }}" method="post" class="form-control" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="user_id" value="{{ $user_id }}">
