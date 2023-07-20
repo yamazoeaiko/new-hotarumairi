@@ -12,6 +12,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\AgreementController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\NotificationController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -177,6 +178,11 @@ Route::controller(PaymentController::class)->group(
         Route::post('mypage/bank/delete', 'bankDelete')->name('mypage.bank.delete')->middleware('auth');
         Route::post('/mypage/offer/transfer', 'offerTransfer')->name('offer.transfer')->middleware('auth');
     });
+
+//Notification
+Route::controller(NotificationController::class)->group(function () {
+    Route::get('/register_complete','getRegisterComplete')->name('register.complete')->middleware('auth');
+});
 
 //管理者
 Route::controller(AdminController::class)->group(function (){
