@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ChatRecieve extends Notification
+class ChatReceive extends Notification
 {
     use Queueable;
 
@@ -40,7 +40,10 @@ class ChatRecieve extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('mail.chat_recieve');
+        return (new MailMessage)
+            ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
+            ->subject('ほたる参り　チャットが届きました')
+            ->markdown('mail.chat_receive');;
     }
 
     /**
