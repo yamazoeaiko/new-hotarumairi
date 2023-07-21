@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ChatReceive extends Notification
+class PubreqEstimateNotification extends Notification
 {
     use Queueable;
 
@@ -41,9 +41,9 @@ class ChatReceive extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
-            ->subject('ほたる参り　チャットが届きました')
-            ->markdown('mail.chat_receive');
+        ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
+        ->subject('【ほたる参り】出品者から見積もり提案が届きました。')
+        ->markdown('mail.pubreq_estimate');
     }
 
     /**

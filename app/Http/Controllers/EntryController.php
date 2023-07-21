@@ -20,6 +20,7 @@ use Stripe\Stripe;
 use Illuminate\Support\Str;
 use App\Models\Announcement;
 use App\Models\AnnouncementRead;
+use App\Notifications\PubreqEstimateNotification;
 
 class EntryController extends Controller
 {
@@ -70,6 +71,10 @@ class EntryController extends Controller
         $chat->receiver_id = $request->buy_user;
         $chat->message = '見積もりの提案をしました。';
         $chat->save();
+
+        //Notification飛ばす
+        $user = User::where('id', $request->buy_user)->first();
+        $user->notify(new PubreqEstimateNotification());
  
         return redirect()->route('chat.room',['room_id' => $room->id]);
     }
