@@ -13,6 +13,7 @@ use App\Models\Delivery;
 use App\Models\Agreement;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Notifications\ChatRecieve;
 
 class ChatController extends Controller
 {
@@ -242,6 +243,11 @@ class ChatController extends Controller
         }
 
         $chat->save();
+
+        //Notification飛ばす
+        $user = User::where('id', $request->receiver_id)->first();
+        $user->notify(new RegisterCompleted());
+
         return redirect()->back();
     }
 
