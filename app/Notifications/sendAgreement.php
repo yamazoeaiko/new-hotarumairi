@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PubreqEstimateNotification extends Notification
+class sendAgreement extends Notification
 {
     use Queueable;
 
@@ -43,7 +43,7 @@ class PubreqEstimateNotification extends Notification
         return (new MailMessage)
         ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
         ->subject('【ほたる参り】出品者から見積もり提案が届きました。')
-        ->markdown('mail.pubreq_estimate');
+        ->markdown('mail.send_agreement');
     }
 
     /**

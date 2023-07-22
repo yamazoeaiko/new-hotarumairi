@@ -16,7 +16,8 @@ use Stripe\Stripe;
 use Illuminate\Support\Str;
 use App\Models\Announcement;
 use App\Models\AnnouncementRead;
-
+use App\Notifications\PubreqEstimateNotification;
+use App\Notifications\sendAgreement;
 
 class AgreementController extends Controller
 {
@@ -83,6 +84,10 @@ class AgreementController extends Controller
             'read' => false
         ]);
         $announcementRead_b->save();
+
+        //Notification飛ばす
+        $user = User::where('id', $request->buy_user)->first();
+        $user->notify(new sendAgreement());
 
         return redirect()->route('chat.room', ['room_id' => $room->id]);
     }
