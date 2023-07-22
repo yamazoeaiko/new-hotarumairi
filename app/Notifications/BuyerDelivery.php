@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BuyerPayment extends Notification
+class BuyerDelivery extends Notification
 {
     use Queueable;
 
@@ -42,8 +42,8 @@ class BuyerPayment extends Notification
     {
         return (new MailMessage)
         ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
-        ->subject('【ほたる参り】支払い完了：お取引を開始して下さい')
-        ->markdown('mail.buyer_payment');
+        ->subject('【ほたる参り】出品者さまから正式な納品が届きました')
+        ->markdown('mail.buyer_delivery');
     }
 
     /**

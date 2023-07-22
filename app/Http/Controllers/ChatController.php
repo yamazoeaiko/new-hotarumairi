@@ -14,6 +14,8 @@ use App\Models\Agreement;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Notifications\ChatReceive;
+use App\Notifications\BuyerDelivery;
+use App\Notifications\SellerDelivery;
 
 class ChatController extends Controller
 {
@@ -198,6 +200,10 @@ class ChatController extends Controller
         $delivery->message = $request->message;
         $delivery->save();
 
+        //購入者への納品報告Notification
+        $buyer = User::where('id', $entry->buy_user)->first();
+        $buyer->notify(new BuyerDelivery());
+
         return redirect()->back();
     }
 
@@ -205,6 +211,10 @@ class ChatController extends Controller
         $entry = Entry::where('id', $request->entry_id)->first();
         $entry->status = 'delivery_complete';
         $entry->save();
+
+        //出品者への納品報告Notification
+        $seller = User::where('id', $entry->sell_user)->first();
+        $seller->notify(new SellerDelivery());
 
         return redirect()->back();
     }
