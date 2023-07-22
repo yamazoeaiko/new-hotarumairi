@@ -16,8 +16,9 @@ use Stripe\Stripe;
 use Illuminate\Support\Str;
 use App\Models\Announcement;
 use App\Models\AnnouncementRead;
-use App\Notifications\PubreqEstimateNotification;
 use App\Notifications\sendAgreement;
+use App\Notifications\BuyerPayment;
+use App\Notifications\SellerPayment;
 
 class AgreementController extends Controller
 {
@@ -229,6 +230,9 @@ class AgreementController extends Controller
             'read' => false
         ]);
         $announcementRead_b->save();
+
+        //buyerへの支払い完了Notification④
+        $buy_user->notify(new BuyerPayment());
 
 
         return view('payment.success', compact('agreement','room'));
