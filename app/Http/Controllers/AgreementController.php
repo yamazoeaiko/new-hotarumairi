@@ -233,6 +233,7 @@ class AgreementController extends Controller
 
         //buyerへの支払い完了Notification④
         $buy_user->notify(new BuyerPayment());
+        $sell_user->notify(new SellerPayment());
 
 
         return view('payment.success', compact('agreement','room'));
