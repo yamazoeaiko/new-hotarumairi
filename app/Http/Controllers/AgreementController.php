@@ -19,6 +19,8 @@ use App\Models\AnnouncementRead;
 use App\Notifications\sendAgreement;
 use App\Notifications\BuyerPayment;
 use App\Notifications\SellerPayment;
+use App\Notifications\CancelAgreement;
+use App\Notifications\BuyerCancelAgreement;
 
 class AgreementController extends Controller
 {
@@ -351,6 +353,14 @@ class AgreementController extends Controller
         $item->create = $payment->created_at;
         $item->entry_id = $entry->id;
         $item->payment_id = $payment->id;
+
+        //出品者のキャンセルNotification（出品者側への通知）
+        $sell_user = User::where('id', $user_id)->first();
+        $sell_user->notify(new CancelAgreement());
+
+        //購入者側への通知
+        $buy_user = User::where('id', $user_id)->first();
+        $buy_user->notify(new BuyerCancelAgreement());
 
         return view('payment.cancel_seller', compact('item'));
     }

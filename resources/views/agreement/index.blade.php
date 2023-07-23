@@ -67,13 +67,13 @@
     <form action="{{ route('agreement.cancel') }}" method="post">
       @csrf
       <input type="hidden" name="agreement_id" value="{{$item->id}}">
-      <button type="submit" class="btn btn-outline-danger" onclick="return confirm('この見積もり提案をキャンセルしますか？キャンセルすると復元できません。')">キャンセルする</button>
+      <button type="submit" class="btn btn-outline-danger" onclick="return confirm('この見積もり提案をキャンセルしますか？キャンセルすると復元できません。')">見積もりを取り下げる</button>
     </form>
     @elseif($item->status == 'unapproved')
     <button class="btn btn-success my-1 mx-2" onclick="location.href='{{route('agreement.edit',['agreement_id'=>$item->id])}}'">お見積もり修正して再提案</button>
     @elseif($item->status == 'paid')
-    <button class="btn btn-primary" disabled>承認されました（支払い済み）</button>
-    <button class="btn btn-danger my-1 mx-2" onclick="location.href='{{route('seller.cancel.offer',['agreement_id'=>$item->id, 'entry_id'=>$item->entry_id])}}'">キャンセル申請（返金依頼）</button>
+    <button class="btn btn-primary" disabled>購入されました（支払い済み）</button>
+    <button class="btn btn-danger my-1 mx-2" onclick="location.href='{{route('seller.cancel.offer',['agreement_id'=>$item->id, 'entry_id'=>$item->entry_id])}}'">キャンセル申請</button>
     @elseif($item->status == 'cancel_pending')
     <button class="btn btn-danger" disabled>キャンセル申請済み</button>
     <div class="text-danger fs-7">
