@@ -359,7 +359,7 @@ class AgreementController extends Controller
         $sell_user->notify(new CancelAgreement());
 
         //購入者側への通知
-        $buy_user = User::where('id', $user_id)->first();
+        $buy_user = User::where('id', $entry->buy_user)->first();
         $buy_user->notify(new BuyerCancelAgreement());
 
         return view('payment.cancel_seller', compact('item'));
