@@ -626,7 +626,7 @@ class AdminController extends Controller
 
         //支払い者へのNotification
         $seller = User::where('id', $agreement->sell_user)->first();
-        $seller->notify(new BuyerAdminApproved());
+        $seller->notify(new SellerAdminApproved());
 
         return redirect()->route('admin.cancel.offer.detail',['cancel_id'=> $cancel->id]);
     }
