@@ -255,8 +255,15 @@ class ChatController extends Controller
         $chat->save();
 
         //Notification飛ばす
+        $receiveMessage = $chat->message;
+        if($chat->message == null){
+            $receiveMessage = 'ファイルが送付されました';
+        }
+        $sender = User::where('id', $chat->sender_id)->first();
+        $senderName = $sender->nickname;
+
         $user = User::where('id', $request->receiver_id)->first();
-        $user->notify(new ChatReceive());
+        $user->notify(new ChatReceive($receiveMessage, $senderName));
 
         return redirect()->back();
     }
