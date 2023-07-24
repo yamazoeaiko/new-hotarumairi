@@ -22,6 +22,8 @@ use App\Models\Announcement;
 use App\Models\AnnouncementRead;
 use App\Models\BankAccount;
 use Illuminate\Support\Carbon;
+use App\Notifications\BuyerAdminApproved;
+use App\Notifications\SellerAdminApproved;
 
 class AdminController extends Controller
 {
@@ -618,6 +620,13 @@ class AdminController extends Controller
         ]);
         $announcementRead_b->save();
 
+        //購入者へのNotification
+        $buyer = User::where('id', $agreement->buy_user)->first();
+        $buyer->notify(new BuyerAdminApproved());
+
+        //支払い者へのNotification
+        $seller = User::where('id', $agreement->sell_user)->first();
+        $seller->notify(new BuyerAdminApproved());
 
         return redirect()->route('admin.cancel.offer.detail',['cancel_id'=> $cancel->id]);
     }
