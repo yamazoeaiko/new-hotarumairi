@@ -263,7 +263,9 @@ class ChatController extends Controller
         $senderName = $sender->nickname;
 
         $user = User::where('id', $request->receiver_id)->first();
-        $user->notify(new ChatReceive($receiveMessage, $senderName));
+        $receiverName = $user->nickname;
+        
+        $user->notify(new ChatReceive($receiveMessage, $senderName, $receiverName));
 
         return redirect()->back();
     }
