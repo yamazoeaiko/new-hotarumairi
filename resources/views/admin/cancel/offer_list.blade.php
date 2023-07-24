@@ -15,7 +15,7 @@
             <span class="fs-5 fw-bolder">{{$item->main_title}}</span>
           </div>
           <div class="col-4 text-right">
-            <p class="text-muted small">キャンセル申請日：<br>{{ \Carbon\Carbon::parse($item->created)->format('Y年m月d日 H時i分') }}</p>
+            <p class="text-muted small">キャンセル申請日：<br>{{ \Carbon\Carbon::parse($item->created_at)->format('Y年m月d日 H時i分') }}</p>
           </div>
         </div>
         <div class="row px-2">
