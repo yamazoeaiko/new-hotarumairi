@@ -38,7 +38,7 @@ class ChatReceive extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail($receiverNmae, $esnderName, $receiveMessage)
     {
         return (new MailMessage)
             ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
