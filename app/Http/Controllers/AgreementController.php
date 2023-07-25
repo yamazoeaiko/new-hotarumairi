@@ -238,7 +238,7 @@ class AgreementController extends Controller
 
         $buyerName = $buy_user->nickname;
         $sellerName = $sell_user->nickname;
-        $serviceName = $service->main_title;
+        $serviceName = $agreement->main_title;
         $Price = $payment->price;
         $paymentDate = $payment->created_at;
         //buyerへの支払い完了Notification④
@@ -246,7 +246,6 @@ class AgreementController extends Controller
 
         //sellerへの支払い完了Notification③
         $sell_user->notify(new SellerPayment($buyerName, $sellerName, $serviceName, $Price, $paymentDate));
-
 
         return view('payment.success', compact('agreement','room'));
     }
