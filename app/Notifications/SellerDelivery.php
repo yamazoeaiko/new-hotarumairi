@@ -11,14 +11,18 @@ class SellerDelivery extends Notification
 {
     use Queueable;
 
+    private $sellerName;
+    private $buyerName;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($sellerName, $buyerName)
     {
-        //
+        $this->sellerName = $sellerName;
+        $this->buyerName = $buyerName;
     }
 
     /**
@@ -42,8 +46,11 @@ class SellerDelivery extends Notification
     {
         return (new MailMessage)
         ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
-        ->subject('【ほたる参り】購入者から納品の受諾が届きました。')
-        ->markdown('mail.seller_delivery');
+        ->subject('【ほたる参り】'.$this->buyerName.'さまから納品の受諾が届きました。')
+        ->markdown('mail.seller_delivery',[
+            'sellerName' => $this->sellerName,
+            'buyerName' => $this->buyerName
+        ]);
     }
 
     /**

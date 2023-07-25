@@ -1,12 +1,33 @@
 <x-mail::message>
-# Introduction
+  このメールは、ほたる参りから配信されています
 
-The body of your message.
+  {{$buyerName}}さま
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
+  {{$sellerName}}さまから正式な納品が届きました。
+  **◇ このあとの進行**
+  <br>下記リンクからチャットを開き、内容の確認をお願いします。
 
-Thanks,<br>
-{{ config('app.name') }}
+  <x-mail::button :url="'https://laravel.hotarumairi.com/chat/list_buy'">
+    ほたる参りページへ
+  </x-mail::button>
+
+  <br>納品内容に不備がなければ、「承認する」を選択してください。
+  <br>不備がある場合は、「否認する」を選択し、詳細内容はチャットにてお伝えください。
+
+  <br>返信期限: 本日から７日以内にご対応がない場合は自動でお取引終了となります。
+  <br>（その場合は「承認する」を選択したこととなります）
+
+
+  <br>◇ほたる参りは、破格のシステム手数料で現在ご利用いただいておりますので、この機会にビジネスでのご活躍の幅を広げていただけましたら幸いです。
+  <br>◇システムの不具合でご迷惑をお掛けする可能性がございます。
+  <br>◇ご不明な点やお問い合せは以下からお願いいたします。
+  <br>https://about.hotarumairi.com/contact/
+
+  <br>※こちらのメールは送信専用のメールアドレスより自動送信されていますので、そのままご返信いただくことはできません。
+
+  ほたる参り をご利用いただきありがとうございます。
+
+  運営：ほたるまいり事務局
+  <br>管理：一般社団法人Kikujin
+  <br>https://kikujin.or.jp/
 </x-mail::message>

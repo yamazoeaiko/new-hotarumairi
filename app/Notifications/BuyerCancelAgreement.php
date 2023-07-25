@@ -11,14 +11,18 @@ class BuyerCancelAgreement extends Notification
 {
     use Queueable;
 
+    private $sellerName;
+    private $buyerName;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($sellerName, $buyerName)
     {
-        //
+        $this->sellerName = $sellerName;
+        $this->buyerName = $buyerName;
     }
 
     /**
@@ -42,8 +46,11 @@ class BuyerCancelAgreement extends Notification
     {
         return (new MailMessage)
         ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
-        ->subject('【ほたる参り】サービスのキャンセル申請が届きました')
-        ->markdown('mail.buyer_delivery');
+        ->subject('【ほたる参り】'.$this->sellerName.'さまがサービスのキャンセル申請をしました')
+        ->markdown('mail.buyer_cancel_agreement',[
+            'sellerName' => $this->sellerName,
+            'buyerName' => $this->buyerName
+        ]);
     }
     /**
      * Get the array representation of the notification.

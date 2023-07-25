@@ -11,14 +11,18 @@ class BuyerAdminApproved extends Notification
 {
     use Queueable;
 
+    private $sellerName;
+    private $buyerName;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($sellerName, $buyerName)
     {
-        //
+        $this->sellerName = $sellerName;
+        $this->buyerName = $buyerName;
     }
 
     /**
@@ -43,7 +47,10 @@ class BuyerAdminApproved extends Notification
         return (new MailMessage)
         ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
         ->subject('【ほたる参り】サービスがキャンセルされました')
-        ->markdown('mail.buyer_admin_approved');
+        ->markdown('mail.buyer_admin_approved',[
+            'sellerName' => $this->sellerName,
+            'buyerName' => $this->buyerName
+        ]);
     }
 
     /**

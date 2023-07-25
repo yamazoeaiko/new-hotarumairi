@@ -12,8 +12,9 @@ class NotificationController extends Controller
 {
     public function getRegisterComplete(){
         $user = Auth::user();
+        $userName = $user->nickname;
 
-        $user->notify(new RegisterCompleted());
+        $user->notify(new RegisterCompleted($userName));
 
         return view('auth.register_complete');
     }

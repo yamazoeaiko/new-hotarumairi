@@ -201,8 +201,11 @@ class ChatController extends Controller
         $delivery->save();
 
         //購入者への納品報告Notification
+        $sell_user = User::where('id',$entry->sell_user)->first();
+        $sellerName = $sell_user->nickname;
         $buyer = User::where('id', $entry->buy_user)->first();
-        $buyer->notify(new BuyerDelivery());
+        $buyerName = $buyer->nickname;
+        $buyer->notify(new BuyerDelivery($sellerName, $buyerName));
 
         return redirect()->back();
     }
@@ -213,8 +216,11 @@ class ChatController extends Controller
         $entry->save();
 
         //出品者への納品報告Notification
+        $buyer = User::where('id', $entry->buy_user)->first();
+        $buyerName = $buyer->nickname;
         $seller = User::where('id', $entry->sell_user)->first();
-        $seller->notify(new SellerDelivery());
+        $sellerName = $seller->nickname;
+        $seller->notify(new SellerDelivery($buyerName, $sellerName));
 
         return redirect()->back();
     }

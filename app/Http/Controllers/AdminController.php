@@ -620,13 +620,15 @@ class AdminController extends Controller
         ]);
         $announcementRead_b->save();
 
-        //購入者へのNotification
         $buyer = User::where('id', $agreement->buy_user)->first();
-        $buyer->notify(new BuyerAdminApproved());
+        $buyerName = $buyer->nickname;
+        $seller = User::where('id', $agreement->sell_user)->first();
+        $sellerName = $seller->nickname;
+        //購入者へのNotification
+        $buyer->notify(new BuyerAdminApproved($buyerName, $sellerName));
 
         //支払い者へのNotification
-        $seller = User::where('id', $agreement->sell_user)->first();
-        $seller->notify(new SellerAdminApproved());
+        $seller->notify(new SellerAdminApproved($buyerName, $sellerName));
 
         return redirect()->route('admin.cancel.offer.detail',['cancel_id'=> $cancel->id]);
     }

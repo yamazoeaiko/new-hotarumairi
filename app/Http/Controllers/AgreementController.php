@@ -236,9 +236,16 @@ class AgreementController extends Controller
         ]);
         $announcementRead_b->save();
 
+        $buyerName = $buy_user->nickname;
+        $sellerName = $sell_user->nickname;
+        $serviceName = $service->main_title;
+        $Price = $service->price;
+        $paymentDate = $payment->created_at;
         //buyerへの支払い完了Notification④
-        $buy_user->notify(new BuyerPayment());
-        $sell_user->notify(new SellerPayment());
+        $buy_user->notify(new BuyerPayment($buyerName, $sellerName, $serviceName, $Price, $paymentDate));
+
+        //sellerへの支払い完了Notification③
+        $sell_user->notify(new SellerPayment($buyerName, $sellerName, $serviceName, $Price, $paymentDate));
 
 
         return view('payment.success', compact('agreement','room'));
@@ -357,13 +364,15 @@ class AgreementController extends Controller
         $item->entry_id = $entry->id;
         $item->payment_id = $payment->id;
 
-        //出品者のキャンセルNotification（出品者側への通知）
         $sell_user = User::where('id', $user_id)->first();
-        $sell_user->notify(new CancelAgreement());
+        $sellerName =$sell_user->nickname;
+        $buy_user = User::where('id', $entry->buy_user)->first();
+        $buyerName = $buy_user->nickname;
+        //出品者のキャンセルNotification（出品者側への通知）
+        $sell_user->notify(new CancelAgreement($sellerName, $buyerName));
 
         //購入者側への通知
-        $buy_user = User::where('id', $entry->buy_user)->first();
-        $buy_user->notify(new BuyerCancelAgreement());
+        $buy_user->notify(new BuyerCancelAgreement($sellerName, $buyerName));
 
         return view('payment.cancel_seller', compact('item'));
     }

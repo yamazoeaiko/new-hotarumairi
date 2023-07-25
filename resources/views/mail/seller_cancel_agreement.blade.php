@@ -1,12 +1,24 @@
 <x-mail::message>
-# Introduction
+  このメールは、ほたる参りから配信されています
 
-The body of your message.
+  {{$sellerName}}さま
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
+  {{$buyerName}}さまから納品の受諾が届きました。
 
-Thanks,<br>
-{{ config('app.name') }}
+  キャンセル申請をお受けいたしましたので、事務局が確認を行います。
+  <br>確認処理されるまでお待ちくださいませ。
+  <br>※３営業日以内には通知いたします。
+
+  <br>◇ほたる参りは、破格のシステム手数料で現在ご利用いただいておりますので、この機会にビジネスでのご活躍の幅を広げていただけましたら幸いです。
+  <br>◇システムの不具合でご迷惑をお掛けする可能性がございます。
+  <br>◇ご不明な点やお問い合せは以下からお願いいたします。
+  <br>https://about.hotarumairi.com/contact/
+
+  <br>※こちらのメールは送信専用のメールアドレスより自動送信されていますので、そのままご返信いただくことはできません。
+
+  ほたる参り をご利用いただきありがとうございます。
+
+  運営：ほたるまいり事務局
+  <br>管理：一般社団法人Kikujin
+  <br>https://kikujin.or.jp/
 </x-mail::message>
