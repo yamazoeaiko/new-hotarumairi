@@ -11,14 +11,18 @@ class sendAgreement extends Notification
 {
     use Queueable;
 
+    private $senderName;
+    private $receiverName;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($receiverName, $senderName)
     {
-        //
+        $this->senderName = $senderName;
+        $this->receiverName = $receiverName;
     }
 
     /**
@@ -41,10 +45,14 @@ class sendAgreement extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
-        ->subject('【ほたる参り】出品者から見積もり提案が届きました。')
-        ->markdown('mail.send_agreement');
+            ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
+            ->subject('【ほたる参り】' . $this->senderName . 'から見積もり提案が届きました。')
+            ->markdown('mail.send_agreement', [
+                'receiverName' => $this->receiverName,
+                'senderName'=> $this->senderName
+            ]);
     }
+
 
     /**
      * Get the array representation of the notification.

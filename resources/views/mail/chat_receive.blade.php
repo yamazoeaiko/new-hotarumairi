@@ -11,10 +11,9 @@
   </x-mail::button>
 
   <br>**◇メッセージ内容**
-  
   <br>{{$receiveMessage}}
-  
 
+  
   <br>引き続き、よろしくお願いいたします。
 
 

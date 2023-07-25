@@ -90,7 +90,10 @@ class AgreementController extends Controller
 
         //Notification飛ばす
         $user = User::where('id', $request->buy_user)->first();
-        $user->notify(new sendAgreement());
+        $receiverName = $user->nickname;
+        $sender = User::where('id', $agreement->sell_user)->first();
+        $senderName = $sender->nickname;
+        $user->notify(new sendAgreement($receiverName, $senderName));
 
         return redirect()->route('chat.room', ['room_id' => $room->id]);
     }
