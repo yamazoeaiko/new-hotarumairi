@@ -11,14 +11,20 @@ class ChatReceive extends Notification
 {
     use Queueable;
 
+    private $receiveMessage;
+    private $senderName;
+    private $receiverName;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($receiveMessage, $senderName, $receiverName)
     {
-        //
+        $this->receiveMessage = $receiveMessage;
+        $this->senderName = $senderName;
+        $this->receiverName = $receiverName;
     }
 
     /**
@@ -38,12 +44,17 @@ class ChatReceive extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($receiverNmae, $esnderName, $receiveMessage)
+    public function toMail($notifiable)
     {
         return (new MailMessage)
             ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
             ->subject('ほたる参り　チャットが届きました')
-            ->markdown('mail.chat_receive');
+            ->markdown('mail.chat_receive',[
+                'receiveMessage' => $this->receiveMessage,
+            'senderName' => $this->senderName,
+            'receiverName' => $this->receiverName
+            ]
+        );
     }
 
     /**
