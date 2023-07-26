@@ -12,7 +12,6 @@ class SellerPayment extends Notification
     use Queueable;
 
     private $serviceName;
-    private $buyerName;
     private $sellerName;
     private $Price;
     private $paymentDate;
@@ -22,10 +21,9 @@ class SellerPayment extends Notification
      *
      * @return void
      */
-    public function __construct($serviceName, $buyerName, $sellerName, $Price, $paymentDate)
+    public function __construct($serviceName, $sellerName, $Price, $paymentDate)
     {
         $this->serviceName = $serviceName;
-        $this->buyerName = $buyerName;
         $this->sellerName = $sellerName;
         $this->Price = $Price;
         $this->paymentDate = $paymentDate;
@@ -52,10 +50,9 @@ class SellerPayment extends Notification
     {
         return (new MailMessage)
         ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
-        ->subject('【ほたる参り】'.$this->buyerName.'様があなたのサービスが購入されました')
+        ->subject('【ほたる参り】あなたのサービスが購入されました')
         ->markdown('mail.seller_payment',[
             'serviceName' => $this->serviceName,
-            'buyerName' => $this->buyerName,
             'sellerName' => $this->sellerName,
             'Price' => $this->Price,
             'paymentDate' => $this->paymentDate
