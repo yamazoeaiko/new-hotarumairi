@@ -4,7 +4,7 @@
   {{$sellerName}}さま
 
   ＜＜お取引を開始して下さい＞＞
-  <br>あなたのご提案が購入されました。
+  <br>{{$buyerName}}さまがあなたのご提案を購入されました。
   <br>下記URLからチャットを開き、内容の確認をお願いします。
 
   <x-mail::button :url="'https://laravel.hotarumairi.com/chat/list_sell'">
