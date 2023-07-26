@@ -6,6 +6,7 @@
   <br>正式なご購入が確認できましたのでお知らせいたします。
  
   **◇ 注文情報**
+  <br>出品者：{{$sellerName}}さま
   <br>タイトル：{{$serviceName}}
   <br>価格：{{$Price}}円
   <br>購入日時：{{$paymentDate}}
