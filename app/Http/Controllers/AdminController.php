@@ -586,7 +586,7 @@ class AdminController extends Controller
         $payment->cancel_fee = $payment->include_tax_price;
         $payment->save();
 
-        $cancel->refund = 'approved';
+        $cancel->refund = 'will_refund';
         $cancel->save();
 
         //sell_userへのアナウンス
