@@ -12,7 +12,6 @@ class BuyerPayment extends Notification
     use Queueable;
 
     private $buyerName;
-    private $sellerName;
     private $serviceName;
     private $Price;
     private $paymentDate;
@@ -22,11 +21,10 @@ class BuyerPayment extends Notification
      *
      * @return void
      */
-    public function __construct($buyerName, $sellerName, $serviceName, $Price, $paymentDate)
+    public function __construct($buyerName, $serviceName, $Price, $paymentDate)
     {
         $this->serviceName = $serviceName;
         $this->buyerName = $buyerName;
-        $this->sellerName = $sellerName;
         $this->Price = $Price;
         $this->paymentDate = $paymentDate;
     }

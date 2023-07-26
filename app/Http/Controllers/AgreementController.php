@@ -242,7 +242,7 @@ class AgreementController extends Controller
         $Price = $payment->price;
         $paymentDate = $payment->created_at;
         //buyerへの支払い完了Notification④
-        $buy_user->notify(new BuyerPayment($buyerName, $sellerName, $serviceName, $Price, $paymentDate));
+        $buy_user->notify(new BuyerPayment($buyerName, $serviceName, $Price, $paymentDate));
 
         //sellerへの支払い完了Notification③
         $sell_user->notify(new SellerPayment($buyerName, $sellerName, $serviceName, $Price, $paymentDate));

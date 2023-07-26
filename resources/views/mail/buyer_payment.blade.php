@@ -10,7 +10,7 @@
   <br>価格：{{$Price}}
   <br>購入日時：{{$paymentDate}}
   ============================
-  <br>下記URLからチャットを開き、{{$sellerName}}さまとのお取引を開始してください。
+  <br>下記URLからチャットを開き、出品者さまとのお取引を開始してください。
 
   <x-mail::button :url="'https://laravel.hotarumairi.com/chat/list_buy'">
     ほたる参りページへ
