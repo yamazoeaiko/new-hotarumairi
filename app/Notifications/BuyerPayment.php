@@ -54,7 +54,6 @@ class BuyerPayment extends Notification
         ->markdown('mail.buyer_payment', [
             'serviceName' => $this->serviceName,
             'buyerName' => $this->buyerName,
-            'sellerName' => $this->sellerName,
             'Price' => $this->Price,
             'paymentDate' => $this->paymentDate
         ]);
