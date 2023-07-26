@@ -12,7 +12,7 @@
   </x-mail::button>
 
   **◇ 注文情報**
-  <br>タイトル：{{$sellerName}}
+  <br>タイトル：{{$serviceName}}
   <br>価格：{{$Price}}
   <br>購入日時：{{$paymentDate}}
   ============================
