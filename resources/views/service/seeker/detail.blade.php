@@ -1,4 +1,10 @@
 @extends('layouts.app')
+<script>
+  $(document).ready(function() {
+    // カルーセルの設定
+    $("#carouselExampleIndicators").carousel();
+  });
+</script>
 
 @section('content')
 
@@ -6,42 +12,120 @@
   <h6 class="my-2 fw-bold">出品サービス詳細</h6>
   <div class="form-control">
     <div class="mb-3 row">
-      <div class="col-md-4">
+      <div class="col-2">
         <img src="{{ asset($item->img_url) }}" alt="Profile image" class="card-img" style="max-width: 100%; height: auto;">
         @if($item->favorite == false)
         <form method="POST" action="{{ route('favorite', ['service_id'=> $item->id]) }}">
           @csrf
-          <button type="submit" class="btn btn-primary my-1">
-            <small>サービスをお気に入り登録</small>
+          <button type="submit" class="btn btn-outline-primary my-1">
+            <small>お気に入り</small>
           </button>
         </form>
         @else
         <form action="{{route('unfavorite',['service_id'=> $item->id])}}" method="post">
           @csrf
-          <button type="submit" class="btn btn-outline-primary my-1">
-            <small>サービスをお気に入り解除</small>
+          <button type="submit" class="btn btn-primary my-1">
+            <small>お気に入り解除</small>
           </button>
         </form>
         @endif
         @if($item->follow == false)
         <form method="POST" action="{{ route('follow',['follower_id'=> $item->offer_user_id]) }}">
           @csrf
-          <button type="submit" class="btn btn-success my-1">
-            <small>{{$item->user_name}}をフォローする</small>
+          <button type="submit" class="btn btn-outline-success my-1">
+            <small>フォロー</small>
           </button>
         </form>
         @else
         <form action="{{route('unfollow',['follower_id'=>$item->offer_user_id])}}" method="post">
           @csrf
-          <button class="btn btn-outline-success my-1">
-            <small>{{$item->user_name}}のフォローを解除する</small>
+          <button class="btn btn-success my-1">
+            <small>フォロー解除</small>
           </button>
         </form>
         @endif
       </div>
-      <div class="col-md-8">
+      <div class="col-10">
         <div class="mb-3">
           <p class="fw-bolder fs-3">{{ $item->main_title }}</p>
+        </div>
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            @if($item->photo_1)
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            @endif
+            @if($item->photo_2)
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            @endif
+            @if($item->photo_3)
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            @endif
+            @if($item->photo_4)
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            @endif
+            @if($item->photo_5)
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+            @endif
+            @if($item->photo_6)
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 6"></button>
+            @endif
+            @if($item->photo_7)
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6" aria-label="Slide 7"></button>
+            @endif
+            @if($item->photo_8)
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7" aria-label="Slide 8"></button>
+            @endif
+          </div>
+          <div class="carousel-inner">
+            @if($item->photo_1)
+            <div class="carousel-item active">
+              <img src="{{ asset($item->photo_1) }}" class="d-block w-100" alt="photo_1">
+            </div>
+            @endif
+            @if($item->photo_2)
+            <div class="carousel-item">
+              <img src="{{ asset($item->photo_2) }}" class="d-block w-100" alt="photo_2">
+            </div>
+            @endif
+            @if($item->photo_3)
+            <div class="carousel-item">
+              <img src="{{ asset($item->photo_3) }}" class="d-block w-100" alt="photo_3">
+            </div>
+            @endif
+            @if($item->photo_4)
+            <div class="carousel-item">
+              <img src="{{ asset($item->photo_4) }}" class="d-block w-100" alt="photo_4">
+            </div>
+            @endif
+            @if($item->photo_5)
+            <div class="carousel-item">
+              <img src="{{ asset($item->photo_5) }}" class="d-block w-100" alt="photo_5">
+            </div>
+            @endif
+            @if($item->photo_6)
+            <div class="carousel-item">
+              <img src="{{ asset($item->photo_6) }}" class="d-block w-100" alt="photo_6">
+            </div>
+            @endif
+            @if($item->photo_7)
+            <div class="carousel-item">
+              <img src="{{ asset($item->photo_7) }}" class="d-block w-100" alt="photo_7">
+            </div>
+            @endif
+            @if($item->photo_8)
+            <div class="carousel-item">
+              <img src="{{ asset($item->photo_8) }}" class="d-block w-100" alt="photo_8">
+            </div>
+            @endif
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
         @if($item->categories)
         <div>
@@ -61,6 +145,7 @@
                                 <small class="text-muted">住まい地域：</small>{{ $item->living_area }}
                               </p>
         </div>
+        <!--
         <div class="mb-3">
           <div class="owl-carousel owl-theme">
             @foreach (range(1, 8) as $i)
@@ -73,6 +158,7 @@
             @endforeach
           </div>
         </div>
+        -->
         <div class="mb-3">
           <label for="price" class="fw-bolder">サービス価格</label>
           <div class="input-group">
@@ -200,6 +286,7 @@
 </style>
 
 <!-- Owl Carousel JS -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 <script>
   $(function() {
@@ -214,7 +301,6 @@
       navText: ['<i class="bi-chevron-left"></i>', '<i class="bi-chevron-right"></i>']
     });
   });
-
   document.getElementById('copyButton').addEventListener('click', function() {
     var linkTextArea = document.getElementById('linkTextArea');
     linkTextArea.style.display = 'block';

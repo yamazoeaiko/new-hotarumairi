@@ -6,10 +6,10 @@
   <h5 class="my-2 fw-bold">公開依頼の詳細</h5>
   <div class="form-control">
     <div class="mb-3 row">
-      <div class="col-md-4">
+      <div class="col-2">
         <img src="{{ asset($item->img_url) }}" alt="Profile image" class="card-img">
       </div>
-      <div class="col-md-8">
+      <div class="col-10">
         <div class="mb-3">
           <label for="main_title" class="fw-bolder"> 依頼タイトル<span class="fs-7 text-danger ">※必須</span></label>
           <div class="fw-bolder fs-5">{{ $item->main_title }}</div>
@@ -79,12 +79,13 @@
         </div>
         @if($item->photo_1)
         <div class="mb-3">
-          <a href="{{ asset($item->photo_1) }}" class="fc-blue fw-bolder">画像・ファイル①</a>
+          <p class="fw-bolder">添付ファイル</p>
+          <a href="{{ asset($item->photo_1) }}" class="fc-blue ">画像・ファイル①</a>
         </div>
         @endif
         @if($item->photo_2)
         <div class="mb-3">
-          <a href="{{ asset($item->photo_2) }}" class="fc-blue fw-bolder">画像・ファイル②</a>
+          <a href="{{ asset($item->photo_2) }}" class="fc-blue">画像・ファイル②</a>
         </div>
         @endif
         @if($item->photo_3)
@@ -94,7 +95,7 @@
         @endif
         @if($item->photo_4)
         <div class="mb-3">
-          <a href="{{ asset($item->photo_4) }}" class="fc-blue fw-bolder">画像・ファイル④</a>
+          <a href="{{ asset($item->photo_4) }}" class="fc-blue">画像・ファイル④</a>
         </div>
         @endif
       </div>
