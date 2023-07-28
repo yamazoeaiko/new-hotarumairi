@@ -461,6 +461,14 @@ class ServiceController extends Controller
 
     public function PubreqDone(Request $request)
     {
+        //validate
+        $validatedData = $request->validate([
+            'main_title' => 'required|max:20',
+            'content' => 'required',
+            'price' => 'required',
+            'category_id' => 'required'
+        ]);
+        
         $service = new Service();
 
         if ($request->hasFile('photo_1')) {

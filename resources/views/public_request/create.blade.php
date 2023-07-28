@@ -8,7 +8,11 @@
     <input type="hidden" name="type" value="public_request">
     <div class="mb-3">
       <label for="main_title" class="fw-bolder"> 依頼タイトル<span class="fs-7 text-danger ">※必須(20字以内)</span></label>
-      <input type="text" name="main_title" class="form-control fw-bolder">
+      <input type="text" name="main_title" class="form-control fw-bolder" value="{{old('main_title')}}">
+      @if($errors->has('main_title'))
+      <div class="fs-8 text-danger">エラー：サービスタイトルは必須です。
+      </div>
+      @endif
     </div>
 
     <div class="mb-3">
@@ -16,6 +20,10 @@
       <div class="input-group">
         <textarea name="content" class="text-start form-control" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" oninput="resizeTextarea(this)" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。"></textarea>
       </div>
+      @if($errors->has('content'))
+      <div class="fs-8 text-danger">エラー：サービス内容は必須です。
+      </div>
+      @endif
     </div>
 
     <div class="mb-3">
@@ -26,6 +34,10 @@
         <label class="form-check-label">{{ $category->name }}</label>
       </div>
       @endforeach
+      @if($errors->has('category_id'))
+      <div class="fs-8 text-danger">エラー：出品カテゴリーは必須です。
+      </div>
+      @endif
     </div>
 
     <div class="form-group">
@@ -210,6 +222,10 @@
           <span class="input-group-text">円（税別）</span>
         </div>
       </div>
+      @if($errors->has('price'))
+      <div class="fs-8 text-danger">エラー：サービス価格は必須です。
+      </div>
+      @endif
     </div>
 
     <!--
