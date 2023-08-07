@@ -34,8 +34,9 @@
 
         <!-- Page Content -->
         <main class="my-header">
-                @yield('content')
+            @yield('content')
         </main>
+        @include('components.footer')
     </div>
 </body>
 
