@@ -36,8 +36,8 @@
         <main class="my-header">
             @yield('content')
         </main>
-        @include('components.footer')
     </div>
+    @include('components.footer')
 </body>
 
 </html>

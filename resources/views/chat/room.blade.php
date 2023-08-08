@@ -97,7 +97,7 @@
         @endif
         <div class="col-12 mb-5 text-center text-start">
           <!--ここからルーム-->
-          <div class="col-9 col-sm-12 mx-auto bg-light p-1" style="max-height: 500px; overflow-y: auto;">
+          <div class="mx-auto bg-light p-1" style="max-height: 500px; overflow-y: auto;">
             <ul style="padding: 0;">
               @if($chats->isEmpty())
               <span>最初のメッセージを送ろう</span>
@@ -128,11 +128,11 @@
           <!-- .chat -->
           <form action="{{route('send.chat')}}" method="post" enctype="multipart/form-data">
             @csrf
-            <div class="d-flex justify-content-center mt-3 row fixed-bottom mb-3 bg-white">
+            <div class="d-flex justify-content-center mt-3 row mb-3 bg-white">
               <input type="hidden" name="room_id" value="{{ $room_id }}">
               <input type="hidden" name="receiver_id" value="{{$theother->id}}">
               <input type="hidden" name="user_id" value="{{ $user_id }}">
-              <div class="col-6" style="padding-right: 0;">
+              <div class="" style="padding-right: 0;">
                 <div class="input-group h-100">
                   <textarea name="message" class="text-start form-control" style="resize: none; height: 70px; overflow-y: auto; padding: 10px; width: 100%;" oninput="resizeTextarea(this)" oninput="this.style.height = '70px'; this.style.height = (this.scrollHeight + 10) + 'px';" placeholder="Enterで改行されます。"></textarea>
                   <div class="form-group">

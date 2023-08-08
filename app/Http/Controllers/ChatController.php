@@ -233,7 +233,9 @@ class ChatController extends Controller
 
         $delivery = Delivery::where('entry_id', $request->entry_id)->first();
         $delivery->delete();
-
+        
+        //通知入れた方が良い？
+        
         return redirect()->back();
     }
 
