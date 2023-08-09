@@ -1,4 +1,12 @@
 @extends('layouts.app')
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    let target = document.getElementById('scroll-inner');
+    if (target) {
+      target.scrollIntoView(false);
+    }
+  });
+</script>
 
 @section('content')
 <div class="container">
@@ -95,34 +103,36 @@
         </div>
         @endif
         @endif
-        <div class="col-12 mb-5 text-center text-start">
-          <!--ここからルーム-->
-          <div class="mx-auto bg-light p-1" style="max-height: 500px; overflow-y: auto;">
-            <ul style="padding: 0;">
-              @if($chats->isEmpty())
-              <span>最初のメッセージを送ろう</span>
-              @else
-              @foreach($chats as $chat)
-              <div class="message d-flex align-items-start mb-4 
-          @if($chat->sender_id == $user_id)flex-row-reverse @else flex-row @endif">
-                <p class="fs-xs">{{$chat->nickname}}</p>
-                <div>
-                  <img src="{{ asset($chat->img_url) }}" alt="" class="message-icon rounded-circle text-white fs-3">
+        <div>
+          <div class="col-12 mb-5 text-center text-start" style="max-height: 500px; overflow-y:auto;">
+            <!--ここからルーム-->
+            <div class="mx-auto bg-light p-1" id="scroll-inner">
+              <ul style="padding: 0;">
+                @if($chats->isEmpty())
+                <span>最初のメッセージを送ろう</span>
+                @else
+                @foreach($chats as $chat)
+                <div class="message d-flex align-items-start mb-4 
+                  @if($chat->sender_id == $user_id)flex-row-reverse @else flex-row @endif">
+                  <p class="fs-xs">{{$chat->nickname}}</p>
+                  <div>
+                    <img src="{{ asset($chat->img_url) }}" alt="" class="message-icon rounded-circle text-white fs-3">
+                  </div>
+                  @if($chat->message !== null)
+                  <p class="message-text p-2 m-2 mb-0 text-start @if($chat->sender_id == $user_id) from-user-bg @else to-user-bg @endif" style="word-wrap: break-word; max-width: 80%;">
+                    {!! nl2br(e($chat->message)) !!}
+                  </p>
+                  @endif
+                  @if($chat->file !== null)
+                  <p class="message-text p-2 m-2 mb-0 text-start @if($chat->sender_id == $user_id) from-user-bg @else to-user-bg @endif" style="word-wrap: break-word; max-width: 80%;">
+                    <a href="{{ asset($chat->file)}}" class="fc-blue fw-bolder">添付ファイルがあります</a>
+                  </p>
+                  @endif
                 </div>
-                @if($chat->message !== null)
-                <p class="message-text p-2 m-2 mb-0 text-start @if($chat->sender_id == $user_id) from-user-bg @else to-user-bg @endif" style="word-wrap: break-word; max-width: 80%;">
-                  {!! nl2br(e($chat->message)) !!}
-                </p>
+                @endforeach
                 @endif
-                @if($chat->file !== null)
-                <p class="message-text p-2 m-2 mb-0 text-start @if($chat->sender_id == $user_id) from-user-bg @else to-user-bg @endif" style="word-wrap: break-word; max-width: 80%;">
-                  <a href="{{ asset($chat->file)}}" class="fc-blue fw-bolder">添付ファイルがあります</a>
-                </p>
-                @endif
-              </div>
-              @endforeach
-              @endif
-            </ul>
+              </ul>
+            </div>
           </div>
 
           <!-- .chat -->
@@ -181,6 +191,7 @@
 </style>
 @endsection
 
+
 <script>
   function resizeTextarea(textarea) {
     textarea.style.height = '70px';
@@ -197,4 +208,5 @@
       resizeTextarea(textarea);
     }
   });
+
 </script>
