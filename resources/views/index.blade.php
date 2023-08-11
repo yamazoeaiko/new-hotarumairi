@@ -2,10 +2,10 @@
 @section('content')
 <!-- Header -->
 <header class="row justify-content-center mb-2">
-    <div class="col-xl-7 d-flex justify-content-xl-end order-xl-2 d-flex">
+    <div class="col-lg-7 d-flex justify-content-lg-end order-lg-2 d-flex">
         <input type="hidden" id="window-width" value="">
         <!-- 横幅が992px以上の場合の処理 -->
-        <div class="owl-carousel owl-theme d-none d-md-block">
+        <div class="owl-carousel owl-theme d-none d-lg-block">
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_hotarumairi_top_w1400xh400.jpeg')}}');"></div>
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_hakamairi1400_400.png')}}');"></div>
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_omamori1400_400.png')}}');"></div>
@@ -13,7 +13,7 @@
         </div>
 
         <!-- 横幅が991px以下の場合の処理 -->
-        <div class="owl-carousel owl-theme d-md-none">
+        <div class="owl-carousel owl-theme d-lg-none mt-4">
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_hotarumairi_top_w576xh200.jpeg')}}');"></div>
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_hakamairi576_200.png')}}');"></div>
             <div class="header-item" style="background-image: url('{{ asset('storage/images/slider_omamori576_200.png')}}');"></div>
@@ -21,7 +21,7 @@
         </div>
 
     </div>
-    <div class="d-flex col-xl-4 justify-content-xl-start order-xl-1">
+    <div class="d-flex col-lg-5 justify-content-lg-start order-lg-1">
         <table class="table">
             <tr>
                 <th>{{$info_1->title}}</th>
