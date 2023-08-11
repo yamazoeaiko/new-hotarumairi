@@ -256,8 +256,8 @@
     height:200px;
   }
     .header-item {
-      width:576px;
-      height: 200px;
+      width: 400px;
+      height:140px;
       margin:auto auto;
       background-size: cover;
       background-position: center;
