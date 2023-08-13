@@ -264,6 +264,23 @@
     }
 }
 
+@media (max-width: 400px) {
+
+  .slider-section,
+  .news {
+    width: 100%;
+    height: 200px;
+  }
+
+  .header-item {
+    width: 350px;
+    height: 121px;
+    margin: auto auto;
+    background-size: cover;
+    background-position: center;
+  }
+}
+
 @font-face {
   font-family: "zenkurenai";
   src: url("fonts/ZenKurenaido-Regular.ttf");

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <!-- Header -->
-<header class="row justify-content-center mb-2">
+<header class="px-2 row justify-content-center mb-2">
     <div class="col-lg-7 d-flex justify-content-lg-end order-lg-2 d-flex">
         <input type="hidden" id="window-width" value="">
         <!-- 横幅が992px以上の場合の処理 -->
@@ -21,29 +21,34 @@
         </div>
 
     </div>
-    <div class="d-flex col-lg-5 justify-content-lg-start order-lg-1">
-        <table class="table">
-            <tr>
-                <th>{{$info_1->title}}</th>
-                <td>{{ \Carbon\Carbon::parse($info_1->created_at)->format('m月d日 H時') }}
-                    <button class="mx-2 btn btn-primary" id="informationButton1">詳細</button>
-                </td>
-            </tr>
-            <tr>
-                <th>{{$info_2->title}}</th>
-                <td>{{ \Carbon\Carbon::parse($info_2->created_at)->format('m月d日 H時') }}
-                    <button class="mx-2 btn btn-primary" id="informationButton2">詳細</button>
-                </td>
-
-            </tr>
-            <tr>
-                <th>{{$info_3->title}}</th>
-                <td>{{ \Carbon\Carbon::parse($info_3->created_at)->format('m月d日 H時') }}
-                    <button class="mx-2 btn btn-primary" id="informationButton3">詳細</button>
-                </td>
-
-            </tr>
-        </table>
+    <div class="col-lg-5 justify-content-lg-start order-lg-1">
+        <div class="mb-2 text-info fs-5 border-bottom border-info">
+            <i class="bi bi-book"></i></i><a class="" href="https://about.hotarumairi.com/" target="_blank">初めての方へ<span class="fs-7">〜『ほたる参り』とは？〜</span></a>
+        </div>
+        <div class="text-primary fw-bolder">運営からのお知らせ</div>
+        <div class="">
+            <div class="border-bottom border-1 mb-2 d-flex justify-content-between align-items-center">
+                <label>{{$info_1->title}}</label>
+                <div class="fs-7">
+                    <button class="mx-2 btn btn-outline-primary p-0" id="informationButton1">詳細</button>
+                    {{ \Carbon\Carbon::parse($info_1->created_at)->format('m月d日') }}
+                </div>
+            </div>
+            <div class="border-bottom border-1 mb-2 d-flex justify-content-between align-items-center">
+                <label>{{$info_2->title}}</label>
+                <div class="fs-7">
+                    <button class="mx-2 btn btn-outline-primary p-0" id="informationButton2">詳細</button>
+                    {{ \Carbon\Carbon::parse($info_2->created_at)->format('m月d日') }}
+                </div>
+            </div>
+            <div class="border-bottom border-1 mb-2 d-flex justify-content-between align-items-center">
+                <label>{{$info_3->title}}</label>
+                <div class="fs-7">
+                    <button class="mx-2 btn btn-outline-primary p-0" id="informationButton3">詳細</button>
+                    {{ \Carbon\Carbon::parse($info_3->created_at)->format('m月d日') }}
+                </div>
+            </div>
+        </div>
     </div>
     <div id="informationPopup1" class="informationPopup p-3 rounded-2 border-primary border-3 fs-6">
         {{ $info_1->content }}
@@ -64,10 +69,6 @@
         </div>
     </div>
 </header>
-
-
-
-
 <!-- New Arrivals -->
 <div class="container-fluid px-3 my-4">
     <div class="row">
@@ -101,7 +102,7 @@
                             <h2 class="section-title">出品サービスの新着案件</h2>
                         </div>
                         <div class="col-4">
-                            <a href="{{ route('service') }}">もっと見る</a>
+                            <a href="{{ route('service') }}">全ての出品サービスを見る</a>
                         </div>
                     </div>
                     <div class="card-items">
@@ -133,7 +134,13 @@
                             </a>
                         </div>
                         @endforeach
+
                     </div>
+                    @if($items->count() >= 5)
+                    <div class="d-flex justify-content-end fs-7 text-danger">
+                        ※右にスライドできます<i class="bi bi-arrow-right"></i>
+                    </div>
+                    @endif
                 </div>
             </section>
         </div>
@@ -178,6 +185,11 @@
                         </div>
                         @endforeach
                     </div>
+                    @if($public_requests->count() >= 5)
+                    <div class="d-flex justify-content-end fs-7 text-danger">
+                        ※右にスライドできます<i class="bi bi-arrow-right"></i>
+                    </div>
+                    @endif
                 </div>
             </section>
         </div>
