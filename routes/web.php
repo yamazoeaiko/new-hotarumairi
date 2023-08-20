@@ -49,8 +49,8 @@ Route::controller(ServiceController::class)->group(function () {
     //サービスを探す
     Route::get('/service', 'service')->name('service');
     Route::get('/service/search', 'searchService')->name('service.search');
-    Route::get('/service/user/{user_id}', 'showUser')->name('service.show.user')->middleware('auth');
-    Route::get('/service/detail/{service_id}', 'showDetail')->name('service.detail')->middleware('auth');
+    Route::get('/service/user/{user_id}', 'showUser')->name('service.show.user');
+    Route::get('/service/detail/{service_id}', 'showDetail')->name('service.detail');
 
 
     Route::get('/service/create', 'create')->name('service.create')->middleware('auth');
@@ -65,7 +65,7 @@ Route::controller(ServiceController::class)->group(function () {
     //公開依頼の検索について
     Route::get('/public_request', 'getPubReq')->name('pubreq.index');
     Route::get('/public_request/search', 'searchPubReq')->name('pubreq.search');
-    Route::get('/public_request/search/{service_id}', 'moreSearch')->name('pubreq.detail')->middleware('auth');
+    Route::get('/public_request/search/{service_id}', 'moreSearch')->name('pubreq.detail');
     Route::get('/public_request/create', 'requestCreate')->name('pubreq.create')->middleware('auth');
     Route::get('/public_request/edit/{service_id}', 'editPubreq')->name('pubreq.edit')->middleware('auth');
     Route::post('/public_request/update', 'update')->name('pubreq.update')->middleware('auth');
@@ -74,7 +74,7 @@ Route::controller(ServiceController::class)->group(function () {
 Route::controller(UserController::class)->group(
     function () {
         Route::get('/mypage', 'getMypage')->name('mypage.index');
-        Route::get('/mypage/favorite_follow', 'FavoriteFollow')->name('mypage.favorite.follow');
+        Route::get('/mypage/favorite_follow', 'FavoriteFollow')->name('mypage.favorite.follow')->middleware('auth');
         Route::get('/mypage/myprofile', 'getMyProfile')->name('myprofile.index')->middleware('auth');
         Route::get('/mypage/myprofile/edit', 'editMyProfile')->name('myprofile.edit')->middleware('auth');
         Route::post('/mypage/myprofile/update', 'updateMyProfile')->name('myprofile.update')->middleware('auth');
