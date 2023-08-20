@@ -202,33 +202,32 @@
               <a href="{{ route('service') }}">もっと見る</a>
             </div>
           </div>
-          <div class="card-items">
+          <div class="row row-cols-2 row-cols-md-4 g-2">
             @foreach($items as $item)
-            <div class="card-item">
-              <a class="card mb-4 text-decoration-none" href="{{ route('service.detail',['service_id'=>$item->id]) }}">
-                <div class=" service-card">
-                  <img src="{{asset($item->photo_1)}}" class="card-img-top" alt="image_photo">
-                </div>
-                <div class="card-body">
-                  <div class="category-parent">
-                    @foreach($item->categories as $value)
-                    <small class="text-ellipsis d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name}}</small>
-                    @endforeach
+            <div class="col mb-2">
+              <div class="card">
+                <a class="mb-4 text-decoration-none" href="{{ route('service.detail',['service_id'=>$item->id]) }}">
+                  <div class="service-card">
+                    <img src="{{ asset($item->photo_1) }}" class="card-img-top" alt="image_photo">
                   </div>
-
-                  <p class="fw-bolder text-ellipsis">{{$item->main_title}}</p>
-
-                  <div class="row align-items-center px-1">
-                    <div class="col-5">
-                      <div class="rounded-circle overflow-hidden d-flex" style="width: 40px; height: 40px; padding: 0;">
-                        <img src="{{ asset($item->profile_image) }}" alt="" style="max-width: 100%; max-height: 100%;">
-                      </div>
+                  <div class="card-body">
+                    <div class="category-parent">
+                      @foreach($item->categories as $value)
+                      <small class="text-ellipsis d-inline-flex align-items-center justify-content-center rounded-pill border mb-1 p-1">{{ $value->category_name }}</small>
+                      @endforeach
                     </div>
-
-                    <div class="col-7 fs-7 text-secondary">{{ $item->price }}円</div>
+                    <p class="fw-bolder text-ellipsis">{{ $item->main_title }}</p>
+                    <div class="row align-items-center px-1">
+                      <div class="col-5">
+                        <div class="rounded-circle overflow-hidden d-flex" style="width: 40px; height: 40px; padding: 0;">
+                          <img src="{{ asset($item->profile_image) }}" alt="" style="max-width: 100%; max-height: 100%;">
+                        </div>
+                      </div>
+                      <div class="col-7 fs-7 text-secondary">{{ $item->price }}円</div>
+                    </div>
                   </div>
-                </div>
-              </a>
+                </a>
+              </div>
             </div>
             @endforeach
           </div>
