@@ -72,7 +72,7 @@
 <!-- New Arrivals -->
 <div class="container-fluid px-3 my-4 d-flex flex-wrap">
     <div class="row">
-        <div class="col-lg-2 col-6 order-lg-1 order-3">
+        <div class="col-lg-2 col-10 order-lg-1 order-3">
             <!-- Navbar Left -->
             <div class="navbar-left">
                 <ul class="navbar-nav list-group">

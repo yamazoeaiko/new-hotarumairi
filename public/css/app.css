@@ -72,7 +72,37 @@
 
 @media(max-width:575px) {
   .card-items {
-    max-width: 575px;
+    max-width: 550px;;
+  }
+}
+@media(max-width:500px) {
+  .card-items {
+    max-width: 490px;
+    ;
+  }
+}
+@media(max-width:450px) {
+  .card-items {
+    max-width: 440px;
+    ;
+  }
+}
+@media(max-width:400px) {
+  .card-items {
+    max-width: 390px;
+    ;
+  }
+}
+@media(max-width:350px) {
+  .card-items {
+    max-width: 330px;
+    ;
+  }
+}
+@media(max-width:300px) {
+  .card-items {
+    max-width: 280px;
+    ;
   }
 }
 

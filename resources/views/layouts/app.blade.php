@@ -25,7 +25,7 @@
 
 </head>
 
-<body class="font-sans antialiased">
+<body class="">
     <div class="min-h-screen bg-gray-100">
         <div class="fixed-top">
             @component('components.header')
