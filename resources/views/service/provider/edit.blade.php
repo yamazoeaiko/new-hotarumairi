@@ -7,7 +7,7 @@
     <input type="hidden" name="service_id" value="{{ $item->id }}">
     <div class="mb-3">
       <label for="main_title" class="fw-bolder"> サービスタイトル（20字以内）<span class="fs-7 text-danger ">※必須</span></label>
-      <input type="text" name="main_title" class="form-control fw-bolder" value="{{ $item->main_title }}">
+      <input type="text" name="main_title" class="form-control fw-bolder" value="{{ $item->main_title }}" maxlength="20">
       @if($errors->has('main_title'))
       <div class="fs-8 text-danger">エラー：サービスタイトルは必須です。
       </div>
