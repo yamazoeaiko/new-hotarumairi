@@ -77,25 +77,25 @@
 }
 @media(max-width:500px) {
   .card-items {
-    max-width: 490px;
+    max-width: 470px;
     ;
   }
 }
 @media(max-width:450px) {
   .card-items {
-    max-width: 440px;
+    max-width: 400px;
     ;
   }
 }
 @media(max-width:400px) {
   .card-items {
-    max-width: 390px;
+    max-width: 350px;
     ;
   }
 }
 @media(max-width:350px) {
   .card-items {
-    max-width: 330px;
+    max-width: 300px;
     ;
   }
 }
