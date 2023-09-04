@@ -287,9 +287,12 @@ class AgreementController extends Controller
         ]);
         $announcementRead_b->save();
 
+        //辞退した時のメール通知入れる
+
         $agreement->delete();
         $entry->status = 'pending';
         $entry->save();
+
 
         return redirect()->route('chat.list');
     }

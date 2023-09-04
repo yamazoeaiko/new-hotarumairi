@@ -53,8 +53,14 @@ class PaymentController extends Controller
         $user_id = Auth::id();
 
         $proceeds = Payment::where('sell_user', $user_id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->filter(function ($payment) {
+            // Paymentテーブルの各レコードに対してEntryテーブルを検索し、条件を満たすか確認
+            $entry = Entry::where('id', $payment->entry_id)->first();
+            return $entry && $entry->status == 'delivery_complete';
+        });
+
 
         $total_proceeds = 0;
         $before_transfer_proceeds = 0;
