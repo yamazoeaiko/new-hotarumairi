@@ -45,12 +45,12 @@ class BuyerCancelAgreement extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
-        ->subject('【ほたる参り】'.$this->sellerName.'さまがサービスのキャンセル申請をしました')
-        ->markdown('mail.buyer_cancel_agreement',[
-            'sellerName' => $this->sellerName,
-            'buyerName' => $this->buyerName
-        ]);
+            ->from(env('MAIL_FROM_ADDRESS', 'ほたる参り'))
+            ->subject('【ほたる参り】' . $this->sellerName . 'さまがサービスのキャンセル申請をしました')
+            ->markdown('mail.buyer_cancel_agreement', [
+                'sellerName' => $this->sellerName,
+                'buyerName' => $this->buyerName
+            ]);
     }
     /**
      * Get the array representation of the notification.

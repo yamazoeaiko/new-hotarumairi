@@ -45,12 +45,12 @@ class CancelAgreement extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
-        ->subject('【ほたる参り】サービスのキャンセル申請を承りました')
-        ->markdown('mail.seller_cancel_agreement',[
-            'sellerName' => $this->sellerName,
-            'buyerName' => $this->buyerName
-        ]);
+            ->from(env('MAIL_FROM_ADDRESS', 'ほたる参り'))
+            ->subject('【ほたる参り】サービスのキャンセル申請を承りました')
+            ->markdown('mail.seller_cancel_agreement', [
+                'sellerName' => $this->sellerName,
+                'buyerName' => $this->buyerName
+            ]);
     }
 
     /**

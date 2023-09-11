@@ -263,9 +263,13 @@
     </div>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-primary mt-3">公開依頼に登録</button>
+      <button type="submit" class="btn btn-primary mt-3" id="submit-button">公開依頼に登録</button>
+      <div class="spinner-border text-primary d-none" role="status" id="loading-spinner">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
   </form>
+
 </div>
 @endsection
 
@@ -284,5 +288,12 @@
       textarea.value = textarea.value.substring(0, startPos) + '\n' + textarea.value.substring(endPos, textarea.value.length);
       resizeTextarea(textarea);
     }
+  });
+
+  // フォーム送信時の処理
+  document.querySelector('form').addEventListener('submit', function() {
+    // ボタンを非表示にし、スピナーを表示
+    document.getElementById('submit-button').style.display = 'none';
+    document.getElementById('loading-spinner').classList.remove('d-none');
   });
 </script>

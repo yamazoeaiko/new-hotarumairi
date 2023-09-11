@@ -45,12 +45,12 @@ class BuyerAdminApproved extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
-        ->subject('【ほたる参り】サービスがキャンセルされました')
-        ->markdown('mail.buyer_admin_approved',[
-            'sellerName' => $this->sellerName,
-            'buyerName' => $this->buyerName
-        ]);
+            ->from(env('MAIL_FROM_ADDRESS', 'ほたる参り'))
+            ->subject('【ほたる参り】サービスがキャンセルされました')
+            ->markdown('mail.buyer_admin_approved', [
+                'sellerName' => $this->sellerName,
+                'buyerName' => $this->buyerName
+            ]);
     }
 
     /**

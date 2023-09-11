@@ -51,15 +51,15 @@ class SellerPayment extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
-        ->subject('【ほたる参り】'.$this->buyerName.'さまがあなたのサービスを購入されました')
-        ->markdown('mail.seller_payment',[
-            'buyerName' => $this->buyerName,
-            'sellerName' => $this->sellerName,
-            'serviceName' => $this->serviceName,
-            'Price' => $this->Price,
-            'paymentDate' => $this->paymentDate
-        ]);
+            ->from(env('MAIL_FROM_ADDRESS', 'ほたる参り'))
+            ->subject('【ほたる参り】' . $this->buyerName . 'さまがあなたのサービスを購入されました')
+            ->markdown('mail.seller_payment', [
+                'buyerName' => $this->buyerName,
+                'sellerName' => $this->sellerName,
+                'serviceName' => $this->serviceName,
+                'Price' => $this->Price,
+                'paymentDate' => $this->paymentDate
+            ]);
     }
 
     /**

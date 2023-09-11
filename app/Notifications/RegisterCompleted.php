@@ -12,7 +12,7 @@ use App\Models\User;
 class RegisterCompleted extends Notification
 {
     use Queueable;
-    
+
     private $userName;
 
     /**
@@ -45,11 +45,11 @@ class RegisterCompleted extends Notification
     public function toMail(User $user)
     {
         return (new MailMessage)
-                    ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
-                    ->subject('ほたる参りの新規登録が完了しました')
-                    ->markdown('mail.register_completed',[
-                        'userName' => $this->userName
-                    ]);
+            ->from(env('MAIL_FROM_ADDRESS', 'ほたる参り'))
+            ->subject('ほたる参りの新規登録が完了しました')
+            ->markdown('mail.register_completed', [
+                'userName' => $this->userName
+            ]);
     }
 
     /**
