@@ -45,7 +45,7 @@ class sendAgreement extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->from(env('MAIL_FROM_ADDRESS', 'ほたる参り <info@hotarumairi.com>'))
+            ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
             ->subject('【ほたる参り】' . $this->senderName . 'から見積もり提案が届きました。')
             ->markdown('mail.send_agreement', [
                 'receiverName' => $this->receiverName,

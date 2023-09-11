@@ -51,7 +51,7 @@ class BuyerPayment extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->from(env('MAIL_FROM_ADDRESS', 'ほたる参り <info@hotarumairi.com>'))
+            ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
             ->subject('【ほたる参り】支払い完了：' . $this->serviceName)
             ->markdown('mail.buyer_payment', [
                 'buyerName' => $this->buyerName,
