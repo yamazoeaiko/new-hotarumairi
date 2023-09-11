@@ -7,7 +7,7 @@
   <br>{{$buyerName}}さまがあなたのご提案を購入されました。
   <br>下記URLからチャットを開き、内容の確認をお願いします。
 
-  <x-mail::button :url="'https://laravel.hotarumairi.com/chat/list_sell'">
+  <x-mail::button :url="'https://hotarumairi.com/chat/list_sell'">
     ほたる参りページへ
   </x-mail::button>
 

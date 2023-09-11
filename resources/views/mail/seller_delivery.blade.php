@@ -8,7 +8,7 @@
   **◇ このあとの進行**
   <br>下記リンクからマイページを開き、売上情報から振込申請ができるようになります。
 
-  <x-mail::button :url="'https://laravel.hotarumairi.com/mypage/proceeds/index'">
+  <x-mail::button :url="'https://hotarumairi.com/mypage/proceeds/index'">
     ほたる参りページへ
   </x-mail::button>
 

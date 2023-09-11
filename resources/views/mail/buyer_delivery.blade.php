@@ -7,7 +7,7 @@
   **◇ このあとの進行**
   <br>下記リンクからチャットを開き、内容の確認をお願いします。
 
-  <x-mail::button :url="'https://laravel.hotarumairi.com/chat/list_buy'">
+  <x-mail::button :url="'https://hotarumairi.com/chat/list_buy'">
     ほたる参りページへ
   </x-mail::button>
 

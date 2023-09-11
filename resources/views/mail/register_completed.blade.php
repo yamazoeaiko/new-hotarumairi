@@ -6,7 +6,7 @@
   この度は新規会員登録ありがとうございます。
   <br>下記リンクからサービスに戻れます。
 
-  <x-mail::button :url="'https://laravel.hotarumairi.com/'">
+  <x-mail::button :url="'https://hotarumairi.com/'">
     ほたる参りページへ
   </x-mail::button>
 

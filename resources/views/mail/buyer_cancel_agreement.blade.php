@@ -6,7 +6,7 @@
   {{$sellerName}}さまがお取引のキャンセル申請をしています。
   <br>万が一、キャンセルのご意思がない場合は、下記までお知らせくださいませ。
 
-  <x-mail::button :url="'https://laravel.hotarumairi.com/contact'">
+  <x-mail::button :url="'https://hotarumairi.com/contact'">
     ほたる参りページへ
   </x-mail::button>
 

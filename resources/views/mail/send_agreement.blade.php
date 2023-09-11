@@ -6,7 +6,7 @@
   {{$senderName}}さまから見積もり提案が届きました。
   <br>下記URLからチャットを開き、内容の確認をお願いします。
 
-  <x-mail::button :url="'https://laravel.hotarumairi.com/chat/list_buy'">
+  <x-mail::button :url="'https://hotarumairi.com/chat/list_buy'">
     ほたる参りページへ
   </x-mail::button>
 
