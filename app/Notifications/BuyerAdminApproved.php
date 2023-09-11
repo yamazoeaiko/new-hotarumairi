@@ -45,7 +45,7 @@ class BuyerAdminApproved extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->from(env('MAIL_FROM_ADDRESS', 'ほたる参り'))
+            ->from(env('MAIL_FROM_ADDRESS', 'ほたる参り <info@hotarumairi.com>'))
             ->subject('【ほたる参り】サービスがキャンセルされました')
             ->markdown('mail.buyer_admin_approved', [
                 'sellerName' => $this->sellerName,

@@ -45,7 +45,7 @@ class RegisterCompleted extends Notification
     public function toMail(User $user)
     {
         return (new MailMessage)
-            ->from(env('MAIL_FROM_ADDRESS', 'ほたる参り'))
+            ->from(env('MAIL_FROM_ADDRESS', 'ほたる参り <info@hotarumairi.com>'))
             ->subject('ほたる参りの新規登録が完了しました')
             ->markdown('mail.register_completed', [
                 'userName' => $this->userName
