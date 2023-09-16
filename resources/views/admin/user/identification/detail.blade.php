@@ -24,7 +24,15 @@
       <tr>
         <th>本人確認証明書データ</th>
         <td>
-          <a href="{{asset($item->identification_photo)}}">申請データ</a>
+          <div>
+            <a class="text-decoration-underline text-info" href="{{asset($item->identification_photo)}}">申請データ（1枚目）</a>
+          </div>
+
+          @if($item->identification_photo_2)
+          <div>
+            <a class="text-info text-decoration-underline" href="{{asset($item->identification_photo_2)}}">申請データ（2枚目）</a>
+          </div>
+          @endif
         </td>
       </tr>
       <tr>

@@ -52,7 +52,8 @@
         </button>
       </form>
       <div class="fs-7 text-danger">
-        申請すると取り消しはできません。
+        ※申請すると取り消しはできません。<br>
+        ※振込手数料が一律２００円差し引かれます。
       </div>
     </div>
     @else

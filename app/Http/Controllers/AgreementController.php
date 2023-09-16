@@ -288,6 +288,12 @@ class AgreementController extends Controller
         $announcementRead_b->save();
 
         //辞退した時のメール通知入れる
+        $sellerName = $sell_user->nickname;
+        $buyerName = $buy_user->nickname;
+        $serviceName = $agreement->main_title;
+        
+        $sell_user->notify(new sendAgreement($sellerName, $buyerName, $serviceName));
+        $buy_user->notify(new sendAgreement($sellerName, $buyerName, $serviceName));
 
         $agreement->delete();
         $entry->status = 'pending';

@@ -12,6 +12,7 @@ class Identification extends Model
     protected $fillable = [
         'user_id',
         'identification_photo',
+        'identification_photo_2',
         'identification_agreement'
     ];
 }

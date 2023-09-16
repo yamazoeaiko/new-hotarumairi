@@ -56,6 +56,7 @@ class UserController extends Controller
             $item->identification_agreement = 'unsubmit';
         }
 
+
         return view('mypage.myprofile.index', compact('item'));
     }
 
@@ -240,6 +241,23 @@ class UserController extends Controller
             $request->file('identification_photo')->storeAs('public/' . $dir, $file_name);
             $identification->identification_agreement = "pending";
             $identification->user_id = $user->id;
+        }
+        //2枚目
+        if ($request->hasFile('identification_photo_2')) {
+            $dir = 'user_identification_photo';
+            $file = $request->file('identification_photo_2');
+            $file_name = $request->file('identification_photo_2')->getClientOriginalName();
+
+            // ファイル名の重複をチェックする
+            $counter = 1;
+            while (file_exists('storage/' . $dir . '/' . $file_name)) {
+                $file_name = pathinfo($file_name, PATHINFO_FILENAME) . '_' . $counter . '.' . $file->getClientOriginalExtension();
+                $counter++;
+            }
+
+            $identification->identification_photo_2 = 'storage/' . $dir . '/' . $file_name;
+
+            $request->file('identification_photo_2')->storeAs('public/' . $dir, $file_name);
         }
         $identification->save();
         return redirect()->back();
