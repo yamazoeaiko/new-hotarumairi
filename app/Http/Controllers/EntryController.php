@@ -20,7 +20,7 @@ use Stripe\Stripe;
 use Illuminate\Support\Str;
 use App\Models\Announcement;
 use App\Models\AnnouncementRead;
-
+use App\Notifications\ConsultReceive;
 
 class EntryController extends Controller
 {
@@ -54,6 +54,16 @@ class EntryController extends Controller
         $chat->receiver_id = $buy_user;
         $chat->message = $request->first_chat;
         $chat->save();
+
+        //メール通知
+        $sender = User::where('id', $sell_user)->first();
+        $senderName = $sender->nickname;
+
+        $receiver = User::where('id', $buy_user)->first();
+        $receiverName = $receiver->nickname;
+        $chatRoom = $room->id;
+
+        $receiver->notify(new ConsultReceive($senderName, $receiverName, $chatRoom));
 
         return redirect()->route('chat.list');
     }
@@ -154,6 +164,16 @@ class EntryController extends Controller
         $chat->receiver_id = $sell_user;
         $chat->message = $request->first_chat;
         $chat->save();
+
+        //メール通知
+        $sender = User::where('id', $buy_user)->first();
+        $senderName = $sender->nickname;
+
+        $receiver = User::where('id', $sell_user)->first();
+        $receiverName = $receiver->nickname;
+        $chatRoom = $room->id;
+
+        $sell_user->notify(new ConsultReceive($senderName, $receiverName, $chatRoom));
 
         return redirect()->route('chat.list');
     }
