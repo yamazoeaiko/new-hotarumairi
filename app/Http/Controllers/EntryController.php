@@ -173,7 +173,7 @@ class EntryController extends Controller
         $receiverName = $receiver->nickname;
         $chatRoom = $room->id;
 
-        $sell_user->notify(new ConsultReceive($senderName, $receiverName, $chatRoom));
+        $receiver->notify(new ConsultReceive($senderName, $receiverName, $chatRoom));
 
         return redirect()->route('chat.list');
     }
