@@ -15,7 +15,7 @@
       <input type="file" accept=".png, .jpeg, .jpg" name="image">
       <table class="table">
         <tr>
-          <th>ニックネーム</th>
+          <th>アカウント名</th>
           <td>
             <input type="text" name="nickname" value="{{$item->nickname}}">
           </td>
@@ -25,14 +25,14 @@
           <th>TwitterアカウントURL</th>
           <div class="input-group mb-3">
             <span class="input-group-text">https://twitter.com/</span>
-            <input type="text" class="form-control" name="twitter_url" value="{{str_replace('https://twitter.com/', '', $item->twitter_url)}}" placeholder="ユーザー名">
+            <input type="text" class="form-control" name="twitter_url" value="{{str_replace('https://twitter.com/', '', $item->twitter_url)}}" placeholder="アカウント名">
           </div>
         </tr>
         <tr>
           <th>InstagramアカウントURL</th>
           <div class="input-group mb-3">
             <span class="input-group-text">https://www.instagram.com/</span>
-            <input type="text" class="form-control" name="instagram_url" value="{{str_replace('https://www.instagram.com/', '', $item->instagram_url)}}" placeholder="ユーザー名">
+            <input type="text" class="form-control" name="instagram_url" value="{{str_replace('https://www.instagram.com/', '', $item->instagram_url)}}" placeholder="アカウント名">
           </div>
         </tr>
         <tr>
@@ -43,10 +43,6 @@
           </div>
         </tr>
             -->
-        <tr>
-          <th>屋号</th>
-          <td><input type="text" name="trade_name" value="{{ $item->trade_name }}"></td>
-        </tr>
         <tr>
           <th>誕生日</th>
           <td>

@@ -11,7 +11,7 @@
       @endif
     </div>
     <tr>
-      <th>ニックネーム</th>
+      <th>アカウント名</th>
       <td>
         {{$item->nickname}}
       </td>
@@ -77,10 +77,6 @@
       </td>
     </tr>
 -->
-    <tr>
-      <th>屋号</th>
-      <td>{{ $item->trade_name }}</td>
-    </tr>
     <tr>
       <th>年齢</th>
       <td>

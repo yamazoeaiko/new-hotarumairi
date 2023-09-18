@@ -9,7 +9,7 @@
       <td>{{ $item->id }}</td>
     </tr>
     <tr>
-      <th>ニックネーム</th>
+      <th>アカウント名</th>
       <td>{{ $item->nickname }}</td>
     </tr>
     <tr>
@@ -19,10 +19,6 @@
     <tr>
       <th>メールアドレス</th>
       <td>{{ $item->email }}</td>
-    </tr>
-    <tr>
-      <th>屋号</th>
-      <td>{{ $item->trade_name }}</td>
     </tr>
     <tr>
       <th>性別</th>

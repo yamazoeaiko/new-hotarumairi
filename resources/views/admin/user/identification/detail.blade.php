@@ -10,7 +10,7 @@
         <td>{{$item->user_name}}</td>
       </tr>
       <tr>
-        <th>ニックネーム</th>
+        <th>アカウント名</th>
         <td>{{$item->user_nickname}}</td>
       </tr>
       <tr>

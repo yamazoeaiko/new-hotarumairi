@@ -24,7 +24,7 @@
         @endif
         <div class="mb-3">
           <p class="card-text mb-0">
-            <small class="text-muted">ユーザー名：</small>
+            <small class="text-muted">アカウント名：</small>
             {{$item->user_name}}
           </p>
           <p class="card-text mb-0">

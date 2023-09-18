@@ -22,7 +22,7 @@
       <div class="no-gutters">
         <div class="row">
           <div class="col-8">
-            <span class="fs-7">ニックネーム</span>
+            <span class="fs-7">アカウント名</span>
             <span class="fs-5 fw-bolder">{{$item->nickname}}</span>
           </div>
           <div class="col-4 text-right">

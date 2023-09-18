@@ -8,11 +8,11 @@
       <input class="form-control" value="{{ $item->main_title }}" readonly>
     </div>
     <div class="form-control mb-3">
-      <label for="sell_user_name" class="fw-bolder">販売ユーザー名</label>
+      <label for="sell_user_name" class="fw-bolder">販売アカウント名</label>
       <input class="form-control" value="{{ $item->sell_user_name }}" readonly>
     </div>
     <div class="form-control mb-3">
-      <label for="buy_user_name" class="fw-bolder">購入ユーザー名</label>
+      <label for="buy_user_name" class="fw-bolder">購入アカウント名</label>
       <input class="form-control" value="{{ $item->buy_user_name }}" readonly>
     </div>
     <div class="form-control mb-3">

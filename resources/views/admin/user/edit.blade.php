@@ -12,7 +12,7 @@
         <td>{{ $item->id }}</td>
       </tr>
       <tr>
-        <th>ニックネーム</th>
+        <th>アカウント名</th>
         <td>
           <input type="text" name="nickname" value="{{$item->nickname}}">
         </td>
@@ -27,12 +27,6 @@
         <th>メールアドレス</th>
         <td>
           <input type="email" name="email" value="{{ $item->email }}">
-        </td>
-      </tr>
-      <tr>
-        <th>屋号</th>
-        <td>
-          <input type="text" name="trade_name" value="{{ $item->trade_name }}">
         </td>
       </tr>
       <tr>

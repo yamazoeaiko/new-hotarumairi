@@ -8,7 +8,7 @@
       <input class="form-control" value="{{ $agreement->main_title }}" readonly>
     </div>
     <div class="form-control mb-3">
-      <label for="provider_name" class="fw-bolder">お支払い先ユーザー名</label>
+      <label for="provider_name" class="fw-bolder">お支払い先アカウント名</label>
       <input class="form-control" value="{{ $agreement->sell_user }}" readonly>
     </div>
     <div class="form-control mb-3">

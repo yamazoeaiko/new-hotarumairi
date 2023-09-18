@@ -19,7 +19,7 @@
         </div>
 
         <div>
-            <label for="name">ニックネーム<span class="fs-7 text-danger">※サービス内での表示名</span></label>
+            <label for="name">アカウント名<span class="fs-7 text-danger">※サービス内での表示名</span></label>
             <input id="nickname" class="block mt-1 w-full form-control" type="text" name="nickname" value="{{ old('nickname') }}" required />
         </div>
 

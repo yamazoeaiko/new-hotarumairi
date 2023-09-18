@@ -24,7 +24,7 @@
           </div>
           <div class="col-4">
             <p class="fs-5 fw-bold mb-0">ご本人氏名{{ $item->user_name }}</p>
-            <p class="fs-7  mb-0">ニックネーム{{ $item->user_nickname }}</p>
+            <p class="fs-7  mb-0">アカウント名{{ $item->user_nickname }}</p>
 
           </div>
           <div class="col-4 text-right">

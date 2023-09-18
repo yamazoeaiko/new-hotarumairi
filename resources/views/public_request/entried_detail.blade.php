@@ -11,7 +11,7 @@
       @endif
     </div>
     <tr>
-      <th>ニックネーム</th>
+      <th>アカウント名</th>
       <td>
         {{$item->nickname}}
       </td>

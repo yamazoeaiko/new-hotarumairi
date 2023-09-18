@@ -28,17 +28,11 @@
       @endif
     </div>
     <tr>
-      <th>ニックネーム</th>
+      <th>アカウント名</th>
       <td>
         {{$item->nickname}}
       </td>
     </tr>
-    @if($item->trade_name)
-    <tr>
-      <th>屋号</th>
-      <td>{{ $item->trade_name }}</td>
-    </tr>
-    @endif
     <tr>
       <th>年齢</th>
       <td>
