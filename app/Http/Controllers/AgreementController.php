@@ -306,7 +306,7 @@ class AgreementController extends Controller
         $chat = new Chat();
         $chat->room_id = $chatRoom->id;
         $chat->sender_id = $buy_user->id;
-        $chat->receiver_id = $agreement->seller_user->id;
+        $chat->receiver_id = $seller_user->id;
         $chat->message = '「見積もり提案」を辞退しました。';
         $chat->save();
 
