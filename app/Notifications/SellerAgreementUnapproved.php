@@ -13,17 +13,19 @@ class SellerAgreementUnapproved extends Notification
     private $sellerName;
     private $buyerName;
     private $serviceName;
+    private $chatRoom;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($sellerName, $buyerName, $serviceName)
+    public function __construct($sellerName, $buyerName, $serviceName, $chatRoom)
     {
         $this->sellerName = $sellerName;
         $this->buyerName = $buyerName;
         $this->serviceName = $serviceName;
+        $this->chatRoom = $chatRoom;
     }
 
     /**
@@ -47,11 +49,12 @@ class SellerAgreementUnapproved extends Notification
     {
         return (new MailMessage)
         ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
-        ->subject('【ほたる参り】見積書が辞退されました')
+        ->subject('【ほたる参り】見積積もり提案が辞退されました')
         ->markdown('mail.seller_agreement_unapproved', [
             'sellerName' => $this->sellerName,
             'buyerName' => $this->buyerName,
             'serviceName' => $this->serviceName,
+            'chatRoom' => $this->chatRoom
         ]);
     }
 

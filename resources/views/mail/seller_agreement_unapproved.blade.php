@@ -3,17 +3,14 @@
 
   {{$sellerName}}さま<br>
 
-  ご提示した見積書が辞退されましたのでお知らせいたします。<br>
-
-  <br>下記URLから内容の確認をお願いします。
-
-  <x-mail::button :url="'https://hotarumairi.com/chat/list_sell'">
+  {{ $buyerName }}さまが見積もり提案の辞退をされました。
+  <br>下記ボタンからチャットを開き、内容の確認をお願いします。
+  <br>
+  <x-mail::button :url="route('chat.room', ['room_id'=>$chatRoom])">
     ほたる参りページへ
   </x-mail::button>
 
-  <br>**◇辞退されたお見積もり**
-  <br>サービス名：{{$serviceName}}
-  <br>辞退されたアカウント名：{{$buyerName}}
+ <br>引き続き、よろしくお願いいたします。
 
 
   <br>◇ほたる参りは、破格のシステム手数料で現在ご利用いただいておりますので、この機会にビジネスでのご活躍の幅を広げていただけましたら幸いです。

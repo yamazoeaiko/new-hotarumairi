@@ -21,6 +21,7 @@ use App\Notifications\BuyerPayment;
 use App\Notifications\SellerPayment;
 use App\Notifications\CancelAgreement;
 use App\Notifications\BuyerCancelAgreement;
+use App\Notifications\SellerAgreementUnapproved;
 
 class AgreementController extends Controller
 {
@@ -67,7 +68,7 @@ class AgreementController extends Controller
         $chat->room_id = $room->id;
         $chat->sender_id = $agreement->sell_user;
         $chat->receiver_id = $agreement->buy_user;
-        $chat->message = 'お見積もりを提案しました。';
+        $chat->message = '上部の「見積もり内容」を確認してください。';
         $chat->save();
 
         $buy_user = User::where('id', $agreement->buy_user)->first();
@@ -93,6 +94,8 @@ class AgreementController extends Controller
         $receiverName = $user->nickname;
         $sender = User::where('id', $agreement->sell_user)->first();
         $senderName = $sender->nickname;
+        $chatRoom = ChatRoom::where('sell_user',$sender->id)->where('buy_user', $user->id)->where('service_id', $agreement->service_id)->first();
+
         $user->notify(new sendAgreement($receiverName, $senderName));
 
         return redirect()->route('chat.room', ['room_id' => $room->id]);
@@ -291,10 +294,10 @@ class AgreementController extends Controller
         $sellerName = $sell_user->nickname;
         $buyerName = $buy_user->nickname;
         $serviceName = $agreement->main_title;
+        $chatRoom = ChatRoom::where('sell_user', $sell_user->id)->where('buy_user', $buy_user->id)->where('service_id', $agreement->service_id)->first();
         
-        $sell_user->notify(new sendAgreement($sellerName, $buyerName, $serviceName));
-        $buy_user->notify(new sendAgreement($sellerName, $buyerName, $serviceName));
-
+        $sell_user->notify(new SellerAgreementUnapproved($sellerName, $buyerName, $serviceName, $chatRoom));
+        
         $agreement->delete();
         $entry->status = 'pending';
         $entry->save();
