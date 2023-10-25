@@ -31,7 +31,7 @@
     <tr>
       <th>アカウント名</th>
       <td>
-        {{$item->nickname}}
+        {{$item->nickname}}（フォロワー：{{$follower_count}} 販売実績：{{$sales_record_count}}件）
       </td>
     </tr>
     <tr>

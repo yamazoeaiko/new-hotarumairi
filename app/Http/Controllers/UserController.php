@@ -14,6 +14,7 @@ use App\Models\Service;
 use App\Models\Follow;
 use App\Models\ServiceCategory;
 use App\Models\Identification;
+use App\Models\Entry;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
@@ -251,8 +252,16 @@ class UserController extends Controller
             }
         }
 
+        // フォロワー数を取得
+        $follower_count = Follow::where('follow_id', $user_id)->count();
 
-        return view('user.detail', compact('item', 'supply_services', 'public_requests'));
+        // 販売実績を取得
+        $sales_record_count = Entry::where('sell_user', $user_id)
+            ->where('status', 'delivery_complete')
+            ->count();
+
+
+        return view('user.detail', compact('item', 'supply_services', 'public_requests','follower_count' , 'sales_record_count'));
     }
 
     public function sendIdentificationPhoto(Request $request){
