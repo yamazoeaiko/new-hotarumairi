@@ -46,7 +46,7 @@ class BuyerDelivery extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
+            ->from(config('mail.from.address'), config('mail.from.name'))
             ->subject('【ほたる参り】' . $this->sellerName . 'さまから正式な納品が届きました')
             ->markdown('mail.buyer_delivery', [
                 'sellerName' => $this->sellerName,

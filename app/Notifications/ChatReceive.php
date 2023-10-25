@@ -47,7 +47,7 @@ class ChatReceive extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
+            ->from(config('mail.from.address'), config('mail.from.name'))
             ->subject($this->senderName . 'さまからチャットが届きました')
             ->markdown(
                 'mail.chat_receive',

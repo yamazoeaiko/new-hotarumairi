@@ -48,8 +48,8 @@ class SellerAgreementUnapproved extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->from(env('MAIL_FROM_ADDRESS', 'info@hotarumairi.com'))
-        ->subject('【ほたる参り】見積積もり提案が辞退されました')
+        ->from(config('mail.from.address'), config('mail.from.name'))
+        ->subject('【ほたる参り】見積もり提案が辞退されました')
         ->markdown('mail.seller_agreement_unapproved', [
             'sellerName' => $this->sellerName,
             'buyerName' => $this->buyerName,
