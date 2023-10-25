@@ -217,7 +217,42 @@ class UserController extends Controller
 
         $item->living_area = Area::where('id', $item->living_area)->value('name');
 
-        return view('user.detail', compact('item'));
+        // 公開依頼の情報を取得
+        $public_requests = Service::orderBy('created_at', 'desc')
+            ->where('request_user_id', $user_id)
+            ->where('type', 'public_request')
+            ->where('status', 'open')
+            ->get();
+        foreach($public_requests as $public_request){
+            if ($public_request->category_ids) {
+                $public_request->categories = ServiceCategory::whereIn('id', $public_request->category_ids)->get();
+                foreach ($public_request->categories as $value) {
+                    $data = ServiceCategory::where('id', $value->id)->first();
+                    $value->category_name = $data->name;
+                }
+            }
+        }
+
+        // 出品サービスの情報を取得
+        $supply_services = Service::orderBy('created_at', 'desc')
+            ->where('offer_user_id', $user_id)
+            ->where('type', 'service')
+            ->where('status', 'open')
+            ->get();
+        foreach ($supply_services as $supply_service) {
+            if ($supply_service->category_ids) {
+                $supply_service->categories = ServiceCategory::whereIn('id', $supply_service->category_ids)->get();
+
+
+                foreach ($supply_service->categories as $value) {
+                    $data = ServiceCategory::where('id', $value->id)->first();
+                    $value->category_name = $data->name;
+                }
+            }
+        }
+
+
+        return view('user.detail', compact('item', 'supply_services', 'public_requests'));
     }
 
     public function sendIdentificationPhoto(Request $request){
