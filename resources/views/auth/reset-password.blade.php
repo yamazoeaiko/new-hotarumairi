@@ -1,5 +1,8 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
+@extends('layouts.app')
+
+@section('content')
+<div class="container card input-group p-5">
+    <form method="POST" action="{{ route('password.store') }}" class="form-group">
         @csrf
 
         <!-- Password Reset Token -->
@@ -7,33 +10,30 @@
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
+            <label for="email" class="fw-normal">{{ __('メールアドレス') }}</label>
+            <input id="email" class="block mt-1 w-full form-control" type="email" name="email" value="{{ old('email', $request->email) }}" required autofocus />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required />
+            <label for="password" class="fw-normal">{{ __('パスワード') }}</label>
+            <input id="password" class="block mt-1 w-full form-control" type="password" name="password" required />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required />
-
+            <label for="password_confirmation" class="fw-normal">{{ __('パスワード（確認用）') }}</label>
+            <input id="password_confirmation" class="block mt-1 w-full form-control" type="password" name="password_confirmation" required />
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
+            <button class="btn btn-primary">
+                {{ __('パスワードをリセット') }}
+            </button>
         </div>
     </form>
-</x-guest-layout>
+</div>
+@endsection
