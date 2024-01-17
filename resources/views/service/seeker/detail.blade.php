@@ -7,7 +7,9 @@
 </script>
 @section('meta_tags')
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://hotarumairi.com/storage/service/クーポンテスト画像.png">
+<meta name="twitter:image" content="{{ asset($item->photo_1) }}">
+<meta name="twitter:title" content="サムネイル画像">
+<meta name="twitter:description" content="出品サービスのサムネイル画像を表示">
 <meta property="og:image" content="{{ asset($item->photo_1) }}">
 @endsection
 
