@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
     <script src="path/to/alpine.js" defer></script>
 
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{{ asset($item->photo_1) }}">
+    <meta property="og:image" content="{{ asset($item->photo_1) }}">
 </head>
 
 <body class="">

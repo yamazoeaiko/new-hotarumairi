@@ -5,9 +5,7 @@
     $("#carouselExampleIndicators").carousel();
   });
 </script>
-
 @section('content')
-
 <div class="container">
   <h6 class="my-2 fw-bold">出品サービス詳細</h6>
   <div class="form-control">
@@ -230,15 +228,15 @@
       <p class="fs-6 fw-bolder">ご自身の出品サービスをSNSでアピールしよう！</p>
       <div class="d-flex justify-content-around">
         <!-- Twitterの共有ボタン -->
-        <a href="https://twitter.com/intent/tweet?url={{ urlencode(Request::url()) }}&text=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！&image={{ urlencode(asset($item->photo_1)) }}" class="btn btn-twitter my-1">
+        <a href="https://twitter.com/intent/tweet?url={{ urlencode(Request::url()) }}&text=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！" class="btn btn-twitter my-1" target="_blank">
           <small>Twitterでシェア</small>
         </a>
         <!-- Instagramの共有ボタン -->
-        <a href="https://www.instagram.com/sharer.php?u={{ urlencode(Request::url()) }}&title=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！&image={{ urlencode(asset($item->photo_1)) }}" class="btn btn-instagram my-1">
+        <a href=" https://www.instagram.com/sharer.php?u={{ urlencode(Request::url()) }}&title=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！&image={{ urlencode(asset($item->photo_1)) }}" class="btn btn-instagram my-1" target="_blank">
           <small>Instagramでシェア</small>
         </a>
         <!-- Facebookの共有ボタン -->
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(Request::url()) }}&title=ほたる参りで「{{ urlencode($item->main_title) }}」サービスを出品中！&picture={{ urlencode(asset($item->photo_1)) }}" class="btn btn-facebook my-1">
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(Request::url()) }}" class="btn btn-facebook my-1" target="_blank">
           <small>Facebookでシェア</small>
         </a>
         <button class="btn btn-outline-primary my-1" id="copyButton">
