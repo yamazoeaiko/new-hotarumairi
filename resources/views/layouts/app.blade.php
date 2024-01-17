@@ -24,6 +24,7 @@
     <script src="path/to/alpine.js" defer></script>
 
     @yield('meta_tags')
+    @php dd({{asset($item->photo_1)}}) @endphp
 </head>
 
 <body class="">
