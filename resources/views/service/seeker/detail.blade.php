@@ -5,6 +5,12 @@
     $("#carouselExampleIndicators").carousel();
   });
 </script>
+@section('meta_tags')
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{{ asset($item->photo_1) }}">
+<meta property="og:image" content="{{ asset($item->photo_1) }}">
+@endsection
+
 @section('content')
 <div class="container">
   <h6 class="my-2 fw-bold">出品サービス詳細</h6>
