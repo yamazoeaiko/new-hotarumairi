@@ -7,7 +7,7 @@
   <div class="form-control">
     <div class="mb-3 row">
       <div class="col-2">
-        <img src="{{ asset($item->img_url) }}" alt="Profile image" class="card-img" onclick="event.stopPropagation(); window.location.href='{{ route('user.detail', ['user_id' => $item->id]) }}'">
+        <img src="{{ asset($item->img_url) }}" alt="Profile image" class="card-img" onclick="event.stopPropagation(); window.location.href='{{ route('user.detail', ['user_id' => $item->user_id]) }}'">
       </div>
       <div class="col-10">
         <div class="mb-3">

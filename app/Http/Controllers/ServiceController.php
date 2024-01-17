@@ -205,6 +205,7 @@ class ServiceController extends Controller
         $sell_user = User::where('id', $item->offer_user_id)->first();
         $item->user_name = $sell_user->nickname;
         $item->img_url = $sell_user->img_url;
+        $item->provider_id = $sell_user->id;
         $living = Area::where('id', $sell_user->living_area)->first();
         if($living){
         $item->living_area = $living->name;
@@ -976,6 +977,7 @@ class ServiceController extends Controller
 
             $item->profile_image = $provider->img_url;
             $item->provider_name = $provider->nickname;
+            $item->provider_id = $provider->id;
 
             if ($item->area_id) {
                 $area = Area::where('id', $item->area_id)->first();
@@ -997,6 +999,7 @@ class ServiceController extends Controller
 
         $item->user_name = $buy_user->nickname;
         $item->img_url = $buy_user->img_url;
+        $item->user_id = $buy_user->id;
         $living = Area::where('id', $buy_user->living_area)->first();
         $item->living_area = $living->name;
         $item->age =
