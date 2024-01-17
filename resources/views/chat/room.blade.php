@@ -116,7 +116,7 @@
                   @if($chat->sender_id == $user_id)flex-row-reverse @else flex-row @endif">
                   <p class="fs-xs">{{$chat->nickname}}</p>
                   <div>
-                    <img src="{{ asset($chat->img_url) }}" alt="" class="message-icon rounded-circle text-white fs-3">
+                    <img src="{{ asset($chat->img_url) }}" alt="" class="message-icon rounded-circle text-white fs-3" onclick="event.stopPropagation(); window.location.href='{{ route('user.detail', ['user_id' => $chat->id]) }}'">
                   </div>
                   @if($chat->message !== null)
                   <p class="message-text p-2 m-2 mb-0 text-start @if($chat->sender_id == $user_id) from-user-bg @else to-user-bg @endif" style="word-wrap: break-word; max-width: 80%;">
@@ -208,5 +208,4 @@
       resizeTextarea(textarea);
     }
   });
-
 </script>

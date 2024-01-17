@@ -13,7 +13,7 @@
   <div class="form-control">
     <div class="mb-3 row">
       <div class="col-2">
-        <img src="{{ asset($item->img_url) }}" alt="Profile image" class="card-img" style="max-width: 100%; height: auto;">
+        <img src="{{ asset($item->img_url) }}" alt="Profile image" class="card-img" style="max-width: 100%; height: auto;" onclick="event.stopPropagation(); window.location.href='{{ route('user.detail', ['user_id' => $item->id]) }}'">
         @if($item->favorite == false)
         <form method="POST" action="{{ route('favorite', ['service_id'=> $item->id]) }}">
           @csrf

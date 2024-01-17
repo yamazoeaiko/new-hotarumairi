@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <button class="btn btn-primary" onClick="location.href='{{route('mypage.favorite.follow')}}'">お気に入り・フォローリスト一覧に戻る</button>
+  <button class="btn btn-primary" onClick="location.href='{{route('mypage.favorite.follow')}}'">お気に入り・フォローリスト</button>
   <div>
     @if($item->follow == false)
     <form method="POST" action="{{ route('follow',['follower_id'=> $item->id]) }}">

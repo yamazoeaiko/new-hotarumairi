@@ -220,7 +220,9 @@
                     <div class="row align-items-center px-1">
                       <div class="col-5">
                         <div class="rounded-circle overflow-hidden d-flex" style="width: 40px; height: 40px; padding: 0;">
-                          <img src="{{ asset($item->profile_image) }}" alt="" style="max-width: 100%; max-height: 100%;">
+                          <a href="{{ route('user.detail', ['user_id' => $item->provider_id]) }}" onclick="event.stopPropagation(); location.href=this.href;">
+                            <img src="{{ asset($item->profile_image) }}" alt="" style="max-width: 100%; max-height: 100%;">
+                          </a>
                         </div>
                       </div>
                       <div class="col-7 fs-7 text-secondary">{{ $item->price }}円</div>

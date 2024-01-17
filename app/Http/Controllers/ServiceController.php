@@ -53,6 +53,7 @@ class ServiceController extends Controller
             
             $item->profile_image = $provider->img_url;
             $item->provider_name = $provider->nickname;
+            $item->profider_id = $provider->id;
         }
 
         //公開依頼の表示について
@@ -73,6 +74,7 @@ class ServiceController extends Controller
             $seeker = User::where('id', $public_request->request_user_id)->first();
 
             $public_request->profile_image = $seeker->img_url;
+            $public_request->seeker_id = $seeker->id;
             $public_request->seeker_name = $seeker->nickname;
         }
 

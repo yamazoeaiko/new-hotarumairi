@@ -174,6 +174,7 @@ class ChatController extends Controller
             $sender = User::where('id', $chat->sender_id)->first();
             $chat->nickname = $sender->nickname;
             $chat->img_url = $sender->img_url;
+            $chat->id = $sender->id;
         }
 
         $agreement = null;
