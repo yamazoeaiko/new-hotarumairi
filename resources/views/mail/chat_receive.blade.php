@@ -13,7 +13,7 @@
   <br>**◇メッセージ内容**
   <br>{{$receiveMessage}}
 
-  
+
   <br>引き続き、よろしくお願いいたします。
 
 
@@ -27,6 +27,6 @@
   ほたる参り をご利用いただきありがとうございます。
 
   運営：ほたるまいり事務局
-  <br>管理：一般社団法人Kikujin
-  <br>https://kikujin.or.jp/
+  <br>管理：一般社団法人青虫社
+  <br>https://aomushi.jp/
 </x-mail::message>

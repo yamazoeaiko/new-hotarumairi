@@ -28,6 +28,6 @@
   <p>ほたる参り をご利用いただきありがとうございます。</p>
 
   <p>運営：ほたるまいり事務局</p>
-  <p>管理：一般社団法人Kikujin</p>
-  <p>https://kikujin.or.jp/</p>
+  <p>管理：一般社団法人青虫社</p>
+  <p>https://aomushi.jp/</p>
 </x-mail::message>
