@@ -33,7 +33,10 @@ class ServiceController extends Controller
         return view('seeker_index');
     }
 
-    public function toppage()
+    public function toppage(){
+        return view ('index');
+    }
+    public function oldtoppage()
     {
         $items = Service::orderBy('created_at', 'desc')
             ->where('type', 'service')
